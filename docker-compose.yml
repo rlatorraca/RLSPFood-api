@@ -1,6 +1,6 @@
 version: '3.3'
 x-db-config-docker: &db-config-docker
-  SPRING_DATASOURCE_URL: jdbc:mysql://rlsp_mysql:3306/rslpfood?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&serverTimeZone=true
+  SPRING_DATASOURCE_URL: jdbc:mysql://rlsp_mysql:3309/rslpfood?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&serverTimeZone=true
   SPRING_DATASOURCE_USERNAME: root
   SPRING_DATASOURCE_PASSWORD: root
 

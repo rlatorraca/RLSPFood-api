@@ -9,8 +9,8 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @Data
 @Entity
-@Table(name = "tbl_kitchen")
-public class Kitchen {
+@Table(name = "tbl_cuisine")
+public class Cuisine {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
