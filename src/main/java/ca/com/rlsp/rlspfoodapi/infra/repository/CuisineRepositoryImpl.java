@@ -1,38 +1,40 @@
-package ca.com.rlsp.rlspfoodapi.jpa;
+package ca.com.rlsp.rlspfoodapi.infra.repository;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
-import org.springframework.stereotype.Component;
+import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.beans.Customizer;
 import java.util.List;
 
-@Component
-public class ServiceCuisine {
+public class CuisineRepositoryImpl implements CuisineRepository {
 
     @PersistenceContext
     private EntityManager em;
 
+    @Override
     public List<Cuisine> listAll(){
         TypedQuery<Cuisine> query = em.createQuery("from Cuisine", Cuisine.class);
         return query.getResultList();
     }
 
-    public Cuisine listById(Long id){
+    @Override
+    public Cuisine findById(Long id){
         return em.find(Cuisine.class, id);
     }
 
+    @Override
     @Transactional
     public Cuisine save(Cuisine cuisine){
         return em.merge(cuisine);
     }
 
+    @Override
     @Transactional
-    public void delete(Cuisine cuisine){
-        cuisine =  listById(cuisine.getId());
+    public void remove(Cuisine cuisine){
+        cuisine =  findById(cuisine.getId());
         em.remove(cuisine);
     }
 }

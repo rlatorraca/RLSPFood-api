@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.jpa;
 
 import ca.com.rlsp.rlspfoodapi.RlspfoodApiApplication;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
+import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +17,7 @@ public class DeleteCuisineMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        ServiceCuisine serviceCuisine = applicationContext.getBean(ServiceCuisine.class);
+        CuisineRepository serviceCuisine = applicationContext.getBean(CuisineRepository.class);
 
        Cuisine cuisine1 = new Cuisine();
        cuisine1.setName("Brazilian");
@@ -30,7 +31,7 @@ public class DeleteCuisineMain {
        System.out.printf("%d - %s\n", cuisine1.getId(), cuisine1.getName());
        System.out.printf("%d - %s\n", cuisine2.getId(), cuisine2.getName());
 
-       serviceCuisine.delete(cuisine1);
+       serviceCuisine.remove(cuisine1);
 
        List<Cuisine> cuisines = serviceCuisine.listAll();
 

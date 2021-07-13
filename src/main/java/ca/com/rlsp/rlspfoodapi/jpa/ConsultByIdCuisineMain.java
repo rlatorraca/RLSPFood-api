@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.jpa;
 
 import ca.com.rlsp.rlspfoodapi.RlspfoodApiApplication;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
+import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -16,9 +17,9 @@ public class ConsultByIdCuisineMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        ServiceCuisine serviceCuisine = applicationContext.getBean(ServiceCuisine.class);
+        CuisineRepository cuisineRepository = applicationContext.getBean(CuisineRepository.class);
 
-        Cuisine cuisine = serviceCuisine.listById(1L);
+        Cuisine cuisine = cuisineRepository.findById(1L);
 
         System.out.println(cuisine.getName());
 
