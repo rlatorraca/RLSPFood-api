@@ -29,4 +29,10 @@ public class ServiceCuisine {
     public Cuisine save(Cuisine cuisine){
         return em.merge(cuisine);
     }
+
+    @Transactional
+    public void delete(Cuisine cuisine){
+        cuisine =  listById(cuisine.getId());
+        em.remove(cuisine);
+    }
 }

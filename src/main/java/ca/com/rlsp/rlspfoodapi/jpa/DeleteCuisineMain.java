@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.List;
 
 
-public class AddCuisineMain {
+public class DeleteCuisineMain {
 
     public static void main(String[] args) {
         ApplicationContext applicationContext = new SpringApplicationBuilder(RlspfoodApiApplication.class)
@@ -27,12 +27,16 @@ public class AddCuisineMain {
        cuisine1 = serviceCuisine.save(cuisine1);
        cuisine2 = serviceCuisine.save(cuisine2);
 
-        System.out.printf("%d - %s\n", cuisine1.getId(), cuisine1.getName());
-        System.out.printf("%d - %s\n", cuisine2.getId(), cuisine2.getName());
+       System.out.printf("%d - %s\n", cuisine1.getId(), cuisine1.getName());
+       System.out.printf("%d - %s\n", cuisine2.getId(), cuisine2.getName());
 
+       serviceCuisine.delete(cuisine1);
 
+       List<Cuisine> cuisines = serviceCuisine.listAll();
 
-
+       for(Cuisine c : cuisines){
+           System.out.println(c);
+       }
 
     }
 }
