@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.infra.repository;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Component
 public class CuisineRepositoryImpl implements CuisineRepository {
 
     @PersistenceContext
