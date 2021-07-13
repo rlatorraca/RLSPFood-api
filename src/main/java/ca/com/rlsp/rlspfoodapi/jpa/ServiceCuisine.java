@@ -26,7 +26,7 @@ public class ServiceCuisine {
     }
 
     @Transactional
-    public Cuisine add(Cuisine cuisine){
+    public Cuisine save(Cuisine cuisine){
         return em.merge(cuisine);
     }
 }
