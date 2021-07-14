@@ -17,7 +17,7 @@ public class Cuisine {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column
+    @Column(nullable = false, name="cuisine_name")
     private String name;
 
 }

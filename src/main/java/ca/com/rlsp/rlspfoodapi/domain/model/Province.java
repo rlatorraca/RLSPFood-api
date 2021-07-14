@@ -16,7 +16,7 @@ public class Province {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column
+    @Column(nullable = false, name = "province_name")
     private String name;
 
 

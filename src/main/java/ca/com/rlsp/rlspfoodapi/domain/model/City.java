@@ -17,10 +17,10 @@ public class City {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column
+    @Column(nullable = false, name = "city_name")
     private String name;
 
     @ManyToOne
-    @JoinColumn(name="province_id")
+    @JoinColumn(name="province_id", nullable = false)
     private Province province;
 }
