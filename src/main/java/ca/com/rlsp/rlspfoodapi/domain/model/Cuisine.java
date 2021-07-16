@@ -22,7 +22,7 @@ public class Cuisine {
     private Long id;
 
     //@JsonIgnore // remove da Apresentacao da Classe de Dominio na resposta
-    @JsonProperty("International name") // Muda o nome que vira no JSON quando consultado (diferentemente da Classe de Dominio)
+    @JsonProperty("nome") // Muda o nome que vira no JSON quando consultado (diferentemente da Classe de Dominio)
     @Column(nullable = false, name="cuisine_name")
     private String name;
 

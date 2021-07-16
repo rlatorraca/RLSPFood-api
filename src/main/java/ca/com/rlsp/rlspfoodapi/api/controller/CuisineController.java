@@ -41,4 +41,11 @@ public class CuisineController {
     public CuisineXMLWrapper listAllXML(){
         return new CuisineXMLWrapper(cuisineRepository.listAll());
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cuisine add(@RequestBody Cuisine cuisine){
+        return cuisineRepository.save(cuisine);
+    }
+
 }
