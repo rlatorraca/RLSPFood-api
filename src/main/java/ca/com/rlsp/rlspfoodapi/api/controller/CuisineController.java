@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.model.CuisineXMLWrapper;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,18 @@ public class CuisineController {
     @Autowired
     public  CuisineRepository cuisineRepository;
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Cuisine> listAll(){
         return cuisineRepository.listAll();
     }
 
     @GetMapping("/{cuisineId}")
-    public Cuisine findById(@PathVariable("cuisineId") Long id){
+    public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
         return cuisineRepository.findById(id);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    public CuisineXMLWrapper listAllXML(){
+        return new CuisineXMLWrapper(cuisineRepository.listAll());
     }
 }
