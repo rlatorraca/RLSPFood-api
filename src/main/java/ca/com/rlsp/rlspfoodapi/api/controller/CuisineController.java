@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.CuisineXMLWrapper;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class CuisineController {
         return cuisineRepository.listAll();
     }
 
+    @ResponseStatus(HttpStatus.OK) // Codigo de Resposta do Servidor quue sera enviado para essa requisaicao
     @GetMapping("/{cuisineId}")
     public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
         return cuisineRepository.findById(id);
