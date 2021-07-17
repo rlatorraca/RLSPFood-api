@@ -67,7 +67,7 @@ public class CuisineController {
     }
 
     @DeleteMapping("/{cuisineId}")
-    public ResponseEntity<Cuisine> remover(@PathVariable("cuisineId") Long id) {
+    public ResponseEntity<Cuisine> remove(@PathVariable("cuisineId") Long id) {
         try {
             Cuisine cuisine = cuisineRepository.findById(id);
 
