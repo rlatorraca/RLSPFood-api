@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CuisineRegistrationService {
 
@@ -32,5 +34,19 @@ public class CuisineRegistrationService {
             );
         }
 
+    }
+
+    public List<Cuisine> listAll(){
+        return cuisineRepository.listAll();
+    }
+
+    public Cuisine findById(Long id){
+        try{
+            return  cuisineRepository.findById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundIntoDBException(
+                    String.format("Cuisine as code is not found into the Database", id)
+            );
+        }
     }
 }

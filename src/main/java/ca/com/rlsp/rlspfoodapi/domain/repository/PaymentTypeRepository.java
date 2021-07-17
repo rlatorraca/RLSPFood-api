@@ -10,5 +10,5 @@ public interface PaymentTypeRepository {
     List<PaymentType> listAll();
     PaymentType findById(Long id);
     PaymentType save(PaymentType paymentType);
-    void remove(PaymentType paymentType);
+    void remove(Long id);
 }

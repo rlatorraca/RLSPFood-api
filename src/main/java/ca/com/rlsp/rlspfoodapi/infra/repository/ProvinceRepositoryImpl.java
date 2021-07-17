@@ -1,9 +1,11 @@
 package ca.com.rlsp.rlspfoodapi.infra.repository;
 
+import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +39,11 @@ public class ProvinceRepositoryImpl implements ProvinceRepository {
 
     @Override
     @Transactional
-    public void remove(Province province){
-        province =  findById(province.getId());
+    public void remove(Long id){
+        Province province =  findById(id);
+        if(province == null){
+            throw new EmptyResultDataAccessException(1);
+        }
         em.remove(province);
     }
 }

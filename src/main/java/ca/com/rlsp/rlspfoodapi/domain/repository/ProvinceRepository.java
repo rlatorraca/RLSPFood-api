@@ -10,5 +10,5 @@ public interface ProvinceRepository {
     List<Province> listAll();
     Province findById(Long id);
     Province save(Province province);
-    void remove(Province province);
+    void remove(Long id);
 }

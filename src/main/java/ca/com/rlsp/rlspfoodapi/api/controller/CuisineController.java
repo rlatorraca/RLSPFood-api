@@ -19,21 +19,21 @@ import java.util.List;
 @RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class CuisineController {
 
-    @Autowired
-    private  CuisineRepository cuisineRepository;
+    //@Autowired
+    //private  CuisineRepository cuisineRepository;
 
     @Autowired
     private CuisineRegistrationService cuisineRegistrationService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Cuisine> listAll(){
-        return cuisineRepository.listAll();
+        return cuisineRegistrationService.listAll();
     }
 
     @ResponseStatus(HttpStatus.OK) // Codigo de Resposta do Servidor quue sera enviado para essa requisaicao
     @GetMapping("/{cuisineId}")
     public ResponseEntity<Cuisine> findBy1Id(@PathVariable("cuisineId") Long id){
-        Cuisine cuisine =  cuisineRepository.findById(id);
+        Cuisine cuisine =  cuisineRegistrationService.findById(id);
 
         //return ResponseEntity.ok(cuisine);
         if(cuisine != null){
@@ -45,23 +45,24 @@ public class CuisineController {
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public CuisineXMLWrapper listAllXML(){
-        return new CuisineXMLWrapper(cuisineRepository.listAll());
+        return new CuisineXMLWrapper(cuisineRegistrationService.listAll());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cuisine add(@RequestBody Cuisine cuisine){
+
         return cuisineRegistrationService.save(cuisine);
     }
 
     @PutMapping("/{cuisineId}")
     public ResponseEntity<Cuisine> updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
-        Cuisine currentCuisine = cuisineRepository.findById(id);
+        Cuisine currentCuisine = cuisineRegistrationService.findById(id);
 
         if(currentCuisine != null){
             //currentCuisine.setName(cuisine.getName());
             BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
-            currentCuisine = cuisineRepository.save(currentCuisine);
+            currentCuisine = cuisineRegistrationService.save(currentCuisine);
 
             return ResponseEntity.status(HttpStatus.OK).body(currentCuisine);
         }

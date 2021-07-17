@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.infra.repository;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,11 @@ public class CuisineRepositoryImpl implements CuisineRepository {
 
     @Override
     public Cuisine findById(Long id){
-        return em.find(Cuisine.class, id);
+        Cuisine cuisine = em.find(Cuisine.class, id);
+        if(cuisine == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
+        return cuisine;
     }
 
     @Override
