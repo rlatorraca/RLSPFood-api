@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 import ca.com.rlsp.rlspfoodapi.api.model.CuisineXMLWrapper;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,6 +47,22 @@ public class CuisineController {
     @ResponseStatus(HttpStatus.CREATED)
     public Cuisine add(@RequestBody Cuisine cuisine){
         return cuisineRepository.save(cuisine);
+    }
+
+    @PutMapping("/{cuisineId}")
+    public ResponseEntity<Cuisine> updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
+        Cuisine currentCuisine = cuisineRepository.findById(id);
+
+        if(currentCuisine != null){
+            //currentCuisine.setName(cuisine.getName());
+            BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
+            currentCuisine = cuisineRepository.save(currentCuisine);
+
+            return ResponseEntity.status(HttpStatus.OK).body(currentCuisine);
+        }
+
+        return  ResponseEntity.notFound().build();
+
     }
 
 }
