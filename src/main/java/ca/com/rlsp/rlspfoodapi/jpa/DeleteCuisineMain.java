@@ -31,7 +31,7 @@ public class DeleteCuisineMain {
        System.out.printf("%d - %s\n", cuisine1.getId(), cuisine1.getName());
        System.out.printf("%d - %s\n", cuisine2.getId(), cuisine2.getName());
 
-       serviceCuisine.remove(cuisine1);
+       serviceCuisine.remove(cuisine1.getId());
 
        List<Cuisine> cuisines = serviceCuisine.listAll();
 

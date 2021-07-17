@@ -1,15 +1,16 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.model.CuisineXMLWrapper;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
+import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,10 @@ import java.util.List;
 public class CuisineController {
 
     @Autowired
-    public  CuisineRepository cuisineRepository;
+    private  CuisineRepository cuisineRepository;
+
+    @Autowired
+    private CuisineRegistrationService cuisineRegistrationService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Cuisine> listAll(){
@@ -47,7 +51,7 @@ public class CuisineController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cuisine add(@RequestBody Cuisine cuisine){
-        return cuisineRepository.save(cuisine);
+        return cuisineRegistrationService.save(cuisine);
     }
 
     @PutMapping("/{cuisineId}")
@@ -69,16 +73,13 @@ public class CuisineController {
     @DeleteMapping("/{cuisineId}")
     public ResponseEntity<Cuisine> remove(@PathVariable("cuisineId") Long id) {
         try {
-            Cuisine cuisine = cuisineRepository.findById(id);
+            cuisineRegistrationService.remove(id);
+            return ResponseEntity.noContent().build();
 
-            if (cuisine != null) {
-                cuisineRepository.remove(cuisine);
-
-                return ResponseEntity.noContent().build();
-            }
-
+        } catch(EntityNotFoundIntoDBException e){
             return ResponseEntity.notFound().build();
-        } catch (DataIntegrityViolationException e) {
+
+        } catch (EntityIsForeignKeyException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
