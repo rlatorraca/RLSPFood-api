@@ -27,9 +27,7 @@ public class CuisineRepositoryImpl implements CuisineRepository {
     @Override
     public Cuisine findById(Long id){
         Cuisine cuisine = em.find(Cuisine.class, id);
-        if(cuisine == null) {
-            throw new EmptyResultDataAccessException(1);
-        }
+
         return cuisine;
     }
 

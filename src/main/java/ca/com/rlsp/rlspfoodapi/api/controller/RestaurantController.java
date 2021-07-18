@@ -1,29 +1,32 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
-import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
-import ca.com.rlsp.rlspfoodapi.domain.service.RestauranteRegistrationService;
+import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantController {
 
     @Autowired
-    private RestauranteRegistrationService restauranteRegistrationService;
+    private RestaurantRegistrationService restaurantRegistrationService;
 
-
+    @GetMapping
+    public List<Restaurant> listAll() {
+        return restaurantRegistrationService.listAll();
+    }
 
     @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> findBy1Id(@PathVariable("restaurantId") Long id){
-        Restaurant restaurant =  restauranteRegistrationService.findById(id);
+        Restaurant restaurant =  restaurantRegistrationService.findById(id);
 
-        //return ResponseEntity.ok(cuisine);
         if(restaurant != null){
             return ResponseEntity.status(HttpStatus.OK).body(restaurant);
         }
@@ -32,9 +35,9 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionar(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<?> save(@RequestBody Restaurant restaurant) {
         try {
-            restaurant = restauranteRegistrationService.save(restaurant);
+            restaurant = restaurantRegistrationService.save(restaurant);
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(restaurant);
