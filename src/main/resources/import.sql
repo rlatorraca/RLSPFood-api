@@ -5,6 +5,7 @@ insert into tbl_cuisine (id, cuisine_name) values (4, 'Vegan');
 insert into tbl_cuisine (id, cuisine_name) values (5, 'Vegetarian');
 insert into tbl_cuisine (id, cuisine_name) values (6, 'Argentina');
 insert into tbl_cuisine (id, cuisine_name) values (7, 'Spanish');
+insert into tbl_cuisine (id, cuisine_name) values (8, 'Brazilian');
 
 
 insert into tbl_restaurant (name_restaurant, delivery_fee, cuisine_id) values ('Mirazur', 15.60, 1);

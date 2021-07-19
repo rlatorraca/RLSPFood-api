@@ -6,6 +6,7 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,11 +35,13 @@ public class CityRepositoryImpl implements CityRepository {
     }
 
     @Override
+    @Transactional
     public City save(City city) {
         return em.merge(city);
     }
 
     @Override
+    @Transactional
     public void remove(Long id) {
         City city =  findById(id);
         if(city == null){

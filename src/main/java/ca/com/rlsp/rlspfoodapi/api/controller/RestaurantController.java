@@ -3,6 +3,8 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
+import org.apache.coyote.Response;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,6 +44,25 @@ public class RestaurantController {
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(restaurant);
         } catch (EntityNotFoundIntoDBException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{restauranteId}")
+    public ResponseEntity<?> updateById(@PathVariable("restauranteId") Long id, @RequestBody Restaurant restaurant){
+
+        try{
+            Restaurant currentRestaurant = restaurantRegistrationService.findById(id);
+
+            if(currentRestaurant != null){
+                BeanUtils.copyProperties(restaurant, currentRestaurant,"id");;
+                currentRestaurant = restaurantRegistrationService.save(currentRestaurant);
+
+                return ResponseEntity.ok().build();
+            }
+
+            return ResponseEntity.notFound().build();
+        }catch (EntityNotFoundIntoDBException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

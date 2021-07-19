@@ -26,7 +26,7 @@ public class CuisineRegistrationService {
             cuisineRepository.remove(id);
         } catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundIntoDBException(
-                    String.format("Cuisine as code is not found into the Database", id)
+                    String.format("Cuisine as code is %d not found into the Database", id)
             );
         } catch (DataIntegrityViolationException e){
             throw new EntityIsForeignKeyException(
@@ -45,7 +45,7 @@ public class CuisineRegistrationService {
             return  cuisineRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundIntoDBException(
-                    String.format("Cuisine as code is not found into the Database", id)
+                    String.format("Cuisine as code is %d not found into the Database", id)
             );
         }
     }

@@ -50,24 +50,27 @@ public class CuisineController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cuisine add(@RequestBody Cuisine cuisine){
+    public Cuisine save(@RequestBody Cuisine cuisine){
 
         return cuisineRegistrationService.save(cuisine);
     }
 
     @PutMapping("/{cuisineId}")
-    public ResponseEntity<Cuisine> updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
-        Cuisine currentCuisine = cuisineRegistrationService.findById(id);
+    public ResponseEntity<?> updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
+        try {
+            Cuisine currentCuisine = cuisineRegistrationService.findById(id);
 
-        if(currentCuisine != null){
-            //currentCuisine.setName(cuisine.getName());
-            BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
-            currentCuisine = cuisineRegistrationService.save(currentCuisine);
+            if (currentCuisine != null) {
+                //currentCuisine.setName(cuisine.getName());
+                BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
+                currentCuisine = cuisineRegistrationService.save(currentCuisine);
 
-            return ResponseEntity.status(HttpStatus.OK).body(currentCuisine);
+                return ResponseEntity.status(HttpStatus.OK).body(currentCuisine);
+            }
+            return ResponseEntity.notFound().build();
+        } catch (EntityNotFoundIntoDBException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return  ResponseEntity.notFound().build();
 
     }
 

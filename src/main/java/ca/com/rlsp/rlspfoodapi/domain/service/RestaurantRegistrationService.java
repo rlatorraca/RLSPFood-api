@@ -31,7 +31,7 @@ public class RestaurantRegistrationService {
 
         if(cuisine  == null) {
             throw  new EntityNotFoundIntoDBException(
-                    String.format("Cuisine as code is %d not saved into the Database", cuisineId)
+                    String.format("Restaurant as code is %d not saved into the Database", cuisineId)
             );
         }
 
@@ -49,7 +49,7 @@ public class RestaurantRegistrationService {
             return  restaurantRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundIntoDBException(
-                    String.format("Cuisine as code is %d not found into the Database", id)
+                    String.format("Restaurant as code is %d not found into the Database", id)
             );
         }
     }
