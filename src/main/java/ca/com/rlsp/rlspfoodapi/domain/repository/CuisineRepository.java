@@ -7,7 +7,11 @@ import java.util.List;
 public interface CuisineRepository {
 
     List<Cuisine> listAll();
+    List<Cuisine> findByName(String name);
+    List<Cuisine> findContainInName(String name);
     Cuisine findById(Long id);
     Cuisine save(Cuisine cuisine);
     void remove(Long id);
+
+
 }

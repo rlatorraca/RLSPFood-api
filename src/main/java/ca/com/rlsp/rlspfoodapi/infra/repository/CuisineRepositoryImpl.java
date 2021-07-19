@@ -26,6 +26,20 @@ public class CuisineRepositoryImpl implements CuisineRepository {
     }
 
     @Override
+    public List<Cuisine> findContainInName(String name) {
+        return em.createQuery("from Cuisine where name like :name", Cuisine.class)
+                .setParameter("name", "%"+name+"%" )
+                .getResultList();
+    }
+
+    @Override
+    public List<Cuisine> findByName(String name) {
+        return em.createQuery("from Cuisine where name = :name", Cuisine.class)
+                .setParameter("name", name)
+                .getResultList();
+    }
+
+    @Override
     public Cuisine findById(Long id){
         Cuisine cuisine = em.find(Cuisine.class, id);
 
