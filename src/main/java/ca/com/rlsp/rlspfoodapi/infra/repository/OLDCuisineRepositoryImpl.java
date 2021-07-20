@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.infra.repository;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.OLDCuisineRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class CuisineRepositoryImpl implements CuisineRepository {
+public class OLDCuisineRepositoryImpl implements OLDCuisineRepository {
 
     @PersistenceContext
     private EntityManager em;

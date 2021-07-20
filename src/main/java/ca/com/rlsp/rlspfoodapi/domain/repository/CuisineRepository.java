@@ -1,17 +1,17 @@
 package ca.com.rlsp.rlspfoodapi.domain.repository;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface CuisineRepository {
+@Repository
+public interface CuisineRepository extends JpaRepository<Cuisine, Long> {
 
-    List<Cuisine> listAll();
-    List<Cuisine> findByName(String name);
-    List<Cuisine> findContainInName(String name);
-    Cuisine findById(Long id);
-    Cuisine save(Cuisine cuisine);
-    void remove(Long id);
+
+    //List<Cuisine> findContainInName(String name);
+    Cuisine findByName(String name);
 
 
 }

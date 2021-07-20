@@ -15,6 +15,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantRegistrationService {
@@ -27,7 +28,7 @@ public class RestaurantRegistrationService {
 
     public Restaurant save(Restaurant restaurant){
         Long cuisineId = restaurant.getCuisine().getId();
-        Cuisine cuisine = cuisineRepository.findById(cuisineId);
+        Optional<Cuisine> cuisine = cuisineRepository.findById(cuisineId);
 
         if(cuisine  == null) {
             throw  new EntityNotFoundIntoDBException(
