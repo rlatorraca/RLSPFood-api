@@ -1,11 +1,8 @@
-package ca.com.rlsp.rlspfoodapi.infra.repository;
+package ca.com.rlsp.rlspfoodapi.infra.repository.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
-import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
-import ca.com.rlsp.rlspfoodapi.domain.repository.OLDCuisineRepository;
-import org.springframework.beans.BeanUtils;
+import ca.com.rlsp.rlspfoodapi.domain.repository.old.OLDCuisineRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

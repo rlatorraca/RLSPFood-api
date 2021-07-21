@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CuisineRegistrationService {
@@ -23,7 +24,7 @@ public class CuisineRegistrationService {
 
     public void remove(Long id) {
         try {
-            cuisineRepository.remove(id);
+            cuisineRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundIntoDBException(
                     String.format("Cuisine as code is %d not found into the Database", id)
@@ -37,10 +38,10 @@ public class CuisineRegistrationService {
     }
 
     public List<Cuisine> listAll(){
-        return cuisineRepository.listAll();
+        return cuisineRepository.findAll();
     }
 
-    public Cuisine findById(Long id){
+    public Optional<Cuisine> findById(Long id){
         try{
             return  cuisineRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {

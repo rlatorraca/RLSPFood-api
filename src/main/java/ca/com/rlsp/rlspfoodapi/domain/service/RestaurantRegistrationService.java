@@ -28,23 +28,22 @@ public class RestaurantRegistrationService {
 
     public Restaurant save(Restaurant restaurant){
         Long cuisineId = restaurant.getCuisine().getId();
-        Optional<Cuisine> cuisine = cuisineRepository.findById(cuisineId);
-
-        if(cuisine  == null) {
-            throw  new EntityNotFoundIntoDBException(
-                    String.format("Restaurant as code is %d not saved into the Database", cuisineId)
-            );
-        }
+        Cuisine cuisine = cuisineRepository
+                .findById(cuisineId)
+                .orElseThrow(
+                        () -> new EntityNotFoundIntoDBException(
+                                String.format("Restaurant as code is %d not saved into the Database", cuisineId)
+                ));
 
         restaurant.setCuisine(cuisine);
         return restaurantRepository.save(restaurant);
     }
 
     public List<Restaurant> listAll(){
-        return restaurantRepository.listAll();
+        return restaurantRepository.findAll();
     }
 
-    public Restaurant findById(Long id){
+    public Optional<Restaurant> findById(Long id){
         try{
             return  restaurantRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {

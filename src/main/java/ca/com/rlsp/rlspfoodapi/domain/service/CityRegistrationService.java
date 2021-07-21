@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CityRegistrationService {
@@ -24,21 +25,20 @@ public class CityRegistrationService {
 
     public City save(City city){
         Long provinceId = city.getProvince().getId();
-        Province province = provinceRepository.findById(provinceId);
+        Province province = (Province) provinceRepository
+                .findById(provinceId)
+                .orElseThrow(
+                        () -> new EntityNotFoundIntoDBException(
+                                String.format("City as code is %d not saved into the Database", provinceId)
+                        )
+                );
 
-        if(province == null) {
-            throw  new EntityNotFoundIntoDBException(
-                    String.format("City as code is %d not saved into the Database", provinceId)
-            );
-        }
-
-
-        return cityRepository.save(city);
+       return cityRepository.save(city);
     }
 
     public void remove(Long id){
         try{
-            cityRepository.remove(id);
+            cityRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundIntoDBException(
                     String.format("City as code is %d not found into the Database", id)
@@ -51,10 +51,10 @@ public class CityRegistrationService {
     }
 
     public List<City> listAll(){
-        return cityRepository.listAll();
+        return cityRepository.findAll();
     }
 
-    public City findById(Long id){
+    public Optional<City> findById(Long id){
         try{
             return  cityRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {

@@ -18,12 +18,12 @@ public class TestController {
     private CuisineRepository cuisineRepository;
 
     @GetMapping("/cuisines/byname")
-    public List<Cuisine> cuisineByName (@RequestParam("nome")  String name) {
+    public Cuisine cuisineByName (@RequestParam("nome")  String name) {
         return cuisineRepository.findByName(name);
     }
 
     @GetMapping("/cuisines/contains")
     public List<Cuisine> cuisineContainInsName (@RequestParam("nome")  String name) {
-        return cuisineRepository.findContainInName(name);
+        return cuisineRepository.findByNameContaining(name);
     }
 }

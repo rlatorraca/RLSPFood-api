@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/provinces")
@@ -33,10 +34,10 @@ public class ProvinceController {
 
     @GetMapping("/{provinceId}")
     public ResponseEntity<Province> findById(@PathVariable("provinceId") Long id) {
-        Province province = provinceRegistrationService.findById(id);
+        Optional<Province> province = provinceRegistrationService.findById(id);
 
-        if (province != null) {
-            return ResponseEntity.ok(province);
+        if (province.isPresent()) {
+            return ResponseEntity.ok(province.get());
         }
 
         return ResponseEntity.notFound().build();
@@ -53,13 +54,13 @@ public class ProvinceController {
     @PutMapping("/{estadoId}")
     public ResponseEntity<Province> updateById(@PathVariable("estadoId") Long id,
                                             @RequestBody Province province) {
-        Province currentProvince = provinceRegistrationService.findById(id);
+        Optional<Province> currentProvince = provinceRegistrationService.findById(id);
 
         if (currentProvince != null) {
-            BeanUtils.copyProperties(province, currentProvince, "id");
+            BeanUtils.copyProperties(province, currentProvince.get(), "id");
 
-            currentProvince = provinceRegistrationService.save(currentProvince);
-            return ResponseEntity.ok(currentProvince);
+            Province newProvince = provinceRegistrationService.save(currentProvince.get());
+            return ResponseEntity.ok(newProvince);
         }
 
         return ResponseEntity.notFound().build();

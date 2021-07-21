@@ -1,8 +1,9 @@
-package ca.com.rlsp.rlspfoodapi.infra.repository;
+package ca.com.rlsp.rlspfoodapi.infra.repository.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.old.OLDRestaurantRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class RestaurantRepositoryImpl implements RestaurantRepository {
+public class OLDRestaurantRepositoryImpl implements OLDRestaurantRepository {
 
     @PersistenceContext
     private EntityManager em;

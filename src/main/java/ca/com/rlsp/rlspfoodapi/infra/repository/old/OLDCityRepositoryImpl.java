@@ -1,9 +1,10 @@
-package ca.com.rlsp.rlspfoodapi.infra.repository;
+package ca.com.rlsp.rlspfoodapi.infra.repository.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.old.OLDCityRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class CityRepositoryImpl implements CityRepository {
+public class OLDCityRepositoryImpl implements OLDCityRepository {
 
     @PersistenceContext
     private EntityManager em;

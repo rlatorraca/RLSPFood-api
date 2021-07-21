@@ -2,13 +2,13 @@ package ca.com.rlsp.rlspfoodapi.domain.repository;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface PaymentTypeRepository {
+@Repository
+public interface PaymentTypeRepository extends JpaRepository<PaymentType , Long> {
 
-    List<PaymentType> listAll();
-    PaymentType findById(Long id);
-    PaymentType save(PaymentType paymentType);
-    void remove(Long id);
+
 }

@@ -14,13 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class CuisineController {
 
-    //@Autowired
-    //private  CuisineRepository cuisineRepository;
+    @Autowired
+    private  CuisineRepository cuisineRepository;
 
     @Autowired
     private CuisineRegistrationService cuisineRegistrationService;
@@ -33,11 +34,11 @@ public class CuisineController {
     @ResponseStatus(HttpStatus.OK) // Codigo de Resposta do Servidor quue sera enviado para essa requisaicao
     @GetMapping("/{cuisineId}")
     public ResponseEntity<Cuisine> findBy1Id(@PathVariable("cuisineId") Long id){
-        Cuisine cuisine =  cuisineRegistrationService.findById(id);
+        Optional<Cuisine> cuisine =  cuisineRepository.findById(id);
 
         //return ResponseEntity.ok(cuisine);
-        if(cuisine != null){
-            return ResponseEntity.status(HttpStatus.OK).body(cuisine);
+        if(cuisine.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(cuisine.get());
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
@@ -58,14 +59,14 @@ public class CuisineController {
     @PutMapping("/{cuisineId}")
     public ResponseEntity<?> updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
         try {
-            Cuisine currentCuisine = cuisineRegistrationService.findById(id);
+            Optional<Cuisine> currentCuisine = cuisineRepository.findById(id);
 
-            if (currentCuisine != null) {
+            if (currentCuisine.isPresent()) {
                 //currentCuisine.setName(cuisine.getName());
-                BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
-                currentCuisine = cuisineRegistrationService.save(currentCuisine);
+                BeanUtils.copyProperties(cuisine, currentCuisine.get(), "id"); // Copia (novo, antigo) objeto de cuisine
+                Cuisine cuisineSaved = cuisineRepository.save(currentCuisine.get());
 
-                return ResponseEntity.status(HttpStatus.OK).body(currentCuisine);
+                return ResponseEntity.status(HttpStatus.OK).body(cuisineSaved);
             }
             return ResponseEntity.notFound().build();
         } catch (EntityNotFoundIntoDBException e){

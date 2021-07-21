@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -31,10 +32,10 @@ public class RestaurantController {
 
     @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> findBy1Id(@PathVariable("restaurantId") Long id){
-        Restaurant restaurant =  restaurantRegistrationService.findById(id);
+        Optional<Restaurant> restaurant =  restaurantRegistrationService.findById(id);
 
-        if(restaurant != null){
-            return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+        if(restaurant.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(restaurant.get());
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
@@ -56,11 +57,11 @@ public class RestaurantController {
     public ResponseEntity<?> updateById(@PathVariable("restauranteId") Long id, @RequestBody Restaurant restaurant){
 
         try{
-            Restaurant currentRestaurant = restaurantRegistrationService.findById(id);
+            Optional<Restaurant> currentRestaurant = restaurantRegistrationService.findById(id);
 
-            if(currentRestaurant != null){
+            if(currentRestaurant.isPresent()){
                 BeanUtils.copyProperties(restaurant, currentRestaurant,"id");;
-                currentRestaurant = restaurantRegistrationService.save(currentRestaurant);
+                Restaurant newRestaurant = restaurantRegistrationService.save(currentRestaurant.get());
 
                 return ResponseEntity.ok().build();
             }
@@ -72,18 +73,18 @@ public class RestaurantController {
     }
 
     @PatchMapping("/{restauranteId}")
-    public ResponseEntity<?> updateById(@PathVariable("restauranteId") Long id,
+    public ResponseEntity<?> updateByIdPatch(@PathVariable("restauranteId") Long id,
                                         @RequestBody Map<String, Object> restaurantFields){
         try{
-            Restaurant currentRestaurant = restaurantRegistrationService.findById(id);
+            Optional<Restaurant> currentRestaurant = restaurantRegistrationService.findById(id);
 
-            if(currentRestaurant == null) {
+            if(currentRestaurant.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
 
-            currentRestaurant = mergeDataToPatch(restaurantFields, currentRestaurant);
+            Restaurant newRestaurant = mergeDataToPatch(restaurantFields, currentRestaurant.get());
 
-            return updateById(id, currentRestaurant);
+            return updateById(id, newRestaurant);
         } catch (EntityNotFoundIntoDBException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -1,10 +1,11 @@
-package ca.com.rlsp.rlspfoodapi.infra.repository;
+package ca.com.rlsp.rlspfoodapi.infra.repository.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.old.OLDProvinceRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class ProvinceRepositoryImpl implements ProvinceRepository {
+public class OLDProvinceRepositoryImpl implements OLDProvinceRepository {
 
     @PersistenceContext
     private EntityManager em;

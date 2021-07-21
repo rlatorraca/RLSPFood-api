@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.domain.repository;
+package ca.com.rlsp.rlspfoodapi.domain.repository.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 

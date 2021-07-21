@@ -1,8 +1,11 @@
-package ca.com.rlsp.rlspfoodapi.infra.repository;
+package ca.com.rlsp.rlspfoodapi.infra.repository.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Permission;
+import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.PermissionRepository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.old.OLDPermissionRepository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.old.OLDProvinceRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +15,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class PermissionRepositoryImpl implements PermissionRepository {
+public class OLDPermissionRepositoryImpl implements OLDPermissionRepository {
 
     @PersistenceContext
     private EntityManager em;
@@ -32,6 +35,8 @@ public class PermissionRepositoryImpl implements PermissionRepository {
         }
         return permission;
     }
+
+
 
     @Override
     public Permission save(Permission permission) {

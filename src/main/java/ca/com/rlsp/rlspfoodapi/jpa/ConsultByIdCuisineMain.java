@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class ConsultByIdCuisineMain {
@@ -19,9 +20,9 @@ public class ConsultByIdCuisineMain {
 
         CuisineRepository cuisineRepository = applicationContext.getBean(CuisineRepository.class);
 
-        Cuisine cuisine = cuisineRepository.findById(1L);
+        Optional<Cuisine> cuisine = cuisineRepository.findById(1L);
 
-        System.out.println(cuisine.getName());
+        System.out.println(cuisine.get().getName());
 
 
 

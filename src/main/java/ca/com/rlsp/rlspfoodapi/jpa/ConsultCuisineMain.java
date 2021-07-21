@@ -21,7 +21,7 @@ public class ConsultCuisineMain {
 
         CuisineRepository cuisineRepository = applicationContext.getBean(CuisineRepository.class);
 
-        List<Cuisine> cuisines = cuisineRepository.listAll();
+        List<Cuisine> cuisines = cuisineRepository.findAll();
 
         for(Cuisine c : cuisines){
             System.out.println(c.getName());

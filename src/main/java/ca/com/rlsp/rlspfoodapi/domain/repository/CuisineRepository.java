@@ -10,7 +10,7 @@ import java.util.List;
 public interface CuisineRepository extends JpaRepository<Cuisine, Long> {
 
 
-    //List<Cuisine> findContainInName(String name);
+    List<Cuisine> findByNameContaining(String name);
     Cuisine findByName(String name);
 
 

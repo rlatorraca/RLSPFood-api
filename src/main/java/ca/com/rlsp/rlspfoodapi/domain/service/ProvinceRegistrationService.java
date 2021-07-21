@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProvinceRegistrationService {
@@ -19,13 +20,14 @@ public class ProvinceRegistrationService {
     @Autowired
     private ProvinceRepository provinceRepository;
 
-    public Province save(Province Province){
-        return provinceRepository.save(Province);
+
+    public Province save(Province province){
+        return provinceRepository.save(province);
     }
 
     public void remove(Long id){
         try{
-            provinceRepository.remove(id);
+            provinceRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundIntoDBException(
                     String.format("Province as code is %d not found into the Database", id)
@@ -38,10 +40,10 @@ public class ProvinceRegistrationService {
     }
 
     public List<Province> listAll(){
-        return provinceRepository.listAll();
+        return provinceRepository.findAll();
     }
 
-    public Province findById(Long id){
+    public Optional<Province> findById(Long id){
         try{
             return  provinceRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {
