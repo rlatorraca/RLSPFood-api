@@ -48,6 +48,11 @@ public class TestController {
         return restaurantRepository.findBydeliveryFeeBetween(initial, end);
     }
 
+    @GetMapping("/restaurants/rangetaxescustomizado")
+    public List<Restaurant> resturantsByRangeOfFeesCustomizada(@RequestParam String name, @RequestParam BigDecimal initial, @RequestParam BigDecimal end) {
+        return restaurantRepository.procurarRestauranteNasFaixas(name, initial, end);
+    }
+
     @GetMapping("/restaurants/namepluscuisineid")
     public List<Restaurant> restaurantsByNameAndCuisineId(@RequestParam String name, @RequestParam Long id) {
         return restaurantRepository.findByNameStartingWithAndCuisineId(name, id);
