@@ -19,4 +19,6 @@ public interface CuisineRepository extends JpaRepository<Cuisine, Long> {
     List<Cuisine> findByDeliveryFeeBetween(String name);
 
 
+
+
 }

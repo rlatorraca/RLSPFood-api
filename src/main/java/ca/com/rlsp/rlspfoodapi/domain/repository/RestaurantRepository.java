@@ -4,8 +4,8 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.infra.repository.customized.RestaurantRepositoryImplQueries;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,11 +14,15 @@ import java.util.Optional;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, RestaurantRepositoryImplQueries {
 
-    List<Restaurant> findByDeliveryFeeBetween(BigDecimal initial, BigDecimal end);
+    List<Restaurant> findBydeliveryFeeBetween(BigDecimal initial, BigDecimal end);
     List<Restaurant> findByNameStartingWithAndCuisineId(String restaurant, Long cuisineId);
-    List<Restaurant> findByNameStartingWith(@RequestParam BigDecimal initial, @RequestParam BigDecimal end);
     List<Restaurant> findTop2RestaurantsByNameContaining(String name);
+
     Optional<Restaurant> findFirstRestaurantByNameContaining(String name);
+
+    // This query is into resources/META-INF/orm.xml
+    //@Query("from Restaurant where name like %:name% and cuisine.id=:id")
+    List<Restaurant> consultarPorNomePorCozinha(String name, @Param("id") Long cozinhaId);
 
 
     /*
