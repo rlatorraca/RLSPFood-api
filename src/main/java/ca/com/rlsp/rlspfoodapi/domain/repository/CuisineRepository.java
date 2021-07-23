@@ -13,7 +13,7 @@ public interface CuisineRepository extends JpaRepository<Cuisine, Long> {
 
     List<Cuisine> findByNameContaining(String name);
     Optional<Cuisine> findByName(String name);
-    List<Cuisine> findByNameStartingWith(String name);
+    List<Cuisine> queryByNameStartingWith(String name);
     List<Cuisine> findByNameEndingWith(String name);
 
 

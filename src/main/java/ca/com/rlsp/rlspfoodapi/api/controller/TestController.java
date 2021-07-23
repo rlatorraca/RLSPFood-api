@@ -35,7 +35,7 @@ public class TestController {
     }
     @GetMapping("/cuisines/starting")
     public List<Cuisine> cuisineStartingBy(@RequestParam("nome")  String name) {
-        return cuisineRepository.findByNameStartingWith(name);
+        return cuisineRepository.queryByNameStartingWith(name);
     }
 
     @GetMapping("/cuisines/ending")
@@ -56,6 +56,16 @@ public class TestController {
     @GetMapping("/restaurants/namepluscuisineid")
     public List<Restaurant> restaurantsByNameAndCuisineId(@RequestParam String name, @RequestParam Long id) {
         return restaurantRepository.findByNameStartingWithAndCuisineId(name, id);
+    }
+
+    @GetMapping("/restaurants/findfirst")
+    public Optional<Restaurant> firstRestaurantByName(@RequestParam String name) {
+        return restaurantRepository.findFirstRestaurantByNameContaining(name);
+    }
+
+    @GetMapping("/restaurants/findtoptwo")
+    public List<Restaurant> firstTopTwoRestaurantsByName(@RequestParam String name) {
+        return restaurantRepository.findTop2RestaurantsByNameContaining(name);
     }
 
 
