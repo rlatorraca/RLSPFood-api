@@ -49,7 +49,9 @@ public class TestController {
     }
 
     @GetMapping("/restaurants/rangetaxescustomizado")
-    public List<Restaurant> resturantsByRangeOfFeesCustomizada(@RequestParam String name, @RequestParam BigDecimal initial, @RequestParam BigDecimal end) {
+    public List<Restaurant> resturantsByRangeOfFeesCustomizada(@RequestParam(required=false) String name,
+                                                               @RequestParam(required=false) BigDecimal initial,
+                                                               @RequestParam(required=false) BigDecimal end) {
         return restaurantRepository.procurarRestauranteNasFaixas(name, initial, end);
     }
 
