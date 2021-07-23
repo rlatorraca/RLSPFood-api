@@ -58,5 +58,15 @@ public class TestController {
         return restaurantRepository.findByNameStartingWithAndCuisineId(name, id);
     }
 
+    @GetMapping("/restaurants/findfirst")
+    public Optional<Restaurant> firstRestaurantByName(@RequestParam String name) {
+        return restaurantRepository.findFirstRestaurantByNameContaining(name);
+    }
+
+    @GetMapping("/restaurants/findtoptwo")
+    public List<Restaurant> firstTopTwoRestaurantsByName(@RequestParam String name) {
+        return restaurantRepository.findTop2RestaurantsByNameContaining(name);
+    }
+
 
 }

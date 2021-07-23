@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, RestaurantRepositoryImplQueries {
 
     List<Restaurant> findByDeliveryFeeBetween(BigDecimal initial, BigDecimal end);
     List<Restaurant> findByNameStartingWithAndCuisineId(String restaurant, Long cuisineId);
     List<Restaurant> findByNameStartingWith(@RequestParam BigDecimal initial, @RequestParam BigDecimal end);
+    List<Restaurant> findTop2RestaurantsByNameContaining(String name);
+    Optional<Restaurant> findFirstRestaurantByNameContaining(String name);
+
 
     /*
         Customizado
