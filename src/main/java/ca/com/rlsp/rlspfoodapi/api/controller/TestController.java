@@ -4,8 +4,9 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
-import ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantFindFreeDeliverySpecification;
-import ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantFindNameLikeSpecification;
+import ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantSpecifications;
+import ca.com.rlsp.rlspfoodapi.infra.repository.specification.old.RestaurantFindFreeDeliverySpecification;
+import ca.com.rlsp.rlspfoodapi.infra.repository.specification.old.RestaurantFindNameLikeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,12 +79,21 @@ public class TestController {
         return restaurantRepository.findTop2RestaurantsByNameContaining(name);
     }
 
-    @GetMapping("/restaurants/freedelivery")
-    public List<Restaurant> restaurantFreeDelivery(@RequestParam String name) {
+    @GetMapping("/restaurants/freedeliveryspec")
+    public List<Restaurant> restaurantFreeDeliverySpec(@RequestParam String name) {
         Specification<Restaurant> freeDelivery = new RestaurantFindFreeDeliverySpecification();
         var findNameLike = new RestaurantFindNameLikeSpecification(name);
 
         return restaurantRepository.findAll(freeDelivery.and(findNameLike));
+    }
+
+
+    @GetMapping("/restaurants/freedeliveryspecfactory")
+    public List<Restaurant> restaurantFreeDeliverySpecFactory(@RequestParam String name) {
+
+
+        return restaurantRepository.findAll(RestaurantSpecifications.findFreeDelivereySpec()
+                .and(RestaurantSpecifications.findFreeDelivereySpec()));
     }
 
 

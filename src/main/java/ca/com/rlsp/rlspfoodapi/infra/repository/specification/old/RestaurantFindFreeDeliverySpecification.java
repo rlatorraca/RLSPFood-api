@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.infra.repository.specification;
+package ca.com.rlsp.rlspfoodapi.infra.repository.specification.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.springframework.data.jpa.domain.Specification;
