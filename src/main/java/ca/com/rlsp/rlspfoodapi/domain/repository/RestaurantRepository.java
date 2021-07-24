@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.infra.repository.customized.RestaurantRepositoryImplQueries;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, RestaurantRepositoryImplQueries {
+public interface RestaurantRepository extends
+                JpaRepository<Restaurant, Long>,
+                RestaurantRepositoryImplQueries,
+                JpaSpecificationExecutor {
 
     List<Restaurant> findBydeliveryFeeBetween(BigDecimal initial, BigDecimal end);
     List<Restaurant> findByNameStartingWithAndCuisineId(String restaurant, Long cuisineId);

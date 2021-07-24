@@ -4,7 +4,10 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
+import ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantFindFreeDeliverySpecification;
+import ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantFindNameLikeSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,6 +76,14 @@ public class TestController {
     @GetMapping("/restaurants/findtoptwo")
     public List<Restaurant> firstTopTwoRestaurantsByName(@RequestParam String name) {
         return restaurantRepository.findTop2RestaurantsByNameContaining(name);
+    }
+
+    @GetMapping("/restaurants/freedelivery")
+    public List<Restaurant> restaurantFreeDelivery(@RequestParam String name) {
+        Specification<Restaurant> freeDelivery = new RestaurantFindFreeDeliverySpecification();
+        var findNameLike = new RestaurantFindNameLikeSpecification(name);
+
+        return restaurantRepository.findAll(freeDelivery.and(findNameLike));
     }
 
 
