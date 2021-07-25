@@ -1,8 +1,11 @@
 package ca.com.rlsp.rlspfoodapi.infra.repository.customized;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
+import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import com.ctc.wstx.util.StringUtil;
 import org.hibernate.Criteria;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -19,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantSpecifications.findFreeDelivereySpec;
+import static ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantSpecifications.findNameLikeSpec;
+
 /*
     Implementacao de Repositorio de Restaurante Customizado
  */
@@ -27,6 +33,10 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryImplQueries
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    @Lazy
+    private RestaurantRepository restaurantRepository;
 
     @Override
     public List<Restaurant> procurarRestauranteNasFaixas(String name,
@@ -72,6 +82,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryImplQueries
         TypedQuery<Restaurant> query = em.createQuery(criteria);
         return query.getResultList();
 
+    }
+
+    @Override
+    public List<Restaurant> findRestaurantFreeDeliveryImpl(String name) {
+        return restaurantRepository.findAll(findNameLikeSpec(name)
+                .and(findFreeDelivereySpec()));
     }
 
 }

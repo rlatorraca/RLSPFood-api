@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface RestaurantRepositoryImplQueries {
 
-    List<Restaurant> procurarRestauranteNasFaixas(
-            String name, BigDecimal startFee, BigDecimal endFee);
+    List<Restaurant> procurarRestauranteNasFaixas(String name, BigDecimal startFee, BigDecimal endFee);
+
+    List<Restaurant> findRestaurantFreeDeliveryImpl(String name);
 }

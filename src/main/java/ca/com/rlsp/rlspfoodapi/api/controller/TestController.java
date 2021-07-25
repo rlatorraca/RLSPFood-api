@@ -95,8 +95,7 @@ public class TestController {
     public List<Restaurant> restaurantFreeDeliverySpecFactory(@RequestParam String name) {
 
 
-        return restaurantRepository.findAll(findFreeDelivereySpec()
-                .and(findFreeDelivereySpec()));
+        return restaurantRepository.findRestaurantFreeDeliveryImpl(name);
     }
 
 

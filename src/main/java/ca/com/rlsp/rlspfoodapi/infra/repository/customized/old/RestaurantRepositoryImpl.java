@@ -77,4 +77,9 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryImplQueries
         return query.getResultList();
     }
 
+    @Override
+    public List<Restaurant> findRestaurantFreeDeliveryImpl(String name) {
+        return null;
+    }
+
 }
