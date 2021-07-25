@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import  static ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantSpecifications.findFreeDelivereySpec;
+import  static ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantSpecifications.findNameLikeSpec;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -92,8 +95,8 @@ public class TestController {
     public List<Restaurant> restaurantFreeDeliverySpecFactory(@RequestParam String name) {
 
 
-        return restaurantRepository.findAll(RestaurantSpecifications.findFreeDelivereySpec()
-                .and(RestaurantSpecifications.findFreeDelivereySpec()));
+        return restaurantRepository.findAll(findFreeDelivereySpec()
+                .and(findFreeDelivereySpec()));
     }
 
 
