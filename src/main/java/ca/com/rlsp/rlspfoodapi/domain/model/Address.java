@@ -14,7 +14,7 @@ public class Address {
     @Column(name = "address_postalcode")
     private String postalcode;
 
-    @Column(name = "street")
+    @Column(name = "address_street")
     private String street;
 
     @Column(name = "address_number")
