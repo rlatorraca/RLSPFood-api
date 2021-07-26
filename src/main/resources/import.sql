@@ -41,4 +41,6 @@ insert into tbl_province (province_name) values ('Yukon');
 insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
 insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (4, 1), (4, 2), (4, 3), (4, 5), (5, 2), (5, 3);
 insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (6, 1), (6, 2), (7, 3), (7, 4), (7, 5), (8, 1);
-insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (8, 2), (8, 6), (8, 3), (8, 4), (8, 5);
+insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (8, 2), (8, 3), (8, 4), (8, 5), (8, 6);
+insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (9, 1), (9, 2), (9, 3), (9, 4), (9, 5);
+insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6);

@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,6 +30,10 @@ public class Restaurant {
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
 
+    @Embedded // Essa propriedade e do Tipo @Embadeble
+    private Address address;
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "tbl_restaurant_payment_type",
                joinColumns = @JoinColumn(name = "restaurant_id"),
