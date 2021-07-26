@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
+@Table(name = "tbl_product")
 public class Product {
 
     @Id
