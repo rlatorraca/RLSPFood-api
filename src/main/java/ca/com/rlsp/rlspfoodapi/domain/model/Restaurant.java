@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -27,5 +29,10 @@ public class Restaurant {
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
 
+    @ManyToMany
+    @JoinTable(name = "tbl_restaurant_payment_type",
+               joinColumns = @JoinColumn(name = "restaurant_id"),
+               inverseJoinColumns = @JoinColumn(name = "payment_type_id"))
+    private List<PaymentType> paymentTypeList = new ArrayList<>();
 
 }

@@ -16,6 +16,6 @@ public class PaymentType {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false, name = "paayment_type")
+    @Column(nullable = false, name = "payment_type")
     private String name;
 }

@@ -29,7 +29,7 @@ public class Cuisine {
     private String name;
 
     @JsonIgnore /// remove da Apresentacao da Classe de Dominio na resposta (no Json de respota)
-    @OneToMany(mappedBy = "cuisinePode ")
+    @OneToMany(mappedBy = "cuisine")
     private List<Restaurant> restaurants = new ArrayList<>();
 
 
