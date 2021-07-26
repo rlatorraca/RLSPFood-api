@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CuisineRepository extends JpaRepository<Cuisine, Long> {
+public interface CuisineRepository extends CustomJpaRepository<Cuisine, Long> {
 
 
     List<Cuisine> findByNameContaining(String name);

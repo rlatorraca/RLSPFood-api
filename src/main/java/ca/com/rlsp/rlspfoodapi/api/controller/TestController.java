@@ -93,9 +93,17 @@ public class TestController {
 
     @GetMapping("/restaurants/freedeliveryspecfactory")
     public List<Restaurant> restaurantFreeDeliverySpecFactory(@RequestParam String name) {
-
-
         return restaurantRepository.findRestaurantFreeDeliveryImpl(name);
+    }
+
+    @GetMapping("/restaurants/findFirstRestaurant")
+    public Optional<Restaurant> findFirstRestaurantCustomImpl() {
+        return restaurantRepository.findFirstElement();
+    }
+
+    @GetMapping("/cuisines/findFirstCuisine")
+    public Optional<Cuisine> findaFirstCuisineCustomImpl() {
+        return cuisineRepository.findFirstElement();
     }
 
 

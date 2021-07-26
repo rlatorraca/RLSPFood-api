@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends
-                JpaRepository<Restaurant, Long>,
+                CustomJpaRepository<Restaurant, Long>,
                 RestaurantRepositoryImplQueries,
                 JpaSpecificationExecutor {
 
