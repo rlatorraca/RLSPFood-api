@@ -7,12 +7,12 @@ insert into tbl_cuisine (id, cuisine_name) values (6, 'Argentina');
 insert into tbl_cuisine (id, cuisine_name) values (7, 'Spanish');
 insert into tbl_cuisine (id, cuisine_name) values (8, 'Brazilian');
 
-insert into tbl_payment_type (payment_type) values ('Cash');
-insert into tbl_payment_type  (payment_type) values ('Credit card');
-insert into tbl_payment_type  (payment_type) values ('Debit card');
-insert into tbl_payment_type (payment_type) values ('Pay Pal');
-insert into tbl_payment_type  (payment_type) values ('Bitcoin');
-insert into tbl_payment_type  (payment_type) values ('Etherium');
+insert into tbl_paymenttype (payment_type) values ('Cash');
+insert into tbl_paymenttype  (payment_type) values ('Credit card');
+insert into tbl_paymenttype  (payment_type) values ('Debit card');
+insert into tbl_paymenttype (payment_type) values ('Pay Pal');
+insert into tbl_paymenttype  (payment_type) values ('Bitcoin');
+insert into tbl_paymenttype  (payment_type) values ('Etherium');
 
 insert into tbl_province (province_name) values ('Alberta');
 insert into tbl_province (province_name) values ('British Columbia');
@@ -31,7 +31,7 @@ insert into tbl_province (province_name) values ('Yukon');
 insert into tbl_city(id, city_name, province_id) values (1, 'Ottawa', 9);
 insert into tbl_city(id, city_name, province_id) values (2, 'Toronto', 9);
 insert into tbl_city(id, city_name, province_id) values (3, 'Montreal', 10);
-insert into tbl_city(id, city_name, province_id) values (4, 'Ville du Qubec', 10);
+insert into tbl_city(id, city_name, province_id) values (4, 'Ville du Quebec', 10);
 insert into tbl_city(id, city_name, province_id) values (5, 'Vancouver', 2);
 insert into tbl_city(id, city_name, province_id) values (6, 'Calgary', 1);
 
@@ -46,12 +46,12 @@ insert into tbl_restaurant (name_restaurant, delivery_fee, cuisine_id, address_p
 insert into tbl_restaurant (name_restaurant, delivery_fee, cuisine_id, address_postalcode, address_street, address_number, address_complement, address_district, address_city_id, created_date, date_last_update  ) values ('Disfrutar', 51.00, 2, 'I1BC2D', 'Street I', '9', 'suite 1010', 'downtown', 1, utc_timestamp, utc_timestamp);
 insert into tbl_restaurant (name_restaurant, delivery_fee, cuisine_id, address_postalcode, address_street, address_number, address_complement, address_district, address_city_id, created_date, date_last_update  ) values ('Maido', 40.00, 1, 'J1BC2D', 'Street J', '10', 'suite 1222', 'downtown', 2, utc_timestamp, utc_timestamp);
 
-insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
-insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (4, 1), (4, 2), (4, 3), (4, 5), (5, 2), (5, 3);
-insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (6, 1), (6, 2), (7, 3), (7, 4), (7, 5), (8, 1);
-insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (8, 2), (8, 3), (8, 4), (8, 5), (8, 6);
-insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (9, 1), (9, 2), (9, 3), (9, 4), (9, 5);
-insert into tbl_restaurant_payment_type (restaurant_id, payment_type_id) values (10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6);
+insert into tbl_restaurant_paymenttype (restaurant_id, payment_type_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+insert into tbl_restaurant_paymenttype (restaurant_id, payment_type_id) values (4, 1), (4, 2), (4, 3), (4, 5), (5, 2), (5, 3);
+insert into tbl_restaurant_paymenttype (restaurant_id, payment_type_id) values (6, 1), (6, 2), (7, 3), (7, 4), (7, 5), (8, 1);
+insert into tbl_restaurant_paymenttype (restaurant_id, payment_type_id) values (8, 2), (8, 3), (8, 4), (8, 5), (8, 6);
+insert into tbl_restaurant_paymenttype (restaurant_id, payment_type_id) values (9, 1), (9, 2), (9, 3), (9, 4), (9, 5);
+insert into tbl_restaurant_paymenttype (restaurant_id, payment_type_id) values (10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6);
 
 insert into tbl_product (product_name, product_description, product_price, product_active, restaurant_id) values ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1);
 insert into tbl_product (product_name, product_description, product_price, product_active, restaurant_id) values ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1);

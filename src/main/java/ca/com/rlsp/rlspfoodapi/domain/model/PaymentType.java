@@ -8,7 +8,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Entity
-@Table(name = "tbl_payment_type")
+@Table(name = "tbl_paymenttype")
 public class PaymentType {
 
     @Id

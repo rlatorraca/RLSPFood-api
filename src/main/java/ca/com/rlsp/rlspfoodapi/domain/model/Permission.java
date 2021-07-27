@@ -16,7 +16,7 @@ public class Permission {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false, name = "permission_nam")
+    @Column(nullable = false, name = "permission_name")
     private String name;
 
     @Column(name = "permission_description")

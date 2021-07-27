@@ -50,7 +50,7 @@ public class Restaurant {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "tbl_restaurant_payment_type",
+    @JoinTable(name = "tbl_restaurant_paymenttype",
                joinColumns = @JoinColumn(name = "restaurant_id"),
                inverseJoinColumns = @JoinColumn(name = "payment_type_id"))
     private List<PaymentType> paymentTypeList = new ArrayList<>();
