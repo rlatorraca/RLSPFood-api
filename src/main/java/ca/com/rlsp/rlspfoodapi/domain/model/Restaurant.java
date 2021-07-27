@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,7 +31,12 @@ public class Restaurant {
     @Column(name="delivery_fee", nullable = false)
     private BigDecimal deliveryFee;
 
-    @ManyToOne
+    /*
+        Tudo que termina com ONE é EAGER Loading (fetch padrao)
+     */
+    //@JsonIgnore
+    // @JsonIgnoreProperties({"hibernateLazyInitializer"}) // para ignora a falta de serializacao para essa propriedade quando usando LAZY no ToOne
+    @ManyToOne // (fetch = FetchType.LAZY)
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
 
@@ -48,7 +54,10 @@ public class Restaurant {
     @Column(name = "date_last_update",nullable = false, columnDefinition = "datetime")
     private LocalDateTime dateLastUpdate;
 
-    @JsonIgnore
+    /*
+        Tudo que termina com MANY é LAZY Loading (fetch padrao)
+     */
+    //@JsonIgnore
     @ManyToMany
     @JoinTable(name = "tbl_restaurant_paymenttype",
                joinColumns = @JoinColumn(name = "restaurant_id"),

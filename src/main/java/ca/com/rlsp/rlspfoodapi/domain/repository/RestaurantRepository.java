@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.infra.repository.customized.RestaurantRepositoryImplQueries;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,9 @@ public interface RestaurantRepository extends
                 CustomJpaRepository<Restaurant, Long>,
                 RestaurantRepositoryImplQueries,
                 JpaSpecificationExecutor {
+
+    @Query("from Restaurant r inner join fetch r.cuisine left join fetch r.paymentTypeList")
+    List<Restaurant> newlistAll();
 
     List<Restaurant> findBydeliveryFeeBetween(BigDecimal initial, BigDecimal end);
     List<Restaurant> findByNameStartingWithAndCuisineId(String restaurant, Long cuisineId);

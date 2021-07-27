@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
+import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.coyote.Response;
@@ -25,9 +26,12 @@ public class RestaurantController {
     @Autowired
     private RestaurantRegistrationService restaurantRegistrationService;
 
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+
     @GetMapping
     public List<Restaurant> listAll() {
-        return restaurantRegistrationService.listAll();
+        return restaurantRepository.newlistAll();
     }
 
     @GetMapping("/{restaurantId}")
