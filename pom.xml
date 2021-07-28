@@ -58,6 +58,12 @@
             <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
 
+        <!-- Flyway - Versionamento de DB -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
