@@ -3,15 +3,15 @@ set foreign_key_checks = 0;
 delete from tbl_city;
 delete from tbl_cuisine;
 delete from tbl_group;
-delete from tbl_group_permission;
 delete from tbl_paymenttype;
 delete from tbl_permission;
 delete from tbl_product;
 delete from tbl_province;
 delete from tbl_restaurant;
-delete from tbl_restaurant_paymenttype;
 delete from tbl_user;
 delete from tbl_user_group;
+delete from tbl_group_permission;
+delete from tbl_restaurant_paymenttype;
 
 set foreign_key_checks = 1;
 

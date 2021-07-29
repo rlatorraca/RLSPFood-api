@@ -5,8 +5,6 @@ create table tbl_group (
 ) engine=InnoDB;
 
 
-
-
 create table tbl_permission (
         id bigint not null auto_increment,
         permission_description varchar(255),
