@@ -8,8 +8,8 @@ delete from tbl_permission;
 delete from tbl_product;
 delete from tbl_province;
 delete from tbl_restaurant;
-delete from tbl_user;
-delete from tbl_user_group;
+delete from tbl_client;
+delete from tbl_client_group;
 delete from tbl_group_permission;
 delete from tbl_restaurant_paymenttype;
 
@@ -23,7 +23,7 @@ alter table tbl_permission auto_increment = 1;
 alter table tbl_product auto_increment = 1;
 alter table tbl_province auto_increment = 1;
 alter table tbl_restaurant auto_increment = 1;
-alter table tbl_user auto_increment = 1;
+alter table tbl_client auto_increment = 1;
 
 
 insert into tbl_cuisine (id, cuisine_name) values (1, 'Fusion');

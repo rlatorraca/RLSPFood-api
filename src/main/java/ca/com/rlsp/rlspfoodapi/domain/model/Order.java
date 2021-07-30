@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -20,39 +22,46 @@ public class Order {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "order_beforeTax")
+    @Column(name = "order_beforeTax", nullable = false)
     private BigDecimal beforeTax;
-    @Column(name = "order_deliveryFee")
+    @Column(name = "order_deliveryFee", nullable = false)
     private BigDecimal deliveryFee;
-    @Column(name = "order_afterTax")
+    @Column(name = "order_afterTax", nullable = false)
     private BigDecimal afterTax;
 
     @CreationTimestamp
-    @Column(name = "order_createdDate")
+    @Column(name = "order_createdDate", nullable = false)
     private LocalDateTime createdDate;
-
     @UpdateTimestamp
     @Column(name = "order_modifiedDate")
     private LocalDateTime modifiedDate;
-
     @Column(name = "order_cancelDate")
     private LocalDateTime cancelDate;
+
     @Column(name = "order_deliveryDate")
     private LocalDateTime deliveryDate;
-
-    @Column(name = "order_status")
-    private  StatusOrder status;
 
     @Column(name = "order_addressDelivery")
     @Embedded
     private Address addressDelivery;
 
-    @Column(name = "order_paymenttype_id")
+    @Column(name = "order_status")
+    private StatusOrderEnum status;
+
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "order_paymenttype_id", nullable = false)
     private PaymentType paymentType;
 
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Client client;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 
 }

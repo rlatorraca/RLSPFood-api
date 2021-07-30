@@ -13,35 +13,35 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tbl_user")
-public class User {
+@Table(name = "tbl_client")
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "client_name", nullable = false)
     private String name;
 
-    @Column(name = "user_email", nullable = false)
+    @Column(name = "client_email", nullable = false)
     private String email;
 
-    @Column(name = "user_password", nullable = true)
+    @Column(name = "client_password", nullable = true)
     private String password;
 
     @CreationTimestamp
-    @Column(name = "created_user", nullable = true, columnDefinition = "datetime")
-    private LocalDateTime createdUser;
+    @Column(name = "client_created", nullable = true, columnDefinition = "datetime")
+    private LocalDateTime createdClient;
 
     @UpdateTimestamp
-    @Column(name = "last_modified_user", nullable = false, columnDefinition = "datetime")
-    private LocalDateTime lastModifiedUser;
+    @Column(name = "client_last_modified", nullable = false, columnDefinition = "datetime")
+    private LocalDateTime lastModifiedClient;
 
     @ManyToMany
-    @JoinTable(name = "tbl_user_group",
-               joinColumns = @JoinColumn(name = "user_id"),
-               inverseJoinColumns =@JoinColumn(name = "groups_id")
+    @JoinTable(name = "tbl_client_group",
+               joinColumns = @JoinColumn(name = "client_id"),
+               inverseJoinColumns =@JoinColumn(name = "group_id")
     )
     private List<Group> groups = new ArrayList<>();
 

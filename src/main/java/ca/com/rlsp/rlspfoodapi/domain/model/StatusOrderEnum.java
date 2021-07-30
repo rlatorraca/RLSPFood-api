@@ -1,6 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
-public enum StatusOrder {
+public enum StatusOrderEnum {
 
     CREATED,
     CONFIRMED,
