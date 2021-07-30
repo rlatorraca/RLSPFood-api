@@ -75,6 +75,7 @@ public class CuisineController {
 
     }
 
+    /*
     @DeleteMapping("/{cuisineId}")
     public ResponseEntity<Cuisine> remove(@PathVariable("cuisineId") Long id) {
         try {
@@ -87,6 +88,13 @@ public class CuisineController {
         } catch (EntityIsForeignKeyException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+    }
+    */
+
+    @DeleteMapping("/{cuisineId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remove(@PathVariable("cuisineId") Long id) {
+        cuisineRegistrationService.remove(id);
     }
 
 }
