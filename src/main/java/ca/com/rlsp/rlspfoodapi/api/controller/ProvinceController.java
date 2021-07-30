@@ -32,6 +32,7 @@ public class ProvinceController {
         return provinceRegistrationService.listAll();
     }
 
+    /*
     @GetMapping("/{provinceId}")
     public ResponseEntity<Province> findById(@PathVariable("provinceId") Long id) {
         Optional<Province> province = provinceRegistrationService.findById(id);
@@ -41,9 +42,13 @@ public class ProvinceController {
         }
 
         return ResponseEntity.notFound().build();
-
-
     }
+    */
+    @GetMapping("/{provinceId}")
+    public Province findById(@PathVariable("provinceId") Long id) {
+        return provinceRegistrationService.findOrFail(id);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,6 +56,8 @@ public class ProvinceController {
         return provinceRegistrationService.save(province);
     }
 
+
+    /*
     @PutMapping("/{estadoId}")
     public ResponseEntity<Province> updateById(@PathVariable("estadoId") Long id,
                                             @RequestBody Province province) {
@@ -64,6 +71,14 @@ public class ProvinceController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+    */
+    @PutMapping("/{estadoId}")
+    public Province updateById(@PathVariable("estadoId") Long id,
+                                               @RequestBody Province province) {
+        Province currentProvince = provinceRegistrationService.findOrFail(id);
+        BeanUtils.copyProperties(province, currentProvince, "id");
+        return provinceRegistrationService.save(currentProvince);
     }
 
     @DeleteMapping("/{estadoId}")

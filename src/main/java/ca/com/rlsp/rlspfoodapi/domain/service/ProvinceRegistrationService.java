@@ -17,6 +17,8 @@ import java.util.Optional;
 @Service
 public class ProvinceRegistrationService {
 
+    public static final String MSG_PROVINCE_IS_NOT_FOUND_DATABASE = "Province as code is %d not found into the Database";
+    public static final String MSG_PROVINCE_IS_USED_AS_SECONDARY_KEY = "Province as code is %d cannot be removed, because that is being used as  secondary key";
     @Autowired
     private ProvinceRepository provinceRepository;
 
@@ -30,11 +32,11 @@ public class ProvinceRegistrationService {
             provinceRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){
             throw new EntityNotFoundIntoDBException(
-                    String.format("Province as code is %d not found into the Database", id)
+                    String.format(MSG_PROVINCE_IS_NOT_FOUND_DATABASE, id)
             );
         } catch (DataIntegrityViolationException e) {
             throw new EntityIsForeignKeyException(
-                    String.format("Province as code is %d cannot be removed, because that is being used as  secondary key", id)
+                    String.format(MSG_PROVINCE_IS_USED_AS_SECONDARY_KEY, id)
             );
         }
     }
@@ -51,5 +53,9 @@ public class ProvinceRegistrationService {
                     String.format("Province as code % dis not found into the Database", id)
             );
         }
+    }
+
+    public Province findOrFail(Long id){
+        return provinceRepository.findById(id).orElseThrow(()-> new EntityNotFoundIntoDBException(String.format(MSG_PROVINCE_IS_NOT_FOUND_DATABASE, id)));
     }
 }
