@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -94,7 +95,13 @@ public class CuisineController {
     @DeleteMapping("/{cuisineId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable("cuisineId") Long id) {
-        cuisineRegistrationService.remove(id);
+        try{
+            cuisineRegistrationService.remove(id);
+        } catch (EntityNotFoundIntoDBException e){
+            /* Usando nova classe do SpringBoot 5 => customiza apenas o Status HTTP e a Mensagem*/
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,  e.getMessage());
+        }
+
     }
 
 }

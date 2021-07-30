@@ -7,7 +7,9 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +28,12 @@ public class CuisineRegistrationService {
         try {
             cuisineRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){
+            /* Custom Exception */
             throw new EntityNotFoundIntoDBException(
                     String.format("Cuisine as code is %d not found into the Database", id)
             );
+
+
         } catch (DataIntegrityViolationException e){
             throw new EntityIsForeignKeyException(
                     String.format("Cuisine as code is %d cannot be removed, because that is being used as  secondary key", id)
