@@ -33,6 +33,7 @@ public class CuisineController {
         return cuisineRegistrationService.listAll();
     }
 
+    /*
     @ResponseStatus(HttpStatus.OK) // Codigo de Resposta do Servidor quue sera enviado para essa requisaicao
     @GetMapping("/{cuisineId}")
     public ResponseEntity<Cuisine> findBy1Id(@PathVariable("cuisineId") Long id){
@@ -44,6 +45,11 @@ public class CuisineController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
+    }
+    */
+    @GetMapping("/{cuisineId}")
+    public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
+        return cuisineRegistrationService.findOrFail(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
@@ -58,6 +64,7 @@ public class CuisineController {
         return cuisineRegistrationService.save(cuisine);
     }
 
+    /*
     @PutMapping("/{cuisineId}")
     public ResponseEntity<?> updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
         try {
@@ -76,6 +83,17 @@ public class CuisineController {
         }
 
     }
+    */
+
+    @PutMapping("/{cuisineId}")
+    public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
+        Cuisine currentCuisine = cuisineRegistrationService.findOrFail(id);
+
+        BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
+
+        return cuisineRegistrationService.save(currentCuisine);
+    }
+
 
     @DeleteMapping("/{cuisineId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
