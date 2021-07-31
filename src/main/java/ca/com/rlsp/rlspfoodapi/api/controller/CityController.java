@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
@@ -77,7 +78,11 @@ public class CityController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public City save(@RequestBody City city) {
-        return cityRegistrationService.save(city);
+        try{
+            return cityRegistrationService.save(city);
+        } catch (EntityNotFoundIntoDBException e ){
+            throw new GenericBusinessException(e.getMessage());
+        }
     }
 
     /*
@@ -102,7 +107,11 @@ public class CityController {
                                            @RequestBody City city) {
         City currentCity = cityRegistrationService.findOrFail(id);
         BeanUtils.copyProperties(city, currentCity, "id");
-        return cityRegistrationService.save(currentCity);
+        try{
+            return cityRegistrationService.save(currentCity);
+        }catch (EntityNotFoundIntoDBException e ){
+            throw new GenericBusinessException(e.getMessage());
+        }
     }
 
     /*
