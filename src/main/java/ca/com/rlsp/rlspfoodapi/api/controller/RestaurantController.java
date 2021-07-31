@@ -1,23 +1,20 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -51,6 +48,7 @@ public class RestaurantController {
         return restaurantRegistrationService.findOrFail(id);
     }
 
+    /*
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Restaurant restaurant) {
         try {
@@ -62,6 +60,17 @@ public class RestaurantController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    */
+
+    @PostMapping
+    public Restaurant save(@RequestBody Restaurant restaurant) {
+       try {
+           return restaurantRegistrationService.save(restaurant);
+       } catch (EntityNotFoundException e ){
+           throw new GenericBusinessException(e.getMessage());
+       }
+    }
+
 
     /*
     @PutMapping("/{restauranteId}")
@@ -87,7 +96,11 @@ public class RestaurantController {
     public Restaurant updateById(@PathVariable("restauranteId") Long id, @RequestBody Restaurant restaurant) {
         Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
         BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
-        return restaurantRegistrationService.save(currentRestaurant);
+        try {
+            return restaurantRegistrationService.save(currentRestaurant);
+        } catch (EntityNotFoundException e ){
+            throw new GenericBusinessException(e.getMessage());
+        }
     }
 
     /*

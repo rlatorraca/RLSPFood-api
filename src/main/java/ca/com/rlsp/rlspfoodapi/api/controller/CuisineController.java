@@ -1,8 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.model.CuisineXMLWrapper;
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
@@ -10,13 +8,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.ServerWebInputException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

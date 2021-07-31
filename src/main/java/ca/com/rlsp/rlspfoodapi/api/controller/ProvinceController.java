@@ -1,7 +1,5 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProvinceRegistrationService;
@@ -9,11 +7,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/provinces")

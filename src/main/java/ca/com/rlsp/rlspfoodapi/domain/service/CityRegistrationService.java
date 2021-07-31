@@ -1,9 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
-import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
@@ -59,7 +58,7 @@ public class CityRegistrationService {
         try{
             cityRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){
-            throw new EntityNotFoundIntoDBException(
+            throw new EntityNotFoundException(
                     String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, id)
             );
         } catch (DataIntegrityViolationException e) {
@@ -77,14 +76,14 @@ public class CityRegistrationService {
         try{
             return  cityRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundIntoDBException(
+            throw new EntityNotFoundException(
                     String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, id)
             );
         }
     }
 
     public City findOrFail(Long cityId){
-        return cityRepository.findById(cityId).orElseThrow(()-> new EntityNotFoundIntoDBException(String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, cityId)));
+        return cityRepository.findById(cityId).orElseThrow(()-> new EntityNotFoundException(String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, cityId)));
     }
 }
 

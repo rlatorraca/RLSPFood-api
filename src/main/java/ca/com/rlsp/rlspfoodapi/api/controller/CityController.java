@@ -1,23 +1,18 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundIntoDBException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
-import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
-import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
-import ca.com.rlsp.rlspfoodapi.domain.service.ProvinceRegistrationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/cities")
@@ -80,8 +75,8 @@ public class CityController {
     public City save(@RequestBody City city) {
         try{
             return cityRegistrationService.save(city);
-        } catch (EntityNotFoundIntoDBException e ){
-            throw new GenericBusinessException(e.getMessage());
+        } catch (EntityNotFoundException e ){
+            throw new GenericBusinessException(e.getMessage(), e);
         }
     }
 
@@ -105,12 +100,12 @@ public class CityController {
     @PutMapping("/{cityId}")
     public City updateById(@PathVariable("cityId") Long id,
                                            @RequestBody City city) {
-        City currentCity = cityRegistrationService.findOrFail(id);
-        BeanUtils.copyProperties(city, currentCity, "id");
         try{
+            City currentCity = cityRegistrationService.findOrFail(id);
+            BeanUtils.copyProperties(city, currentCity, "id");
             return cityRegistrationService.save(currentCity);
-        }catch (EntityNotFoundIntoDBException e ){
-            throw new GenericBusinessException(e.getMessage());
+        } catch (ProvinceNotFoundException e ){
+            throw new GenericBusinessException(e.getMessage(), e.getCause());
         }
     }
 

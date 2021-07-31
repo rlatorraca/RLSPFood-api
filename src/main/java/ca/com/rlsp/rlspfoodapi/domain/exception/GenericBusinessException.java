@@ -10,4 +10,8 @@ public class GenericBusinessException extends RuntimeException {
     public GenericBusinessException(String msg){
         super(msg);
     }
+
+    public GenericBusinessException(String msg, Throwable cause){
+        super(msg, cause);
+    }
 }
