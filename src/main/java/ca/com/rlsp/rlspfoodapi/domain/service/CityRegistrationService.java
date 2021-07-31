@@ -26,8 +26,23 @@ public class CityRegistrationService {
     @Autowired
     private ProvinceRepository provinceRepository;
 
+    @Autowired
+    private ProvinceRegistrationService provinceRegistrationService;
+
     public City save(City city){
         Long provinceId = city.getProvince().getId();
+
+        Province province = provinceRegistrationService.findOrFail(provinceId);
+        city.setProvince(province);
+
+        return cityRepository.save(city);
+    }
+
+    /*
+    public City save(City city){
+        Long provinceId = city.getProvince().getId();
+
+
         Province province = (Province) provinceRepository
                 .findById(provinceId)
                 .orElseThrow(
@@ -36,8 +51,9 @@ public class CityRegistrationService {
                         )
                 );
 
-       return cityRepository.save(city);
+        return cityRepository.save(city);
     }
+    */
 
     public void remove(Long id){
         try{
@@ -67,8 +83,8 @@ public class CityRegistrationService {
         }
     }
 
-    public City findOrFail(Long id){
-        return cityRepository.findById(id).orElseThrow(()-> new EntityNotFoundIntoDBException(String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, id)));
+    public City findOrFail(Long cityId){
+        return cityRepository.findById(cityId).orElseThrow(()-> new EntityNotFoundIntoDBException(String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, cityId)));
     }
 }
 

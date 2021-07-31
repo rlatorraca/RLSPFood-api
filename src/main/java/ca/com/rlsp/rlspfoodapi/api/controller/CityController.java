@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/cities")
+@RequestMapping(value = "/cities")
 public class CityController {
 
     @Autowired
@@ -38,6 +38,14 @@ public class CityController {
         return cityRepository.findAll();
     }
 
+
+    @GetMapping("/{cityId}")
+    public City findById(@PathVariable Long cityId) {
+        System.out.println("@GetMapping(\"/{cityId}}\")");
+        return cityRegistrationService.findOrFail(cityId);
+    }
+
+    /*
     @GetMapping("/{cityId}}")
     public ResponseEntity<City> findById(@PathVariable("cityId") Long id) {
         Optional<City> city = cityRepository.findById(id);
@@ -48,6 +56,8 @@ public class CityController {
 
         return ResponseEntity.notFound().build();
     }
+    */
+
 
     /*
     @PostMapping
