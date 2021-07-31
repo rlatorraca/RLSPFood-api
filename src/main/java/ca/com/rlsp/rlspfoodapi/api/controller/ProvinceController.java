@@ -22,6 +22,9 @@ public class ProvinceController {
     @Autowired
     private ProvinceRegistrationService provinceRegistrationService;
 
+    @Autowired
+    private ProvinceRepository provinceRepository;
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Province> listAllJson(){
         return provinceRegistrationService.listAll();
@@ -58,8 +61,8 @@ public class ProvinceController {
 
 
     /*
-    @PutMapping("/{estadoId}")
-    public ResponseEntity<Province> updateById(@PathVariable("estadoId") Long id,
+    @PutMapping("/{provinceId}")
+    public ResponseEntity<Province> updateById(@PathVariable("provinceId") Long id,
                                             @RequestBody Province province) {
         Optional<Province> currentProvince = provinceRegistrationService.findById(id);
 
@@ -73,16 +76,17 @@ public class ProvinceController {
         return ResponseEntity.notFound().build();
     }
     */
-    @PutMapping("/{estadoId}")
-    public Province updateById(@PathVariable("estadoId") Long id,
+    @PutMapping("/{provinceId}")
+    public Province updateById(@PathVariable("provinceId") Long id,
                                                @RequestBody Province province) {
         Province currentProvince = provinceRegistrationService.findOrFail(id);
         BeanUtils.copyProperties(province, currentProvince, "id");
         return provinceRegistrationService.save(currentProvince);
     }
 
+    /*
     @DeleteMapping("/{estadoId}")
-    public ResponseEntity<?> remover(@PathVariable("estadoId") Long id) {
+    public ResponseEntity<?> remove(@PathVariable("estadoId") Long id) {
         try {
             provinceRegistrationService.remove(id);
             return ResponseEntity.noContent().build();
@@ -94,5 +98,12 @@ public class ProvinceController {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(e.getMessage());
         }
+    }
+    */
+
+    @DeleteMapping("/{provinceId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long provinceId) {
+        provinceRepository.deleteById(provinceId);
     }
 }

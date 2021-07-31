@@ -34,6 +34,7 @@ public class RestaurantController {
         return restaurantRepository.newlistAll();
     }
 
+    /*
     @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> findBy1Id(@PathVariable("restaurantId") Long id){
         Optional<Restaurant> restaurant =  restaurantRegistrationService.findById(id);
@@ -43,6 +44,11 @@ public class RestaurantController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
+    }
+    */
+    @GetMapping("/{restaurantId}")
+    public Restaurant findBy1Id(@PathVariable("restaurantId") Long id){
+        return restaurantRegistrationService.findOrFail(id);
     }
 
     @PostMapping
@@ -57,6 +63,7 @@ public class RestaurantController {
         }
     }
 
+    /*
     @PutMapping("/{restauranteId}")
     public ResponseEntity<?> updateById(@PathVariable("restauranteId") Long id, @RequestBody Restaurant restaurant){
 
@@ -75,7 +82,15 @@ public class RestaurantController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    */
+    @PutMapping("/{restauranteId}")
+    public Restaurant updateById(@PathVariable("restauranteId") Long id, @RequestBody Restaurant restaurant) {
+        Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
+        BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
+        return restaurantRegistrationService.save(currentRestaurant);
+    }
 
+    /*
     @PatchMapping("/{restauranteId}")
     public ResponseEntity<?> updateByIdPatch(@PathVariable("restauranteId") Long id,
                                         @RequestBody Map<String, Object> restaurantFields){
@@ -94,6 +109,14 @@ public class RestaurantController {
         }
 
 
+    }
+    */
+    @PatchMapping("/{restauranteId}")
+    public Restaurant updateByIdPatch(@PathVariable("restauranteId") Long id,
+                                             @RequestBody Map<String, Object> restaurantFields){
+        Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
+        mergeDataToPatch(restaurantFields, currentRestaurant);
+        return updateById(id, currentRestaurant);
     }
 
     private Restaurant mergeDataToPatch(Map<String, Object> restaurantFields,

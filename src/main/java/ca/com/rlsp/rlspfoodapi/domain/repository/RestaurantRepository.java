@@ -19,7 +19,7 @@ public interface RestaurantRepository extends
                 RestaurantRepositoryImplQueries,
                 JpaSpecificationExecutor {
 
-    @Query("from Restaurant r inner join fetch r.cuisine left join fetch r.paymentTypeList")
+    @Query("select distinct r from Restaurant r join fetch r.cuisine left join fetch r.paymentTypeList")
     List<Restaurant> newlistAll();
 
     List<Restaurant> findBydeliveryFeeBetween(BigDecimal initial, BigDecimal end);

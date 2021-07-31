@@ -47,13 +47,12 @@ public class CityController {
         }
 
         return ResponseEntity.notFound().build();
-
-
     }
 
+    /*
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?>  save(@RequestBody City city) {
+    public ResponseEntity<?> save(@RequestBody City city) {
 
         try {
             city = cityRegistrationService.save(city);
@@ -64,7 +63,14 @@ public class CityController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public City save(@RequestBody City city) {
+        return cityRegistrationService.save(city);
+    }
 
+    /*
     @PutMapping("/{cityId}")
     public ResponseEntity<City> updateById(@PathVariable("cityId") Long id,
                                                @RequestBody City city) {
@@ -79,9 +85,19 @@ public class CityController {
 
         return ResponseEntity.notFound().build();
     }
+    */
 
+    @PutMapping("/{cityId}")
+    public City updateById(@PathVariable("cityId") Long id,
+                                           @RequestBody City city) {
+        City currentCity = cityRegistrationService.findOrFail(id);
+        BeanUtils.copyProperties(city, currentCity, "id");
+        return cityRegistrationService.save(currentCity);
+    }
+
+    /*
     @DeleteMapping("/{cityId}")
-    public ResponseEntity<?> remover(@PathVariable("cityId") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("cityId") Long id) {
         try {
             cityRegistrationService.remove(id);
             return ResponseEntity.noContent().build();
@@ -94,6 +110,12 @@ public class CityController {
                     .body(e.getMessage());
         }
     }
+    */
 
+    @DeleteMapping("/{cityId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("cityId") Long id) {
+        cityRegistrationService.remove(id);
+    }
 
 }

@@ -19,6 +19,7 @@ import java.util.Optional;
 public class CityRegistrationService {
 
     public static final String MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "City as code is %d not found into the Database";
+    public static final String MSG_CITY_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY = "City as code is %d cannot be removed, because that is being used as  secondary key";
     @Autowired
     private CityRepository cityRepository;
 
@@ -31,7 +32,7 @@ public class CityRegistrationService {
                 .findById(provinceId)
                 .orElseThrow(
                         () -> new EntityNotFoundIntoDBException(
-                                String.format("City as code is %d not saved into the Database", provinceId)
+                                String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, provinceId)
                         )
                 );
 
@@ -47,7 +48,7 @@ public class CityRegistrationService {
             );
         } catch (DataIntegrityViolationException e) {
             throw new EntityIsForeignKeyException(
-                    String.format("City as code is %d cannot be removed, because that is being used as  secondary key", id)
+                    String.format(MSG_CITY_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY, id)
             );
         }
     }
@@ -61,7 +62,7 @@ public class CityRegistrationService {
             return  cityRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundIntoDBException(
-                    String.format("City as code % dis not found into the Database", id)
+                    String.format(MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE, id)
             );
         }
     }
