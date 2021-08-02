@@ -79,7 +79,7 @@ public class CityController {
         try{
             return cityRegistrationService.save(city);
         } catch (EntityNotFoundException e ){
-            throw new GenericBusinessException(e.getMessage(), e);
+            throw new GenericBusinessException(e.getReason(), e);
         }
     }
 

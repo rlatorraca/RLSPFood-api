@@ -1,25 +1,35 @@
 package ca.com.rlsp.rlspfoodapi.api.exceptionhandler;
 
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
 
+/*
+    ResponseEntityExceptionHandler
+     - Classe de conveniencia que trata Exception do SPRINGBOOT
+ */
 @ControllerAdvice // faz com todas excecoes sejam tratadas nessa Classe
-public class ApiExceptionHandler {
+public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     public static final String MSG_MEDIA_TYPE_NOT_SUPPORTED = "Media Type not supported on RLSPFood";
 
     /*
-               Metodo que trata a Excecao Generica e Cria uma mensagem de Errro Customizada
-            */
+          Metodo que trata a Excecao Generica e Cria uma mensagem de Erro Customizada
+     */
+    // WebRequest request => injetado pelo proprio SPRINGBOOT
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e){
+    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e, WebRequest request){
+        /*
         ApiHandleError handler = ApiHandleError.builder()
                 .dateTime(LocalDateTime.now())
                 .message(e.getReason())
@@ -28,10 +38,14 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(handler);
+         */
+        return handleExceptionInternal(e, e.getReason(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    // WebRequest request => injetado pelo proprio SPRINGBOOT
     @ExceptionHandler(GenericBusinessException.class)
-    public ResponseEntity<?> handleGenericBusinessException(GenericBusinessException e){
+    public ResponseEntity<?> handleGenericBusinessException(GenericBusinessException e, WebRequest request){
+        /*
         ApiHandleError handler = ApiHandleError.builder()
                 .dateTime(LocalDateTime.now())
                 .message(e.getReason())
@@ -40,11 +54,30 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(handler);
+         */
+        return handleExceptionInternal(e, e.getReason(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    // WebRequest request => injetado pelo proprio SPRINGBOOT
+    @ExceptionHandler(EntityIsForeignKeyException.class)
+    public ResponseEntity<?> handleEntityIsForeignKeyException(EntityIsForeignKeyException e, WebRequest request){
+        /*
+        ApiHandleError handler = ApiHandleError.builder()
+                .dateTime(LocalDateTime.now())
+                .message(e.getReason())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(handler);
+        */
+        return handleExceptionInternal(e, e.getReason(), new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
     /*
         Exception do Proprio Spring (415 - HttpMediaTypeNotSupportedException)
-     */
+
+        ** Necessario quando usamos *** extends ResponseEntityExceptionHandler ***
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<?> handleHttpMediaTypeNotSupportedException() {
@@ -56,5 +89,23 @@ public class ApiExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
                 .body(handler);
+    }
+    */
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body, HttpHeaders headers,
+                                                             HttpStatus status, WebRequest request) {
+        if(body == null){
+            body = ApiHandleError.builder()
+                    .dateTime(LocalDateTime.now())
+                    .message(status.getReasonPhrase())
+                    .build();
+        } else if(body instanceof String){
+            body = ApiHandleError.builder()
+                    .dateTime(LocalDateTime.now())
+                    .message((String) body)
+                    .build();
+        }
+        return super.handleExceptionInternal(e, body , headers, status, request);
     }
 }
