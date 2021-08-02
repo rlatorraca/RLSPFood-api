@@ -6,7 +6,6 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -39,7 +38,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(handler);
          */
-        return handleExceptionInternal(e, e.getReason(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ProblemTypeEnum problemType = ProblemTypeEnum.ENTITY_NOT_FOUND;
+        String detail = e.getReason();
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+
+        return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
 
     // WebRequest request => injetado pelo proprio SPRINGBOOT
@@ -55,7 +60,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(handler);
          */
-        return handleExceptionInternal(e, e.getReason(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemTypeEnum problemType = ProblemTypeEnum.BUSINESS_RULES_HAS_ERROR;
+        String detail = e.getReason();
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+
+        return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
 
     // WebRequest request => injetado pelo proprio SPRINGBOOT
@@ -71,7 +83,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(handler);
         */
-        return handleExceptionInternal(e, e.getReason(), new HttpHeaders(), HttpStatus.CONFLICT, request);
+        HttpStatus status = HttpStatus.CONFLICT;
+        ProblemTypeEnum problemType = ProblemTypeEnum.ENTITY_IN_USE;
+        String detail = e.getReason();
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+
+        return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
 
     /*
@@ -96,16 +114,30 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body, HttpHeaders headers,
                                                              HttpStatus status, WebRequest request) {
         if(body == null){
-            body = ApiHandleError.builder()
+            body = ApiHandleProblemDetail.builder()
                     .dateTime(LocalDateTime.now())
-                    .message(status.getReasonPhrase())
+                    .title(status.getReasonPhrase())
+                    .status(status.value())
                     .build();
         } else if(body instanceof String){
-            body = ApiHandleError.builder()
+            body = ApiHandleProblemDetail.builder()
                     .dateTime(LocalDateTime.now())
-                    .message((String) body)
+                    .title((String) body)
+                    .status(status.value())
                     .build();
         }
         return super.handleExceptionInternal(e, body , headers, status, request);
+    }
+
+
+    private ApiHandleProblemDetail.ApiHandleProblemDetailBuilder createProblemDetailBuilder(HttpStatus status, ProblemTypeEnum problemType, String detail, LocalDateTime localDateTime){
+
+        return ApiHandleProblemDetail.builder()
+                .status(status.value())
+                .type(problemType.getUri())
+                .title(problemType.getTitle())
+                .detail(detail)
+                .dateTime(localDateTime);
+
     }
 }

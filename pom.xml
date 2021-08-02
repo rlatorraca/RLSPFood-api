@@ -52,12 +52,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- Used to accept application/xml on server response
+        <!-- Used to accept application/xml on server response-->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
-        -->
+
         <!-- Flyway - Versionamento de DB -->
         <dependency>
             <groupId>org.flywaydb</groupId>

@@ -2,7 +2,7 @@ package ca.com.rlsp.rlspfoodapi.infra.repository.customized;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
-import com.ctc.wstx.util.StringUtil;
+
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
