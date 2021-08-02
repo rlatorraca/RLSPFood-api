@@ -108,7 +108,7 @@ public class CityController {
             BeanUtils.copyProperties(city, currentCity, "id");
             return cityRegistrationService.save(currentCity);
         } catch (ProvinceNotFoundException e ){
-            throw new GenericBusinessException(e.getMessage(), e.getCause());
+            throw new GenericBusinessException(e.getReason(), e);
         }
     }
 
@@ -135,31 +135,6 @@ public class CityController {
         cityRegistrationService.remove(id);
     }
 
-    /*
-        Metodo que trata a Excecao Generica e Cria uma mensagem de Errro Customizada
-     */
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e){
-        ApiHandleError handler = ApiHandleError.builder()
-                .dateTime(LocalDateTime.now())
-                .message(e.getMessage())
-                .build();
 
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(handler);
-    }
-
-    @ExceptionHandler(GenericBusinessException.class)
-    public ResponseEntity<?> handleGenericBusinessException(GenericBusinessException e){
-        ApiHandleError handler = ApiHandleError.builder()
-                .dateTime(LocalDateTime.now())
-                .message(e.getMessage())
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(handler);
-    }
 
 }

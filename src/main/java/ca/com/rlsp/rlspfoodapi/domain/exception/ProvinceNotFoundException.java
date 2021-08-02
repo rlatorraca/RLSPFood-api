@@ -10,6 +10,6 @@ public class ProvinceNotFoundException extends EntityNotFoundException {
     }
 
     public ProvinceNotFoundException(Long provinceId) {
-        super(String.format(MSG_PROVINCE_IS_NOT_FOUND_DATABASE, provinceId));
+        this(String.format(MSG_PROVINCE_IS_NOT_FOUND_DATABASE, provinceId));
     }
 }

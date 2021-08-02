@@ -9,7 +9,7 @@ public class CuisineNotFoundException extends EntityNotFoundException {
         super(msg);
     }
 
-    public CuisineNotFoundException(Long provinceId) {
-        super(String.format(MSG_CUISINE_IS_NOT_FOUND_DATABASE, provinceId));
+    public CuisineNotFoundException(Long cuisineId) {
+        this(String.format(MSG_CUISINE_IS_NOT_FOUND_DATABASE, cuisineId));
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 //@ResponseStatus(value = HttpStatus.NOT_FOUND)// , reason="Entity not found")
-public abstract class EntityNotFoundException extends ResponseStatusException {
+public abstract class EntityNotFoundException extends GenericBusinessException {
 
 
     // Quando informamos o HttpStatus qualquer

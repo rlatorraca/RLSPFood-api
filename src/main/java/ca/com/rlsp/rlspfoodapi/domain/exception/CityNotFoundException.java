@@ -9,7 +9,7 @@ public class CityNotFoundException extends EntityNotFoundException {
         super(msg);
     }
 
-    public CityNotFoundException(Long provinceId) {
-        super(String.format(MSG_CITY_IS_NOT_FOUND_DATABASE, provinceId));
+    public CityNotFoundException(Long cityId) {
+        this(String.format(MSG_CITY_IS_NOT_FOUND_DATABASE, cityId));
     }
 }

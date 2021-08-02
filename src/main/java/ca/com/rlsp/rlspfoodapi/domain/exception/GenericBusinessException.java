@@ -28,7 +28,7 @@ public class GenericBusinessException extends ResponseStatusException {
     }
 
     public GenericBusinessException(String reason, Throwable cause) {
-        this(HttpStatus.BAD_REQUEST, reason, cause);
+        super(HttpStatus.BAD_REQUEST, reason, cause);
     }
 
 }

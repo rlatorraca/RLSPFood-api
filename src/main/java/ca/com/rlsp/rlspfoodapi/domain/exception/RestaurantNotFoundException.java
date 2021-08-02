@@ -10,6 +10,6 @@ public class RestaurantNotFoundException extends EntityNotFoundException {
     }
 
     public RestaurantNotFoundException(Long provinceId) {
-        super(String.format(MSG_RESTAURANT_IS_NOT_FOUND_DATABASE, provinceId));
+        this(String.format(MSG_RESTAURANT_IS_NOT_FOUND_DATABASE, provinceId));
     }
 }
