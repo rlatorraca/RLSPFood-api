@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleError;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -10,8 +11,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -130,6 +133,33 @@ public class CityController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("cityId") Long id) {
         cityRegistrationService.remove(id);
+    }
+
+    /*
+        Metodo que trata a Excecao Generica e Cria uma mensagem de Errro Customizada
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e){
+        ApiHandleError handler = ApiHandleError.builder()
+                .dateTime(LocalDateTime.now())
+                .message(e.getMessage())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(handler);
+    }
+
+    @ExceptionHandler(GenericBusinessException.class)
+    public ResponseEntity<?> handleGenericBusinessException(GenericBusinessException e){
+        ApiHandleError handler = ApiHandleError.builder()
+                .dateTime(LocalDateTime.now())
+                .message(e.getMessage())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(handler);
     }
 
 }

@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
+import ca.com.rlsp.rlspfoodapi.domain.exception.CuisineNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
@@ -30,7 +31,7 @@ public class CuisineRegistrationService {
             cuisineRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){
             /* Custom Exception */
-            throw new EntityNotFoundException(
+            throw new CuisineNotFoundException(
                     String.format(MSG_CUISINE_AS_CODE_IS_NOT_FOUND, id)
             );
 
@@ -44,7 +45,7 @@ public class CuisineRegistrationService {
     }
 
     public Cuisine findOrFail(Long id){
-        return cuisineRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(String.format(MSG_CUISINE_AS_CODE_IS_NOT_FOUND, id)));
+        return cuisineRepository.findById(id).orElseThrow(()-> new CuisineNotFoundException(String.format(MSG_CUISINE_AS_CODE_IS_NOT_FOUND, id)));
     }
 
     public List<Cuisine> listAll(){
@@ -55,7 +56,7 @@ public class CuisineRegistrationService {
         try{
             return  cuisineRepository.findById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException(
+            throw new CuisineNotFoundException(
                     String.format("Cuisine as code is %d not found into the Database", id)
             );
         }
