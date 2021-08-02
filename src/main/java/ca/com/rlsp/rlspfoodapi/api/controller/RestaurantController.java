@@ -67,7 +67,7 @@ public class RestaurantController {
        try {
            return restaurantRegistrationService.save(restaurant);
        } catch (EntityNotFoundException e ){
-           throw new GenericBusinessException(e.getMessage());
+           throw new GenericBusinessException(e.getReason());
        }
     }
 
@@ -99,7 +99,7 @@ public class RestaurantController {
         try {
             return restaurantRegistrationService.save(currentRestaurant);
         } catch (EntityNotFoundException e ){
-            throw new GenericBusinessException(e.getMessage());
+            throw new GenericBusinessException(e.getReason());
         }
     }
 
