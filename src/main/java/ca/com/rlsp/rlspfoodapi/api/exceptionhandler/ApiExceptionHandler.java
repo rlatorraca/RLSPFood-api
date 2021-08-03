@@ -3,21 +3,25 @@ package ca.com.rlsp.rlspfoodapi.api.exceptionhandler;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
+
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
-import org.springframework.web.servlet.NoHandlerFoundException;
+
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /*
@@ -148,7 +152,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if(rootCause instanceof InvalidFormatException){
             return handleInvalidJSONFormatException((InvalidFormatException) rootCause, headers, status, request);
         }
+        if (rootCause instanceof PropertyBindingException) {
+            return handlePropertyBindingException((PropertyBindingException) rootCause, headers, status, request);
+        }
 
+        if (rootCause instanceof UnrecognizedPropertyException) {
+            return handlePropertyBindingException((UnrecognizedPropertyException) rootCause, headers, status, request);
+        }
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = MALFORMED_JSON_REQUEST;
 
@@ -159,17 +169,52 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> handleInvalidJSONFormatException(InvalidFormatException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        String path = e.getPath().stream()
-                .map(ref -> ref.getFieldName())
-                .collect(Collectors.joining("."));
+        String path = joinPath(e.getPath());
 
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
-        String detail = String.format("The attribute '%s' has got the value '%s', that is invalid type. Inform a compatible value having type as %s.",
+        String detail = String.format("Attribute '%s' has got the value '%s', that is invalid type. Inform a compatible value having type as %s.",
                 path, e.getValue(), e.getTargetType().getSimpleName());
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException e,
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        // Criei o método joinPath para reaproveitar em todos os métodos que precisam
+        // concatenar os nomes das propriedades (separando por ".")
+        String path = joinPath(e.getPath());
+
+        ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
+        String detail = String.format("Attribute '%s' can't be treated by API. Fix it  or remove that attribute e try again.", path);
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+
+        return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleUnrecognizedPropertyException(UnrecognizedPropertyException e,
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        // Criei o método joinPath para reaproveitar em todos os métodos que precisam
+        // concatenar os nomes das propriedades (separando por ".")
+        String path = joinPath(e.getPath());
+
+        ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
+        String detail = String.format("Attribute '%s' doesn't exist. Fix it  or remove that attribute e try again.", path);
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+
+        return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
+    }
+
+    private String joinPath(List<Reference> references) {
+        references.forEach(r-> System.out.println(r.toString()));
+        return references.stream()
+                .map(ref -> ref.getFieldName())
+                .collect(Collectors.joining("."));
     }
 
 
@@ -184,4 +229,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .dateTime(localDateTime);
 
     }
+
+    
+
+
 }
