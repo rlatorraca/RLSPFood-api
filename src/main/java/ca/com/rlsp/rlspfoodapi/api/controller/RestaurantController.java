@@ -5,13 +5,18 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -126,36 +131,50 @@ public class RestaurantController {
     */
     @PatchMapping("/{restauranteId}")
     public Restaurant updateByIdPatch(@PathVariable("restauranteId") Long id,
-                                             @RequestBody Map<String, Object> restaurantFields){
+                                      @RequestBody Map<String, Object> restaurantFields,
+                                      HttpServletRequest request){
         Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
-        mergeDataToPatch(restaurantFields, currentRestaurant);
+
+        mergeDataToPatch(restaurantFields, currentRestaurant, request);
         return updateById(id, currentRestaurant);
     }
 
     private Restaurant mergeDataToPatch(Map<String, Object> restaurantFields,
-                                  Restaurant restaurantFinal) {
+                                  Restaurant restaurantFinal,
+                                  HttpServletRequest request) {
+
+        ServletServerHttpRequest servletRequest = new ServletServerHttpRequest(request);
 
         /*
             Do Jackson (JSON <-> Objetct)
              - faz a criacao / mapeamento de um Objeto (no caso Restaurante) usando com base no MAP passado
          */
-        ObjectMapper objectMapper = new ObjectMapper();
-        Restaurant restaurantBase = objectMapper.convertValue(restaurantFields, Restaurant.class);
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true); // Para lancar Exception quando atributo JSON for ignorado
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // Para lancar Exception quando atributo JSON nao existir
+
+            Restaurant restaurantBase = objectMapper.convertValue(restaurantFields, Restaurant.class);
 
         /*
             O Reflection, em poucas palavras, serve para determinar métodos e atributos que serão utilizados de
             determinada classe (que você nem conhece) em tempo de execução. Há inúmeras utilidades para esse tipo
             de tarefa, podemos citar por exemplo a instalação de plugins adicionais ao nosso software desenvolvido.
          */
-        restaurantFields.forEach( (nameAttrinbute, valueAttribute) -> {
+            restaurantFields.forEach( (nameAttrinbute, valueAttribute) -> {
 
-            Field field = ReflectionUtils.findField(Restaurant.class, nameAttrinbute); // Java Reflection
-            field.setAccessible(true);
+                Field field = ReflectionUtils.findField(Restaurant.class, nameAttrinbute); // Java Reflection
+                field.setAccessible(true);
 
-            Object newValueToAttributeInRestaurant = ReflectionUtils.getField(field, restaurantBase);
-            ReflectionUtils.setField(field, restaurantFinal, newValueToAttributeInRestaurant);
-            System.out.println(nameAttrinbute + " - " + valueAttribute + " <> " + newValueToAttributeInRestaurant);
-        });
+                Object newValueToAttributeInRestaurant = ReflectionUtils.getField(field, restaurantBase);
+                ReflectionUtils.setField(field, restaurantFinal, newValueToAttributeInRestaurant);
+                System.out.println(nameAttrinbute + " - " + valueAttribute + " <> " + newValueToAttributeInRestaurant);
+            });
+        } catch (IllegalArgumentException e){
+            Throwable rootCause = ExceptionUtils.getRootCause(e);
+            throw new HttpMessageNotReadableException(e.getMessage(), rootCause, servletRequest);
+        }
+
 
         return restaurantFinal;
     }

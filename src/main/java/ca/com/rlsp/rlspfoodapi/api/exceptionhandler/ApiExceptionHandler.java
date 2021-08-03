@@ -152,6 +152,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if(rootCause instanceof InvalidFormatException){
             return handleInvalidJSONFormatException((InvalidFormatException) rootCause, headers, status, request);
         }
+
         if (rootCause instanceof PropertyBindingException) {
             return handlePropertyBindingException((PropertyBindingException) rootCause, headers, status, request);
         }
@@ -188,7 +189,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String path = joinPath(e.getPath());
 
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
-        String detail = String.format("Attribute '%s' can't be treated by API. Fix it  or remove that attribute e try again.", path);
+        String detail = String.format("Attribute '%s' doesn't exist or can't be treated by API. Fix it or remove it, so try again.", path);
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
 
