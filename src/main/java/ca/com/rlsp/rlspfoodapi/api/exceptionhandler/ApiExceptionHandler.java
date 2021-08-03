@@ -145,7 +145,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         // Throwable rootCause = e.getRootCause();
         Throwable rootCause = ExceptionUtils.getRootCause(e);
 
-        System.out.println(rootCause.getMessage().toString());
         if(rootCause instanceof InvalidFormatException){
             return handleInvalidJSONFormatException((InvalidFormatException) rootCause, headers, status, request);
         }
