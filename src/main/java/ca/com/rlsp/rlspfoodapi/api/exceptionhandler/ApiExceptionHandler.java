@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
@@ -160,12 +162,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if (rootCause instanceof UnrecognizedPropertyException) {
             return handlePropertyBindingException((UnrecognizedPropertyException) rootCause, headers, status, request);
         }
+
+
+
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = MALFORMED_JSON_REQUEST;
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
 
         return super.handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        if (e instanceof MethodArgumentTypeMismatchException) {
+            return handleMethodArgumentTypeMismatch(
+                    (MethodArgumentTypeMismatchException) e, headers, status, request);
+        }
+        return super.handleTypeMismatch(e, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        ProblemTypeEnum problemType = ProblemTypeEnum.ENTITY_IN_USE;
+        String detail =
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+
+        return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }
 
     private ResponseEntity<Object> handleInvalidJSONFormatException(InvalidFormatException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -184,8 +208,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException e,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        // Criei o método joinPath para reaproveitar em todos os métodos que precisam
-        // concatenar os nomes das propriedades (separando por ".")
+        // Built joinPath method to reuse by all methods
+        // concat the attributes names (split by ".")
         String path = joinPath(e.getPath());
 
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
