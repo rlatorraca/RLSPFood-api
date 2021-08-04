@@ -37,6 +37,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String MSG_MEDIA_TYPE_NOT_SUPPORTED = "Media Type not supported on RLSPFood";
     public static final String MALFORMED_JSON_REQUEST = "Malformed JSON request. Check JSON syntax";
     public static final String MALFORMED_URI_REQUEST = "Malformed URI request. Check URI syntax";
+    public static final String MSG_FINALUSER_GENERIC = "An unexpected internal system error has occurred. Please try again and if the problem persists, " +
+            "contact the system administrator.";
 
     /*
           Metodo que trata a Excecao Generica e Cria uma mensagem de Erro Customizada
@@ -58,7 +60,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.RESOURCE_NOT_FOUND;
         String detail = e.getReason();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
@@ -81,7 +85,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.BUSINESS_RULES_HAS_ERROR;
         String detail = e.getReason().toString();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
@@ -103,7 +109,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.ENTITY_IN_USE;
         String detail = e.getReason();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
@@ -123,7 +131,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         e.printStackTrace();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(detail)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
@@ -134,7 +144,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("Resourse '%s' , that your are trying to reach doesn't exist.",
                 e.getRequestURL());
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
+
         return super.handleExceptionInternal(e, apiHandleProblem , headers, status, request);
     }
 
@@ -179,7 +192,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = MALFORMED_JSON_REQUEST;
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
 
         return super.handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
@@ -217,7 +232,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 e.getName(), e.getValue(), e.getRequiredType().getSimpleName());
 
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }
@@ -230,7 +247,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("Attribute '%s' has got the value '%s', that is invalid type. Inform a compatible value having type as %s.",
                 path, e.getValue(), e.getTargetType().getSimpleName());
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }
@@ -245,7 +264,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = String.format("Attribute '%s' doesn't exist or can't be treated by API. Fix it or remove it, so try again.", path);
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }
@@ -260,7 +281,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = String.format("Attribute '%s' doesn't exist. Fix it  or remove that attribute e try again.", path);
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }

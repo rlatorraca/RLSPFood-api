@@ -26,5 +26,7 @@ public class ApiHandleProblemDetail {
     private String detail;
     private LocalDateTime dateTime;
 
+    // MSG For USERS (FrontEnd)
+    private String userMessage;
 
 }
