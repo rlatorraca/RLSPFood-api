@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
@@ -54,7 +55,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(handler);
          */
         HttpStatus status = HttpStatus.NOT_FOUND;
-        ProblemTypeEnum problemType = ProblemTypeEnum.ENTITY_NOT_FOUND;
+        ProblemTypeEnum problemType = ProblemTypeEnum.RESOURCE_NOT_FOUND;
         String detail = e.getReason();
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
@@ -108,22 +109,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /*
-        Exception do Proprio Spring (415 - HttpMediaTypeNotSupportedException)
+        Manage SYTEMS ERROR Excepetion
+     */
 
-        ** Necessario quando usamos *** extends ResponseEntityExceptionHandler ***
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleUncaught(Exception e, WebRequest request){
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        ProblemTypeEnum problemType = ProblemTypeEnum.INTERNAL_SERVERT_ERROR;
+        String detail = "An unexpected internal system error has occurred. Please try again and if the problem persists," +
+                " contact the system administrator.";
+                // Important print printStackTrace (for while). Not exist logs yet.
+        // So, We can print a Exception's stacktrace
 
-    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<?> handleHttpMediaTypeNotSupportedException() {
+        e.printStackTrace();
 
-        ApiHandleError handler = ApiHandleError.builder()
-                .dateTime(LocalDateTime.now())
-                .message(MSG_MEDIA_TYPE_NOT_SUPPORTED)
-                .build();
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
 
-        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                .body(handler);
+        return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
-    */
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ProblemTypeEnum problemType = ProblemTypeEnum.RESOURCE_NOT_FOUND;
+        String detail = String.format("Resourse '%s' , that your are trying to reach doesn't exist.",
+                e.getRequestURL());
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
+        return super.handleExceptionInternal(e, apiHandleProblem , headers, status, request);
+    }
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body, HttpHeaders headers,
