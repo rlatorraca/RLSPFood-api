@@ -42,7 +42,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
      */
     // WebRequest request => injetado pelo proprio SPRINGBOOT
     @ExceptionHandler({EntityNotFoundException.class})
-    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e, WebRequest request){
+    public ResponseEntity<?> handleEntityNotFound(EntityNotFoundException e, WebRequest request){
         /*
         ApiHandleError handler = ApiHandleError.builder()
                 .dateTime(LocalDateTime.now())
@@ -64,7 +64,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     // WebRequest request => injetado pelo proprio SPRINGBOOT
     @ExceptionHandler(GenericBusinessException.class)
-    public ResponseEntity<?> handleGenericBusinessException(GenericBusinessException e, WebRequest request){
+    public ResponseEntity<?> handleGenericBusiness(GenericBusinessException e, WebRequest request){
         /*
         ApiHandleError handler = ApiHandleError.builder()
                 .dateTime(LocalDateTime.now())
@@ -87,7 +87,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     // WebRequest request => injetado pelo proprio SPRINGBOOT
     @ExceptionHandler(EntityIsForeignKeyException.class)
-    public ResponseEntity<?> handleEntityIsForeignKeyException(EntityIsForeignKeyException e, WebRequest request){
+    public ResponseEntity<?> handleEntityIsForeignKey(EntityIsForeignKeyException e, WebRequest request){
         /*
         ApiHandleError handler = ApiHandleError.builder()
                 .dateTime(LocalDateTime.now())
@@ -152,18 +152,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         Throwable rootCause = ExceptionUtils.getRootCause(e);
 
         if(rootCause instanceof InvalidFormatException){
-            return handleInvalidJSONFormatException((InvalidFormatException) rootCause, headers, status, request);
+            return handleInvalidJSONFormat((InvalidFormatException) rootCause, headers, status, request);
         }
 
         if (rootCause instanceof PropertyBindingException) {
-            return handlePropertyBindingException((PropertyBindingException) rootCause, headers, status, request);
+            return handlePropertyBinding((PropertyBindingException) rootCause, headers, status, request);
         }
 
         if (rootCause instanceof UnrecognizedPropertyException) {
-            return handlePropertyBindingException((UnrecognizedPropertyException) rootCause, headers, status, request);
+            return handleUnrecognizedProperty((UnrecognizedPropertyException) rootCause, headers, status, request);
         }
-
-
 
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = MALFORMED_JSON_REQUEST;
@@ -173,6 +171,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
     }
 
+    /*
+          // 1. MethodArgumentTypeMismatchException é um subtipo de TypeMismatchException
+
+          // 2. ResponseEntityExceptionHandler já trata TypeMismatchException de forma mais abrangente
+
+          // 3. Então, especializamos o método handleTypeMismatch e verificamos se a exception
+                     é uma instância de MethodArgumentTypeMismatchException
+
+          // 4. Se for, chamamos um método especialista em tratar esse tipo de exception
+
+          // 5. Poderíamos fazer tudo dentro de handleTypeMismatch, mas preferi separar em outro método
+     */
+
+    /*
+        Exception de parâmetro de URL inválido
+     */
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
         if (e instanceof MethodArgumentTypeMismatchException) {
@@ -182,17 +196,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleTypeMismatch(e, headers, status, request);
     }
 
+
     private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         ProblemTypeEnum problemType = ProblemTypeEnum.ENTITY_IN_USE;
-        String detail =
+        String detail = String.format("URL parameter '%s' get a value '%s', that has an invalid type. Fix it and insert a compatible value to type %s.",
+                e.getName(), e.getValue(), e.getRequiredType().getSimpleName());
+
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now()).build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }
 
-    private ResponseEntity<Object> handleInvalidJSONFormatException(InvalidFormatException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handleInvalidJSONFormat(InvalidFormatException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         String path = joinPath(e.getPath());
 
@@ -205,7 +222,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }
 
-    private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException e,
+    private ResponseEntity<Object> handlePropertyBinding(PropertyBindingException e,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         // Built joinPath method to reuse by all methods
@@ -220,11 +237,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
     }
 
-    private ResponseEntity<Object> handleUnrecognizedPropertyException(UnrecognizedPropertyException e,
+    private ResponseEntity<Object> handleUnrecognizedProperty(UnrecognizedPropertyException e,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        // Criei o método joinPath para reaproveitar em todos os métodos que precisam
-        // concatenar os nomes das propriedades (separando por ".")
+        // Built joinPath method to reuse by all methods
+        // concat the attributes names (split by ".")
         String path = joinPath(e.getPath());
 
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
