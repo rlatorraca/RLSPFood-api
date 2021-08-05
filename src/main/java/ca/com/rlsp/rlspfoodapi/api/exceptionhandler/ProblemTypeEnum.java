@@ -8,7 +8,8 @@ public enum ProblemTypeEnum {
     BUSINESS_RULES_HAS_ERROR("/business-has-error", "Business rules was violated"),
     ENTITY_IN_USE("/entity-in-use", "Entity has been used by other entity"),
     RESOURCE_NOT_FOUND("/resource-not-found", "Resource not found"),
-    INVALID_PARAMETER("/invalid-parameter", "Invalid Parameter"),
+    INVALID_PARAMETER("/invalid-parameter", "Invalid parameter"),
+    INVALID_DATA("/invalid-data", "Invalid data"),
     MALFORMED_JSON_REQUEST("/malformed-json-request", "Malformed JSON request. "),
     MALFORMED_URI_REQUEST("/malformed-uri-request", "Malformed URI request."),
     INTERNAL_SERVERT_ERROR("/internal-server-error", "Internal Server Error");

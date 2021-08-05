@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -39,6 +40,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String MALFORMED_URI_REQUEST = "Malformed URI request. Check URI syntax";
     public static final String MSG_FINALUSER_GENERIC = "An unexpected internal system error has occurred. Please try again and if the problem persists, " +
             "contact the system administrator.";
+    public static final String ONE_MORE_ATTRIBUTES_INVALIDS = "One ot more attribute is/are invalid(s). Fix it and try again";
 
     /*
           Metodo que trata a Excecao Generica e Cria uma mensagem de Erro Customizada
@@ -136,6 +138,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
 
         return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        ProblemTypeEnum problemType = ProblemTypeEnum.INVALID_DATA;
+        String detail = String.format(ONE_MORE_ATTRIBUTES_INVALIDS);
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+                .userMessage(ONE_MORE_ATTRIBUTES_INVALIDS)
+                .build();
+
+        return super.handleExceptionInternal(e, apiHandleProblem , headers, status, request);
     }
 
     @Override
