@@ -3,10 +3,12 @@ package ca.com.rlsp.rlspfoodapi.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class Cuisine {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
+    @NotNull
     private Long id;
 
 

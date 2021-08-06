@@ -10,7 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,11 +28,15 @@ public class Restaurant {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotNull
+    //@NotNull // => NAO NULO
+    // @NotEmpty // => NAO NULO e NAO VAZIO
+    @NotBlank // => NAO NULO,  NAO VAZIO e NAO EM  BRANCO
     @Column(name="name_restaurant", length = 100, nullable = false)
     private String name;
 
     @NotNull
+    //@DecimalMin("1,99")
+    @PositiveOrZero
     @Column(name="delivery_fee", nullable = false)
     private BigDecimal deliveryFee;
 
@@ -40,6 +45,8 @@ public class Restaurant {
      */
     //@JsonIgnore
     // @JsonIgnoreProperties({"hibernateLazyInitializer"}) // para ignora a falta de serializacao para essa propriedade quando usando LAZY no ToOne
+    @NotNull
+    @Valid // ==> Valida as propriedades dentro da Classe Cuisine
     @ManyToOne // (fetch = FetchType.LAZY)
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
