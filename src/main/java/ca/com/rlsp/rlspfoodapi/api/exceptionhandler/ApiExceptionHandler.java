@@ -10,10 +10,12 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -146,8 +148,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.INVALID_DATA;
         String detail = String.format(ONE_MORE_ATTRIBUTES_INVALIDS);
 
+        BindingResult bindingResult = e.getBindingResult();
+        List<ApiHandleProblemDetail.Field> problemFields = bindingResult.getFieldErrors()
+                .stream()
+                .map(fieldError ->
+                        ApiHandleProblemDetail.Field.builder()
+                            .name(fieldError.getField())
+                            .userMessage(fieldError.getDefaultMessage())
+                            .build()
+                    )
+                .collect((Collectors.toList()));
+
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
                 .userMessage(ONE_MORE_ATTRIBUTES_INVALIDS)
+                .fields(problemFields)
                 .build();
 
         return super.handleExceptionInternal(e, apiHandleProblem , headers, status, request);

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /*
     Usa-se o Builder um padrao de projeto que nao deixar fazer a instanciocao da Classe, em vez disso usamos
@@ -26,7 +27,17 @@ public class ApiHandleProblemDetail {
     private String detail;
     private LocalDateTime dateTime;
 
-    // MSG For USERS (FrontEnd)
+    // EXTENDING => MSG For USERS (FrontEnd)
     private String userMessage;
+    private List<Field> fields;
+
+    @Getter
+    @Setter
+    @Builder
+    public static class Field {
+        private String name;
+        private String userMessage;
+    }
+
 
 }
