@@ -2,17 +2,17 @@ package ca.com.rlsp.rlspfoodapi.domain.model;
 
 import ca.com.rlsp.rlspfoodapi.validation.GroupsBeanValidation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,13 +32,15 @@ public class Restaurant {
     //@NotNull // => NAO NULO
     // @NotEmpty // => NAO NULO e NAO VAZIO
     //@NotBlank // => NAO NULO,  NAO VAZIO e NAO EM  BRANCO
-    @NotBlank(groups = {GroupsBeanValidation.RestaurantValidation.class})
+    //@NotBlank(groups = {GroupsBeanValidation.CuisineIdValidation.class})
+    @NotBlank
     @Column(name="name_restaurant", length = 100, nullable = false)
     private String name;
 
 
     //@DecimalMin("1,99")
-    @PositiveOrZero(groups = {GroupsBeanValidation.RestaurantValidation.class})
+    //@PositiveOrZero(groups = {GroupsBeanValidation.CuisineIdValidation.class})
+    @PositiveOrZero
     @Column(name="delivery_fee", nullable = false)
     private BigDecimal deliveryFee;
 
@@ -47,7 +49,10 @@ public class Restaurant {
      */
     //@JsonIgnore
     // @JsonIgnoreProperties({"hibernateLazyInitializer"}) // para ignora a falta de serializacao para essa propriedade quando usando LAZY no ToOne
-    @NotNull(groups = {GroupsBeanValidation.RestaurantValidation.class})
+    //@NotNull(groups = {GroupsBeanValidation.CuisineIdValidation.class})
+    @NotNull
+    @ConvertGroup(from = Default.class, to = GroupsBeanValidation.CuisineIdValidation.class) // faz a mesma coisa que
+        // @NotNull(groups = {GroupsBeanValidation.CuisineIdValidation.class})
     @Valid // ==> Valida as propriedades dentro da Classe Cuisine
     @ManyToOne // (fetch = FetchType.LAZY)
     @JoinColumn(name = "cuisine_id", nullable = false)

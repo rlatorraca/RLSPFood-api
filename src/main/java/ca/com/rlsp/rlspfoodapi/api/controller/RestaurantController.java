@@ -73,7 +73,8 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant save(@RequestBody @Validated(GroupsBeanValidation.RestaurantValidation.class) Restaurant restaurant) {
+    //public Restaurant save(@RequestBody @Validated(GroupsBeanValidation.RestaurantValidation.class) Restaurant restaurant) {
+    public Restaurant save(@RequestBody @Valid Restaurant restaurant) {
        try {
            return restaurantRegistrationService.save(restaurant);
        } catch (EntityNotFoundException e ){

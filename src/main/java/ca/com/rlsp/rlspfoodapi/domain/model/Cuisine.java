@@ -3,7 +3,6 @@ package ca.com.rlsp.rlspfoodapi.domain.model;
 import ca.com.rlsp.rlspfoodapi.validation.GroupsBeanValidation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +24,7 @@ public class Cuisine {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    @NotNull(groups = {GroupsBeanValidation.RestaurantValidation.class})
+    @NotNull(groups = {GroupsBeanValidation.CuisineIdValidation.class})
     private Long id;
 
 
