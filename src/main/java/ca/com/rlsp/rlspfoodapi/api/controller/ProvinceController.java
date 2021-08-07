@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -51,7 +52,7 @@ public class ProvinceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Province save(@RequestBody Province province) {
+    public Province save(@RequestBody @Valid Province province) {
         return provinceRegistrationService.save(province);
     }
 
@@ -74,7 +75,7 @@ public class ProvinceController {
     */
     @PutMapping("/{provinceId}")
     public Province updateById(@PathVariable("provinceId") Long id,
-                                               @RequestBody Province province) {
+                                               @RequestBody @Valid Province province) {
         Province currentProvince = provinceRegistrationService.findOrFail(id);
         BeanUtils.copyProperties(province, currentProvince, "id");
         return provinceRegistrationService.save(currentProvince);

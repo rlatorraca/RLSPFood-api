@@ -81,7 +81,7 @@ public class CuisineController {
     */
 
     @PutMapping("/{cuisineId}")
-    public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody Cuisine cuisine){
+    public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
         Cuisine currentCuisine = cuisineRegistrationService.findOrFail(id);
 
         BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine

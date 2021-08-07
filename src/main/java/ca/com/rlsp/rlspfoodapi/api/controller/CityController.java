@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -72,7 +73,7 @@ public class CityController {
     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public City save(@RequestBody City city) {
+    public City save(@RequestBody @Valid City city) {
         try{
             return cityRegistrationService.save(city);
         } catch (EntityNotFoundException e ){
@@ -99,7 +100,7 @@ public class CityController {
 
     @PutMapping("/{cityId}")
     public City updateById(@PathVariable("cityId") Long id,
-                                           @RequestBody City city) {
+                                           @RequestBody @Valid City city) {
         try{
             City currentCity = cityRegistrationService.findOrFail(id);
             BeanUtils.copyProperties(city, currentCity, "id");
