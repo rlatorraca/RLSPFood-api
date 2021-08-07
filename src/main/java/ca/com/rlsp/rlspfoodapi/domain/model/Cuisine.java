@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
+import ca.com.rlsp.rlspfoodapi.validation.GroupsBeanValidation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,11 @@ public class Cuisine {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    @NotNull
+    @NotNull(groups = {GroupsBeanValidation.RestaurantValidation.class})
     private Long id;
 
 
+    @NotBlank
     @JsonProperty("nome") // Muda o nome que vira no JSON quando consultado (diferentemente da Classe de Dominio)
     @Column(nullable = false, name="cuisine_name")
     private String name;

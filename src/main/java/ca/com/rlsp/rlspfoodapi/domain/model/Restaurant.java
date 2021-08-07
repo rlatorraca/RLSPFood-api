@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
+import ca.com.rlsp.rlspfoodapi.validation.GroupsBeanValidation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,13 +31,14 @@ public class Restaurant {
 
     //@NotNull // => NAO NULO
     // @NotEmpty // => NAO NULO e NAO VAZIO
-    @NotBlank // => NAO NULO,  NAO VAZIO e NAO EM  BRANCO
+    //@NotBlank // => NAO NULO,  NAO VAZIO e NAO EM  BRANCO
+    @NotBlank(groups = {GroupsBeanValidation.RestaurantValidation.class})
     @Column(name="name_restaurant", length = 100, nullable = false)
     private String name;
 
-    @NotNull
+
     //@DecimalMin("1,99")
-    @PositiveOrZero
+    @PositiveOrZero(groups = {GroupsBeanValidation.RestaurantValidation.class})
     @Column(name="delivery_fee", nullable = false)
     private BigDecimal deliveryFee;
 
@@ -45,7 +47,7 @@ public class Restaurant {
      */
     //@JsonIgnore
     // @JsonIgnoreProperties({"hibernateLazyInitializer"}) // para ignora a falta de serializacao para essa propriedade quando usando LAZY no ToOne
-    @NotNull
+    @NotNull(groups = {GroupsBeanValidation.RestaurantValidation.class})
     @Valid // ==> Valida as propriedades dentro da Classe Cuisine
     @ManyToOne // (fetch = FetchType.LAZY)
     @JoinColumn(name = "cuisine_id", nullable = false)
