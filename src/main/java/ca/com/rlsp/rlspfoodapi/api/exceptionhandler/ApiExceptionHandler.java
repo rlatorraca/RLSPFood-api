@@ -10,7 +10,10 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.parsing.Problem;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +47,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             "contact the system administrator.";
     public static final String ONE_MORE_ATTRIBUTES_INVALIDS = "One ot more attribute is/are invalid(s). Fix it and try again";
 
+
+    @Autowired
+    private MessageSource messageSource;
     /*
           Metodo que trata a Excecao Generica e Cria uma mensagem de Erro Customizada
      */
@@ -151,11 +157,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         BindingResult bindingResult = e.getBindingResult();
         List<ApiHandleProblemDetail.Field> problemFields = bindingResult.getFieldErrors()
                 .stream()
-                .map(fieldError ->
-                        ApiHandleProblemDetail.Field.builder()
-                            .name(fieldError.getField())
-                            .userMessage(fieldError.getDefaultMessage())
-                            .build()
+                .map(fieldError ->{
+                        String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+                        return ApiHandleProblemDetail.Field.builder()
+                                    .name(fieldError.getField())
+                                    .userMessage(message)
+                                    .build();
+                        }
                     )
                 .collect((Collectors.toList()));
 
