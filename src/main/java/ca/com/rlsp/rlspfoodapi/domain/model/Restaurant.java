@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.domain.model;
 
 import ca.com.rlsp.rlspfoodapi.core.validation.DeliveryFeeAnnotation;
 import ca.com.rlsp.rlspfoodapi.core.validation.GroupsBeanValidation;
+import ca.com.rlsp.rlspfoodapi.core.validation.MulitpleDeliveryFeeAnnotation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -43,6 +44,7 @@ public class Restaurant {
     //@PositiveOrZero(groups = {GroupsBeanValidation.CuisineIdValidation.class})
     @NotNull
     @DeliveryFeeAnnotation // Anotacao Composta Personalidade
+    @MulitpleDeliveryFeeAnnotation(number = 2)
     //@PositiveOrZero(message = "{DeliveryFee.invalid}") // Busca no arquivo ValidationMessages.properties do Bean validation
         // (e nao no properties do SpringBoot), mas SpringBoot properties tem PREFERENCIA
     @Column(name="delivery_fee", nullable = false)
