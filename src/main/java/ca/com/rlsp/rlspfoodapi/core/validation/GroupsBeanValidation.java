@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.validation;
+package ca.com.rlsp.rlspfoodapi.core.validation;
 
 public interface GroupsBeanValidation {
 

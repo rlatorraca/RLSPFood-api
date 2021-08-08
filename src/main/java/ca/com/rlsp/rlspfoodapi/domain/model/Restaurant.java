@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
-import ca.com.rlsp.rlspfoodapi.validation.GroupsBeanValidation;
+import ca.com.rlsp.rlspfoodapi.core.validation.DeliveryFeeAnnotation;
+import ca.com.rlsp.rlspfoodapi.core.validation.GroupsBeanValidation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -41,7 +42,8 @@ public class Restaurant {
     //@DecimalMin("1,99")
     //@PositiveOrZero(groups = {GroupsBeanValidation.CuisineIdValidation.class})
     @NotNull
-    @PositiveOrZero(message = "{DeliveryFee.invalid}") // Busca no arquivo ValidationMessages.properties do Bean validation
+    @DeliveryFeeAnnotation // Anotacao Composta Personalidade
+    //@PositiveOrZero(message = "{DeliveryFee.invalid}") // Busca no arquivo ValidationMessages.properties do Bean validation
         // (e nao no properties do SpringBoot), mas SpringBoot properties tem PREFERENCIA
     @Column(name="delivery_fee", nullable = false)
     private BigDecimal deliveryFee;

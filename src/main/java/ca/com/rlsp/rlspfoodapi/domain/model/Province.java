@@ -1,6 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
-import ca.com.rlsp.rlspfoodapi.validation.GroupsBeanValidation;
+import ca.com.rlsp.rlspfoodapi.core.validation.GroupsBeanValidation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

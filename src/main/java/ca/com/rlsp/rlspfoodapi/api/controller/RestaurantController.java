@@ -5,7 +5,6 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
-import ca.com.rlsp.rlspfoodapi.validation.GroupsBeanValidation;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
