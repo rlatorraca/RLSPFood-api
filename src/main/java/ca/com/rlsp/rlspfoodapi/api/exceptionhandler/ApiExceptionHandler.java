@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -155,12 +156,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format(ONE_MORE_ATTRIBUTES_INVALIDS);
 
         BindingResult bindingResult = e.getBindingResult();
-        List<ApiHandleProblemDetail.Field> problemFields = bindingResult.getFieldErrors()
+        List<ApiHandleProblemDetail.Object> problemFields = bindingResult.getAllErrors()
                 .stream()
-                .map(fieldError ->{
-                        String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
-                        return ApiHandleProblemDetail.Field.builder()
-                                    .name(fieldError.getField())
+                .map(objectError ->{
+                        String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+
+                        String name = objectError.getObjectName();
+
+                        if(objectError instanceof FieldError){
+                            name =((FieldError) objectError).getField();
+                        }
+                        return ApiHandleProblemDetail.Object.builder()
+                                    .name(name)
                                     .userMessage(message)
                                     .build();
                         }
@@ -169,7 +176,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
                 .userMessage(ONE_MORE_ATTRIBUTES_INVALIDS)
-                .fields(problemFields)
+                .objects(problemFields)
                 .build();
 
         return super.handleExceptionInternal(e, apiHandleProblem , headers, status, request);
