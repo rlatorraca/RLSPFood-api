@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
@@ -15,10 +16,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
+
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +37,10 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    // Para fazer a validacao dentro no PATCH (on validateMerge())
+    @Autowired
+    private SmartValidator smartValidator;
 
     @GetMapping
     public List<Restaurant> listAll() {
@@ -140,7 +149,20 @@ public class RestaurantController {
         Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
 
         mergeDataToPatch(restaurantFields, currentRestaurant, request);
+        validateMerge(currentRestaurant, "restaurant");
+        
         return updateById(id, currentRestaurant);
+    }
+
+    // Faz a validacao de  modo programatico do PATCH
+    private void validateMerge(Restaurant currentRestaurant, String objectName) {
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(currentRestaurant, objectName );
+        smartValidator.validate(currentRestaurant, bindingResult);
+
+        // Verfica se tem ERRORS
+        if(bindingResult.hasErrors()){
+            throw  new ValidationPatchException(bindingResult);
+        }
     }
 
     private Restaurant mergeDataToPatch(Map<String, Object> restaurantFields,
@@ -172,7 +194,7 @@ public class RestaurantController {
 
                 Object newValueToAttributeInRestaurant = ReflectionUtils.getField(field, restaurantBase);
                 ReflectionUtils.setField(field, restaurantFinal, newValueToAttributeInRestaurant);
-                System.out.println(nameAttrinbute + " - " + valueAttribute + " <> " + newValueToAttributeInRestaurant);
+                //System.out.println(nameAttrinbute + " - " + valueAttribute + " <> " + newValueToAttributeInRestaurant);
             });
         } catch (IllegalArgumentException e){
             Throwable rootCause = ExceptionUtils.getRootCause(e);

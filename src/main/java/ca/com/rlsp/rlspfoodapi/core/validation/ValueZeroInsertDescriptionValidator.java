@@ -39,13 +39,11 @@ public class ValueZeroInsertDescriptionValidator  implements ConstraintValidator
 
             if(valueToCheck != null && BigDecimal.ZERO.compareTo(valueToCheck) == 0 && fieldDescription != null){
                 isValid = fieldDescription.toLowerCase().contains(this.mandatoryDescription.toLowerCase());
-
             }
+
             return isValid;
         } catch (Exception e) {
             throw new ValidationException(e);
         }
-
-
     }
 }

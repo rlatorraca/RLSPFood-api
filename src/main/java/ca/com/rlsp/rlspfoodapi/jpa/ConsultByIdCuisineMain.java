@@ -22,7 +22,7 @@ public class ConsultByIdCuisineMain {
 
         Optional<Cuisine> cuisine = cuisineRepository.findById(1L);
 
-        System.out.println(cuisine.get().getName());
+
 
 
 

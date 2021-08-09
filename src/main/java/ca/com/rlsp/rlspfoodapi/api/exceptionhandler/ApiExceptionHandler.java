@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.exceptionhandler;
 
+import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
@@ -152,10 +153,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
+        return handleValidationInternal(e, e.getBindingResult(), headers, status, request);
+    }
+
+    @ExceptionHandler({ValidationPatchException.class})
+    public ResponseEntity<?> handleValidationPatch(ValidationPatchException e, WebRequest request){
+        return handleValidationInternal(e, e.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    private ResponseEntity<Object> handleValidationInternal(Exception e, BindingResult bindingResult, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ProblemTypeEnum problemType = ProblemTypeEnum.INVALID_DATA;
         String detail = String.format(ONE_MORE_ATTRIBUTES_INVALIDS);
 
-        BindingResult bindingResult = e.getBindingResult();
         List<ApiHandleProblemDetail.Object> problemFields = bindingResult.getAllErrors()
                 .stream()
                 .map(objectError ->{
@@ -333,7 +342,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private String joinPath(List<Reference> references) {
-        references.forEach(r-> System.out.println(r.toString()));
+        //references.forEach(r-> System.out.println(r.toString()));
         return references.stream()
                 .map(ref -> ref.getFieldName())
                 .collect(Collectors.joining("."));
