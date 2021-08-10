@@ -34,7 +34,7 @@ public class CuisineAPITestsIT {
 
     }
 
-    // Valida o Codigo da Resposta
+    // Valida o Codigo da Resposta 200 ao buscar todas cozinhas
     @Test
     public void must_ReturnStatus200_whenQueryAllCuisines(){
 
@@ -44,6 +44,20 @@ public class CuisineAPITestsIT {
             .get()
         .then()
             .statusCode(HttpStatus.OK.value());
+    }
+
+    // Valida o Codigo da Resposta 201 ao criar uma cozinha
+    @Test
+    public void must_ReturnStatus201_whenCreatedCuissine(){
+
+        given()
+            .body("{ \"nome\":\"Irish\" }")
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+        .when()
+            .post()
+        .then()
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     // Valida o Corpo da Resposta
