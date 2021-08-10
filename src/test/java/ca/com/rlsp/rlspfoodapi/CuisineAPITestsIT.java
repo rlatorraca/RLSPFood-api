@@ -51,6 +51,5 @@ public class CuisineAPITestsIT {
         .then()
             .body("", Matchers.hasSize(9))
             .body("nome", Matchers.hasItems("Portuguese", "Haule"));
-
     }
 }
