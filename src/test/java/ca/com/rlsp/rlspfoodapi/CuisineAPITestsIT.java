@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
@@ -110,5 +111,34 @@ public class CuisineAPITestsIT {
             .body("", Matchers.hasSize(3))
             .body("nome", Matchers.hasItems("American", "Chinese"));
 
+    }
+
+    // Testa passando parametros (Retornando STATUS CODE 200 e nome da cozinha
+    // GET /cuisine/{id}
+    @Test
+    public void must_ReturnStatusAndOneCuisine_whenSentIdAndExistent(){
+        given()
+            .pathParam("cuisineId", 3)
+            .accept(ContentType.JSON)
+        .when()
+            .get("/{cuisineId}")
+        .then()
+             .statusCode(HttpStatus.OK.value())
+             .body("nome", equalTo("Chinese"));
+    }
+
+    // Testa passando parametros (Retornando STATUS CODE and
+    // GET /cuisine/{id}
+    @Test
+    public void must_ReturnStatus404_whenQueryInexistentCuisine(){
+
+        given()
+            .pathParam("cuisineId", 33)
+            .accept(ContentType.JSON)
+        .when()
+            .get("/{cuisineId}")
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value())
+            .body("nome", equalTo(null));
     }
 }
