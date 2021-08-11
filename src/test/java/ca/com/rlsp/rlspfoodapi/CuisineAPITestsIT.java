@@ -2,6 +2,9 @@ package ca.com.rlsp.rlspfoodapi;
 
 import static io.restassured.RestAssured.given;
 
+import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
+import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
+import ca.com.rlsp.rlspfoodapi.util.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.aspectj.lang.annotation.Before;
@@ -15,10 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //Levanta um Servidor Web para testar
+@TestPropertySource("/application_test.properties") // Para fazer as mudancas necessarias para o DB de tests
 public class CuisineAPITestsIT {
 
     @LocalServerPort // Como estamos usando RANDOM_PORT (porta aleatoria) temos que pegar essa porta para entao fazermos a conexao com o servidor WEB mock
@@ -27,6 +32,12 @@ public class CuisineAPITestsIT {
 
     @Autowired // Adiciona uma instancia do Flyway para podermos usar a mesma massa de dados para cada teste
     private Flyway flyway;
+
+    @Autowired
+    private DatabaseCleaner databaseCleaner;
+
+    @Autowired
+    private CuisineRepository cuisineRepository;
 
     /*
         METODO DE CALLBACK
@@ -37,7 +48,28 @@ public class CuisineAPITestsIT {
        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); // Quando falar mostrar REQUISICAO e REPOSTA
        RestAssured.port = randomPort;
        RestAssured.basePath = "/cuisines";
-       flyway.migrate();
+
+       //flyway.migrate();
+        
+        // Limpa e prapra os dados a cada teste
+        databaseCleaner.clearTables();
+        prepareDataForTesting();
+        
+    }
+
+    private void prepareDataForTesting() {
+
+        Cuisine cuisine01 = new Cuisine();
+        cuisine01.setName("Canadian");
+        cuisineRepository.save(cuisine01);
+
+        Cuisine cuisine02 = new Cuisine();
+        cuisine02.setName("American");
+        cuisineRepository.save(cuisine02);
+
+        Cuisine cuisine03 = new Cuisine();
+        cuisine03.setName("Chinese");
+        cuisineRepository.save(cuisine03);
     }
 
     // Valida o Codigo da Resposta 200 ao buscar todas cozinhas//
@@ -70,15 +102,13 @@ public class CuisineAPITestsIT {
     @Test
     public void must_ReturnNineCuisines_whenQueryAllCuisines(){
 
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(); // Quando falar mostrar REQUISICAO e REPOSTA
-
         given()
             .accept(ContentType.JSON)
         .when()
             .get()
         .then()
-            .body("", Matchers.hasSize(9))
-            .body("nome", Matchers.hasItems("Portuguese", "Haule"));
+            .body("", Matchers.hasSize(3))
+            .body("nome", Matchers.hasItems("American", "Chinese"));
 
     }
 }
