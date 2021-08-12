@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.core.validation.GroupsBeanValidation;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValueZeroInsertDescription;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -55,16 +56,23 @@ public class Restaurant {
         Tudo que termina com ONE é EAGER Loading (fetch padrao)
      */
     //@JsonIgnore
-    // @JsonIgnoreProperties({"hibernateLazyInitializer"}) // para ignora a falta de serializacao para essa propriedade quando usando LAZY no ToOne
+    //@JsonIgnoreProperties({"hibernateLazyInitializer"}) // para ignorar a falta de serializacao para essa propriedade quando usando LAZY no ToOne
     //@NotNull(groups = {GroupsBeanValidation.CuisineIdValidation.class})
+
     @NotNull
-    @ConvertGroup(from = Default.class, to = GroupsBeanValidation.CuisineIdValidation.class) // faz a mesma coisa que
-        // @NotNull(groups = {GroupsBeanValidation.CuisineIdValidation.class})
+        /*
+            Ignora a propriedade nome vinda de CUISINE (Serializacao [OBject -> JSON])
+             - Nao ignora Deserializaco (JSON -> Object) ou getting a informacao
+         */
+    @JsonIgnoreProperties(value = "nome", allowGetters = true)
+        /*
+            faz a mesma coisa que @NotNull(groups = {GroupsBeanValidation.CuisineIdValidation.class})
+         */
+    @ConvertGroup(from = Default.class, to = GroupsBeanValidation.CuisineIdValidation.class)
     @Valid // ==> Valida as propriedades dentro da Classe Cuisine
     @ManyToOne // (fetch = FetchType.LAZY)
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
-
     @JsonIgnore
     @Embedded // Essa propriedade e do Tipo @Embadeble
     private Address address;
