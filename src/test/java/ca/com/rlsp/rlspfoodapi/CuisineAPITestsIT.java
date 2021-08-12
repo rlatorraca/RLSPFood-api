@@ -76,7 +76,7 @@ public class CuisineAPITestsIT {
     // Valida o Codigo da Resposta 201 ao criar uma cozinha
 
     @Test
-    public void must_ReturnStatus201_whenCreatedCuissine(){
+    public void must_ReturnStatus201_whenCreatedCuisine(){
 
         given()
             .body(jsonOneCuisine)

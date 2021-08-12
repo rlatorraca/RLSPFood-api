@@ -30,6 +30,7 @@ import static org.hamcrest.Matchers.equalTo;
 @TestPropertySource("/application_test.properties") // Para fazer as mudancas necessarias para o DB de tests
 public class RestaurantAPITestsIT {
 
+    public static final String RESOURCE_NO_FOUND = "Resource not found";
     @LocalServerPort
     // Como estamos usando RANDOM_PORT (porta aleatoria) temos que pegar essa porta para entao fazermos a conexao com o servidor WEB mock
     private int randomPort;
@@ -44,7 +45,7 @@ public class RestaurantAPITestsIT {
     private CuisineRepository cuisineRepository;
 
 
-    private static final String BUSINESS_RULE_VIOLATED = "Business rules violated";
+    private static final String BUSINESS_RULE_VIOLATED = "Business rules was violated";
 
     private static final String INVALID_DATA = "Invalid data";
 
@@ -74,7 +75,7 @@ public class RestaurantAPITestsIT {
                 "/json/restaurant/incorrect/oneRestaurantNoCuisine.json");
 
         jsonRestaurantCuisineInexistent= ResourcesUtils.getContentFromResource(
-                "json/restaurant/incorrect/oneRestaurantInexistent.json");
+                "/json/restaurant/incorrect/oneRestaurantInexistent.json");
 
         databaseCleaner.clearTables();
         prepareDataForTesting();
@@ -121,6 +122,22 @@ public class RestaurantAPITestsIT {
     }
 
     // Valida resposta BAD_REQUEST quando o Restaurant sem Delivery Fee
+    // Valida resposta BAD_REQUEST quando o Restaurant sem cozinha
+    // Valida resposta OK (200) quando consultamos um Restaurant valido
+    // Valida resposta BAD_REQUEST quando o Restaurant com cozinha invalida
+    @Test
+    public void must_ReturnStatus400_WhenRegistringCuisineInexistent() {
+        given()
+                .body(jsonRestaurantCuisineInexistent)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+        .when()
+                .post()
+        .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("title", equalTo(BUSINESS_RULE_VIOLATED));
+    }
+
     @Test
     public void must_ReturnStatus400_WhenRegistringRestaurantNoDeliveryFee() {
         given()
@@ -134,7 +151,6 @@ public class RestaurantAPITestsIT {
                 .body("title", equalTo(INVALID_DATA));
     }
 
-    // Valida resposta BAD_REQUEST quando o Restaurant sem cozinha
     @Test
     public void must_ReturnStatus400_WhenRegistringRestaurantNoDCuisine() {
         given()
@@ -148,18 +164,30 @@ public class RestaurantAPITestsIT {
                 .body("title", equalTo(INVALID_DATA));
     }
 
-    // Valida resposta BAD_REQUEST quando o Restaurant com cozinha invalida
     @Test
-    public void must_ReturnStatus400_WhenRegistringRestaurantInvalidCuisine() {
+    public void must_ReturnStatus200AndCorrect_WhenQueryValidRestaurant() {
+
         given()
-                .body(jsonRestaurantCuisineInexistent)
-                .contentType(ContentType.JSON)
+                .pathParam("restaurantId", barbacueRestaurant.getId())
                 .accept(ContentType.JSON)
         .when()
-                .post()
+                .get("/{restaurantId}")
         .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("title", equalTo(BUSINESS_RULE_VIOLATED));
+                .statusCode(HttpStatus.OK.value())
+                .body("name", equalTo(barbacueRestaurant.getName()));
+    }
+
+    // Valida resposta BAD_REQUEST quando o Restaurant com cozinha invalida
+    @Test
+    public void must_ReturnStatus400_WhenRegistringRestaurantInexistent() {
+        given()
+                .pathParam("restaurantId", RESTAURANT_ID_INEXISTENT)
+                .contentType(ContentType.JSON)
+        .when()
+                .get("/{restaurantId}")
+        .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .body("title", equalTo(RESOURCE_NO_FOUND));
     }
 
 

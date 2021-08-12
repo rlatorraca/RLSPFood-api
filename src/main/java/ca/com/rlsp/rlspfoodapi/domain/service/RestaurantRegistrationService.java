@@ -9,6 +9,7 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class RestaurantRegistrationService {
     @Autowired
     private CuisineRegistrationService cuisineRegistrationService;
 
+    @Transactional
     public Restaurant save(Restaurant restaurant) {
         Long cuisineId = restaurant.getCuisine().getId();
         Cuisine cuisine = cuisineRegistrationService.findOrFail(cuisineId);

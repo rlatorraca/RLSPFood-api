@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,10 +22,12 @@ public class ProvinceRegistrationService {
     private ProvinceRepository provinceRepository;
 
 
+    @Transactional
     public Province save(Province province){
         return provinceRepository.save(province);
     }
 
+    @Transactional
     public void remove(Long provinceId){
         try{
             provinceRepository.deleteById(provinceId);
