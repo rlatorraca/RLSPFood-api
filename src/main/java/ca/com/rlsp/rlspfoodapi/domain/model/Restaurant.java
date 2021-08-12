@@ -4,8 +4,6 @@ import ca.com.rlsp.rlspfoodapi.core.validation.DeliveryFeeAnnotation;
 import ca.com.rlsp.rlspfoodapi.core.validation.GroupsBeanValidation;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValueZeroInsertDescription;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +11,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
@@ -64,7 +64,7 @@ public class Restaurant {
             Ignora a propriedade nome vinda de CUISINE (Serializacao [OBject -> JSON])
              - Nao ignora Deserializaco (JSON -> Object) ou getting a informacao
          */
-    @JsonIgnoreProperties(value = "nome", allowGetters = true)
+    /* @JsonIgnoreProperties(value = "nome", allowGetters = true) --> Na classe Mixin 8?
         /*
             faz a mesma coisa que @NotNull(groups = {GroupsBeanValidation.CuisineIdValidation.class})
          */
@@ -77,12 +77,12 @@ public class Restaurant {
     @Embedded // Essa propriedade e do Tipo @Embadeble
     private Address address;
 
-    @JsonIgnore
+    /*@JsonIgnore  -> Na classe MIXIN */
     @CreationTimestamp
     @Column(name = "created_date", nullable = false, columnDefinition = "datetime")
     private LocalDateTime createdDate;
 
-    @JsonIgnore
+    /*@JsonIgnore  -> Na classe MIXIN */
     @UpdateTimestamp
     @Column(name = "date_last_update",nullable = false, columnDefinition = "datetime")
     private LocalDateTime dateLastUpdate;
@@ -90,7 +90,7 @@ public class Restaurant {
     /*
         Tudo que termina com MANY é LAZY Loading (fetch padrao)
      */
-    //@JsonIgnore
+    /*@JsonIgnore  -> Na classe MIXIN */
     @ManyToMany
     @JoinTable(name = "tbl_restaurant_paymenttype",
                joinColumns = @JoinColumn(name = "restaurant_id"),
@@ -98,7 +98,7 @@ public class Restaurant {
     private List<PaymentType> paymentTypeList = new ArrayList<>();
 
 
-    @JsonIgnore
+    /*@JsonIgnore  -> Na classe MIXIN */
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
