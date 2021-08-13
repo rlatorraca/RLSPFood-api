@@ -21,7 +21,7 @@ import java.util.List;
 /*
     Faz c configuracao / conexao na Classe (RESTAURANT) em relacao as anotacoes do JACKSON (@Json*)
  */
-public class RestaurantMixin {
+public abstract class RestaurantMixin {
 
     @JsonIgnoreProperties(value = "nome", allowGetters = true)
     private Cuisine cuisine;
@@ -36,8 +36,8 @@ public class RestaurantMixin {
     private LocalDateTime dateLastUpdate;
 
     //@JsonIgnore
-    private List<PaymentType> paymentTypeList = new ArrayList<>();
+    private List<PaymentType> paymentTypeList ;
 
     @JsonIgnore
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products ;
 }

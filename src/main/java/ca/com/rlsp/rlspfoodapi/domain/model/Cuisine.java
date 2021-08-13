@@ -33,7 +33,7 @@ public class Cuisine {
     @Column(nullable = false, name="cuisine_name")
     private String name;
 
-    @JsonIgnore /// remove da Apresentacao da Classe de Dominio na resposta (no Json de respota)
+    //@JsonIgnore /// remove da Apresentacao da Classe de Dominio na resposta (no Json de resposta)
     @OneToMany(mappedBy = "cuisine")
     private List<Restaurant> restaurants = new ArrayList<>();
 
