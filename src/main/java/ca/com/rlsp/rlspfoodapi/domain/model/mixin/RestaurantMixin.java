@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public abstract class RestaurantMixin {
     private Address address;
 
     @JsonIgnore
-    private LocalDateTime createdDate;
+    private OffsetDateTime createdDate;
 
     //@JsonIgnore
-    private LocalDateTime dateLastUpdate;
+    private OffsetDateTime dateLastUpdate;
 
     //@JsonIgnore
     private List<PaymentType> paymentTypeList ;

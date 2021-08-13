@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +33,11 @@ public class Client {
 
     @CreationTimestamp
     @Column(name = "client_created", nullable = true, columnDefinition = "datetime")
-    private LocalDateTime createdClient;
+    private OffsetDateTime createdClient;
 
     @UpdateTimestamp
     @Column(name = "client_last_modified", nullable = false, columnDefinition = "datetime")
-    private LocalDateTime lastModifiedClient;
+    private OffsetDateTime lastModifiedClient;
 
     @ManyToMany
     @JoinTable(name = "tbl_client_group",

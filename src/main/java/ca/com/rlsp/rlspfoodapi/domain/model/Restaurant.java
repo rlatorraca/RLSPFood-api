@@ -18,6 +18,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,12 +81,12 @@ public class Restaurant {
     /*@JsonIgnore  -> Na classe MIXIN */
     @CreationTimestamp
     @Column(name = "created_date", nullable = false, columnDefinition = "datetime")
-    private LocalDateTime createdDate;
+    private OffsetDateTime createdDate;
 
     /*@JsonIgnore  -> Na classe MIXIN */
     @UpdateTimestamp
     @Column(name = "date_last_update",nullable = false, columnDefinition = "datetime")
-    private LocalDateTime dateLastUpdate;
+    private OffsetDateTime dateLastUpdate;
 
     /*
         Tudo que termina com MANY é LAZY Loading (fetch padrao)

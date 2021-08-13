@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /*
@@ -25,7 +25,7 @@ public class ApiHandleProblemDetail {
     private String type;
     private String title;
     private String detail;
-    private LocalDateTime dateTime;
+    private OffsetDateTime dateTime;
 
     // EXTENDING => MSG For USERS (FrontEnd)
     private String userMessage;

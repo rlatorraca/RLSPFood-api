@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,15 +32,15 @@ public class Order {
 
     @CreationTimestamp
     @Column(name = "order_createdDate", nullable = false)
-    private LocalDateTime createdDate;
+    private OffsetDateTime createdDate;
     @UpdateTimestamp
     @Column(name = "order_modifiedDate")
-    private LocalDateTime modifiedDate;
+    private OffsetDateTime modifiedDate;
     @Column(name = "order_cancelDate")
-    private LocalDateTime cancelDate;
+    private OffsetDateTime cancelDate;
 
     @Column(name = "order_deliveryDate")
-    private LocalDateTime deliveryDate;
+    private OffsetDateTime deliveryDate;
 
     @Column(name = "order_addressDelivery")
     @Embedded

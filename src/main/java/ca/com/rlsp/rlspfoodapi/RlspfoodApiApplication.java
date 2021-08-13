@@ -5,11 +5,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 @EnableJpaRepositories(repositoryBaseClass = CustomJpaRepositoryImpl.class) // Mostra qual sera a implementacao Padrao do SimpleJpaRepository
 public class RlspfoodApiApplication {
 
     public static void main(String[] args) {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC")); // Confgura o TimeZone para UTC e nao no GMT -3
         SpringApplication.run(RlspfoodApiApplication.class, args);
     }
 

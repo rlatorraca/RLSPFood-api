@@ -4,15 +4,13 @@ import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
-
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -25,13 +23,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
-import java.time.LocalDateTime;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +69,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.RESOURCE_NOT_FOUND;
         String detail = e.getReason();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(MSG_FINALUSER_GENERIC)
                 .build();
 
@@ -97,7 +94,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.BUSINESS_RULES_HAS_ERROR;
         String detail = e.getReason().toString();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(detail)
                 .build();
 
@@ -121,7 +118,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.ENTITY_IN_USE;
         String detail = e.getReason();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(detail)
                 .build();
 
@@ -143,7 +140,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         e.printStackTrace();
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(detail)
                 .build();
 
@@ -183,7 +180,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     )
                 .collect((Collectors.toList()));
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(ONE_MORE_ATTRIBUTES_INVALIDS)
                 .objects(problemFields)
                 .build();
@@ -197,7 +194,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("Resourse '%s' , that your are trying to reach doesn't exist.",
                 e.getRequestURL());
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(MSG_FINALUSER_GENERIC)
                 .build();
 
@@ -209,13 +206,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                                                              HttpStatus status, WebRequest request) {
         if(body == null){
             body = ApiHandleProblemDetail.builder()
-                    .dateTime(LocalDateTime.now())
+                    .dateTime(OffsetDateTime.now())
                     .title(status.getReasonPhrase())
                     .status(status.value())
                     .build();
         } else if(body instanceof String){
             body = ApiHandleProblemDetail.builder()
-                    .dateTime(LocalDateTime.now())
+                    .dateTime(OffsetDateTime.now())
                     .title((String) body)
                     .status(status.value())
                     .build();
@@ -245,7 +242,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = MALFORMED_JSON_REQUEST;
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(MSG_FINALUSER_GENERIC)
                 .build();
 
@@ -285,7 +282,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 e.getName(), e.getValue(), e.getRequiredType().getSimpleName());
 
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(MSG_FINALUSER_GENERIC)
                 .build();
 
@@ -300,7 +297,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("Attribute '%s' has got the value '%s', that is invalid type. Inform a compatible value having type as %s.",
                 path, e.getValue(), e.getTargetType().getSimpleName());
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(MSG_FINALUSER_GENERIC)
                 .build();
 
@@ -317,7 +314,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = String.format("Attribute '%s' doesn't exist or can't be treated by API. Fix it or remove it, so try again.", path);
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(MSG_FINALUSER_GENERIC)
                 .build();
 
@@ -334,7 +331,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemTypeEnum problemType = ProblemTypeEnum.MALFORMED_JSON_REQUEST;
         String detail = String.format("Attribute '%s' doesn't exist. Fix it  or remove that attribute e try again.", path);
 
-        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, LocalDateTime.now())
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(MSG_FINALUSER_GENERIC)
                 .build();
 
@@ -350,7 +347,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     private ApiHandleProblemDetail.ApiHandleProblemDetailBuilder createProblemDetailBuilder(
-            HttpStatus status, ProblemTypeEnum problemType, String detail, LocalDateTime localDateTime){
+            HttpStatus status, ProblemTypeEnum problemType, String detail, OffsetDateTime localDateTime){
 
         return ApiHandleProblemDetail.builder()
                 .status(status.value())
