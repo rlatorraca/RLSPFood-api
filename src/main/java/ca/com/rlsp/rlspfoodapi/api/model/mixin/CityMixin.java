@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.domain.model.mixin;
+package ca.com.rlsp.rlspfoodapi.api.model.mixin;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -1,12 +1,8 @@
-package ca.com.rlsp.rlspfoodapi.domain.model.mixin;
+package ca.com.rlsp.rlspfoodapi.api.model.mixin;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.OneToMany;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /*

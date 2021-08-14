@@ -1,22 +1,13 @@
-package ca.com.rlsp.rlspfoodapi.domain.model.mixin;
+package ca.com.rlsp.rlspfoodapi.api.model.mixin;
 
-import ca.com.rlsp.rlspfoodapi.core.validation.GroupsBeanValidation;
 import ca.com.rlsp.rlspfoodapi.domain.model.Address;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /*

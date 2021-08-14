@@ -74,6 +74,7 @@ public class Restaurant {
     @ManyToOne // (fetch = FetchType.LAZY)
     @JoinColumn(name = "cuisine_id", nullable = false)
     private Cuisine cuisine;
+
     @JsonIgnore
     @Embedded // Essa propriedade e do Tipo @Embadeble
     private Address address;
