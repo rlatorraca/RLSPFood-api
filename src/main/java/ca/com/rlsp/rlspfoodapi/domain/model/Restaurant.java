@@ -39,7 +39,7 @@ public class Restaurant {
     //@NotBlank // => NAO NULO,  NAO VAZIO e NAO EM  BRANCO
     //@NotBlank(groups = {GroupsBeanValidation.CuisineIdValidation.class})
     @NotBlank
-    @Column(name="name_restaurant", length = 100, nullable = false)
+    @Column(name="name_restaurant", length = 150, nullable = false)
     private String name;
 
 
