@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.assembler.RestaurantModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
@@ -50,9 +51,13 @@ public class RestaurantController {
     @Autowired
     private SmartValidator smartValidator;
 
+    // Monta um DTO para os Model (de Entidade) para Restaurante
+    @Autowired
+    private RestaurantModelAssembler restaurantModelAssembler;
+
     @GetMapping
     public List<RestaurantOutputDTO> listAll() {
-        return fromControllerToOutputList(restaurantRepository.newlistAll());
+        return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
     }
 
     /*
@@ -71,7 +76,7 @@ public class RestaurantController {
     public RestaurantOutputDTO findBy1Id(@PathVariable("restaurantId") Long id){
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
 
-        RestaurantOutputDTO restaurantDTO = fromControllerToOutput(restaurant);
+        RestaurantOutputDTO restaurantDTO = restaurantModelAssembler.fromControllerToOutput(restaurant);
 
         //return restaurantRegistrationService.findOrFail(id);
         return restaurantDTO;
@@ -99,7 +104,7 @@ public class RestaurantController {
     public RestaurantOutputDTO save(@RequestBody @Valid RestaurantInputDTO restaurantInputDTO) {
        try {
            Restaurant restaurant = fromInputToController(restaurantInputDTO); // Converte da representacao de INPUT par ao MODEL
-           return fromControllerToOutput(restaurantRegistrationService.save(restaurant));
+           return restaurantModelAssembler.fromControllerToOutputPost(restaurantRegistrationService.save(restaurant));
        } catch (EntityNotFoundException e ){
            throw new GenericBusinessException(e.getReason());
        }
@@ -133,7 +138,7 @@ public class RestaurantController {
 
         BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
         try {
-            return fromControllerToOutput(restaurantRegistrationService.save(currentRestaurant));
+            return restaurantModelAssembler.fromControllerToOutput(restaurantRegistrationService.save(currentRestaurant));
         } catch (EntityNotFoundException e ){
             throw new GenericBusinessException(e.getReason());
         }
@@ -165,7 +170,7 @@ public class RestaurantController {
                                                @RequestBody Map<String, Object> restaurantFields,
                                                HttpServletRequest request){
         Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
-        RestaurantInputDTO currentRestaurantDTO = fromControllerToInput(currentRestaurant);
+        RestaurantInputDTO currentRestaurantDTO = restaurantModelAssembler.fromControllerToInput(currentRestaurant);
 
         mergeDataToPatch(restaurantFields, currentRestaurantDTO, request);
         validateMerge(currentRestaurant, "restaurant");
@@ -225,62 +230,9 @@ public class RestaurantController {
         return restaurantFinal;
     }
 
-    private RestaurantOutputDTO fromControllerToOutput(Restaurant restaurant) {
-        CuisineOutputDTO cuisineDTO = new CuisineOutputDTO();
-        cuisineDTO.setId(restaurant.getCuisine().getId());
-        cuisineDTO.setName(restaurant.getCuisine().getName());
-
-        ProvinceOutputDTO provinceDTO = new ProvinceOutputDTO();
-        provinceDTO.setName(restaurant.getAddress().getCity().getProvince().getName());
-
-        CityOutputDTO cityDTO = new CityOutputDTO();
-        cityDTO.setName(restaurant.getAddress().getCity().getName());
-        cityDTO.setProvince(provinceDTO);
-
-        AddressOutputDTO addressDTO = new AddressOutputDTO();
-        addressDTO.setCity(cityDTO);
-        addressDTO.setComplement(restaurant.getAddress().getComplement());
-        addressDTO.setDistrict(restaurant.getAddress().getDistrict());
-        addressDTO.setNumber(restaurant.getAddress().getComplement());
-        addressDTO.setPostalcode(restaurant.getAddress().getPostalcode());
-        addressDTO.setStreet(restaurant.getAddress().getStreet());
-
-
-        RestaurantOutputDTO restaurantDTO = new RestaurantOutputDTO();
-        restaurantDTO.setId(restaurant.getId());
-        restaurantDTO.setName(restaurant.getName());
-        restaurantDTO.setDeliveryFee(restaurant.getDeliveryFee());
-        restaurantDTO.setCuisine(cuisineDTO);
-        restaurantDTO.setAddress(addressDTO);
-        restaurantDTO.setCreatedDate(restaurant.getCreatedDate());
-        restaurantDTO.setDateLastUpdate(restaurant.getDateLastUpdate());
-
-        return restaurantDTO;
-    }
-
-    private RestaurantInputDTO fromControllerToInput(Restaurant restaurant) {
-        System.out.println(restaurant.getCuisine().getId());
-        System.out.println(restaurant.getDeliveryFee());
-        System.out.println(restaurant.getName());
-
-        CuisineInputDTO cuisineDTO = new CuisineInputDTO();
-        cuisineDTO.setId(restaurant.getCuisine().getId());
-        cuisineDTO.setName(restaurant.getCuisine().getName());
-
-        RestaurantInputDTO restaurantDTO = new RestaurantInputDTO();
-        restaurantDTO.setId(restaurant.getId());
-        restaurantDTO.setName(restaurant.getName());
-        restaurantDTO.setDeliveryFee(restaurant.getDeliveryFee());
-        restaurantDTO.setCuisine(cuisineDTO);
-        return restaurantDTO;
-    }
-
-    private List<RestaurantOutputDTO> fromControllerToOutputList(List<Restaurant> restaurants){
-        return restaurants.stream()
-                .map(restaurant -> fromControllerToOutput(restaurant))
-                .collect(Collectors.toList());
-    }
-
+    /*
+        Comvert DTO -> Model
+    */
     private Restaurant fromInputToController(RestaurantInputDTO restaurantInputDTO) {
 
         Cuisine cuisine = new Cuisine();
