@@ -2,17 +2,16 @@ package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
 public class RestaurantInputDTO {
-
 
     private Long id;
 
@@ -26,4 +25,11 @@ public class RestaurantInputDTO {
     @Valid
     @NotNull
     private CuisineInputDTO cuisine;
+
+    private AddressInputDTO address;
+
+    private OffsetDateTime createdDate;
+
+    private OffsetDateTime dateLastUpdate;
+
 }

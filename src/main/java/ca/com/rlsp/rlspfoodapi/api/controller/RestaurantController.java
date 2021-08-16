@@ -1,7 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.AddressOutputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDTO;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
@@ -29,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -228,11 +230,31 @@ public class RestaurantController {
         cuisineDTO.setId(restaurant.getCuisine().getId());
         cuisineDTO.setName(restaurant.getCuisine().getName());
 
+        ProvinceOutputDTO provinceDTO = new ProvinceOutputDTO();
+        provinceDTO.setName(restaurant.getAddress().getCity().getProvince().getName());
+
+        CityOutputDTO cityDTO = new CityOutputDTO();
+        cityDTO.setName(restaurant.getAddress().getCity().getName());
+        cityDTO.setProvince(provinceDTO);
+
+        AddressOutputDTO addressDTO = new AddressOutputDTO();
+        addressDTO.setCity(cityDTO);
+        addressDTO.setComplement(restaurant.getAddress().getComplement());
+        addressDTO.setDistrict(restaurant.getAddress().getDistrict());
+        addressDTO.setNumber(restaurant.getAddress().getComplement());
+        addressDTO.setPostalcode(restaurant.getAddress().getPostalcode());
+        addressDTO.setStreet(restaurant.getAddress().getStreet());
+
+
         RestaurantOutputDTO restaurantDTO = new RestaurantOutputDTO();
         restaurantDTO.setId(restaurant.getId());
         restaurantDTO.setName(restaurant.getName());
         restaurantDTO.setDeliveryFee(restaurant.getDeliveryFee());
         restaurantDTO.setCuisine(cuisineDTO);
+        restaurantDTO.setAddress(addressDTO);
+        restaurantDTO.setCreatedDate(restaurant.getCreatedDate());
+        restaurantDTO.setDateLastUpdate(restaurant.getDateLastUpdate());
+
         return restaurantDTO;
     }
 
