@@ -18,6 +18,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <modelmapper.version>2.4.2</modelmapper.version>
     </properties>
 
     <dependencies>
@@ -94,6 +95,13 @@
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Semve para mappear Objectow -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelmapper.version}</version>
         </dependency>
 
     </dependencies>

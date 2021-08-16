@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.RestaurantModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.RestaurantInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
@@ -55,6 +56,10 @@ public class RestaurantController {
     @Autowired
     private RestaurantModelAssembler restaurantModelAssembler;
 
+    // Desmont um DTO para oumModel (de Entidade) para Restaurante
+    @Autowired
+    private RestaurantInputDisassembler restaurantInputDisassembler;
+
     @GetMapping
     public List<RestaurantOutputDTO> listAll() {
         return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
@@ -103,7 +108,7 @@ public class RestaurantController {
     //public Restaurant save(@RequestBody @Validated(GroupsBeanValidation.RestaurantValidation.class) Restaurant restaurant) {
     public RestaurantOutputDTO save(@RequestBody @Valid RestaurantInputDTO restaurantInputDTO) {
        try {
-           Restaurant restaurant = fromInputToController(restaurantInputDTO); // Converte da representacao de INPUT par ao MODEL
+           Restaurant restaurant = restaurantInputDisassembler.fromInputToController(restaurantInputDTO); // Converte da representacao de INPUT par ao MODEL
            return restaurantModelAssembler.fromControllerToOutputPost(restaurantRegistrationService.save(restaurant));
        } catch (EntityNotFoundException e ){
            throw new GenericBusinessException(e.getReason());
@@ -134,7 +139,7 @@ public class RestaurantController {
     @PutMapping("/{restauranteId}")
     public RestaurantOutputDTO updateById(@PathVariable("restauranteId") Long id, @RequestBody @Valid RestaurantInputDTO restaurantInputDTO) {
         Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
-        Restaurant restaurant = fromInputToController(restaurantInputDTO);
+        Restaurant restaurant = restaurantInputDisassembler.fromInputToController(restaurantInputDTO);
 
         BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
         try {
@@ -230,22 +235,6 @@ public class RestaurantController {
         return restaurantFinal;
     }
 
-    /*
-        Comvert DTO -> Model
-    */
-    private Restaurant fromInputToController(RestaurantInputDTO restaurantInputDTO) {
 
-        Cuisine cuisine = new Cuisine();
-        cuisine.setId(restaurantInputDTO.getCuisine().getId());
-
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurantInputDTO.getName());
-        restaurant.setDeliveryFee(restaurantInputDTO.getDeliveryFee());
-
-
-        restaurant.setCuisine(cuisine);
-
-        return restaurant;
-    }
 
 }

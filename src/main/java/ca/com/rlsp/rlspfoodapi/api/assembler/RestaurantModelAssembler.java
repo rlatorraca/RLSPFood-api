@@ -4,6 +4,8 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDTO;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.*;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -12,11 +14,15 @@ import java.util.stream.Collectors;
 @Controller
 public class RestaurantModelAssembler {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     /*
         Convert MODEL -> DTO para PUT
     */
     public RestaurantOutputDTO fromControllerToOutput(Restaurant restaurant) {
+        /*
         CuisineOutputDTO cuisineDTO = new CuisineOutputDTO();
         cuisineDTO.setId(restaurant.getCuisine().getId());
         cuisineDTO.setName(restaurant.getCuisine().getName());
@@ -47,12 +53,16 @@ public class RestaurantModelAssembler {
         restaurantDTO.setDateLastUpdate(restaurant.getDateLastUpdate());
 
         return restaurantDTO;
+         */
+
+        return modelMapper.map(restaurant, RestaurantOutputDTO.class); // Mas o mapeamento substituindo o codigo acima
     }
 
     /*
         Convert MODEL -> DTO (para POST)
     */
     public RestaurantOutputDTO fromControllerToOutputPost(Restaurant restaurant) {
+        /*
         CuisineOutputDTO cuisineDTO = new CuisineOutputDTO();
         cuisineDTO.setId(restaurant.getCuisine().getId());
         cuisineDTO.setName(restaurant.getCuisine().getName());
@@ -67,6 +77,8 @@ public class RestaurantModelAssembler {
         restaurantDTO.setDateLastUpdate(restaurant.getDateLastUpdate());
 
         return restaurantDTO;
+         */
+        return modelMapper.map(restaurant, RestaurantOutputDTO.class); // Mas o mapeamento substituindo o codigo acima
     }
 
     /*
