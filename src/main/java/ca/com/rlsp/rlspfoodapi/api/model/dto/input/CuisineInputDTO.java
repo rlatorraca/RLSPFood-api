@@ -12,4 +12,6 @@ public class CuisineInputDTO {
 
     @NotNull
     private Long id;
+
+    private String name;
 }

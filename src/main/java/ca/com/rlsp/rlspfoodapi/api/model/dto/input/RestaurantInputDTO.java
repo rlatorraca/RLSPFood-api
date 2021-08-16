@@ -1,9 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.validation.Valid;
@@ -16,17 +13,17 @@ import java.math.BigDecimal;
 @Setter
 public class RestaurantInputDTO {
 
+
+    private Long id;
+
     @NotBlank
-    @Column(name="name_restaurant", length = 150, nullable = false)
     private String name;
 
     @NotNull
     @PositiveOrZero
-    @ToString.Exclude
     private BigDecimal deliveryFee;
 
     @Valid
     @NotNull
-    @ToString.Exclude
     private CuisineInputDTO cuisine;
 }

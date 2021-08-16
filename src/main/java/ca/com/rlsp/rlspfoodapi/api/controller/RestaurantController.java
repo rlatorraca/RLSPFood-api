@@ -207,7 +207,7 @@ public class RestaurantController {
          */
             restaurantFields.forEach( (nameAttribute, valueAttribute) -> {
 
-                Field field = ReflectionUtils.findField(Restaurant.class, nameAttribute); // Java Reflection
+                Field field = ReflectionUtils.findField(RestaurantInputDTO.class, nameAttribute); // Java Reflection
                 field.setAccessible(true);
 
                 Object newValueToAttributeInRestaurant = ReflectionUtils.getField(field, restaurantBase);
@@ -242,11 +242,12 @@ public class RestaurantController {
         System.out.println(restaurant.getName());
 
         CuisineInputDTO cuisineDTO = new CuisineInputDTO();
-        cuisineDTO.setId((BigDecimal)restaurant.getCuisine().getId());
-        //cuisineDTO.setName(restaurant.getCuisine().getName());
+        cuisineDTO.setId(restaurant.getCuisine().getId());
+        cuisineDTO.setName(restaurant.getCuisine().getName());
 
         RestaurantInputDTO restaurantDTO = new RestaurantInputDTO();
-        restaurantDTO.setName(restaurant.getName().toString());
+        restaurantDTO.setId(restaurant.getId());
+        restaurantDTO.setName(restaurant.getName());
         restaurantDTO.setDeliveryFee(restaurant.getDeliveryFee());
         restaurantDTO.setCuisine(cuisineDTO);
         return restaurantDTO;
@@ -260,13 +261,8 @@ public class RestaurantController {
 
     private Restaurant fromInputToController(RestaurantInputDTO restaurantInputDTO) {
 
-
-
-
         Cuisine cuisine = new Cuisine();
         cuisine.setId(restaurantInputDTO.getCuisine().getId());
-
-
 
         Restaurant restaurant = new Restaurant();
         restaurant.setName(restaurantInputDTO.getName());
