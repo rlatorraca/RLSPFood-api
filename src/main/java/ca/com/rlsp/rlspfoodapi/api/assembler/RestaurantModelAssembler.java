@@ -101,6 +101,7 @@ public class RestaurantModelAssembler {
         return restaurantDTO;
     }
 
+
     /*
         Convert MODEL -> DTO (list GET)
     */

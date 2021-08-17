@@ -15,7 +15,7 @@ public class RestaurantInputDisassembler {
 
     /*
        Comvert DTO -> Model
-   */
+    */
     public Restaurant fromInputToController(RestaurantInputDTO restaurantInputDTO) {
 
         /*
@@ -32,6 +32,19 @@ public class RestaurantInputDisassembler {
         return restaurant;
         */
         return modelMapper.map(restaurantInputDTO, Restaurant.class);
+    }
+
+    /*
+       Mapping DTO -> Model using modelMapper
+    */
+    public void fromDTOtoRestaurant(RestaurantInputDTO restauranteInputDTO, Restaurant restaurant) {
+        // Para evitar org.hibernate.HibernateException: identifier of an instance of
+        // com.algaworks.algafood.domain.model.Cozinha was altered from 1 to 2
+        restaurant.setCuisine(new Cuisine());
+
+        modelMapper.map(restauranteInputDTO, restaurant );
+
+        //return restaurant;
     }
 
 }

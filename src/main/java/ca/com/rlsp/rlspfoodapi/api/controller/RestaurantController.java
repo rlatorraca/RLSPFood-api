@@ -109,6 +109,7 @@ public class RestaurantController {
     public RestaurantOutputDTO save(@RequestBody @Valid RestaurantInputDTO restaurantInputDTO) {
        try {
            Restaurant restaurant = restaurantInputDisassembler.fromInputToController(restaurantInputDTO); // Converte da representacao de INPUT par ao MODEL
+
            return restaurantModelAssembler.fromControllerToOutputPost(restaurantRegistrationService.save(restaurant));
        } catch (EntityNotFoundException e ){
            throw new GenericBusinessException(e.getReason());
@@ -138,11 +139,15 @@ public class RestaurantController {
     */
     @PutMapping("/{restauranteId}")
     public RestaurantOutputDTO updateById(@PathVariable("restauranteId") Long id, @RequestBody @Valid RestaurantInputDTO restaurantInputDTO) {
-        Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
-        Restaurant restaurant = restaurantInputDisassembler.fromInputToController(restaurantInputDTO);
 
-        BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
         try {
+            Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
+
+            //Restaurant restaurant = restaurantInputDisassembler.fromInputToController(restaurantInputDTO);
+
+            restaurantInputDisassembler.fromDTOtoRestaurant(restaurantInputDTO, currentRestaurant);
+
+            //BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
             return restaurantModelAssembler.fromControllerToOutput(restaurantRegistrationService.save(currentRestaurant));
         } catch (EntityNotFoundException e ){
             throw new GenericBusinessException(e.getReason());
