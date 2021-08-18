@@ -2,6 +2,8 @@ package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
 import lombok.*;
 
+import javax.persistence.Embedded;
+import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,10 +28,6 @@ public class RestaurantInputDTO {
     @NotNull
     private CuisineInputDTO cuisine;
 
-    private AddressInputDTO address;
 
-    private OffsetDateTime createdDate;
-
-    private OffsetDateTime dateLastUpdate;
 
 }

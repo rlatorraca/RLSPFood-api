@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CityOutputDTO {
 
+    private Long id;
 
     private String name;
 

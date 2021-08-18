@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.AddressInputDTO;
 import ca.com.rlsp.rlspfoodapi.domain.model.Address;
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;

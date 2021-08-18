@@ -18,6 +18,6 @@ public class AddressInputDTO {
 
     private String district;
 
-    private CityOutputDTO city;
+    private Long city;
 
 }

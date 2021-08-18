@@ -58,6 +58,7 @@ public class RestaurantModelAssembler {
         return modelMapper.map(restaurant, RestaurantOutputDTO.class); // Mas o mapeamento substituindo o codigo acima
     }
 
+
     /*
         Convert MODEL -> DTO (para POST)
     */
@@ -94,7 +95,7 @@ public class RestaurantModelAssembler {
         cuisineDTO.setName(restaurant.getCuisine().getName());
 
         RestaurantInputDTO restaurantDTO = new RestaurantInputDTO();
-        restaurantDTO.setId(restaurant.getId());
+        //restaurantDTO.setId(restaurant.getId());
         restaurantDTO.setName(restaurant.getName());
         restaurantDTO.setDeliveryFee(restaurant.getDeliveryFee());
         restaurantDTO.setCuisine(cuisineDTO);

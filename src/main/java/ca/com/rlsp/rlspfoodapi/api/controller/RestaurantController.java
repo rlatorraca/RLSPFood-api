@@ -144,11 +144,12 @@ public class RestaurantController {
             Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
 
             //Restaurant restaurant = restaurantInputDisassembler.fromInputToController(restaurantInputDTO);
-
+            restaurantInputDTO.setId(id);
             restaurantInputDisassembler.fromDTOtoRestaurant(restaurantInputDTO, currentRestaurant);
 
             //BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
             return restaurantModelAssembler.fromControllerToOutput(restaurantRegistrationService.save(currentRestaurant));
+
         } catch (EntityNotFoundException e ){
             throw new GenericBusinessException(e.getReason());
         }
