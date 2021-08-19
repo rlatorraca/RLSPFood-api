@@ -1,5 +1,9 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.assembler.ProvinceModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.ProvinceInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProvinceRegistrationService;
@@ -20,11 +24,22 @@ public class ProvinceController {
     private ProvinceRegistrationService provinceRegistrationService;
 
     @Autowired
+    private ProvinceInputDisassembler provinceInputDisassembler;
+
+    @Autowired
+    private ProvinceModelAssembler provinceModelAssembler;
+
+    @Autowired
     private ProvinceRepository provinceRepository;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Province> listAllJson(){
-        return provinceRegistrationService.listAll();
+    //public List<Province> listAllJson(){
+    public List<ProvinceOutputDTO> listAllJson(){
+
+        //return provinceRegistrationService.listAll();
+        List<Province> allProvinces = provinceRegistrationService.listAll();
+
+        return provinceModelAssembler.fromControllerToOutputList(allProvinces);
     }
 
     @GetMapping(produces = { MediaType.APPLICATION_XML_VALUE})
@@ -45,15 +60,23 @@ public class ProvinceController {
     }
     */
     @GetMapping("/{provinceId}")
-    public Province findById(@PathVariable("provinceId") Long id) {
-        return provinceRegistrationService.findOrFail(id);
+    //public Province findById(@PathVariable("provinceId") Long id) {
+    public ProvinceOutputDTO findById(@PathVariable("provinceId") Long id) {
+        //return provinceRegistrationService.findOrFail(id);
+        Province province = provinceRegistrationService.findOrFail(id);
+
+        return provinceModelAssembler.fromControllerToOutput(province);
+
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Province save(@RequestBody @Valid Province province) {
-        return provinceRegistrationService.save(province);
+    //public Province save(@RequestBody @Valid Province province) {
+    public ProvinceOutputDTO save(@RequestBody @Valid ProvinceInputDTO provinceInputDTO) {
+        //return provinceRegistrationService.save(province);
+        Province province = provinceInputDisassembler.fromInputToController(provinceInputDTO);
+        return provinceModelAssembler.fromControllerToOutput(province);
     }
 
 
@@ -74,11 +97,18 @@ public class ProvinceController {
     }
     */
     @PutMapping("/{provinceId}")
-    public Province updateById(@PathVariable("provinceId") Long id,
-                                               @RequestBody @Valid Province province) {
+    //public Province updateById(@PathVariable("provinceId") Long id, @RequestBody @Valid Province province) {
+    public ProvinceOutputDTO updateById(@PathVariable("provinceId") Long id, @RequestBody @Valid ProvinceInputDTO provinceInputDTO) {
         Province currentProvince = provinceRegistrationService.findOrFail(id);
-        BeanUtils.copyProperties(province, currentProvince, "id");
-        return provinceRegistrationService.save(currentProvince);
+
+        provinceInputDTO.setId(id);
+        provinceInputDisassembler.fromDTOtoProvince(provinceInputDTO, currentProvince);
+
+        currentProvince = provinceRegistrationService.save(currentProvince);
+        //BeanUtils.copyProperties(province, currentProvince, "id");
+        //return provinceRegistrationService.save(currentProvince);
+
+        return provinceModelAssembler.fromControllerToOutput(currentProvince);
     }
 
     /*

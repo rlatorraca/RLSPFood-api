@@ -1,5 +1,9 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.assembler.CityModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDTO;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -25,9 +29,20 @@ public class CityController {
     @Autowired
     private CityRepository cityRepository;
 
+    @Autowired
+    private CityModelAssembler cityModelAssembler;
+
+    @Autowired
+    private CityInputDisassembler cityInputDisassembler;
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<City> listAllJson(){
-        return cityRepository.findAll();
+    //public List<City> listAllJson(){
+    public List<CityOutputDTO> listAllJson(){
+        List<City> allCities = cityRepository.findAll();
+
+
+        return cityModelAssembler.fromControllerToOutputList(allCities);
+        //return cityRepository.findAll();
     }
 
     @GetMapping(produces = { MediaType.APPLICATION_XML_VALUE})
@@ -37,9 +52,14 @@ public class CityController {
 
 
     @GetMapping("/{cityId}")
-    public City findById(@PathVariable Long cityId) {
-        System.out.println("@GetMapping(\"/{cityId}}\")");
-        return cityRegistrationService.findOrFail(cityId);
+    //public City findById(@PathVariable Long cityId) {
+    public CityOutputDTO findById(@PathVariable Long cityId) {
+        City cidade = cityRegistrationService.findOrFail(cityId);
+
+
+      //  return cityRegistrationService.findOrFail(cityId);
+
+        return cityModelAssembler.fromControllerToOutput(cidade);
     }
 
     /*
@@ -73,9 +93,15 @@ public class CityController {
     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public City save(@RequestBody @Valid City city) {
+    //public City save(@RequestBody @Valid City city) {
+    public CityOutputDTO save(@RequestBody @Valid CityInputDTO cityInputDTO) {
         try{
-            return cityRegistrationService.save(city);
+            City city = cityInputDisassembler.fromInputToController(cityInputDTO);
+
+            city = cityRegistrationService.save(city);
+
+            return cityModelAssembler.fromControllerToOutput(city);
+            //return cityRegistrationService.save(city);
         } catch (EntityNotFoundException e ){
             throw new GenericBusinessException(e.getReason(), e);
         }
@@ -99,12 +125,19 @@ public class CityController {
     */
 
     @PutMapping("/{cityId}")
-    public City updateById(@PathVariable("cityId") Long id,
-                                           @RequestBody @Valid City city) {
+    //public City updateById(@PathVariable("cityId") Long id, @RequestBody @Valid City city) {
+    public CityOutputDTO updateById(@PathVariable("cityId") Long id, @RequestBody @Valid CityInputDTO cityInputDTO) {
         try{
             City currentCity = cityRegistrationService.findOrFail(id);
-            BeanUtils.copyProperties(city, currentCity, "id");
-            return cityRegistrationService.save(currentCity);
+
+            cityInputDTO.setId(id);
+            cityInputDisassembler.fromDTOtoCity(cityInputDTO, currentCity);
+
+            currentCity = cityRegistrationService.save(currentCity);
+
+            return cityModelAssembler.fromControllerToOutput(currentCity);
+            //BeanUtils.copyProperties(city, currentCity, "id");
+            //return cityRegistrationService.save(currentCity);
         } catch (ProvinceNotFoundException e ){
             throw new GenericBusinessException(e.getReason(), e);
         }

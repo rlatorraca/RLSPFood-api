@@ -1,6 +1,15 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.assembler.CityModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.assembler.CuisineModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.assembler.ProvinceModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.CuisineInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.ProvinceInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.CuisineXMLWrapper;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDTO;
+import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
@@ -23,9 +32,19 @@ public class CuisineController {
     @Autowired
     private CuisineRegistrationService cuisineRegistrationService;
 
+    @Autowired
+    private CuisineInputDisassembler cuisineInputDisassembler;
+
+    @Autowired
+    private CuisineModelAssembler cuisineModelAssembler;
+
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Cuisine> listAll(){
-        return cuisineRegistrationService.listAll();
+    //public List<Cuisine> listAll(){
+    public List<CuisineOutputDTO> listAll(){
+        //return cuisineRegistrationService.listAll();
+        List<Cuisine> allCuisines= cuisineRegistrationService.listAll();
+        return cuisineModelAssembler.fromControllerToOutputList(allCuisines);
     }
 
     /*
@@ -43,8 +62,12 @@ public class CuisineController {
     }
     */
     @GetMapping("/{cuisineId}")
-    public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
-        return cuisineRegistrationService.findOrFail(id);
+    //public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
+    public CuisineOutputDTO findBy1Id(@PathVariable("cuisineId") Long id){
+        Cuisine cuisine = cuisineRegistrationService.findOrFail(id);
+
+        //return cuisineRegistrationService.findOrFail(id);
+        return cuisineModelAssembler.fromControllerToOutput(cuisine);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
@@ -54,9 +77,14 @@ public class CuisineController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cuisine save(@RequestBody @Valid Cuisine cuisine){
+    //public Cuisine save(@RequestBody @Valid Cuisine cuisine){
+    public CuisineOutputDTO save(@RequestBody @Valid CuisineInputDTO cuisineInputDTO){
 
-        return cuisineRegistrationService.save(cuisine);
+        Cuisine cuisine = cuisineInputDisassembler.fromInputToController(cuisineInputDTO);
+        cuisine = cuisineRepository.save(cuisine);
+
+        return cuisineModelAssembler.fromControllerToOutput(cuisine);
+        //return cuisineRegistrationService.save(cuisine);
     }
 
     /*
@@ -81,12 +109,19 @@ public class CuisineController {
     */
 
     @PutMapping("/{cuisineId}")
-    public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
+    //public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
+    public CuisineOutputDTO updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid CuisineInputDTO cuisineInputDTO){
         Cuisine currentCuisine = cuisineRegistrationService.findOrFail(id);
 
-        BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
+        cuisineInputDTO.setId(id);
+        cuisineInputDisassembler.fromDTOtoCuisine(cuisineInputDTO, currentCuisine);
+        //BeanUtils.copyProperties(cuisine, currentCuisine, "id"); // Copia (novo, antigo) objeto de cuisine
 
-        return cuisineRegistrationService.save(currentCuisine);
+        currentCuisine = cuisineRegistrationService.save(currentCuisine);
+
+        //return cuisineRegistrationService.save(currentCuisine);
+
+        return cuisineModelAssembler.fromControllerToOutput(currentCuisine);
     }
 
 

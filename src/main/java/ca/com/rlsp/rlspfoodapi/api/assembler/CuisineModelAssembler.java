@@ -46,11 +46,11 @@ public class CuisineModelAssembler {
         System.out.println(restaurant.getName());
 
         CuisineInputDTO cuisineDTO = new CuisineInputDTO();
-        //cuisineDTO.setId(restaurant.getCuisine().getId());
+        cuisineDTO.setId(restaurant.getCuisine().getId());
         cuisineDTO.setName(restaurant.getCuisine().getName());
 
         RestaurantInputDTO restaurantDTO = new RestaurantInputDTO();
-        //restaurantDTO.setId(restaurant.getId());
+        restaurantDTO.setId(restaurant.getId());
         restaurantDTO.setName(restaurant.getName());
         restaurantDTO.setDeliveryFee(restaurant.getDeliveryFee());
         restaurantDTO.setCuisine(cuisineDTO);
