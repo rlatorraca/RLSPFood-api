@@ -31,6 +31,7 @@ public class ProvinceRegistrationService {
     public void remove(Long provinceId){
         try{
             provinceRepository.deleteById(provinceId);
+            provinceRepository.flush();
         } catch (EmptyResultDataAccessException e){
             throw new ProvinceNotFoundException(provinceId);
         } catch (DataIntegrityViolationException e) {
