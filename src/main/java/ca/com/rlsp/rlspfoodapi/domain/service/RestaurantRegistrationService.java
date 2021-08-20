@@ -70,4 +70,22 @@ public class RestaurantRegistrationService {
                 new RestaurantNotFoundException(String.format(MSG_RESTAURANT_NOT_SAVED_INTO_THE_DATABASE , id))
         );
     }
+
+    @Transactional
+    public void activate(Long restauranteId) {
+        Restaurant currentRestaurant = findOrFail(restauranteId);
+
+        //currentRestaurant.setActive(true);
+        currentRestaurant.activate();
+    }
+
+    @Transactional
+    public void inactivate(Long restauranteId) {
+        Restaurant currentRestaurant = findOrFail(restauranteId);
+
+        //currentRestaurant.setActive(false);
+        currentRestaurant.inactivate();
+    }
+
+   
 }

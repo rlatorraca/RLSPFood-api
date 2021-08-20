@@ -81,6 +81,8 @@ public class Restaurant {
     @Embedded // Essa propriedade e do Tipo @Embadeble
     private Address address;
 
+    private Boolean active = Boolean.TRUE;
+
     /*@JsonIgnore  -> Na classe MIXIN */
     @CreationTimestamp
     @Column(name = "created_date", nullable = false, columnDefinition = "datetime")
@@ -106,4 +108,11 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
+    public void activate() {
+        setActive(true);
+    }
+
+    public void inactivate() {
+        setActive(false);
+    }
 }

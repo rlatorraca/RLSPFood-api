@@ -241,6 +241,25 @@ public class RestaurantController {
         return restaurantFinal;
     }
 
+    /*
+        PUT /restaurant/{id}/active
+         Usa-se PUT e nao POST. Pois o PUT e idempontente e o POST nao é idempotente (causa efeitos colaterais, muda o resultado)
+     */
+    @PutMapping("{restauranteId}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activate(@PathVariable("restauranteId") Long id) {
+        restaurantRegistrationService.activate(id);
+    }
 
+
+
+    /*
+        DELETE /restaurant/{id}/active
+     */
+    @DeleteMapping("/{restauranteId}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactivate(@PathVariable("restauranteId") Long id) {
+        restaurantRegistrationService.inactivate(id);
+    }
 
 }

@@ -30,6 +30,8 @@ public class RestaurantOutputDTO {
 
     private AddressOutputDTO address;
 
+    private Boolean active;
+
     private OffsetDateTime createdDate;
 
     private OffsetDateTime dateLastUpdate;

@@ -69,7 +69,7 @@ public class TestController {
 
     @GetMapping("/restaurants/querynamepluscuisineid")
     public List<Restaurant> queryRestaurantsByNameAndCuisineId(@RequestParam String nome, @RequestParam Long id) {
-        return restaurantRepository.consultarPorNomePorCozinha(nome, id);
+        return restaurantRepository.queryCuisineByName(nome, id);
     }
 
     @GetMapping("/restaurants/findfirst")

@@ -30,7 +30,7 @@ public interface RestaurantRepository extends
 
     // This query is into resources/META-INF/orm.xml
     //@Query("from Restaurant where name like %:name% and cuisine.id=:id")
-    List<Restaurant> consultarPorNomePorCozinha(String name, @Param("id") Long cozinhaId);
+    List<Restaurant> queryCuisineByName(String name, @Param("id") Long cozinhaId);
 
 
     /*
