@@ -1,7 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.*;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
@@ -21,7 +21,7 @@ public class RestaurantModelAssembler {
     /*
         Convert MODEL -> DTO para PUT
     */
-    public RestaurantOutputDTO fromControllerToOutput(Restaurant restaurant) {
+    public RestaurantOutputDto fromControllerToOutput(Restaurant restaurant) {
         /*
         CuisineOutputDTO cuisineDTO = new CuisineOutputDTO();
         cuisineDTO.setId(restaurant.getCuisine().getId());
@@ -55,14 +55,14 @@ public class RestaurantModelAssembler {
         return restaurantDTO;
          */
 
-        return modelMapper.map(restaurant, RestaurantOutputDTO.class); // Mas o mapeamento substituindo o codigo acima
+        return modelMapper.map(restaurant, RestaurantOutputDto.class); // Mas o mapeamento substituindo o codigo acima
     }
 
 
     /*
         Convert MODEL -> DTO (para POST)
     */
-    public RestaurantOutputDTO fromControllerToOutputPost(Restaurant restaurant) {
+    public RestaurantOutputDto fromControllerToOutputPost(Restaurant restaurant) {
         /*
         CuisineOutputDTO cuisineDTO = new CuisineOutputDTO();
         cuisineDTO.setId(restaurant.getCuisine().getId());
@@ -79,22 +79,22 @@ public class RestaurantModelAssembler {
 
         return restaurantDTO;
          */
-        return modelMapper.map(restaurant, RestaurantOutputDTO.class); // Mas o mapeamento substituindo o codigo acima
+        return modelMapper.map(restaurant, RestaurantOutputDto.class); // Mas o mapeamento substituindo o codigo acima
     }
 
     /*
         Convert MODEL -> DTO
     */
-    public RestaurantInputDTO fromControllerToInput(Restaurant restaurant) {
+    public RestaurantInputDto fromControllerToInput(Restaurant restaurant) {
         System.out.println(restaurant.getCuisine().getId());
         System.out.println(restaurant.getDeliveryFee());
         System.out.println(restaurant.getName());
 
-        CuisineInputDTO cuisineDTO = new CuisineInputDTO();
+        CuisineInputDto cuisineDTO = new CuisineInputDto();
         //cuisineDTO.setId(restaurant.getCuisine().getId());
         cuisineDTO.setName(restaurant.getCuisine().getName());
 
-        RestaurantInputDTO restaurantDTO = new RestaurantInputDTO();
+        RestaurantInputDto restaurantDTO = new RestaurantInputDto();
         //restaurantDTO.setId(restaurant.getId());
         restaurantDTO.setName(restaurant.getName());
         restaurantDTO.setDeliveryFee(restaurant.getDeliveryFee());
@@ -106,7 +106,7 @@ public class RestaurantModelAssembler {
     /*
         Convert MODEL -> DTO (list GET)
     */
-    public List<RestaurantOutputDTO> fromControllerToOutputList(List<Restaurant> restaurants){
+    public List<RestaurantOutputDto> fromControllerToOutputList(List<Restaurant> restaurants){
         return restaurants.stream()
                 .map(restaurant -> fromControllerToOutput(restaurant))
                 .collect(Collectors.toList());

@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class ProvinceInputDTO {
+public class ProvinceIdInputDto {
 
+    @NotNull
     private Long id;
 
-    private String name;
 }

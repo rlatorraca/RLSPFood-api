@@ -1,11 +1,9 @@
 package ca.com.rlsp.rlspfoodapi.api.disassembler;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDTO;
-import ca.com.rlsp.rlspfoodapi.domain.model.Address;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +19,7 @@ public class RestaurantInputDisassembler {
     /*
        Comvert DTO -> Model
     */
-    public Restaurant fromInputToController(RestaurantInputDTO restaurantInputDTO) {
+    public Restaurant fromInputToController(RestaurantInputDto restaurantInputDTO) {
 
         /*
         Cuisine cuisine = new Cuisine();
@@ -42,7 +40,7 @@ public class RestaurantInputDisassembler {
     /*
        Mapping DTO -> Model using modelMapper
     */
-    public void fromDTOtoRestaurant(RestaurantInputDTO restauranteInputDTO, Restaurant restaurant) {
+    public void fromDTOtoRestaurant(RestaurantInputDto restauranteInputDTO, Restaurant restaurant) {
         // Para evitar org.hibernate.HibernateException: identifier of an instance of
         // com.algaworks.algafood.domain.model.Cozinha was altered from 1 to 2
         restaurant.setCuisine(new Cuisine());

@@ -1,12 +1,11 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
-import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AddressOutputDTO {
+public class AddressOutputDto {
 
     private String postalcode;
 
@@ -18,6 +17,6 @@ public class AddressOutputDTO {
 
     private String district;
 
-    private CityOutputDTO city;
+    private CityOutputDto city;
 
 }

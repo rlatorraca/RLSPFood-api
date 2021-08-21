@@ -1,11 +1,9 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
-import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,19 +21,19 @@ public class CityModelAssembler {
     /*
         Convert MODEL -> DTO para PUT
     */
-    public CityOutputDTO fromControllerToOutput(City city) {
+    public CityOutputDto fromControllerToOutput(City city) {
 
-        return modelMapper.map(city, CityOutputDTO.class); // Mas o mapeamento substituindo o codigo acima
+        return modelMapper.map(city, CityOutputDto.class); // Mas o mapeamento substituindo o codigo acima
     }
 
 
     /*
         Convert MODEL -> DTO
     */
-    public CityInputDTO fromControllerToInput(City city) {
-        CityInputDTO cityInputDTO = new CityInputDTO();
+    public CityInputDto fromControllerToInput(City city) {
+        CityInputDto cityInputDTO = new CityInputDto();
 
-        ProvinceInputDTO provinceInputDTO = new ProvinceInputDTO();
+        ProvinceInputDto provinceInputDTO = new ProvinceInputDto();
         provinceInputDTO.setId(city.getProvince().getId());
         provinceInputDTO.setName(city.getProvince().getName());
 
@@ -50,7 +48,7 @@ public class CityModelAssembler {
     /*
         Convert MODEL -> DTO (list GET)
     */
-    public List<CityOutputDTO> fromControllerToOutputList(List<City> cities){
+    public List<CityOutputDto> fromControllerToOutputList(List<City> cities){
         return cities.stream()
                 .map(city -> fromControllerToOutput(city))
                 .collect(Collectors.toList());

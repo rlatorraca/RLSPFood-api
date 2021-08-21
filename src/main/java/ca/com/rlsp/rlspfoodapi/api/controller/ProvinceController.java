@@ -2,12 +2,11 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.ProvinceModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.ProvinceInputDisassembler;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProvinceRegistrationService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +33,7 @@ public class ProvinceController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<Province> listAllJson(){
-    public List<ProvinceOutputDTO> listAllJson(){
+    public List<ProvinceOutputDto> listAllJson(){
 
         //return provinceRegistrationService.listAll();
         List<Province> allProvinces = provinceRegistrationService.listAll();
@@ -61,7 +60,7 @@ public class ProvinceController {
     */
     @GetMapping("/{provinceId}")
     //public Province findById(@PathVariable("provinceId") Long id) {
-    public ProvinceOutputDTO findById(@PathVariable("provinceId") Long id) {
+    public ProvinceOutputDto findById(@PathVariable("provinceId") Long id) {
         //return provinceRegistrationService.findOrFail(id);
         Province province = provinceRegistrationService.findOrFail(id);
 
@@ -73,7 +72,7 @@ public class ProvinceController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Province save(@RequestBody @Valid Province province) {
-    public ProvinceOutputDTO save(@RequestBody @Valid ProvinceInputDTO provinceInputDTO) {
+    public ProvinceOutputDto save(@RequestBody @Valid ProvinceInputDto provinceInputDTO) {
         //return provinceRegistrationService.save(province);
         Province province = provinceInputDisassembler.fromInputToController(provinceInputDTO);
         return provinceModelAssembler.fromControllerToOutput(province);
@@ -98,7 +97,7 @@ public class ProvinceController {
     */
     @PutMapping("/{provinceId}")
     //public Province updateById(@PathVariable("provinceId") Long id, @RequestBody @Valid Province province) {
-    public ProvinceOutputDTO updateById(@PathVariable("provinceId") Long id, @RequestBody @Valid ProvinceInputDTO provinceInputDTO) {
+    public ProvinceOutputDto updateById(@PathVariable("provinceId") Long id, @RequestBody @Valid ProvinceInputDto provinceInputDTO) {
         Province currentProvince = provinceRegistrationService.findOrFail(id);
 
         provinceInputDTO.setId(id);

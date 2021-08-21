@@ -1,23 +1,30 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class CityInputDTO {
+public class RestaurantInputDto {
 
     private Long id;
 
     @NotBlank
     private String name;
 
+    @NotNull
+    @PositiveOrZero
+    private BigDecimal deliveryFee;
+
     @Valid
     @NotNull
-    private ProvinceInputDTO province;
+    private CuisineInputDto cuisine;
+
+
+
 }

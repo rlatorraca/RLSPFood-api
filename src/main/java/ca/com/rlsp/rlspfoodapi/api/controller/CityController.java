@@ -2,15 +2,14 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.CityModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,7 +36,7 @@ public class CityController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<City> listAllJson(){
-    public List<CityOutputDTO> listAllJson(){
+    public List<CityOutputDto> listAllJson(){
         List<City> allCities = cityRepository.findAll();
 
 
@@ -53,7 +52,7 @@ public class CityController {
 
     @GetMapping("/{cityId}")
     //public City findById(@PathVariable Long cityId) {
-    public CityOutputDTO findById(@PathVariable Long cityId) {
+    public CityOutputDto findById(@PathVariable Long cityId) {
         City cidade = cityRegistrationService.findOrFail(cityId);
 
 
@@ -94,7 +93,7 @@ public class CityController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public City save(@RequestBody @Valid City city) {
-    public CityOutputDTO save(@RequestBody @Valid CityInputDTO cityInputDTO) {
+    public CityOutputDto save(@RequestBody @Valid CityInputDto cityInputDTO) {
         try{
             City city = cityInputDisassembler.fromInputToController(cityInputDTO);
 
@@ -126,7 +125,7 @@ public class CityController {
 
     @PutMapping("/{cityId}")
     //public City updateById(@PathVariable("cityId") Long id, @RequestBody @Valid City city) {
-    public CityOutputDTO updateById(@PathVariable("cityId") Long id, @RequestBody @Valid CityInputDTO cityInputDTO) {
+    public CityOutputDto updateById(@PathVariable("cityId") Long id, @RequestBody @Valid CityInputDto cityInputDTO) {
         try{
             City currentCity = cityRegistrationService.findOrFail(id);
 

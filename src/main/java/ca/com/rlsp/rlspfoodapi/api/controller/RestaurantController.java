@@ -2,24 +2,17 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.RestaurantModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.RestaurantInputDisassembler;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.AddressOutputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDTO;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDTO;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
-import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,7 +29,6 @@ import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -61,7 +53,7 @@ public class RestaurantController {
     private RestaurantInputDisassembler restaurantInputDisassembler;
 
     @GetMapping
-    public List<RestaurantOutputDTO> listAll() {
+    public List<RestaurantOutputDto> listAll() {
         return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
     }
 
@@ -78,10 +70,10 @@ public class RestaurantController {
     }
     */
     @GetMapping("/{restaurantId}")
-    public RestaurantOutputDTO findBy1Id(@PathVariable("restaurantId") Long id){
+    public RestaurantOutputDto findBy1Id(@PathVariable("restaurantId") Long id){
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
 
-        RestaurantOutputDTO restaurantDTO = restaurantModelAssembler.fromControllerToOutput(restaurant);
+        RestaurantOutputDto restaurantDTO = restaurantModelAssembler.fromControllerToOutput(restaurant);
 
         //return restaurantRegistrationService.findOrFail(id);
         return restaurantDTO;
@@ -106,7 +98,7 @@ public class RestaurantController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Restaurant save(@RequestBody @Validated(GroupsBeanValidation.RestaurantValidation.class) Restaurant restaurant) {
-    public RestaurantOutputDTO save(@RequestBody @Valid RestaurantInputDTO restaurantInputDTO) {
+    public RestaurantOutputDto save(@RequestBody @Valid RestaurantInputDto restaurantInputDTO) {
        try {
            Restaurant restaurant = restaurantInputDisassembler.fromInputToController(restaurantInputDTO); // Converte da representacao de INPUT par ao MODEL
 
@@ -138,7 +130,7 @@ public class RestaurantController {
     }
     */
     @PutMapping("/{restauranteId}")
-    public RestaurantOutputDTO updateById(@PathVariable("restauranteId") Long id, @RequestBody @Valid RestaurantInputDTO restaurantInputDTO) {
+    public RestaurantOutputDto updateById(@PathVariable("restauranteId") Long id, @RequestBody @Valid RestaurantInputDto restaurantInputDTO) {
 
         try {
             Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
@@ -177,11 +169,11 @@ public class RestaurantController {
     }
     */
     @PatchMapping("/{restauranteId}")
-    public RestaurantOutputDTO updateByIdPatch(@PathVariable("restauranteId") Long id,
+    public RestaurantOutputDto updateByIdPatch(@PathVariable("restauranteId") Long id,
                                                @RequestBody Map<String, Object> restaurantFields,
                                                HttpServletRequest request){
         Restaurant currentRestaurant = restaurantRegistrationService.findOrFail(id);
-        RestaurantInputDTO currentRestaurantDTO = restaurantModelAssembler.fromControllerToInput(currentRestaurant);
+        RestaurantInputDto currentRestaurantDTO = restaurantModelAssembler.fromControllerToInput(currentRestaurant);
 
         mergeDataToPatch(restaurantFields, currentRestaurantDTO, request);
         validateMerge(currentRestaurant, "restaurant");
@@ -200,9 +192,9 @@ public class RestaurantController {
         }
     }
 
-    private RestaurantInputDTO mergeDataToPatch(Map<String, Object> restaurantFields,
-                                  RestaurantInputDTO restaurantFinal,
-                                  HttpServletRequest request) {
+    private RestaurantInputDto mergeDataToPatch(Map<String, Object> restaurantFields,
+                                                RestaurantInputDto restaurantFinal,
+                                                HttpServletRequest request) {
 
         ServletServerHttpRequest servletRequest = new ServletServerHttpRequest(request);
 
@@ -216,7 +208,7 @@ public class RestaurantController {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // Para lancar Exception quando atributo JSON nao existir
 
             //Restaurant restaurantBase = objectMapper.convertValue(restaurantFields, Restaurant.class);
-            RestaurantInputDTO restaurantBase = objectMapper.convertValue(restaurantFields, RestaurantInputDTO.class);
+            RestaurantInputDto restaurantBase = objectMapper.convertValue(restaurantFields, RestaurantInputDto.class);
 
         /*
             O Reflection, em poucas palavras, serve para determinar métodos e atributos que serão utilizados de
@@ -225,7 +217,7 @@ public class RestaurantController {
          */
             restaurantFields.forEach( (nameAttribute, valueAttribute) -> {
 
-                Field field = ReflectionUtils.findField(RestaurantInputDTO.class, nameAttribute); // Java Reflection
+                Field field = ReflectionUtils.findField(RestaurantInputDto.class, nameAttribute); // Java Reflection
                 field.setAccessible(true);
 
                 Object newValueToAttributeInRestaurant = ReflectionUtils.getField(field, restaurantBase);
