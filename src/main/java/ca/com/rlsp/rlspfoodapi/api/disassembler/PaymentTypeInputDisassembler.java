@@ -8,13 +8,14 @@ import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-public class PaymentTypeModelDisassembler {
+@Component
+public class PaymentTypeInputDisassembler {
 
     @Autowired
     private ModelMapper modelMapper;

@@ -9,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class PaymentTypeInputDto {
 
+    public Long id;
+
     @NotBlank
     private String name;
 }
