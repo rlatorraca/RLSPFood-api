@@ -17,6 +17,6 @@ public class AddressOutputDto {
 
     private String district;
 
-    private CityOutputDto city;
+    private CityShortOutputDto city;
 
 }
