@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
+import jdk.jfr.TransitionTo;
 import lombok.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,10 @@ public class RestaurantInputDto {
     @Valid
     @NotNull
     private CuisineInputDto cuisine;
+
+    @Valid
+    @NotNull
+    private AddressInputDto address;
 
 
 

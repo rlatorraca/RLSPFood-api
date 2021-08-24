@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.disassembler.RestaurantInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.CityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
@@ -142,7 +143,7 @@ public class RestaurantController {
             //BeanUtils.copyProperties(restaurant, currentRestaurant,"id", "paymentTypeList", "address", "createdDate", "products");
             return restaurantModelAssembler.fromControllerToOutput(restaurantRegistrationService.save(currentRestaurant));
 
-        } catch (EntityNotFoundException e ){
+        } catch (EntityNotFoundException  e ){
             throw new GenericBusinessException(e.getReason());
         }
     }

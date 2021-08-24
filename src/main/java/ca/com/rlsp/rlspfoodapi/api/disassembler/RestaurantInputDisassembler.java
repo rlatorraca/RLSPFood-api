@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.disassembler;
 
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
+import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
@@ -46,6 +47,9 @@ public class RestaurantInputDisassembler {
         restaurant.setCuisine(new Cuisine());
         //restaurant.setAddress(new Address());
 
+        if(restaurant.getAddress() != null){
+            restaurant.getAddress().setCity(new City());
+        }
 
         modelMapperDTO.map(restauranteInputDTO, restaurant );
 

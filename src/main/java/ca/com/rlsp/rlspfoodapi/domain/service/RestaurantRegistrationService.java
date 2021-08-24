@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.domain.service;
 
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.RestaurantNotFoundException;
+import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
@@ -27,12 +28,19 @@ public class RestaurantRegistrationService {
     @Autowired
     private CuisineRegistrationService cuisineRegistrationService;
 
+    @Autowired
+    private CityRegistrationService cityRegistrationService;
+
     @Transactional
     public Restaurant save(Restaurant restaurant) {
         Long cuisineId = restaurant.getCuisine().getId();
+        Long cityId = restaurant.getAddress().getCity().getId();
+
         Cuisine cuisine = cuisineRegistrationService.findOrFail(cuisineId);
+        City city = cityRegistrationService.findOrFail(cityId);
 
         restaurant.setCuisine(cuisine);
+        restaurant.getAddress().setCity(city);
 
         return restaurantRepository.save(restaurant);
     }
