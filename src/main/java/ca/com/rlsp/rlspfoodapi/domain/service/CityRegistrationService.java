@@ -19,8 +19,8 @@ import java.util.Optional;
 @Service
 public class CityRegistrationService {
 
-    public static final String MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "City as code is %d not found into the Database";
-    public static final String MSG_CITY_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY = "City as code is %d cannot be removed, because that is being used as  secondary key";
+    public static final String MSG_CITY_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "City having code %d  %d not found into the Database";
+    public static final String MSG_CITY_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY = "City having code %d cannot be removed, because that is being used as  secondary key";
     @Autowired
     private CityRepository cityRepository;
 

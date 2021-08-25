@@ -17,8 +17,8 @@ import java.util.Optional;
 @Service
 public class CuisineRegistrationService {
 
-    public static final String MSG_CUISINE_AS_CODE_IS_NOT_FOUND = "Cuisine as code is %d not found into the Database";
-    public static final String MSG_CUISINE_AS_CODE_IS_BEING_USED_AS_SECONDARY_KEY = "Cuisine as code is %d cannot be removed, because that is being used as secondary key";
+    public static final String MSG_CUISINE_AS_CODE_IS_NOT_FOUND = "Cuisine having code %d %d not found into the Database";
+    public static final String MSG_CUISINE_AS_CODE_IS_BEING_USED_AS_SECONDARY_KEY = "Cuisine having code %d %d cannot be removed, because that is being used as secondary key";
 
     @Autowired
     private CuisineRepository cuisineRepository;
