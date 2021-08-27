@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
+import ca.com.rlsp.rlspfoodapi.domain.repository.CustomJpaRepository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,4 +47,13 @@ public class Client {
     )
     private List<Group> groups = new ArrayList<>();
 
-}
+    public boolean passwordMatches(String password) {
+        return getPassword().equals(password);
+    }
+
+    public boolean passwordNotMatches(String password) {
+        return !passwordMatches(password);
+    }
+
+
+    }

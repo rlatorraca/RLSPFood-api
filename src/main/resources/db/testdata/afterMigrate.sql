@@ -96,3 +96,10 @@ insert into tbl_group (group_name) values ('Manager');
 insert into tbl_group (group_name) values ('Sales Associate');
 insert into tbl_group (group_name) values ('Administrative Assistant');
 insert into tbl_group (group_name) values ('Register');
+
+
+insert into tbl_client (id, client_name, client_email, client_password, client_last_modified) values
+                                                                (1, 'Ann Green Gable', 'ann@algafood.com', '123', utc_timestamp),
+                                                                (2, 'Pascoal Moreira Cabral', 'pascoal@algafood.com', '123', utc_timestamp),
+                                                                (3, 'Albert Einstein', 'albert@algafood.com', '123', utc_timestamp),
+                                                                (4, 'Maximus Alexandre', 'maximus@algafood.com', '123', utc_timestamp);
