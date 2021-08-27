@@ -91,3 +91,8 @@ insert into tbl_product (product_name, product_description, product_price, produ
 insert into tbl_product (product_name, product_description, product_price, product_active, restaurant_id) values ('T-Bone', 'Corte muito saboroso, com um osso em formato de T, sendo de um lado o contrafilé e do outro o filé mignon', 89, 1, 4);
 insert into tbl_product (product_name, product_description, product_price, product_active, restaurant_id) values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
 insert into tbl_product (product_name, product_description, product_price, product_active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
+
+insert into tbl_group (group_name) values ('Manager');
+insert into tbl_group (group_name) values ('Sales Associate');
+insert into tbl_group (group_name) values ('Administrative Assistant');
+insert into tbl_group (group_name) values ('Register');

@@ -3,7 +3,9 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 import ca.com.rlsp.rlspfoodapi.api.assembler.GroupModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.GroupInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.GroupInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.GroupOutputDto;
+import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.repository.GroupRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.GroupRegistrationService;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
@@ -32,6 +35,24 @@ public class GroupController {
         this.groupInputDisassembler = groupInputDisassembler;
     }
 
+    @GetMapping
+    public List<GroupOutputDto> listAll() {
+        List<Group> todosGrupos = groupRepository.findAll();
+
+        return groupModelAssembler.fromControllerToOutputList(todosGrupos);
+    }
+
+    @GetMapping("/{groupId}")
+    //public City findById(@PathVariable Long cityId) {
+    public GroupOutputDto findById(@PathVariable("groupId") Long id) {
+        Group group = groupRegistrationService.FindOrFail(id);
+
+
+        //  return cityRegistrationService.findOrFail(cityId);
+
+        return groupModelAssembler.fromControllerToOutput(group);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GroupOutputDto save(@PathVariable @Valid GroupInputDto groupInput){
@@ -43,7 +64,7 @@ public class GroupController {
     @PutMapping("{groupId}")
     public GroupOutputDto update(@PathVariable("groupId") Long id,
                                  @RequestBody @Valid GroupInputDto groupInputDto){
-        Group currentGroup = groupRegistrationService.FindAndFail(id);
+        Group currentGroup = groupRegistrationService.FindOrFail(id);
         groupInputDisassembler.fromDTOtoGroup(groupInputDto, currentGroup);
         currentGroup = groupRegistrationService.save(currentGroup);
         return groupModelAssembler.fromControllerToOutput(currentGroup);
@@ -51,7 +72,7 @@ public class GroupController {
 
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remove(@PathVariable("groupId") Long id) {
+    public void remove(@PathVariable("grupoId") Long id) {
         groupRegistrationService.delete(id);
     }
 }

@@ -1,7 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
+import ca.com.rlsp.rlspfoodapi.domain.exception.CityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GroupNotFoundException;
+import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.repository.GroupRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,6 +27,8 @@ public class GroupRegistrationService {
     public Group save(Group grupo) {
         return groupRepository.save(grupo);
     }
+
+
     @Transactional
     public void delete(Long groupId){
         try {
@@ -31,15 +36,16 @@ public class GroupRegistrationService {
             groupRepository.deleteById(groupId);
             groupRepository.flush();
         } catch (EmptyResultDataAccessException e) {
-
+            throw new GroupNotFoundException(groupId);
         } catch (DataIntegrityViolationException e){
             throw new EntityIsForeignKeyException(String.format(MSG_CODE_IS_BEING_USED_AS_SECONDARY_KEY, groupId));
         }
 
     }
 
-    public Group FindAndFail(Long groupId) {
+    public Group FindOrFail(Long groupId) {
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException(groupId));
     }
+
 }
