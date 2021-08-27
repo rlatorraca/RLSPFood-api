@@ -7,8 +7,10 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.GroupRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class GroupRegistrationService {
 
     private static final String MSG_CODE_IS_BEING_USED_AS_SECONDARY_KEY  = "Group name having code %d cannot be removed, because that is being used as secondary key";
@@ -36,7 +38,7 @@ public class GroupRegistrationService {
 
     }
 
-    public Group buscarOuFalhar(Long groupId) {
+    public Group FindAndFail(Long groupId) {
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException(groupId));
     }
