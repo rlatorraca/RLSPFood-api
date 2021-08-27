@@ -43,8 +43,8 @@ public class ClientController {
     }
 
     @GetMapping("/{clientId}")
-    public ClientOutputDto findById(@PathVariable Long usuarioId) {
-        Client client = clientRegistrationService.findOrFail(usuarioId);
+    public ClientOutputDto findById(@PathVariable("clientId") Long id) {
+        Client client = clientRegistrationService.findOrFail(id);
 
         return clientModelAssembler.fromControllerToOutput(client);
     }

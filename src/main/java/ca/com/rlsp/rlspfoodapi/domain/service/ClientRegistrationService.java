@@ -30,6 +30,13 @@ public class ClientRegistrationService {
 
     @Transactional
     public Client save(Client client){
+        clientRepository.detach(client);
+        Optional<Client> clientFound = clientRepository.findByEmail(client.getEmail());
+
+        if( clientFound.isPresent() && !clientFound.get().equals(client)) {
+            throw new GenericBusinessException(String.format("Email %s already used by another client", client.getEmail()));
+        }
+
         return clientRepository.save(client);
     }
 
