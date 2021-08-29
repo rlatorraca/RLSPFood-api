@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 public class ProductRegistrationService {
 
-    public static final String MSG_PRODUCT_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "Product of code %d  %d not found into the Database";
+    public static final String MSG_PRODUCT_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "Product of code %d  on restaurant of code %d not found into the Database";
     public static final String MSG_PRODUCT_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY = "Product of code %d cannot be removed, because that is being used as  secondary key";
 
     @Autowired

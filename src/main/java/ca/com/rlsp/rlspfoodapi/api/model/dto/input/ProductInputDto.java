@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ProductInputDto {
+public class ProductInputDto extends ProductInputUpdateStatusDto {
 
     @NotBlank
     @Column(name = "product_name", nullable = false)
@@ -26,7 +26,5 @@ public class ProductInputDto {
     @Column(name = "product_price", nullable = false)
     private BigDecimal price;
 
-    @NotNull
-    @Column(name = "product_active", nullable = false )
-    private Boolean active;
+
 }

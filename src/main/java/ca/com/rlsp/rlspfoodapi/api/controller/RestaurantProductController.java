@@ -1,15 +1,15 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
-import ca.com.rlsp.rlspfoodapi.api.assembler.PaymentTypeModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.assembler.ProductModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.ProductInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.PaymentTypeOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputUpdateStatusDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductOutputDto;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProductRepository;
-import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,7 @@ public class RestaurantProductController {
 
 
     @GetMapping
-    public List<ProductOutputDto> listAll(@PathVariable("restaurantId")
-                                                          Long id) {
+    public List<ProductOutputDto> listAll(@PathVariable("restaurantId") Long id) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
         List<ProductOutputDto> productOutputDtoList = productModelAssembler.fromControllerToOutputList(restaurant.getProducts());
         return productOutputDtoList;
@@ -49,12 +48,14 @@ public class RestaurantProductController {
 
     @DeleteMapping("/{paymentTypeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void detachPaymentType(@PathVariable("paymentTypeId") Long paymentTypeId, @PathVariable("restaurantId") Long restaurantId){
+    public void detachPaymentType(@PathVariable("paymentTypeId") Long paymentTypeId,
+                                  @PathVariable("restaurantId") Long restaurantId){
         restaurantRegistrationService.detachPaymentType(restaurantId,paymentTypeId);
     }
 
-    @GetMapping("/{produtoId}")
-    public ProductOutputDto buscar(@PathVariable Long restaurantId, @PathVariable Long productId) {
+    @GetMapping("/{productId}")
+    public ProductOutputDto buscar(@PathVariable Long restaurantId,
+                                   @PathVariable Long productId) {
         Product product = productRegistrationService.findOrFail(restaurantId, productId);
 
         return productModelAssembler.fromControllerToOutput(product);
@@ -68,25 +69,46 @@ public class RestaurantProductController {
     }
     */
 
-    @PutMapping("/{produtoId}")
-    public ProductOutputDto update(@PathVariable Long restaurantId, @PathVariable Long productId,
-                                  @RequestBody @Valid ProductInputDto productInputDto) {
-        Product currentProduct = productRegistrationService.findOrFail(restaurantId, productId);
+    @PutMapping("/{productId}")
+    public ProductOutputDto update(@PathVariable Long restaurantId,
+                                   @PathVariable Long productId,
+                                   @RequestBody  @Valid ProductInputDto productInputDto) {
+        return getProductOutputDto(restaurantId, productId, productInputDto);
+    }
 
-        productInputDisassembler.fromDTOtoProduct(productInputDto, currentProduct);
+    @PutMapping("/{productId}/status")
+    public ProductOutputDto updateJustStatus(@PathVariable Long restaurantId,
+                                   @PathVariable Long productId,
+                                   @RequestBody  @Valid ProductInputUpdateStatusDto productInputDto) {
+        return getProductOutputDto(restaurantId, productId, productInputDto);
+    }
 
-        currentProduct = productRegistrationService.save(currentProduct);
+    private ProductOutputDto getProductOutputDto(Long restaurantId, Long productId, ProductInputUpdateStatusDto productInputDto) {
+        try{
+            Product currentProduct = productRegistrationService.findOrFail(restaurantId, productId);
+
+            if(productInputDto instanceof ProductInputDto){
+                productInputDisassembler.fromDTOtoProduct(productInputDto, currentProduct);
+            } else {
+                productInputDisassembler.fromDTOtoProductStatus(productInputDto, currentProduct);
+            }
+
+            currentProduct = productRegistrationService.save(currentProduct);
 
         return productModelAssembler.fromControllerToOutput(currentProduct);
+        } catch ( EntityNotFoundException e ){
+            throw new GenericBusinessException(e.getReason());
+        }
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductOutputDto adicionar(@PathVariable Long restaurantId,
-                                  @RequestBody @Valid ProductInputDto productInputDto) {
+                                      @RequestBody @Valid ProductInputDto productInputDto) {
         Restaurant restaurant =  restaurantRegistrationService.findOrFail(restaurantId);
 
         Product product = productInputDisassembler.fromInputToController(productInputDto);
+
         product.setRestaurant(restaurant);
 
         product = productRegistrationService.save(product);
@@ -94,5 +116,9 @@ public class RestaurantProductController {
         return productModelAssembler.fromControllerToOutput(product);
     }
 
-
+    @DeleteMapping("/delete/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("productId") Long id) {
+        productRegistrationService.remove(id);
+    }
 }
