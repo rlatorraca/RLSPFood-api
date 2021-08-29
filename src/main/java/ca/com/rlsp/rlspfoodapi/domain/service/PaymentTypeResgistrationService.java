@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 public class PaymentTypeResgistrationService {
 
     private static final String MSG_FORMA_PAGAMENTO_EM_USO
-            = "Paymento Type having code %d cannot be removed,  because that is being used as secondary key";
+            = "Payment Type of code %d cannot be removed,  because that is being used as secondary key";
 
     @Autowired
     private PaymentTypeRepository paymentTypeRepository;

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GroupRegistrationService {
 
-    private static final String MSG_CODE_IS_BEING_USED_AS_SECONDARY_KEY  = "Group name having code %d cannot be removed, because that is being used as secondary key";
+    private static final String MSG_CODE_IS_BEING_USED_AS_SECONDARY_KEY  = "Group name of code %d cannot be removed, because that is being used as secondary key";
     private GroupRepository groupRepository;
 
     public GroupRegistrationService(final GroupRepository groupRepository) {

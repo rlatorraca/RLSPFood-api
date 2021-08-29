@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 public class RestaurantRegistrationService {
 
-    public static final String MSG_RESTAURANT_NOT_SAVED_INTO_THE_DATABASE = "Restaurant having code %d not saved into the Database";
+    public static final String MSG_RESTAURANT_NOT_SAVED_INTO_THE_DATABASE = "Restaurant of code %d not saved into the Database";
     @Autowired
     private RestaurantRepository restaurantRepository;
 

@@ -20,8 +20,8 @@ import java.util.Optional;
 @Service
 public class ClientRegistrationService {
 
-    public static final String MSG_CLIENT_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "Client having code %d  %d not found into the Database";
-    public static final String MSG_CLIENT_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY = "Client having code %d cannot be removed, because that is being used as  secondary key";
+    public static final String MSG_CLIENT_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "Client of code %d  %d not found into the Database";
+    public static final String MSG_CLIENT_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY = "Client of code %d cannot be removed, because that is being used as  secondary key";
     @Autowired
     private ClientRepository clientRepository;
 

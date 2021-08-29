@@ -17,7 +17,7 @@ import java.util.Optional;
 public class ProvinceRegistrationService {
 
 
-    public static final String MSG_PROVINCE_IS_USED_AS_SECONDARY_KEY = "Province having code %d cannot be removed, because that is being used as  secondary key";
+    public static final String MSG_PROVINCE_IS_USED_AS_SECONDARY_KEY = "Province of code %d cannot be removed, because that is being used as  secondary key";
     @Autowired
     private ProvinceRepository provinceRepository;
 

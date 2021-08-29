@@ -27,7 +27,7 @@ public class Product {
     private BigDecimal price;
 
     @Column(name = "product_active", nullable = false )
-    private boolean active;
+    private Boolean active;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
