@@ -19,7 +19,7 @@ public class ProductInputDisassembler {
         return modelMapper.map(productInputDto, Product.class);
     }
     
-    public void fromDTOtoCity(ProductInputDto productInputDto, Product product) {
+    public void fromDTOtoProduct(ProductInputDto productInputDto, Product product) {
         modelMapper.map(productInputDto, product);
     }   
 } 
