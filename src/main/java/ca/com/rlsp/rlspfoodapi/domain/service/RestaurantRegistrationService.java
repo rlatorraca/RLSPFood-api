@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.RestaurantNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
+import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
@@ -30,6 +31,9 @@ public class RestaurantRegistrationService {
 
     @Autowired
     private CityRegistrationService cityRegistrationService;
+
+    @Autowired
+    private PaymentTypeResgistrationService paymentTypeResgistrationService;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
@@ -93,6 +97,26 @@ public class RestaurantRegistrationService {
 
         //currentRestaurant.setActive(false);
         currentRestaurant.inactivate();
+    }
+
+    @Transactional
+    public void attachPaymentType(Long restaurantId, Long paymentTypeId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        PaymentType paymentType = paymentTypeResgistrationService.findAndFail(paymentTypeId);
+
+        // Como Hibernate gerencia as entedias nao precisamos usar o SAVE para salvar...
+        // mas sera salvo quando ver que precisamos usa-lo
+        restaurant.addPaymentType(paymentType);
+    }
+
+    @Transactional
+    public void detachPaymentType(Long restaurantId, Long paymentTypeId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        PaymentType paymentType = paymentTypeResgistrationService.findAndFail(paymentTypeId);
+
+        // Como Hibernate gerencia as entedias nao precisamos usar o SAVE para salvar...
+        // mas sera salvo quando ver que precisamos usa-lo
+        restaurant.removePaymentType(paymentType);
     }
 
    

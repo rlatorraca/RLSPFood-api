@@ -6,8 +6,6 @@ import ca.com.rlsp.rlspfoodapi.core.validation.ValueZeroInsertDescription;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,10 +17,11 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @ValueZeroInsertDescription(valueField="deliveryFee", toCheckField="name", mandatoryDescription="Free Delivery")
 @Data
@@ -101,7 +100,7 @@ public class Restaurant {
     @JoinTable(name = "tbl_restaurant_paymenttype",
                joinColumns = @JoinColumn(name = "restaurant_id"),
                inverseJoinColumns = @JoinColumn(name = "payment_type_id"))
-    private List<PaymentType> paymentTypeList = new ArrayList<>();
+    private Set<PaymentType> paymentTypeList = new HashSet<>();
 
 
     /*@JsonIgnore  -> Na classe MIXIN */
@@ -114,5 +113,14 @@ public class Restaurant {
 
     public void inactivate() {
         setActive(false);
+    }
+
+    // Adiciona (vincula) uma nova forma de pagamento ao Restaurante
+    public boolean addPaymentType(PaymentType paymentType){
+        return getPaymentTypeList().add(paymentType);
+    }
+    // Remove (desvincula) uma nova forma de pagamento ao Restaurante
+    public boolean removePaymentType(PaymentType paymentType){
+        return getPaymentTypeList().remove(paymentType);
     }
 }

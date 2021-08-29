@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -45,9 +47,16 @@ public class PaymentTypeModelAssembler {
     /*
         Convert MODEL -> DTO (list GET)
     */
-    public List<PaymentTypeOutputDto> fromControllerToOutputList(List<PaymentType> paymentTypes){
+    public List<PaymentTypeOutputDto> fromControllerToOutputList(Collection<PaymentType> paymentTypes){
         return paymentTypes.stream()
                 .map(paymentType -> fromControllerToOutput(paymentType))
                 .collect(Collectors.toList());
     }
+    /*
+    public Set<PaymentTypeOutputDto> fromControllerToOutputList(Set<PaymentType> paymentTypes){
+        return paymentTypes.stream()
+                .map(paymentType -> fromControllerToOutput(paymentType))
+                .collect(Collectors.toSet());
+    }
+     */
 }
