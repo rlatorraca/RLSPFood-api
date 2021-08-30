@@ -45,7 +45,7 @@ public class GroupController {
     @GetMapping("/{groupId}")
     //public City findById(@PathVariable Long cityId) {
     public GroupOutputDto findById(@PathVariable("groupId") Long id) {
-        Group group = groupRegistrationService.FindOrFail(id);
+        Group group = groupRegistrationService.findOrFail(id);
 
 
         //  return cityRegistrationService.findOrFail(cityId);
@@ -55,7 +55,7 @@ public class GroupController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GroupOutputDto save(@PathVariable @Valid GroupInputDto groupInput){
+    public GroupOutputDto save(@RequestBody @Valid GroupInputDto groupInput){
         Group group = groupInputDisassembler.fromInputToController(groupInput);
         group =  groupRegistrationService.save(group);
         return groupModelAssembler.fromControllerToOutput(group);
@@ -64,7 +64,7 @@ public class GroupController {
     @PutMapping("{groupId}")
     public GroupOutputDto update(@PathVariable("groupId") Long id,
                                  @RequestBody @Valid GroupInputDto groupInputDto){
-        Group currentGroup = groupRegistrationService.FindOrFail(id);
+        Group currentGroup = groupRegistrationService.findOrFail(id);
         groupInputDisassembler.fromDTOtoGroup(groupInputDto, currentGroup);
         currentGroup = groupRegistrationService.save(currentGroup);
         return groupModelAssembler.fromControllerToOutput(currentGroup);

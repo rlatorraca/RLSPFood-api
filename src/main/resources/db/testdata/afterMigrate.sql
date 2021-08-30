@@ -92,14 +92,24 @@ insert into tbl_product (product_name, product_description, product_price, produ
 insert into tbl_product (product_name, product_description, product_price, product_active, restaurant_id) values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
 insert into tbl_product (product_name, product_description, product_price, product_active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
-insert into tbl_group (group_name) values ('Manager');
-insert into tbl_group (group_name) values ('Sales Associate');
-insert into tbl_group (group_name) values ('Administrative Assistant');
-insert into tbl_group (group_name) values ('Register');
+insert into tbl_group (id, group_name) values (1, 'Manager');
+insert into tbl_group (id, group_name) values (2, 'Sales Associate');
+insert into tbl_group (id, group_name) values (3, 'Administrative Assistant');
+insert into tbl_group (id, group_name) values (4, 'Register');
 
 
 insert into tbl_client (id, client_name, client_email, client_password, client_created, client_last_modified) values
-                                                                (1, 'Ann Green Gable', 'ann@algafood.com', '123', utc_timestamp, utc_timestamp),
-                                                                (2, 'Pascoal Moreira Cabral', 'pascoal@algafood.com', '123', utc_timestamp, utc_timestamp),
-                                                                (3, 'Albert Einstein', 'albert@algafood.com', '123', utc_timestamp, utc_timestamp),
-                                                                (4, 'Maximus Alexandre', 'maximus@algafood.com', '123', utc_timestamp, utc_timestamp);
+                       (1, 'Ann Green Gable', 'ann@algafood.com', '123', utc_timestamp, utc_timestamp),
+                       (2, 'Pascoal Moreira Cabral', 'pascoal@algafood.com', '123', utc_timestamp, utc_timestamp),
+                       (3, 'Albert Einstein', 'albert@algafood.com', '123', utc_timestamp, utc_timestamp),
+                       (4, 'Maximus Alexandre', 'maximus@algafood.com', '123', utc_timestamp, utc_timestamp);
+
+insert into tbl_permission (id, permission_description, permission_name) values
+                           (1, 'Has full access for all entrypoints', 'FULL APP'),
+                           (2, 'Has full access for all restaurants entrypoints', 'FULL RESTAURANT'),
+                           (3, 'Has full access for payments type in restaurant entrypoints', 'FULL PAYMENT TYPE'),
+                           (4, 'Has full access for all orders entrypoints', 'FULL ORDER'),
+                           (5, 'Has full access for all clients entrypoints', 'FULL CLIENT');
+
+insert into tbl_group_permission (group_id, permission_id) values
+                                  (1, 1),(1, 2),(1, 3),(1, 4),(1, 5),(2, 4),(2, 5),(3, 2),(3, 3),(3, 4),(3, 5),(4, 5);
