@@ -119,5 +119,17 @@ public class RestaurantRegistrationService {
         restaurant.removePaymentType(paymentType);
     }
 
-   
+    @Transactional
+    public void openRestaurantService(Long restaurantId) {
+        Restaurant currentRestaurant = findOrFail(restaurantId);
+
+        currentRestaurant.openRestaurant();
+    }
+
+    @Transactional
+    public void closeRestaurantService(Long restaurantId) {
+        Restaurant currentRestaurant = findOrFail(restaurantId);
+
+        currentRestaurant.closeRestaurant();
+    }
 }

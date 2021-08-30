@@ -22,6 +22,8 @@ public class RestaurantOutputDto {
 
     private Boolean active;
 
+    private Boolean opened;
+
     private OffsetDateTime createdDate;
 
     private OffsetDateTime dateLastUpdate;

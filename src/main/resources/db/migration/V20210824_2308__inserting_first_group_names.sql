@@ -1,1 +1,0 @@
-insert into tbl_group (group_name) values ('Manager'), ('Sales Associate'), ('Administrative Assistant'), ('Register');

@@ -245,6 +245,20 @@ public class RestaurantController {
     }
 
 
+    /*
+        Routes for OPEN and CLOSE Restaurant
+     */
+    @PutMapping("/{restaurantId}/opening")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void open(@PathVariable Long restaurantId) {
+        restaurantRegistrationService.openRestaurantService(restaurantId);
+    }
+
+    @PutMapping("/{restaurantId}/closing")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void close(@PathVariable Long restaurantId) {
+        restaurantRegistrationService.closeRestaurantService(restaurantId);
+    }
 
     /*
         DELETE /restaurant/{id}/active
