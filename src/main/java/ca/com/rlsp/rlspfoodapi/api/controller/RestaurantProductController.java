@@ -24,20 +24,24 @@ import java.util.List;
 @RequestMapping(value="/restaurants/{restaurantId}/products",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantProductController {
 
-    @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
     private ProductRegistrationService productRegistrationService;
-
-    @Autowired
     private RestaurantRegistrationService restaurantRegistrationService;
-
-    @Autowired
     private ProductModelAssembler productModelAssembler;
-    @Autowired
     private ProductInputDisassembler productInputDisassembler;
 
+    public RestaurantProductController(ProductRepository productRepository,
+                                       ProductRegistrationService productRegistrationService,
+                                       RestaurantRegistrationService restaurantRegistrationService,
+                                       ProductModelAssembler productModelAssembler,
+                                       ProductInputDisassembler productInputDisassembler) {
+
+        this.productRepository = productRepository;
+        this.productRegistrationService = productRegistrationService;
+        this.restaurantRegistrationService = restaurantRegistrationService;
+        this.productModelAssembler = productModelAssembler;
+        this.productInputDisassembler = productInputDisassembler;
+    }
 
     @GetMapping
     public List<ProductOutputDto> listAll(@PathVariable("restaurantId") Long id) {

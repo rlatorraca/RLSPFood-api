@@ -14,11 +14,14 @@ import java.util.List;
 @RequestMapping(value = "/groups/{groupId}/permissions")
 public class GroupPermissionController {
 
-    @Autowired
     private GroupRegistrationService groupRegistrationService;
-
-    @Autowired
     private PermissionModelAssembler permissionModelAssembler;
+
+    public GroupPermissionController(GroupRegistrationService groupRegistrationService,
+                                     PermissionModelAssembler permissionModelAssembler) {
+        this.groupRegistrationService = groupRegistrationService;
+        this.permissionModelAssembler = permissionModelAssembler;
+    }
 
     @GetMapping
     public List<PermissionOutputDto> listar(@PathVariable Long groupId) {

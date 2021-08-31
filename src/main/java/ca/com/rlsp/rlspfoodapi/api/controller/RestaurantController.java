@@ -35,23 +35,30 @@ import java.util.Map;
 @RequestMapping(value="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantController {
 
-    @Autowired
     private RestaurantRegistrationService restaurantRegistrationService;
 
-    @Autowired
     private RestaurantRepository restaurantRepository;
 
     // Para fazer a validacao dentro no PATCH (on validateMerge())
-    @Autowired
     private SmartValidator smartValidator;
 
     // Monta um DTO para os Model (de Entidade) para Restaurante
-    @Autowired
     private RestaurantModelAssembler restaurantModelAssembler;
 
     // Desmont um DTO para oumModel (de Entidade) para Restaurante
-    @Autowired
     private RestaurantInputDisassembler restaurantInputDisassembler;
+
+    public RestaurantController(RestaurantRegistrationService restaurantRegistrationService,
+                                RestaurantRepository restaurantRepository,
+                                SmartValidator smartValidator,
+                                RestaurantModelAssembler restaurantModelAssembler,
+                                RestaurantInputDisassembler restaurantInputDisassembler) {
+        this.restaurantRegistrationService = restaurantRegistrationService;
+        this.restaurantRepository = restaurantRepository;
+        this.smartValidator = smartValidator;
+        this.restaurantModelAssembler = restaurantModelAssembler;
+        this.restaurantInputDisassembler = restaurantInputDisassembler;
+    }
 
     @GetMapping
     public List<RestaurantOutputDto> listAll() {

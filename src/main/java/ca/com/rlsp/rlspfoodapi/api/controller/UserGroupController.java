@@ -14,11 +14,13 @@ import java.util.List;
 @RequestMapping(value="/users/{userId}/groups")
 public class UserGroupController {
 
-    @Autowired
     private UserRegistrationService userRegistrationService;
-
-    @Autowired
     private GroupModelAssembler groupModelAssembler;
+
+    public UserGroupController(UserRegistrationService userRegistrationService, GroupModelAssembler groupModelAssembler) {
+        this.userRegistrationService = userRegistrationService;
+        this.groupModelAssembler = groupModelAssembler;
+    }
 
     @GetMapping
     public List<GroupOutputDto> listAll(@PathVariable Long userId) {

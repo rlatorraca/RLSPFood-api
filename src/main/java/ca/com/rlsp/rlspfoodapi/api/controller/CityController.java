@@ -22,17 +22,21 @@ import java.util.List;
 @RequestMapping(value = "/cities")
 public class CityController {
 
-    @Autowired
     private CityRegistrationService cityRegistrationService;
-
-    @Autowired
     private CityRepository cityRepository;
-
-    @Autowired
     private CityModelAssembler cityModelAssembler;
-
-    @Autowired
     private CityInputDisassembler cityInputDisassembler;
+
+    public CityController(CityRegistrationService cityRegistrationService, 
+                          CityRepository cityRepository, 
+                          CityModelAssembler cityModelAssembler,                          
+                          CityInputDisassembler cityInputDisassembler) {
+        
+        this.cityRegistrationService = cityRegistrationService;
+        this.cityRepository = cityRepository;
+        this.cityModelAssembler = cityModelAssembler;
+        this.cityInputDisassembler = cityInputDisassembler;
+    }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<City> listAllJson(){

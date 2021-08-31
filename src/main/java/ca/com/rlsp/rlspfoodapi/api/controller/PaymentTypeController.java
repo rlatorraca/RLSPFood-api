@@ -18,17 +18,20 @@ import java.util.List;
 @RequestMapping("/paymenttype")
 public class PaymentTypeController {
 
-    @Autowired
     private PaymentTypeRepository paymentTypeRepository;
-
-    @Autowired
     private PaymentTypeResgistrationService paymentTypeResgistrationService;
-
-    @Autowired
     private PaymentTypeModelAssembler paymentTypeModelAssembler;
-
-    @Autowired
     private PaymentTypeInputDisassembler paymentTypeInputDisassembler;
+
+    public PaymentTypeController(PaymentTypeRepository paymentTypeRepository,
+                                 PaymentTypeResgistrationService paymentTypeResgistrationService,
+                                 PaymentTypeModelAssembler paymentTypeModelAssembler,
+                                 PaymentTypeInputDisassembler paymentTypeInputDisassembler) {
+        this.paymentTypeRepository = paymentTypeRepository;
+        this.paymentTypeResgistrationService = paymentTypeResgistrationService;
+        this.paymentTypeModelAssembler = paymentTypeModelAssembler;
+        this.paymentTypeInputDisassembler = paymentTypeInputDisassembler;
+    }
 
     @GetMapping
     public List<PaymentTypeOutputDto> listar() {

@@ -18,15 +18,17 @@ import java.util.Set;
 @RequestMapping(value="/restaurants/{restaurantId}/paymenttype",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantPaymentTypeController {
 
-    @Autowired
     private RestaurantRegistrationService restaurantRegistrationService;
-
-    @Autowired
     private RestaurantRepository restaurantRepository;
-
-    @Autowired
     private PaymentTypeModelAssembler paymentTypeModelAssembler;
 
+    public RestaurantPaymentTypeController(RestaurantRegistrationService restaurantRegistrationService,
+                                           RestaurantRepository restaurantRepository,
+                                           PaymentTypeModelAssembler paymentTypeModelAssembler) {
+        this.restaurantRegistrationService = restaurantRegistrationService;
+        this.restaurantRepository = restaurantRepository;
+        this.paymentTypeModelAssembler = paymentTypeModelAssembler;
+    }
 
     @GetMapping
     public List<PaymentTypeOutputDto> listAll(@PathVariable("restaurantId")

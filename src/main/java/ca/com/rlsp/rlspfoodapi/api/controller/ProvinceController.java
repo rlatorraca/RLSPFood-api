@@ -19,17 +19,21 @@ import java.util.List;
 @RequestMapping("/provinces")
 public class ProvinceController {
 
-    @Autowired
     private ProvinceRegistrationService provinceRegistrationService;
-
-    @Autowired
     private ProvinceInputDisassembler provinceInputDisassembler;
-
-    @Autowired
     private ProvinceModelAssembler provinceModelAssembler;
-
-    @Autowired
     private ProvinceRepository provinceRepository;
+
+    public ProvinceController(ProvinceRegistrationService provinceRegistrationService,
+                              ProvinceInputDisassembler provinceInputDisassembler,
+                              ProvinceModelAssembler provinceModelAssembler,
+                              ProvinceRepository provinceRepository) {
+
+        this.provinceRegistrationService = provinceRegistrationService;
+        this.provinceInputDisassembler = provinceInputDisassembler;
+        this.provinceModelAssembler = provinceModelAssembler;
+        this.provinceRepository = provinceRepository;
+    }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<Province> listAllJson(){

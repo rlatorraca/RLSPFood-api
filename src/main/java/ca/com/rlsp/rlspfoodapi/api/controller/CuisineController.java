@@ -20,18 +20,21 @@ import java.util.List;
 @RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class CuisineController {
 
-    @Autowired
     private  CuisineRepository cuisineRepository;
-
-    @Autowired
     private CuisineRegistrationService cuisineRegistrationService;
-
-    @Autowired
     private CuisineInputDisassembler cuisineInputDisassembler;
-
-    @Autowired
     private CuisineModelAssembler cuisineModelAssembler;
 
+    public CuisineController(CuisineRepository cuisineRepository,
+                             CuisineRegistrationService cuisineRegistrationService,
+                             CuisineInputDisassembler cuisineInputDisassembler,
+                             CuisineModelAssembler cuisineModelAssembler) {
+
+        this.cuisineRepository = cuisineRepository;
+        this.cuisineRegistrationService = cuisineRegistrationService;
+        this.cuisineInputDisassembler = cuisineInputDisassembler;
+        this.cuisineModelAssembler = cuisineModelAssembler;
+    }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<Cuisine> listAll(){

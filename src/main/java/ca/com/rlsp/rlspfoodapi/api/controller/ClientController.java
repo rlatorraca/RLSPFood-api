@@ -23,17 +23,21 @@ import java.util.List;
 @RequestMapping(value = "/clients")
 public class ClientController {
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private UserRegistrationService userRegistrationService;
-
-    @Autowired
     private ClientModelAssembler clientModelAssembler;
-
-    @Autowired
     private ClientInputDisassembler clientInputDisassembler;
+
+    public ClientController(UserRepository userRepository,
+                            UserRegistrationService userRegistrationService,
+                            ClientModelAssembler clientModelAssembler,
+                            ClientInputDisassembler clientInputDisassembler) {
+
+        this.userRepository = userRepository;
+        this.userRegistrationService = userRegistrationService;
+        this.clientModelAssembler = clientModelAssembler;
+        this.clientInputDisassembler = clientInputDisassembler;
+    }
 
     @GetMapping
     public List<UserOutputDto> listaAll() {
