@@ -26,7 +26,7 @@ create table tbl_order (
 
     constraint fk_order_address_city foreign key (order_address_city_id) references tbl_city (id),
     constraint fk_order_restaurant foreign key (order_restaurant_id) references tbl_restaurant (id),
-    constraint fk_order_user_client foreign key (order_user_client_id) references tbl_client (id),
+    constraint fk_order_user_client foreign key (order_user_client_id) references tbl_user (id),
     constraint fk_order_paymenttype foreign key (order_paymenttype_id) references tbl_paymenttype (id)
 
 ) engine=InnoDB default charset=utf8;

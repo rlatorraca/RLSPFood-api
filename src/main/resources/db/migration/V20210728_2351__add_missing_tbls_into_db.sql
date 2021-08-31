@@ -55,19 +55,19 @@ create table tbl_restaurant_paymenttype (
                                             payment_type_id bigint not null
 ) engine=InnoDB;
 
-create table tbl_client (
+create table tbl_user (
                           id bigint not null auto_increment,
-                          client_created datetime,
-                          client_email varchar(255) not null,
-                          client_last_modified datetime not null,
-                          client_name varchar(255) not null,
-                          client_password varchar(255),
+                          user_created datetime,
+                          user_email varchar(255) not null,
+                          user_last_modified datetime not null,
+                          user_name varchar(255) not null,
+                          user_password varchar(255),
                           primary key (id)
 ) engine=InnoDB;
 
-create table tbl_client_group (
-                                client_id bigint not null,
-                                groups_id bigint not null
+create table tbl_user_group (
+                                user_id bigint not null,
+                                group_id bigint not null
 ) engine=InnoDB;
 
 alter table tbl_group_permission
@@ -105,12 +105,12 @@ alter table tbl_restaurant_paymenttype
         foreign key (restaurant_id)
             references tbl_restaurant (id);
 
-alter table tbl_client_group
-    add constraint fk_client_group
-        foreign key (groups_id)
+alter table tbl_user_group
+    add constraint fk_user_group
+        foreign key (group_id)
             references tbl_group (id);
 
-alter table tbl_client_group
+alter table tbl_user_group
     add constraint fk_group_user
-        foreign key (client_id)
-            references tbl_client (id);
+        foreign key (user_id)
+            references tbl_user (id);

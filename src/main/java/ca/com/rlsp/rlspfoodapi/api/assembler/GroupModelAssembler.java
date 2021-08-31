@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class GroupModelAssembler {
     /*
         Convert MODEL -> DTO (list GET)
     */
-    public List<GroupOutputDto> fromControllerToOutputList(List<Group> groups){
+    public List<GroupOutputDto> fromControllerToOutputList(Collection<Group> groups){
         return groups.stream()
                 .map(group -> fromControllerToOutput(group))
                 .collect(Collectors.toList());

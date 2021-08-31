@@ -2,16 +2,16 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.ClientModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.ClientInputDisassembler;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ClientAndPasswordInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ClientInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.UserAndPasswordInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.UserInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.PasswordInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ClientOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
-import ca.com.rlsp.rlspfoodapi.domain.model.Client;
-import ca.com.rlsp.rlspfoodapi.domain.repository.ClientRepository;
-import ca.com.rlsp.rlspfoodapi.domain.service.ClientRegistrationService;
+import ca.com.rlsp.rlspfoodapi.domain.model.User;
+import ca.com.rlsp.rlspfoodapi.domain.repository.UserRepository;
+import ca.com.rlsp.rlspfoodapi.domain.service.UserRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +24,10 @@ import java.util.List;
 public class ClientController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private ClientRegistrationService clientRegistrationService;
+    private UserRegistrationService userRegistrationService;
 
     @Autowired
     private ClientModelAssembler clientModelAssembler;
@@ -36,27 +36,27 @@ public class ClientController {
     private ClientInputDisassembler clientInputDisassembler;
 
     @GetMapping
-    public List<ClientOutputDto> listaAll() {
-        List<Client> todasUsuarios = clientRepository.findAll();
+    public List<UserOutputDto> listaAll() {
+        List<User> todasUsuarios = userRepository.findAll();
 
         return clientModelAssembler.fromControllerToOutputList(todasUsuarios);
     }
 
     @GetMapping("/{clientId}")
-    public ClientOutputDto findById(@PathVariable("clientId") Long id) {
-        Client client = clientRegistrationService.findOrFail(id);
+    public UserOutputDto findById(@PathVariable("clientId") Long id) {
+        User user = userRegistrationService.findOrFail(id);
 
-        return clientModelAssembler.fromControllerToOutput(client);
+        return clientModelAssembler.fromControllerToOutput(user);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientOutputDto save(@RequestBody @Valid ClientAndPasswordInputDto clientAndPasswordInputDto) {
+    public UserOutputDto save(@RequestBody @Valid UserAndPasswordInputDto clientAndPasswordInputDto) {
         try{
-            Client client = clientInputDisassembler.fromInputToController(clientAndPasswordInputDto);
-            client = clientRegistrationService.save(client);
+            User user = clientInputDisassembler.fromInputToController(clientAndPasswordInputDto);
+            user = userRegistrationService.save(user);
 
-            return clientModelAssembler.fromControllerToOutput(client);
+            return clientModelAssembler.fromControllerToOutput(user);
         } catch (EntityNotFoundException e){
             throw new GenericBusinessException(e.getReason(), e);
         }
@@ -64,14 +64,14 @@ public class ClientController {
     }
 
     @PutMapping("/{clientId}")
-    public ClientOutputDto update(@PathVariable("clientId") Long id,
-                                  @RequestBody @Valid ClientInputDto clientInputDto) {
+    public UserOutputDto update(@PathVariable("clientId") Long id,
+                                @RequestBody @Valid UserInputDto userInputDto) {
 
         try{
-            Client currentClient = clientRegistrationService.findOrFail(id);
-            clientInputDisassembler.fromDTOtoClient(clientInputDto, currentClient);
-            currentClient = clientRegistrationService.save(currentClient);
-            return clientModelAssembler.fromControllerToOutput(currentClient);
+            User currentUser = userRegistrationService.findOrFail(id);
+            clientInputDisassembler.fromDTOtoClient(userInputDto, currentUser);
+            currentUser = userRegistrationService.save(currentUser);
+            return clientModelAssembler.fromControllerToOutput(currentUser);
         } catch (ProvinceNotFoundException e ) {
             throw new GenericBusinessException(e.getReason(), e);
         }
@@ -82,6 +82,6 @@ public class ClientController {
     @PutMapping("/{clientId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@PathVariable Long usuarioId, @RequestBody @Valid PasswordInputDto passwordInputDto) {
-        clientRegistrationService.changePassword(usuarioId, passwordInputDto.getCurrantPassword(), passwordInputDto.getNewPassword());
+        userRegistrationService.changePassword(usuarioId, passwordInputDto.getCurrantPassword(), passwordInputDto.getNewPassword());
     }
 }

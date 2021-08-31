@@ -7,7 +7,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Client client;
+    private User user;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();

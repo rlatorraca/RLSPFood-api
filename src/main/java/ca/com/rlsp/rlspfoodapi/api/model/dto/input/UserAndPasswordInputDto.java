@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class ClientAndPasswordInputDto extends ClientInputDto{
+public class UserAndPasswordInputDto extends UserInputDto {
 
     @NotBlank
     private String password;

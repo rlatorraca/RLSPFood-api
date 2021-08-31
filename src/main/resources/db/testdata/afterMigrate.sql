@@ -8,8 +8,8 @@ delete from tbl_permission;
 delete from tbl_product;
 delete from tbl_province;
 delete from tbl_restaurant;
-delete from tbl_client;
-delete from tbl_client_group;
+delete from tbl_user;
+delete from tbl_user_group;
 delete from tbl_group_permission;
 delete from tbl_restaurant_paymenttype;
 
@@ -23,7 +23,7 @@ alter table tbl_permission auto_increment = 1;
 alter table tbl_product auto_increment = 1;
 alter table tbl_province auto_increment = 1;
 alter table tbl_restaurant auto_increment = 1;
-alter table tbl_client auto_increment = 1;
+alter table tbl_user auto_increment = 1;
 
 
 insert into tbl_cuisine (id, cuisine_name) values (1, 'Fusion');
@@ -98,7 +98,7 @@ insert into tbl_group (id, group_name) values (3, 'Administrative Assistant');
 insert into tbl_group (id, group_name) values (4, 'Register');
 
 
-insert into tbl_client (id, client_name, client_email, client_password, client_created, client_last_modified) values
+insert into tbl_user (id, user_name, user_email, user_password, user_created, user_last_modified) values
                        (1, 'Ann Green Gable', 'ann@algafood.com', '123', utc_timestamp, utc_timestamp),
                        (2, 'Pascoal Moreira Cabral', 'pascoal@algafood.com', '123', utc_timestamp, utc_timestamp),
                        (3, 'Albert Einstein', 'albert@algafood.com', '123', utc_timestamp, utc_timestamp),
@@ -109,7 +109,9 @@ insert into tbl_permission (id, permission_description, permission_name) values
                            (2, 'Has full access for all restaurants entrypoints', 'FULL RESTAURANT'),
                            (3, 'Has full access for payments type in restaurant entrypoints', 'FULL PAYMENT TYPE'),
                            (4, 'Has full access for all orders entrypoints', 'FULL ORDER'),
-                           (5, 'Has full access for all clients entrypoints', 'FULL CLIENT');
+                           (5, 'Has full access for all users entrypoints', 'FULL CLIENT');
 
 insert into tbl_group_permission (group_id, permission_id) values
                                   (1, 1),(1, 2),(1, 3),(1, 4),(1, 5),(2, 4),(2, 5),(3, 2),(3, 3),(3, 4),(3, 5),(4, 5);
+
+insert into tbl_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2), (2, 2), (3, 2), (4, 2);

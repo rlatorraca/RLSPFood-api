@@ -1,7 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ClientOutputDto;
-import ca.com.rlsp.rlspfoodapi.domain.model.Client;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
+import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,12 +15,12 @@ public class ClientModelAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ClientOutputDto fromControllerToOutput(Client client) {
-        return modelMapper.map(client, ClientOutputDto.class);
+    public UserOutputDto fromControllerToOutput(User user) {
+        return modelMapper.map(user, UserOutputDto.class);
     }
 
-    public List<ClientOutputDto> fromControllerToOutputList(List<Client> clients) {
-        return clients.stream()
+    public List<UserOutputDto> fromControllerToOutputList(List<User> users) {
+        return users.stream()
                 .map(client -> fromControllerToOutput(client))
                 .collect(Collectors.toList());
     }

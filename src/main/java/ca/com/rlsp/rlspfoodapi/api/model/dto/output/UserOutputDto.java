@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClientOutputDto {
+public class UserOutputDto {
 
     private Long id;
     private String name;
