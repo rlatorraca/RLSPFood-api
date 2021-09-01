@@ -12,6 +12,7 @@ delete from tbl_user;
 delete from tbl_user_group;
 delete from tbl_group_permission;
 delete from tbl_restaurant_paymenttype;
+delete from tbl_restaurant_user_manager;
 
 set foreign_key_checks = 1;
 
@@ -99,10 +100,11 @@ insert into tbl_group (id, group_name) values (4, 'Register');
 
 
 insert into tbl_user (id, user_name, user_email, user_password, user_created, user_last_modified) values
-                       (1, 'Ann Green Gable', 'ann@algafood.com', '123', utc_timestamp, utc_timestamp),
-                       (2, 'Pascoal Moreira Cabral', 'pascoal@algafood.com', '123', utc_timestamp, utc_timestamp),
-                       (3, 'Albert Einstein', 'albert@algafood.com', '123', utc_timestamp, utc_timestamp),
-                       (4, 'Maximus Alexandre', 'maximus@algafood.com', '123', utc_timestamp, utc_timestamp);
+                       (1, 'Ann Green Gable', 'ann@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
+                       (2, 'Pascoal Moreira Cabral', 'pascoal@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
+                       (3, 'Albert Einstein', 'albert@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
+                       (4, 'Maximus Alexandre', 'maximus@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
+                       (5, 'Julius Cesar', 'julio@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp);
 
 insert into tbl_permission (id, permission_description, permission_name) values
                            (1, 'Has full access for all entrypoints', 'FULL APP'),
