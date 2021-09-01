@@ -1,7 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
-import ca.com.rlsp.rlspfoodapi.api.assembler.ClientModelAssembler;
-import ca.com.rlsp.rlspfoodapi.api.disassembler.ClientInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.assembler.UserModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.UserInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.UserAndPasswordInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.UserInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.PasswordInputDto;
@@ -12,7 +12,6 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.repository.UserRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.UserRegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,46 +20,46 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/clients")
-public class ClientController {
+public class UserController {
 
     private UserRepository userRepository;
     private UserRegistrationService userRegistrationService;
-    private ClientModelAssembler clientModelAssembler;
-    private ClientInputDisassembler clientInputDisassembler;
+    private UserModelAssembler userModelAssembler;
+    private UserInputDisassembler userInputDisassembler;
 
-    public ClientController(UserRepository userRepository,
-                            UserRegistrationService userRegistrationService,
-                            ClientModelAssembler clientModelAssembler,
-                            ClientInputDisassembler clientInputDisassembler) {
+    public UserController(UserRepository userRepository,
+                          UserRegistrationService userRegistrationService,
+                          UserModelAssembler userModelAssembler,
+                          UserInputDisassembler userInputDisassembler) {
 
         this.userRepository = userRepository;
         this.userRegistrationService = userRegistrationService;
-        this.clientModelAssembler = clientModelAssembler;
-        this.clientInputDisassembler = clientInputDisassembler;
+        this.userModelAssembler = userModelAssembler;
+        this.userInputDisassembler = userInputDisassembler;
     }
 
     @GetMapping
     public List<UserOutputDto> listaAll() {
         List<User> todasUsuarios = userRepository.findAll();
 
-        return clientModelAssembler.fromControllerToOutputList(todasUsuarios);
+        return userModelAssembler.fromControllerToOutputList(todasUsuarios);
     }
 
     @GetMapping("/{clientId}")
     public UserOutputDto findById(@PathVariable("clientId") Long id) {
         User user = userRegistrationService.findOrFail(id);
 
-        return clientModelAssembler.fromControllerToOutput(user);
+        return userModelAssembler.fromControllerToOutput(user);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserOutputDto save(@RequestBody @Valid UserAndPasswordInputDto clientAndPasswordInputDto) {
         try{
-            User user = clientInputDisassembler.fromInputToController(clientAndPasswordInputDto);
+            User user = userInputDisassembler.fromInputToController(clientAndPasswordInputDto);
             user = userRegistrationService.save(user);
 
-            return clientModelAssembler.fromControllerToOutput(user);
+            return userModelAssembler.fromControllerToOutput(user);
         } catch (EntityNotFoundException e){
             throw new GenericBusinessException(e.getReason(), e);
         }
@@ -73,9 +72,9 @@ public class ClientController {
 
         try{
             User currentUser = userRegistrationService.findOrFail(id);
-            clientInputDisassembler.fromDTOtoClient(userInputDto, currentUser);
+            userInputDisassembler.fromDTOtoClient(userInputDto, currentUser);
             currentUser = userRegistrationService.save(currentUser);
-            return clientModelAssembler.fromControllerToOutput(currentUser);
+            return userModelAssembler.fromControllerToOutput(currentUser);
         } catch (ProvinceNotFoundException e ) {
             throw new GenericBusinessException(e.getReason(), e);
         }

@@ -102,6 +102,11 @@ public class Restaurant {
                inverseJoinColumns = @JoinColumn(name = "payment_type_id"))
     private Set<PaymentType> paymentTypeList = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "tbl_restaurant_user_manager ",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> managers = new HashSet<>();
 
     /*@JsonIgnore  -> Na classe MIXIN */
     @OneToMany(mappedBy = "restaurant")
@@ -126,11 +131,22 @@ public class Restaurant {
     }
 
     // Adiciona (vincula) uma nova forma de pagamento ao Restaurante
-    public boolean addPaymentType(PaymentType paymentType){
+    public boolean attachPaymentType(PaymentType paymentType){
         return getPaymentTypeList().add(paymentType);
     }
+
     // Remove (desvincula) uma nova forma de pagamento ao Restaurante
-    public boolean removePaymentType(PaymentType paymentType){
+    public boolean detachPaymentType(PaymentType paymentType){
         return getPaymentTypeList().remove(paymentType);
+    }
+
+    // Remove (desvincula) um Manager ao Restaurante
+    public boolean detachManager(User user) {
+        return getManagers().remove(user);
+    }
+
+    // Adiciona (vincula) um Manager ao Restaurante
+    public boolean attachManager(User user) {
+        return getManagers().add(user);
     }
 }

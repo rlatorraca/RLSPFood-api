@@ -117,3 +117,5 @@ insert into tbl_group_permission (group_id, permission_id) values
                                   (1, 1),(1, 2),(1, 3),(1, 4),(1, 5),(2, 4),(2, 5),(3, 2),(3, 3),(3, 4),(3, 5),(4, 5);
 
 insert into tbl_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2), (2, 2), (3, 2), (4, 2);
+
+insert into tbl_restaurant_user_manager (restaurant_id, user_id) values (1, 5), (3, 5), (2, 1), (3, 3), (4, 4), (5, 2), (6, 1);

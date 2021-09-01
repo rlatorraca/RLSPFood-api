@@ -1,11 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
-import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.RestaurantNotFoundException;
-import ca.com.rlsp.rlspfoodapi.domain.model.City;
-import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
-import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
-import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
+import ca.com.rlsp.rlspfoodapi.domain.model.*;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +27,9 @@ public class RestaurantRegistrationService {
 
     @Autowired
     private CityRegistrationService cityRegistrationService;
+
+    @Autowired
+    private UserRegistrationService userRegistrationService;
 
     @Autowired
     private PaymentTypeResgistrationService paymentTypeResgistrationService;
@@ -106,7 +105,7 @@ public class RestaurantRegistrationService {
 
         // Como Hibernate gerencia as entedias nao precisamos usar o SAVE para salvar...
         // mas sera salvo quando ver que precisamos usa-lo
-        restaurant.addPaymentType(paymentType);
+        restaurant.attachPaymentType(paymentType);
     }
 
     @Transactional
@@ -116,7 +115,7 @@ public class RestaurantRegistrationService {
 
         // Como Hibernate gerencia as entedias nao precisamos usar o SAVE para salvar...
         // mas sera salvo quando ver que precisamos usa-lo
-        restaurant.removePaymentType(paymentType);
+        restaurant.detachPaymentType(paymentType);
     }
 
     @Transactional
@@ -131,5 +130,21 @@ public class RestaurantRegistrationService {
         Restaurant currentRestaurant = findOrFail(restaurantId);
 
         currentRestaurant.closeRestaurant();
+    }
+
+    @Transactional
+    public void detachManager(Long restaurantId, Long userId) {
+        Restaurant restaurante = findOrFail(restaurantId);
+        User user = userRegistrationService.findOrFail(userId);
+
+        restaurante.detachManager(user);
+    }
+
+    @Transactional
+    public void attachManager(Long restaurantId, Long userId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        User user = userRegistrationService.findOrFail(userId);
+
+        restaurant.attachManager(user);
     }
 }
