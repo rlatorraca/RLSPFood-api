@@ -28,6 +28,8 @@ public class Order {
     private BigDecimal deliveryFee;
     @Column(name = "order_afterTax", nullable = false)
     private BigDecimal afterTax;
+    @Column(name = "order_taxes", nullable = false)
+    private BigDecimal taxes;
 
     @CreationTimestamp
     @Column(name = "order_createdDate", nullable = false)
@@ -45,8 +47,9 @@ public class Order {
     @Embedded
     private Address addressDelivery;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
-    private StatusOrderEnum status;
+    private StatusOrderEnum status = StatusOrderEnum.CREATED;
 
     @ManyToOne
     @JoinColumn(name = "order_paymenttype_id", nullable = false)

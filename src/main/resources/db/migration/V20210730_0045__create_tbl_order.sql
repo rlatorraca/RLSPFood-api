@@ -3,17 +3,19 @@ create table tbl_order (
     order_beforeTax decimal(10,2) not null,
     order_deliverFee decimal(10,2) not null,
     order_afterTax decimal(10,2) not null,
+    order_taxpercentual decimal(10,2) not null,
+
 
     order_createdDate datetime not null,
-    order_modifiedDate datetime not null,
-    order_cancelDate datetime not null,
-    order_deliveryDate datetime not null,
+    order_modifiedDate datetime ,
+    order_cancelDate datetime ,
+    order_deliveryDate datetime ,
 
     order_status varchar(15) not null,
 
     order_address_city_id bigint(20) not null,
-    order_address_cep varchar(9) not null,
-    order_address_address varchar(150) not null,
+    order_address_postalcode varchar(9) not null,
+    order_address_street varchar(150) not null,
     order_address_number varchar(10) not null,
     order_address_complement varchar(150) not null,
     order_address_district varchar(100) not null,

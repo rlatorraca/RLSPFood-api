@@ -13,6 +13,8 @@ delete from tbl_user_group;
 delete from tbl_group_permission;
 delete from tbl_restaurant_paymenttype;
 delete from tbl_restaurant_user_manager;
+delete from tbl_order;
+delete from tbl_orderitem;
 
 set foreign_key_checks = 1;
 
@@ -44,19 +46,27 @@ insert into tbl_paymenttype (payment_type) values ('Pay Pal');
 insert into tbl_paymenttype  (payment_type) values ('Bitcoin');
 insert into tbl_paymenttype  (payment_type) values ('Etherium');
 
-insert into tbl_province (province_name) values ('Alberta');
-insert into tbl_province (province_name) values ('British Columbia');
-insert into tbl_province (province_name) values ('Manitoba');
-insert into tbl_province (province_name) values ('New Brunswick');
-insert into tbl_province (province_name) values ('Newfoundland and Labrador');
-insert into tbl_province (province_name) values ('Northwest Territories.');
-insert into tbl_province (province_name) values ('Nova Scotia');
-insert into tbl_province (province_name) values ('Nunavut');
-insert into tbl_province (province_name) values ('Ontario');
-insert into tbl_province (province_name) values ('Quebec');
-insert into tbl_province (province_name) values ('Prince Edward Island');
-insert into tbl_province (province_name) values ('Saskatchewan');
-insert into tbl_province (province_name) values ('Yukon');
+insert into tbl_taxprovince (id, tax_percentual) values (1, 0.15);
+insert into tbl_taxprovince (id, tax_percentual) values (2, 0.14975);
+insert into tbl_taxprovince (id, tax_percentual) values (3, 0.13);
+insert into tbl_taxprovince (id, tax_percentual) values (4, 0.12);
+insert into tbl_taxprovince (id, tax_percentual) values (5, 0.11);
+insert into tbl_taxprovince (id, tax_percentual) values (6, 0.05);
+
+
+insert into tbl_province (province_name,taxprovince_id) values ('Alberta', 6);
+insert into tbl_province (province_name,taxprovince_id) values ('British Columbia', 4);
+insert into tbl_province (province_name,taxprovince_id) values ('Manitoba', 4);
+insert into tbl_province (province_name,taxprovince_id) values ('New Brunswick', 1);
+insert into tbl_province (province_name,taxprovince_id) values ('Newfoundland and Labrador', 1);
+insert into tbl_province (province_name,taxprovince_id) values ('Northwest Territories.', 6);
+insert into tbl_province (province_name,taxprovince_id) values ('Nova Scotia', 1);
+insert into tbl_province (province_name,taxprovince_id) values ('Nunavut', 6);
+insert into tbl_province (province_name,taxprovince_id) values ('Ontario', 3);
+insert into tbl_province (province_name,taxprovince_id) values ('Quebec', 2);
+insert into tbl_province (province_name,taxprovince_id) values ('Prince Edward Island', 1);
+insert into tbl_province (province_name,taxprovince_id) values ('Saskatchewan', 5);
+insert into tbl_province (province_name,taxprovince_id) values ('Yukon', 6);
 
 insert into tbl_city(id, city_name, province_id) values (1, 'Ottawa', 9);
 insert into tbl_city(id, city_name, province_id) values (2, 'Toronto', 9);
@@ -119,3 +129,11 @@ insert into tbl_group_permission (group_id, permission_id) values
 insert into tbl_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2), (2, 2), (3, 2), (4, 2);
 
 insert into tbl_restaurant_user_manager (restaurant_id, user_id) values (1, 5), (3, 5), (2, 1), (3, 3), (4, 4), (5, 2), (6, 1);
+
+insert into tbl_order (id, order_restaurant_id, order_user_client_id, order_paymenttype_id,
+                       order_address_city_id, order_address_postalcode, order_address_street,
+                       order_address_number, order_address_complement, order_address_district,
+                       order_status, order_createdDate, order_beforeTax,
+                       order_deliverFee, order_taxpercentual , order_afterTax)
+values (1, 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown',
+        'CREATED', utc_timestamp, 298.90, 10, 0.13, 347.75);

@@ -7,29 +7,20 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Entity
-@Table(name = "tbl_province")
-public class Province {
+@Table(name = "tbl_taxprovince")
+public class TaxProvince {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    @NotNull(groups = GroupsBeanValidation.ProvinceIdValidation.class)
     private Long id;
 
     @NotBlank
-    @Column(nullable = false, name = "province_name")
-    private String name;
-
-    @NotBlank
-    //@Column(nullable = false, name = "province_tax")
-    @ManyToOne
-    @JoinColumn(name = "taxprovince_id", nullable = false)
-    private TaxProvince tax;
-
-
-
+    @Column(nullable = false, name = "tax_percentual")
+    private BigDecimal taxPercentual;
 }
