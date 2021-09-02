@@ -147,4 +147,15 @@ public class RestaurantRegistrationService {
 
         restaurant.attachManager(user);
     }
+
+    @Transactional
+    public void activeListOfRestaurantsService(List<Long> restaurantsIds) {
+        restaurantsIds.forEach(this::activate);
+    }
+
+    @Transactional
+    public void inactiveListOfRestaurantsService(List<Long> restaurantsIds) {
+        restaurantsIds.forEach(this::inactivate);
+    }
+
 }

@@ -8,6 +8,7 @@ import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.CityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.RestaurantNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
@@ -253,17 +254,42 @@ public class RestaurantController {
 
 
     /*
+        Ativa e Desativa uma Lista de Restaurants ao mesmo tempo
+     */
+
+    @PutMapping("/list-activation")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
+        try{
+            restaurantRegistrationService.activeListOfRestaurantsService(restaurantsIds);
+        } catch (RestaurantNotFoundException e){
+            throw new GenericBusinessException(e.getReason(), e);
+        }
+    }
+
+    @DeleteMapping("/list-deactivation")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
+        try {
+        restaurantRegistrationService.inactiveListOfRestaurantsService(restaurantsIds);
+        } catch (RestaurantNotFoundException e){
+            throw new GenericBusinessException(e.getReason(), e);
+        }
+    }
+
+
+    /*
         Routes for OPEN and CLOSE Restaurant
      */
     @PutMapping("/{restaurantId}/opening")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void open(@PathVariable Long restaurantId) {
+    public void openRestaurant(@PathVariable Long restaurantId) {
         restaurantRegistrationService.openRestaurantService(restaurantId);
     }
 
     @PutMapping("/{restaurantId}/closing")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void close(@PathVariable Long restaurantId) {
+    public void closeRestaurant(@PathVariable Long restaurantId) {
         restaurantRegistrationService.closeRestaurantService(restaurantId);
     }
 
