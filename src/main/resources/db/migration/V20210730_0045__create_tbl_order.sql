@@ -7,9 +7,9 @@ create table tbl_order (
 
 
     order_createdDate datetime not null,
-    order_modifiedDate datetime ,
-    order_cancelDate datetime ,
-    order_deliveryDate datetime ,
+    order_confirmationDate datetime null,
+    order_cancelDate datetime null,
+    order_deliveryDate datetime null,
 
     order_status varchar(15) not null,
 

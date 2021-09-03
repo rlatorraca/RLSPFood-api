@@ -15,6 +15,7 @@ delete from tbl_restaurant_paymenttype;
 delete from tbl_restaurant_user_manager;
 delete from tbl_order;
 delete from tbl_orderitem;
+delete from tbl_taxprovince;
 
 set foreign_key_checks = 1;
 
@@ -27,6 +28,9 @@ alter table tbl_product auto_increment = 1;
 alter table tbl_province auto_increment = 1;
 alter table tbl_restaurant auto_increment = 1;
 alter table tbl_user auto_increment = 1;
+alter table tbl_taxprovince auto_increment = 1;
+alter table tbl_order auto_increment = 1;
+alter table tbl_orderitem auto_increment = 1;
 
 
 insert into tbl_cuisine (id, cuisine_name) values (1, 'Fusion');
@@ -135,5 +139,32 @@ insert into tbl_order (id, order_restaurant_id, order_user_client_id, order_paym
                        order_address_number, order_address_complement, order_address_district,
                        order_status, order_createdDate, order_beforeTax,
                        order_deliverFee, order_taxpercentual , order_afterTax)
-values (1, 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown',
-        'CREATED', utc_timestamp, 298.90, 10, 0.13, 347.75);
+        values (1, 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown', 'CREATED', utc_timestamp, 268.02, 10, 0.13, 302.86);
+
+insert into tbl_orderitem (id, item_order_id, item_product_id, item_quantity, item_unitPrice, item_totalPrice, item_comments)
+        values (1, 1, 1, 1, 78.9, 78.9, 'Spicy sauce');
+
+insert into tbl_orderitem (id, item_order_id, item_product_id, item_quantity, item_unitPrice, item_totalPrice, item_comments)
+values (2, 1, 3, 2, 44.11, 88.22, 'Donair sauce');
+
+insert into tbl_orderitem (id, item_order_id, item_product_id, item_quantity, item_unitPrice, item_totalPrice, item_comments)
+values (3, 1, 5, 1, 78.9, 78.9, 'Spicy sauce');
+
+insert into tbl_orderitem (id, item_order_id, item_product_id, item_quantity, item_unitPrice, item_totalPrice, item_comments)
+values (4, 1, 7, 4, 5.50, 22.00, 'No spicy');
+
+insert into tbl_order (id, order_restaurant_id, order_user_client_id, order_paymenttype_id,
+                       order_address_city_id, order_address_postalcode, order_address_street,
+                       order_address_number, order_address_complement, order_address_district,
+                       order_status, order_createdDate, order_beforeTax,
+                       order_deliverFee, order_taxpercentual , order_afterTax)
+values (2, 2, 2, 1, 1, 'B2C4X7', 'Inversion street', '3300', 'Apt 2309', 'New Glasgow', 'CREATED', utc_timestamp, 194.06, 10, 0.12, 217.34);
+
+insert into tbl_orderitem (id, item_order_id, item_product_id, item_quantity, item_unitPrice, item_totalPrice, item_comments)
+values (5, 2, 1, 1, 48.9, 48.9, 'Spicy sauce');
+
+insert into tbl_orderitem (id, item_order_id, item_product_id, item_quantity, item_unitPrice, item_totalPrice, item_comments)
+values (6, 2, 2, 2, 21.11, 42.22, 'No comments');
+
+insert into tbl_orderitem (id, item_order_id, item_product_id, item_quantity, item_unitPrice, item_totalPrice, item_comments)
+values (7, 2, 3, 1, 102.94, 102.94, 'Spicy sauce');

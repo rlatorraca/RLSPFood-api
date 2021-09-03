@@ -114,21 +114,28 @@ public class Restaurant {
 
     private Boolean opened = Boolean.FALSE;
 
+
+    // OPEN a restaurant
     public void openRestaurant() {
         setOpened(true);
     }
 
+    // CLOSE a restaurant
     public void closeRestaurant() {
         setOpened(false);
     }
 
+
+    //  ACTIVE a Restaurant
     public void activate() {
         setActive(true);
     }
 
+    // INACTIVE a Restaurant
     public void inactivate() {
         setActive(false);
     }
+
 
     // Adiciona (vincula) uma nova forma de pagamento ao Restaurante
     public boolean attachPaymentType(PaymentType paymentType){
@@ -140,6 +147,7 @@ public class Restaurant {
         return getPaymentTypeList().remove(paymentType);
     }
 
+
     // Remove (desvincula) um Manager ao Restaurante
     public boolean detachManager(User user) {
         return getManagers().remove(user);
@@ -148,5 +156,16 @@ public class Restaurant {
     // Adiciona (vincula) um Manager ao Restaurante
     public boolean attachManager(User user) {
         return getManagers().add(user);
+    }
+
+
+    // Check is the Restaurant ACCEPT a Payment Type
+    public boolean acceptPaymentType(PaymentType paymentType) {
+        return getPaymentTypeList().contains(paymentType);
+    }
+
+    // Check is the Restaurant NOT ACCEPT a Payment Type
+    public boolean notAcceptPaymentType(PaymentType paymentType) {
+        return !acceptPaymentType(paymentType);
     }
 }

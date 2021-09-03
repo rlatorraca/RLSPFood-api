@@ -35,8 +35,8 @@ public class Order {
     @Column(name = "order_createdDate", nullable = false)
     private OffsetDateTime createdDate;
     @UpdateTimestamp
-    @Column(name = "order_modifiedDate")
-    private OffsetDateTime modifiedDate;
+    @Column(name = "order_confirmationDate")
+    private OffsetDateTime confirmationDate;
     @Column(name = "order_cancelDate")
     private OffsetDateTime cancelDate;
 
@@ -66,5 +66,27 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    // CALCULATE Total Value
+    public void calculateTotalValue() {
+        this.beforeTax = getOrderItems().stream()
+                .map(item -> item.getTotalPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal tax = BigDecimal.ONE.add(this.restaurant
+                                                    .getAddress()
+                                                    .getCity()
+                                                    .getProvince()
+                                                    .getTax()
+                                                    .getTaxPercentual());
+        this.afterTax = (this.beforeTax.multiply(tax)).add(this.deliveryFee);
+    }
+
+    public void setDelivery() {
+        setDeliveryFee(getRestaurant().getDeliveryFee());
+    }
+
+    public void addItemsInOrder() {
+        getOrderItems().forEach(item -> item.setOrder(this));
+    }
 
 }

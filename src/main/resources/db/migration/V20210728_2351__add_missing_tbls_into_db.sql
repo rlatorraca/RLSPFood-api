@@ -76,7 +76,7 @@ alter table tbl_group_permission
             references tbl_permission (id);
 
 alter table tbl_group_permission
-    add constraint fk_group_persmission
+    add constraint fk_group_permission
         foreign key (group_id)
             references tbl_group (id);
 
