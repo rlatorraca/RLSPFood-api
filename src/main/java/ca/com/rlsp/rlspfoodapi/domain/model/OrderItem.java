@@ -18,7 +18,9 @@ public class OrderItem {
     private Long id;
 
     private Integer quantity;
+    @Column(name = "unitprice")
     private BigDecimal unitPrice;
+    @Column(name = "totalprice")
     private BigDecimal totalPrice;
     private String comments;
 

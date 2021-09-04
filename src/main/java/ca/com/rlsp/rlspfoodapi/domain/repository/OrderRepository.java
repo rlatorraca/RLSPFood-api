@@ -2,6 +2,8 @@ package ca.com.rlsp.rlspfoodapi.domain.repository;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+@Repository
+public interface OrderRepository extends CustomJpaRepository<Order, Long> {
 }

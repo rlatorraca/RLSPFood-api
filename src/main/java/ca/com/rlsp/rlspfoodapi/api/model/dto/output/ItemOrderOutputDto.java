@@ -1,12 +1,12 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
-import ca.com.rlsp.rlspfoodapi.domain.model.Order;
-import ca.com.rlsp.rlspfoodapi.domain.model.Product;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
+@Getter
+@Setter
 public class ItemOrderOutputDto {
 
     private Integer quantity;

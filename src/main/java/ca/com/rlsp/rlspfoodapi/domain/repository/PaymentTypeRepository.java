@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PaymentTypeRepository extends JpaRepository<PaymentType , Long> {
+public interface PaymentTypeRepository extends CustomJpaRepository<PaymentType , Long> {
 
 
 }

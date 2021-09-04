@@ -22,37 +22,37 @@ public class Order {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "order_beforeTax", nullable = false)
+    @Column(name = "beforetax", nullable = false)
     private BigDecimal beforeTax;
-    @Column(name = "order_deliveryFee", nullable = false)
+    @Column(name = "deliveryfee", nullable = false)
     private BigDecimal deliveryFee;
-    @Column(name = "order_afterTax", nullable = false)
+    @Column(name = "aftertax", nullable = false)
     private BigDecimal afterTax;
-    @Column(name = "order_taxes", nullable = false)
+    @Column(name = "taxpercentual", nullable = false)
     private BigDecimal taxes;
 
     @CreationTimestamp
-    @Column(name = "order_createdDate", nullable = false)
+    @Column(name = "createddate", nullable = false)
     private OffsetDateTime createdDate;
     @UpdateTimestamp
-    @Column(name = "order_confirmationDate")
+    @Column(name = "confirmationdate")
     private OffsetDateTime confirmationDate;
-    @Column(name = "order_cancelDate")
+    @Column(name = "canceldate")
     private OffsetDateTime cancelDate;
 
-    @Column(name = "order_deliveryDate")
+    @Column(name = "deliverydate")
     private OffsetDateTime deliveryDate;
 
-    @Column(name = "order_addressDelivery")
+    //@Column(name = "order_address")
     @Embedded
     private Address addressDelivery;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_status")
+    @Column(name = "status")
     private StatusOrderEnum status = StatusOrderEnum.CREATED;
 
     @ManyToOne
-    @JoinColumn(name = "order_paymenttype_id", nullable = false)
+    @JoinColumn(name = "paymenttype_id", nullable = false)
     private PaymentType paymentType;
 
     @ManyToOne
@@ -60,7 +60,7 @@ public class Order {
     private Restaurant restaurant;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_client_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "order")
