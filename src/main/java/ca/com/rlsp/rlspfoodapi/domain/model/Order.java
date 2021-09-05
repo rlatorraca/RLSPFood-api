@@ -51,19 +51,19 @@ public class Order {
     @Column(name = "status")
     private StatusOrderEnum status = StatusOrderEnum.CREATED;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // padrao : Eager
     @JoinColumn(name = "paymenttype_id", nullable = false)
     private PaymentType paymentType;
 
-    @ManyToOne
+    @ManyToOne // padrao : Eager
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @ManyToOne
+    @ManyToOne // padrao : Eager
     @JoinColumn(name = "user_client_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order") // padrao : LAZY
     private List<OrderItem> orderItems = new ArrayList<>();
 
     // CALCULATE Total Value

@@ -1,7 +1,9 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.OrderModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.assembler.OrderShortModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.IssuanceOfOrderRegistrationService;
@@ -17,21 +19,24 @@ import java.util.List;
 public class OrderController {
     private OrderRepository orderRepository;
     private IssuanceOfOrderRegistrationService issuanceOfOrderRegistrationService;
+    private OrderShortModelAssembler orderShortModelAssembler;
     private OrderModelAssembler orderModelAssembler;
 
     public OrderController(OrderRepository orderRepository,
                            IssuanceOfOrderRegistrationService issuanceOfOrderRegistrationService,
+                           OrderShortModelAssembler orderShortModelAssembler,
                            OrderModelAssembler orderModelAssembler) {
         this.orderRepository = orderRepository;
         this.issuanceOfOrderRegistrationService = issuanceOfOrderRegistrationService;
+        this.orderShortModelAssembler = orderShortModelAssembler;
         this.orderModelAssembler = orderModelAssembler;
     }
 
     @GetMapping
-    public List<OrderOutputDto> listAll() {
+    public List<OrderShortOutputDto> listAll() {
         List<Order> allOrders = orderRepository.findAll();
 
-        return orderModelAssembler.fromControllerToOutputList(allOrders);
+        return orderShortModelAssembler.fromControllerToOutputList(allOrders);
     }
 
     @GetMapping("/{orderId}")
