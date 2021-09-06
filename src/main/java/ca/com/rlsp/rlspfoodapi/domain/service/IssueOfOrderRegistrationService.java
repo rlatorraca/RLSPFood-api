@@ -31,6 +31,9 @@ public class IssueOfOrderRegistrationService {
     @Autowired
     private PaymentTypeResgistrationService paymentTypeResgistrationService;
 
+    @Autowired
+    private ProvinceRegistrationService provinceRegistrationService;
+
     @Transactional
     public Order issue(Order order) {
         orderValidate(order);
@@ -45,15 +48,18 @@ public class IssueOfOrderRegistrationService {
     private void orderValidate(Order order) {
         City city = cityRegistrationService.findOrFail(order.getAddressDelivery().getCity().getId());
         User user = userRegistrationService.findOrFail(order.getUser().getId());
-        Restaurant restaurante = restaurantRegistrationService.findOrFail(order.getRestaurant().getId());
+        Restaurant restaurant = restaurantRegistrationService.findOrFail(order.getRestaurant().getId());
         PaymentType paymentType = paymentTypeResgistrationService.findOrFail(order.getPaymentType().getId());
+        Province province = provinceRegistrationService.findOrFail(city.getProvince().getId());
 
         order.getAddressDelivery().setCity(city);
         order.setUser(user);
-        order.setRestaurant(restaurante);
+        order.setRestaurant(restaurant);
         order.setPaymentType(paymentType);
+        order.setTaxes(province.getTax().getTaxPercentual());
 
-        if (restaurante.notAcceptPaymentType(paymentType)) {
+
+        if (restaurant.notAcceptPaymentType(paymentType)) {
             throw new GenericBusinessException(String.format("Payment type '%s' not accept for this restaurant.",
                     paymentType.getName()));
         }
@@ -66,7 +72,7 @@ public class IssueOfOrderRegistrationService {
 
             item.setOrder(order);
             item.setProduct(product);
-            item.setTotalPrice(product.getPrice());
+            item.setUnitPrice(product.getPrice());
         });
     }
 

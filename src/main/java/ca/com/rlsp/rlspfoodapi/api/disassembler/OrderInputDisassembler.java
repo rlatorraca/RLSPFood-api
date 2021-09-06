@@ -19,7 +19,7 @@ public class OrderInputDisassembler {
         return modelMapper.map(orderInputDto, Order.class);
     }
     
-    public void fromDTOtoCity(OrderInputDto orderInputDto, Order order) {
+    public void fromDTOtoOrder(OrderInputDto orderInputDto, Order order) {
         modelMapper.map(orderInputDto, order);
     }   
 } 

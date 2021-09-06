@@ -1,10 +1,13 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
-
+@Getter
+@Setter
 public class ItemOrderInputDto {
 
     @NotNull

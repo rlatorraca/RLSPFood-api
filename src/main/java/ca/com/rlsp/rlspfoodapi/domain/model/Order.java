@@ -68,6 +68,8 @@ public class Order {
 
     // CALCULATE Total Value
     public void calculateTotalValue() {
+        getOrderItems().forEach(OrderItem::calculateTotalPriceForItems);
+
         this.beforeTax = getOrderItems().stream()
                 .map(item -> item.getTotalPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
