@@ -63,7 +63,7 @@ public class Order {
     @JoinColumn(name = "user_client_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order") // padrao : LAZY
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // padrao : LAZY
     private List<OrderItem> orderItems = new ArrayList<>();
 
     // CALCULATE Total Value

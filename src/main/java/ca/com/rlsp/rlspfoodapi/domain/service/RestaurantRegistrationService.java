@@ -101,7 +101,7 @@ public class RestaurantRegistrationService {
     @Transactional
     public void attachPaymentType(Long restaurantId, Long paymentTypeId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        PaymentType paymentType = paymentTypeResgistrationService.findAndFail(paymentTypeId);
+        PaymentType paymentType = paymentTypeResgistrationService.findOrFail(paymentTypeId);
 
         // Como Hibernate gerencia as entedias nao precisamos usar o SAVE para salvar...
         // mas sera salvo quando ver que precisamos usa-lo
@@ -111,7 +111,7 @@ public class RestaurantRegistrationService {
     @Transactional
     public void detachPaymentType(Long restaurantId, Long paymentTypeId) {
         Restaurant restaurant = findOrFail(restaurantId);
-        PaymentType paymentType = paymentTypeResgistrationService.findAndFail(paymentTypeId);
+        PaymentType paymentType = paymentTypeResgistrationService.findOrFail(paymentTypeId);
 
         // Como Hibernate gerencia as entedias nao precisamos usar o SAVE para salvar...
         // mas sera salvo quando ver que precisamos usa-lo

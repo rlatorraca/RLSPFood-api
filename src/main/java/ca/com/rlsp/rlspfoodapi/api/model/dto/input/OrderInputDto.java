@@ -1,31 +1,31 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.*;
+import com.sun.istack.NotNull;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
 public class OrderInputDto {
 
-    private BigDecimal beforeTax;
-    private BigDecimal deliveryFee;
-    private BigDecimal afterTax;
-    private BigDecimal taxes;
-
-    private String status;
-
-    private OffsetDateTime createdDate;
-    private OffsetDateTime confirmationDate;
-    private OffsetDateTime modifiedDate;
-    private OffsetDateTime cancelDate;
-    private OffsetDateTime deliveryDate;
-
+    @Valid
+    @NotNull
     private AddressInputDto addressDelivery;
+
+    @Valid
+    @NotNull
     private PaymentTypeInputDto paymentType;
+
+    @Valid
+    @NotNull
     private RestaurantInputDto restaurant;
 
-    private UserInputDto user;
+    @Valid
+    @Size(min = 1)
+    @NotNull
     private List<ItemOrderOutputDto> orderItems;
 
 }

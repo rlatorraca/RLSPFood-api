@@ -2,34 +2,41 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.OrderModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.assembler.OrderShortModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.disassembler.OrderInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.OrderInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
+import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
+import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
-import ca.com.rlsp.rlspfoodapi.domain.service.IssuanceOfOrderRegistrationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ca.com.rlsp.rlspfoodapi.domain.service.IssueOfOrderRegistrationService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderController {
     private OrderRepository orderRepository;
-    private IssuanceOfOrderRegistrationService issuanceOfOrderRegistrationService;
+    private IssueOfOrderRegistrationService issueOfOrderRegistrationService;
     private OrderShortModelAssembler orderShortModelAssembler;
     private OrderModelAssembler orderModelAssembler;
+    private OrderInputDisassembler orderInputDisassembler;
 
     public OrderController(OrderRepository orderRepository,
-                           IssuanceOfOrderRegistrationService issuanceOfOrderRegistrationService,
+                           IssueOfOrderRegistrationService issueOfOrderRegistrationService,
                            OrderShortModelAssembler orderShortModelAssembler,
-                           OrderModelAssembler orderModelAssembler) {
+                           OrderModelAssembler orderModelAssembler,
+                           OrderInputDisassembler orderInputDisassembler) {
         this.orderRepository = orderRepository;
-        this.issuanceOfOrderRegistrationService = issuanceOfOrderRegistrationService;
+        this.issueOfOrderRegistrationService = issueOfOrderRegistrationService;
         this.orderShortModelAssembler = orderShortModelAssembler;
         this.orderModelAssembler = orderModelAssembler;
+        this.orderInputDisassembler = orderInputDisassembler;
     }
 
     @GetMapping
@@ -41,9 +48,27 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     public OrderOutputDto find(@PathVariable Long orderId) {
-        Order order = issuanceOfOrderRegistrationService.findOrFail(orderId);
+        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
 
         return orderModelAssembler.fromControllerToOutput(order);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderOutputDto add(@Valid @RequestBody OrderInputDto orderInputDto) {
+        try {
+            Order newOrder = orderInputDisassembler.fromInputToController(orderInputDto);
+
+            // TODO get AUTHENTICATED User
+            newOrder.setUser(new User());
+            newOrder.getUser().setId(1L);
+
+            newOrder = issueOfOrderRegistrationService.issue(newOrder);
+
+            return orderModelAssembler.fromControllerToOutput(newOrder);
+        } catch (EntityNotFoundException e) {
+            throw new GenericBusinessException(e.getMessage(), e);
+        }
     }
 
 }

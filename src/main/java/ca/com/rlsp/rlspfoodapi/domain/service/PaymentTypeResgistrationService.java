@@ -42,7 +42,7 @@ public class PaymentTypeResgistrationService {
         }
     }
 
-    public PaymentType findAndFail(Long paymentTypeId) {
+    public PaymentType findOrFail(Long paymentTypeId) {
         return paymentTypeRepository.findById(paymentTypeId)
                 .orElseThrow(() -> new PaymentTypeNotFoundException(paymentTypeId));
     }

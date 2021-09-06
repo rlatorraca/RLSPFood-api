@@ -7,7 +7,6 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.PaymentTypeOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.repository.PaymentTypeRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.PaymentTypeResgistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +41,7 @@ public class PaymentTypeController {
 
     @GetMapping("/{paymentTypeId}")
     public PaymentTypeOutputDto buscar(@PathVariable Long paymentTypeId) {
-        PaymentType formaPagamento = paymentTypeResgistrationService.findAndFail(paymentTypeId);
+        PaymentType formaPagamento = paymentTypeResgistrationService.findOrFail(paymentTypeId);
 
         return paymentTypeModelAssembler.fromControllerToOutput(formaPagamento);
     }
@@ -60,7 +59,7 @@ public class PaymentTypeController {
     @PutMapping("/{paymentTypeId}")
     public PaymentTypeOutputDto atualizar(@PathVariable Long paymentTypeId,
                                          @RequestBody @Valid PaymentTypeInputDto paymentTypeInputDto) {
-        PaymentType currentPaymentType = paymentTypeResgistrationService.findAndFail(paymentTypeId);
+        PaymentType currentPaymentType = paymentTypeResgistrationService.findOrFail(paymentTypeId);
 
         paymentTypeInputDto.setId(paymentTypeId);
         paymentTypeInputDisassembler.fromDTOtoPaymentType(paymentTypeInputDto, currentPaymentType);
