@@ -29,7 +29,7 @@ public class IssueOfOrderRegistrationService {
     private ProductRegistrationService productRegistrationService;
 
     @Autowired
-    private PaymentTypeResgistrationService paymentTypeResgistrationService;
+    private PaymentTypeRegistrationService paymentTypeRegistrationService;
 
     @Autowired
     private ProvinceRegistrationService provinceRegistrationService;
@@ -49,7 +49,7 @@ public class IssueOfOrderRegistrationService {
         City city = cityRegistrationService.findOrFail(order.getAddressDelivery().getCity().getId());
         User user = userRegistrationService.findOrFail(order.getUser().getId());
         Restaurant restaurant = restaurantRegistrationService.findOrFail(order.getRestaurant().getId());
-        PaymentType paymentType = paymentTypeResgistrationService.findOrFail(order.getPaymentType().getId());
+        PaymentType paymentType = paymentTypeRegistrationService.findOrFail(order.getPaymentType().getId());
         Province province = provinceRegistrationService.findOrFail(city.getProvince().getId());
 
         order.getAddressDelivery().setCity(city);

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-public class PaymentTypeResgistrationService {
+public class PaymentTypeRegistrationService {
 
     private static final String MSG_FORMA_PAGAMENTO_EM_USO
             = "Payment Type of code %d cannot be removed,  because that is being used as secondary key";
