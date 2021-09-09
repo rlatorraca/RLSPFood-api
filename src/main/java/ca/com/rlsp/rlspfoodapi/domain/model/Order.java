@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
+import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,11 +35,18 @@ public class Order {
     @CreationTimestamp
     @Column(name = "createddate", nullable = false)
     private OffsetDateTime createdDate;
-    @UpdateTimestamp
     @Column(name = "confirmationdate")
     private OffsetDateTime confirmationDate;
-    @Column(name = "canceldate")
-    private OffsetDateTime cancelDate;
+    @Column(name = "starteddate")
+    private OffsetDateTime startedDate;
+    @Column(name = "ontheovendate")
+    private OffsetDateTime onTheOvenDate;
+    @Column(name = "readydate")
+    private OffsetDateTime readyDate;
+    @Column(name = "ontheroad")
+    private OffsetDateTime onTheRoadDate;
+    @Column(name = "canceleddate")
+    private OffsetDateTime canceledDate;
 
     @Column(name = "deliverydate")
     private OffsetDateTime deliveryDate;
@@ -89,6 +97,56 @@ public class Order {
 
     public void addItemsInOrder() {
         getOrderItems().forEach(item -> item.setOrder(this));
+    }
+
+    public void confirm() {
+        setStatus(StatusOrderEnum.CONFIRMED);
+        setConfirmationDate(OffsetDateTime.now());
+    }
+
+    public void start() {
+        setStatus(StatusOrderEnum.STARTED);
+        setStartedDate(OffsetDateTime.now());
+    }
+
+    public void onTheOven() {
+        setStatus(StatusOrderEnum.ON_THE_OVEN);
+        setOnTheOvenDate(OffsetDateTime.now());
+    }
+
+    public void ready() {
+        setStatus(StatusOrderEnum.READY);
+        setReadyDate(OffsetDateTime.now());
+    }
+
+
+    public void ontTheRoad() {
+        setStatus(StatusOrderEnum.ON_THE_ROAD);
+        setOnTheRoadDate(OffsetDateTime.now());
+    }
+
+    public void delivered() {
+        setStatus(StatusOrderEnum.DELIVERED);
+        setDeliveryDate(OffsetDateTime.now());
+    }
+
+    public void cancel() {
+        setStatus(StatusOrderEnum.CANCELED);
+        setCanceledDate(OffsetDateTime.now());
+    }
+
+    public static final String MSG_STATUS_ORDER_CANNOT_BE_CHANGED="Order Status %d cannot be changed from %s to %s";
+
+    private void setStatus(StatusOrderEnum newStatus) {
+        if(!getStatus().authorizedModifyStatusTo(newStatus)) {
+            throw new GenericBusinessException(
+                    String.format(
+                            MSG_STATUS_ORDER_CANNOT_BE_CHANGED,
+                            this.getId(),
+                            this.getStatus().getDescription(),
+                            newStatus.getDescription()));
+        }
+        this.status = newStatus;
     }
 
 }

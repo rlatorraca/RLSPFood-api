@@ -14,7 +14,7 @@ public class StatusOrderController {
         this.statusOrderRegistrationService = statusOrderRegistrationService;
     }
 
-    @PutMapping("/tp-confirm")
+    @PutMapping("/to-confirm")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void confirm(@PathVariable Long orderId) {
         statusOrderRegistrationService.toConfirm(orderId);
@@ -44,7 +44,7 @@ public class StatusOrderController {
         statusOrderRegistrationService.toOnTheRoad(orderId);
     }
 
-    @PutMapping("/to-deliver")
+    @PutMapping("/to-delivery")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deliver(@PathVariable Long orderId) {
         statusOrderRegistrationService.toDelivered(orderId);

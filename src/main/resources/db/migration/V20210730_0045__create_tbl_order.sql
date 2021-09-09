@@ -8,7 +8,7 @@ create table tbl_order (
 
     createddate datetime not null,
     confirmationdate datetime null,
-    canceldate datetime null,
+    canceleddate datetime null,
     deliverydate datetime null,
 
     status varchar(15) not null,

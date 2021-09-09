@@ -26,9 +26,12 @@ public class OrderOutputDto {
 
     private OffsetDateTime createdDate;
     private OffsetDateTime confirmationDate;
-    private OffsetDateTime modifiedDate;
-    private OffsetDateTime cancelDate;
+    private OffsetDateTime startedDate;
+    private OffsetDateTime onTheOvenDate;
+    private OffsetDateTime readyDate;
+    private OffsetDateTime onTheRoadDate;
     private OffsetDateTime deliveryDate;
+    private OffsetDateTime canceledDate;
 
     private AddressOutputDto addressDelivery;
     private PaymentTypeOutputDto paymentType;
