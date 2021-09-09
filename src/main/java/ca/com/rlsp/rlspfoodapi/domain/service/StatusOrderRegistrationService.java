@@ -16,44 +16,44 @@ public class StatusOrderRegistrationService {
     private IssueOfOrderRegistrationService issueOfOrderRegistrationService;
 
     @Transactional
-    public void toConfirm(Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    public void toConfirm(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.confirm();
     }
 
     @Transactional
-    public void toCancel(Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    public void toCancel(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.cancel();
     }
 
     @Transactional
-    public void toStart(Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    public void toStart(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.start();
     }
 
     @Transactional
-    public void toOnTheOven(Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    public void toOnTheOven(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.onTheOven();
     }
 
     @Transactional
-    public void toReady(Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    public void toReady(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.ready();
     }
 
     @Transactional
-    public void toOnTheRoad(Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    public void toOnTheRoad(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.ontTheRoad();
     }
 
     @Transactional
-    public void toDelivered(Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    public void toDelivered(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.delivered();
     }
 }

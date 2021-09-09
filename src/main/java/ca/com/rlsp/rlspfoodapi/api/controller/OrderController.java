@@ -46,9 +46,9 @@ public class OrderController {
         return orderShortModelAssembler.fromControllerToOutputList(allOrders);
     }
 
-    @GetMapping("/{orderId}")
-    public OrderOutputDto find(@PathVariable Long orderId) {
-        Order order = issueOfOrderRegistrationService.findOrFail(orderId);
+    @GetMapping("/{orderCode}")
+    public OrderOutputDto find(@PathVariable String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
 
         return orderModelAssembler.fromControllerToOutput(order);
     }

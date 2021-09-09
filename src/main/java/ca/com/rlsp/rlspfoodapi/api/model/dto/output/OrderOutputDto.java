@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 public class OrderOutputDto {
 
-    private Long id;
+    private String orderCode;
     private BigDecimal beforeTax;
     private BigDecimal deliveryFee;
     private BigDecimal afterTax;

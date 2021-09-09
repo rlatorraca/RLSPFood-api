@@ -134,12 +134,12 @@ insert into tbl_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2), (2
 
 insert into tbl_restaurant_user_manager (restaurant_id, user_id) values (1, 5), (3, 5), (2, 1), (3, 3), (4, 4), (5, 2), (6, 1);
 
-insert into tbl_order (id, restaurant_id, user_client_id, paymenttype_id,
+insert into tbl_order (id, ordercode, restaurant_id, user_client_id, paymenttype_id,
                        address_city_id, address_postalcode, address_street,
                        address_number, address_complement, address_district,
                        status, createddate, beforetax,
                        deliveryfee, taxpercentual , aftertax)
-        values (1, 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown', 'CREATED', utc_timestamp, 268.02, 10, 0.13, 302.86);
+        values (1,'3170207a-5f37-43c7-b3e5-6e29e3138499', 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown', 'CREATED', utc_timestamp, 268.02, 10, 0.13, 302.86);
 
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
         values (1, 1, 1, 1, 78.9, 78.9, 'Spicy sauce');
@@ -153,12 +153,12 @@ values (3, 1, 5, 1, 78.9, 78.9, 'Spicy sauce');
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
 values (4, 1, 7, 4, 5.50, 22.00, 'No spicy');
 
-insert into tbl_order (id, restaurant_id, user_client_id, paymenttype_id,
+insert into tbl_order (id, ordercode, restaurant_id, user_client_id, paymenttype_id,
                        address_city_id, address_postalcode, address_street,
                        address_number, address_complement, address_district,
                        status, createdDate, beforeTax,
                        deliveryFee, taxpercentual , afterTax)
-values (2, 2, 2, 1, 1, 'B2C4X7', 'Inversion street', '3300', 'Apt 2309', 'New Glasgow', 'CREATED', utc_timestamp, 194.06, 10, 0.12, 217.34);
+values (2, '600c1fd5-1db1-45ee-b740-f54ca916b46c', 2, 2, 1, 1, 'B2C4X7', 'Inversion street', '3300', 'Apt 2309', 'New Glasgow', 'CREATED', utc_timestamp, 194.06, 10, 0.12, 217.34);
 
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
 values (5, 2, 1, 1, 48.9, 48.9, 'Spicy sauce');

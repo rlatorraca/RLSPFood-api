@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -22,6 +23,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(name = "ordercode")
+    private String orderCode;
 
     @Column(name = "beforetax", nullable = false)
     private BigDecimal beforeTax;
@@ -135,18 +139,23 @@ public class Order {
         setCanceledDate(OffsetDateTime.now());
     }
 
-    public static final String MSG_STATUS_ORDER_CANNOT_BE_CHANGED="Order Status %d cannot be changed from %s to %s";
+    public static final String MSG_STATUS_ORDER_CANNOT_BE_CHANGED="Order Status %s cannot be changed from \'%s\' to \'%s\' " ;
 
     private void setStatus(StatusOrderEnum newStatus) {
         if(!getStatus().authorizedModifyStatusTo(newStatus)) {
             throw new GenericBusinessException(
                     String.format(
                             MSG_STATUS_ORDER_CANNOT_BE_CHANGED,
-                            this.getId(),
+                            this.getOrderCode(),
                             this.getStatus().getDescription(),
                             newStatus.getDescription()));
         }
         this.status = newStatus;
+    }
+
+    @PrePersist // Sera rodado antes de persistencia (JPA) qualquer Objeto criudo para Order
+    private void generateUUIDOrderCode() {
+        setOrderCode(UUID.randomUUID().toString());
     }
 
 }
