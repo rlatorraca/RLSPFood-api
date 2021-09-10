@@ -12,7 +12,12 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.IssueOfOrderRegistrationService;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,12 +44,35 @@ public class OrderController {
         this.orderInputDisassembler = orderInputDisassembler;
     }
 
+    /*
+        Limitando os campos retornados pela API com @JsonFilter do Jackson
+     */
     @GetMapping
+    public MappingJacksonValue listAll(@RequestParam(required = false) String fields) {
+        List<Order> allOrders = orderRepository.findAll();
+        List<OrderShortOutputDto> allOrderOutputDto = orderShortModelAssembler.fromControllerToOutputList(allOrders);
+
+        MappingJacksonValue orderWrapper = new MappingJacksonValue(allOrderOutputDto);
+
+        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+        filterProvider.addFilter("orderFilter", SimpleBeanPropertyFilter.serializeAll());
+
+        if(StringUtils.isNotBlank(fields)){
+            filterProvider.addFilter("orderFilter", SimpleBeanPropertyFilter.filterOutAllExcept(fields.split(",")));
+        }
+
+        orderWrapper.setFilters(filterProvider);
+
+        return orderWrapper;
+    }
+
+    // Standard Way
+    /*@GetMapping
     public List<OrderShortOutputDto> listAll() {
         List<Order> allOrders = orderRepository.findAll();
 
         return orderShortModelAssembler.fromControllerToOutputList(allOrders);
-    }
+    }*/
 
     @GetMapping("/{orderCode}")
     public OrderOutputDto find(@PathVariable String orderCode) {

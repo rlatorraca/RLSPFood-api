@@ -8,10 +8,14 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+
 @Getter
 @Setter
 public class RestaurantOutputDto {
 
+    /*
+        Projeção de recursos com @JsonView do Jackson
+    */
     @JsonView({RestaurantView.Summary.class,
                RestaurantView.SummaryJustName.class})
     private Long id;

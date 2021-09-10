@@ -63,9 +63,12 @@ public class RestaurantController {
         this.restaurantModelAssembler = restaurantModelAssembler;
         this.restaurantInputDisassembler = restaurantInputDisassembler;
     }
+    /*
+        Limitando os campos retornados pela API com @JsonFilter do Jackson
+     */
 
     /*
-        Recursos com @JsonView do Jackson
+        Rrojeção de recursos com @JsonView do Jackson
      */
 
 
