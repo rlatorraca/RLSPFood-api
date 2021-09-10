@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.assembler.RestaurantModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.RestaurantInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.view.RestaurantView;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.CityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
@@ -12,6 +13,7 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.RestaurantNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -61,10 +64,62 @@ public class RestaurantController {
         this.restaurantInputDisassembler = restaurantInputDisassembler;
     }
 
+    /*
+        Recursos com @JsonView do Jackson
+     */
+
+
     @GetMapping
     public List<RestaurantOutputDto> listAll() {
         return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
     }
+
+    @JsonView(RestaurantView.Summary.class)
+    @GetMapping(params = "summary=summary")
+    public List<RestaurantOutputDto> listAllSummary() {
+        return listAll();
+    }
+
+    @JsonView(RestaurantView.SummaryJustName.class)
+    @GetMapping(params = "summary=justName")
+    public List<RestaurantOutputDto> listAllJustNames() {
+        return listAll();
+    }
+
+//	@GetMapping
+//	public MappingJacksonValue listAll(@RequestParam(required = false) String summaryLevel) {
+//		List<Restaurant> restaurants = restaurantRepository.findAll();
+//		List<RestaurantOutputDto> restaurantsModel = restaurantModelAssembler.fromControllerToOutputList(restaurants);
+//
+//		MappingJacksonValue restaurantsWrapper = new MappingJacksonValue(restaurantsModel);
+//
+//        restaurantsWrapper.setSerializationView(RestaurantView.Summary.class);
+//
+//		if ("justName".equals(summaryLevel)) {
+//            restaurantsWrapper.setSerializationView(RestaurantView.SummaryJustName.class);
+//		} else if ("full".equals(summaryLevel)) {
+//            restaurantsWrapper.setSerializationView(null);
+//		}
+//
+//		return restaurantsWrapper;
+//	}
+
+//    @GetMapping
+//    public List<RestaurantOutputDto> listAll() {
+//        return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
+//    }
+//
+//    @JsonView(RestaurantView.Summary.class) // Alternativa ao DTOs
+//    @GetMapping(params = "summary=level1")
+//    public List<RestaurantOutputDto> listAllSummary() {
+//       return listAll();
+//    }
+//
+//    @JsonView(RestaurantView.SummaryJustName.class) // Alternativa ao DTOs
+//    @GetMapping(params = "summary=level2")
+//    public List<RestaurantOutputDto> listAllSummaryJustName() {
+//        return listAll();
+//    }
 
     /*
     @GetMapping("/{restaurantId}")
