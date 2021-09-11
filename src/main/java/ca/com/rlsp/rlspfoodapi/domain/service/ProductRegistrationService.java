@@ -6,6 +6,7 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.ProductNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
+import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProductRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
@@ -50,8 +51,11 @@ public class ProductRegistrationService {
         }
     }
 
-    public List<Product> listAll(){
-        return productRepository.findAll();
+    public List<Product> listAll(Restaurant restaurant){
+        return productRepository.findProductsByRestaurant(restaurant);
+    }
+    public List<Product> listAllActives(Restaurant restaurant){
+        return productRepository.findActivesProductsByRestaurant(restaurant);
     }
 
     public Optional<Product> findById(Long id){

@@ -44,9 +44,25 @@ public class RestaurantProductController {
     }
 
     @GetMapping
-    public List<ProductOutputDto> listAll(@PathVariable("restaurantId") Long id) {
+    public List<ProductOutputDto> listAll(@PathVariable("restaurantId") Long id ) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
         List<ProductOutputDto> productOutputDtoList = productModelAssembler.fromControllerToOutputList(restaurant.getProducts());
+        return productOutputDtoList;
+    }
+
+    @GetMapping("/actives")
+    public List<ProductOutputDto> listAllActives(@PathVariable("restaurantId") Long id,
+                                                 @RequestParam(required = false) boolean justActiveProducts) {
+        Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
+        List<Product> allProducts = null;
+
+        if(justActiveProducts) {
+            allProducts = productRegistrationService.listAllActives(restaurant);
+        } else {
+            allProducts = productRegistrationService.listAll(restaurant);
+        }
+
+        List<ProductOutputDto> productOutputDtoList = productOutputDtoList = productModelAssembler.fromControllerToOutputList(allProducts);
         return productOutputDtoList;
     }
 

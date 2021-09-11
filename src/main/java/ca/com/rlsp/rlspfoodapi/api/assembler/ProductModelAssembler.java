@@ -54,4 +54,13 @@ public class ProductModelAssembler {
                 .map(product -> fromControllerToOutput(product))
                 .collect(Collectors.toList());
     }
+
+    /*
+       Convert MODEL -> DTO (list GET)
+   */
+    public List<ProductOutputDto> fromControllerToOutputListActives(List<Product> products){
+        return products.stream()
+                .map(product -> fromControllerToOutput(product))
+                .collect(Collectors.toList());
+    }
 }
