@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.assembler.OrderModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.assembler.OrderShortModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.OrderInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.OrderInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.filter.OrderFilterInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
@@ -11,7 +12,9 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.filter.OrderFilter;
 import ca.com.rlsp.rlspfoodapi.domain.service.IssueOfOrderRegistrationService;
+import ca.com.rlsp.rlspfoodapi.infra.repository.specification.OrderSpecifications;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +63,17 @@ public class OrderController {
 //
 //        return orderWrapper;
 //    }
+
+    /*
+        Pesquisas complexas na API (by URL params)
+     */
+
+    @GetMapping("/filter")
+    public List<OrderOutputDto> searchByFilter(OrderFilterInputDto orderFilter) {
+        List<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter));
+
+        return orderModelAssembler.fromControllerToOutputList(allOrders);
+    }
 
    //  Standard Way
     @GetMapping

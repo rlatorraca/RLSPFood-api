@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class RestaurantSpecifications {
 
     /*
-        Implementendo  a Interface SPECIFICATION devemos implementar o metodd toPredicate visro abanxo
+        Implementendo  a Interface SPECIFICATION devemos implementar o metodo toPredicate visto abaixo
             @Override
             public Predicate toPredicate(Root<Restaurant> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.equal(root.get("deliveryFee"), BigDecimal.ZERO);
@@ -24,7 +24,7 @@ public class RestaurantSpecifications {
     }
 
     /*
-    Implementendo  a Interface SPECIFICATION devemos implementar o metodd toPredicate visro abanxo
+    Implementendo  a Interface SPECIFICATION devemos implementar o metodo toPredicate visto abaixo
             @Override
             public Predicate toPredicate(Root<Restaurant> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.like(root.get("name"), "%" + name + "%" );
