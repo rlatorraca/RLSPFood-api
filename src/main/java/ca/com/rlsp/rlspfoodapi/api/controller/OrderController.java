@@ -7,6 +7,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.OrderInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.filter.OrderFilterInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.data.PageableTranslator;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
@@ -15,6 +16,7 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.filter.OrderFilter;
 import ca.com.rlsp.rlspfoodapi.domain.service.IssueOfOrderRegistrationService;
 import ca.com.rlsp.rlspfoodapi.infra.repository.specification.OrderSpecifications;
+import com.google.common.collect.ImmutableMap;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -73,6 +75,9 @@ public class OrderController {
      */
     @GetMapping("/filter-pageable")
     public Page<OrderOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter, @PageableDefault(size = 2) Pageable pageable) {
+        // traduz fields de pageable para Order (fields)
+        pageable = translatePageable(pageable);
+
         Page<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
         List<OrderOutputDto> orderOutputDtoList = orderModelAssembler.fromControllerToOutputList(allOrders.getContent());
 
@@ -123,6 +128,22 @@ public class OrderController {
         } catch (EntityNotFoundException e) {
             throw new GenericBusinessException(e.getReason(), e);
         }
+    }
+
+    /*
+        Faz a traducao de atributos que sao expostos no Pageable e nao estrao presentes dentro do Model (no caso Order)
+        => Vai ser usado para o SORTING
+     */
+    private Pageable translatePageable(Pageable pageable) {
+        // ** Poderiamos usar o Map.of (do Java)
+        var mapping = ImmutableMap.of(
+                "orderCode", "oderCode",
+                "restaurant.name", "restaurant.name",
+                "nameUser", "user.name",
+                "valorTotal", "afterTaxes"
+        );
+
+        return PageableTranslator.translate(pageable, mapping);
     }
 
 }

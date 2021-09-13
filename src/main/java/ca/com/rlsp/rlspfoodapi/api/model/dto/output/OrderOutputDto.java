@@ -37,7 +37,8 @@ public class OrderOutputDto {
     private PaymentTypeOutputDto paymentType;
     private RestaurantShortOutputDto restaurant;
 
-    private UserOutputDto user;
+    //private UserOutputDto user;
+    private String nameUser;
     private List<ItemOrderOutputDto> orderItems;
 
 }
