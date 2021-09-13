@@ -22,9 +22,12 @@ public class OrderSpecifications {
     public static Specification<Order> gettingByFilter(OrderFilterInputDto orderFilter){
         //return new RestaurantFindFreeDeliverySpecification();
         return (root, query, criteriaBuilder) -> {
-            root.fetch("restaurant").fetch("cuisine");
-            //root.fetch("restaurant").fetch("address").fetch("city");
-            root.fetch("user");
+            if(Order.class.equals(query.getResultType())) {
+                root.fetch("restaurant").fetch("cuisine");
+                //root.fetch("restaurant").fetch("address").fetch("city");
+                root.fetch("user");
+            }
+
             var predicates = new ArrayList<Predicate>();
 
             if(orderFilter.getUserId() != null ) {

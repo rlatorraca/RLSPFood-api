@@ -15,6 +15,10 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.filter.OrderFilter;
 import ca.com.rlsp.rlspfoodapi.domain.service.IssueOfOrderRegistrationService;
 import ca.com.rlsp.rlspfoodapi.infra.repository.specification.OrderSpecifications;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +67,19 @@ public class OrderController {
 //
 //        return orderWrapper;
 //    }
+
+    /*
+        Implementando PAGEABLE e SORTING dem ORDER (com filter)
+     */
+    @GetMapping("/filter-pageable")
+    public Page<OrderOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter, @PageableDefault(size = 2) Pageable pageable) {
+        Page<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
+        List<OrderOutputDto> orderOutputDtoList = orderModelAssembler.fromControllerToOutputList(allOrders.getContent());
+
+        Page<OrderOutputDto> orderOutputDtoPage = new PageImpl<>(orderOutputDtoList, pageable, allOrders.getTotalPages());
+
+        return orderOutputDtoPage;
+    }
 
     /*
         Pesquisas complexas na API (by URL params)
