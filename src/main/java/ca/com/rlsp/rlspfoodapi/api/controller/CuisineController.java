@@ -9,6 +9,10 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +46,30 @@ public class CuisineController {
         //return cuisineRegistrationService.listAll();
         List<Cuisine> allCuisines= cuisineRegistrationService.listAll();
         return cuisineModelAssembler.fromControllerToOutputList(allCuisines);
+    }
+
+    /*
+        Usando PAGEABLE
+     */
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, value = "/pageable-list")
+    //public List<Cuisine> listAll(){
+    public List<CuisineOutputDto> listAllPageableList(Pageable pageable){
+        //return cuisineRegistrationService.listAll();
+        Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
+        return cuisineModelAssembler.fromControllerToOutputList(allCuisinesPageable.getContent());
+    }
+
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, value = "/pageable")
+    //public List<Cuisine> listAll(){
+    public Page<CuisineOutputDto> listAllPageable(@PageableDefault(size = 4) Pageable pageable){
+        //return cuisineRegistrationService.listAll();
+        Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
+        List<CuisineOutputDto> cuisineOutputDtos = cuisineModelAssembler.fromControllerToOutputList(allCuisinesPageable.getContent());
+
+        // Copia a lista de CUISINE para dentro de uma PAGE
+        Page<CuisineOutputDto> cuisineOutputDtosPages = new PageImpl<CuisineOutputDto>(cuisineOutputDtos, pageable, allCuisinesPageable.getTotalPages());
+        return cuisineOutputDtosPages;
     }
 
     /*
