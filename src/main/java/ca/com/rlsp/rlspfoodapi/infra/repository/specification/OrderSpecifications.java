@@ -2,7 +2,6 @@ package ca.com.rlsp.rlspfoodapi.infra.repository.specification;
 
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.filter.OrderFilterInputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
-import ca.com.rlsp.rlspfoodapi.domain.repository.filter.OrderFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
