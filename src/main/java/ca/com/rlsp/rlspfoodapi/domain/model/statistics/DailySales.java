@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @Getter
 @Setter
 public class DailySales {
-    private OffsetDateTime date;
+    private Date date;
     private Long amountOfInvoices;
     private BigDecimal totalSold;
 }
+
