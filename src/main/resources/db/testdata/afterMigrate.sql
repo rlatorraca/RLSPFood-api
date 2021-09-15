@@ -206,7 +206,7 @@ insert into tbl_order (id, ordercode, restaurant_id, user_client_id, paymenttype
                        address_number, address_complement, address_district,
                        status, createdDate, deliveryDate, beforeTax,
                        deliveryFee, taxpercentual , afterTax)
-values (5, '122f931e-795e-421b-87d5-f7502658cc70', 8, 4, 1, 1, 'E9C4X8', 'Projected street', '098', 'Apt 2309', 'New Caledonia', 'DELIVERED', '2019-10-30 21:10:00', '2019-10-30 23:13:20',48.90, 10, 0.12, 54.78);
+values (5, '122f931e-795e-421b-87d5-f7502658cc70', 8, 4, 1, 1, 'E9C4X8', 'Projected street', '098', 'Apt 2309', 'New Caledonia', 'DELIVERED', '2019-10-30 02:10:00', '2019-10-30 03:13:20',48.90, 10, 0.12, 54.78);
 
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
 values (14, 5, 1, 1, 48.9, 48.9, 'Spicy sauce');

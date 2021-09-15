@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.domain.model.statistics.DailySales;
 import ca.com.rlsp.rlspfoodapi.domain.service.DailySalesQueryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class StatisticsController {
     }
 
     @GetMapping("/daily-sales")
-    public List<DailySales> queryDailySales(DailySalesFilter dailySalesFilter){
-        return dailySalesQueryService.queryDailySales(dailySalesFilter);
+    public List<DailySales> queryDailySales(DailySalesFilter dailySalesFilter,
+                                            @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet){
+        return dailySalesQueryService.queryDailySales(dailySalesFilter, timeOffSet);
     }
 }

@@ -23,15 +23,21 @@ public class DailySalesQueryServiceImpl implements DailySalesQueryService {
     private EntityManager em;
 
     @Override
-    public List<DailySales> queryDailySales(DailySalesFilter filter) {
+    public List<DailySales> queryDailySales(DailySalesFilter filter, String timeOffSet) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         var query = builder.createQuery(DailySales.class);
         var root = query.from(Order.class);
 
-        var functionToBuildCreatedDate = builder.function("date",
-                                                Date.class,
-                                                root.get("createdDate"));
+        var functionTimeZoneCreatedDate = builder.function("convert_tz", Date.class,
+                                                                root.get("createdDate"),
+                                                                builder.literal("+00:00"),
+                                                                builder.literal(timeOffSet));
 
+        var functionToBuildCreatedDate = builder.function("date",
+                                                                          Date.class,
+                                                                          functionTimeZoneCreatedDate);
+
+        System.out.println("functionToBuildCreatedDate : "+ functionToBuildCreatedDate.toString());
         var selection = builder.construct(DailySales.class,
                                                           functionToBuildCreatedDate,
                                                           builder.count(root.get("id")),

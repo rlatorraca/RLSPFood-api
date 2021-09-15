@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface DailySalesQueryService {
 
-    List<DailySales> queryDailySales(DailySalesFilter filter);
+    List<DailySales> queryDailySales(DailySalesFilter filter, String timeOffSet);
 }
