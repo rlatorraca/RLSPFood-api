@@ -139,7 +139,7 @@ insert into tbl_order (id, ordercode, restaurant_id, user_client_id, paymenttype
                        address_number, address_complement, address_district,
                        status, createddate, beforetax,
                        deliveryfee, taxpercentual , aftertax)
-        values (1,'3170207a-5f37-43c7-b3e5-6e29e3138499', 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown', 'CREATED', utc_timestamp, 268.02, 10, 0.13, 302.86);
+        values (1,'3170207a-5f37-43c7-b3e5-6e29e3138499', 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown', 'CREATED', '2021-08-30 11:56:29', 268.02, 10, 0.13, 302.86);
 
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
         values (1, 1, 1, 1, 78.9, 78.9, 'Spicy sauce');
@@ -158,7 +158,7 @@ insert into tbl_order (id, ordercode, restaurant_id, user_client_id, paymenttype
                        address_number, address_complement, address_district,
                        status, createdDate, beforeTax,
                        deliveryFee, taxpercentual , afterTax)
-values (2, 'd5aa1c2d-f077-40ae-944a-f1e3e6e3aa84', 2, 2, 1, 1, 'M2C0X7', 'Principal street', '3300', 'Apt 2309', 'New Glasgow', 'CREATED', utc_timestamp, 194.06, 10, 0.12, 217.34);
+values (2, 'd5aa1c2d-f077-40ae-944a-f1e3e6e3aa84', 2, 2, 1, 1, 'M2C0X7', 'Principal street', '3300', 'Apt 2309', 'New Glasgow', 'CONFIRMED', '2020-10-05 11:56:29', 194.06, 10, 0.12, 217.34);
 
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
 values (5, 2, 1, 1, 48.9, 48.9, 'Spicy sauce');
