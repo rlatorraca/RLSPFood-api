@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.infra.service;
+package ca.com.rlsp.rlspfoodapi.infra.service.query;
 
 import ca.com.rlsp.rlspfoodapi.domain.filter.DailySalesFilter;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
