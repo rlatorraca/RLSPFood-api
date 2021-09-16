@@ -42,7 +42,7 @@ public class StatisticsController {
 
         var dateNow = OffsetDateTime.now().toLocalDateTime();
         var headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION,String.format("attachment; filename=daily-sales_%s.pdf", dateNow));
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=vendas-diarias.pdf");
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .headers(headers)
