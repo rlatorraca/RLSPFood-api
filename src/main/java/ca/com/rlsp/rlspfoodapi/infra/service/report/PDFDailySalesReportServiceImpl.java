@@ -7,13 +7,13 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Locale;
 
 
-@Repository
+@Service
 public class PDFDailySalesReportServiceImpl implements DailySalesReportService {
 
     @Autowired
