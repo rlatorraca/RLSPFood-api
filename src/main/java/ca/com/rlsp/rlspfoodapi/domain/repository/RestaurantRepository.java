@@ -1,9 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.repository;
 
-import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
-import ca.com.rlsp.rlspfoodapi.infra.repository.customized.RestaurantRepositoryImplQueries;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface RestaurantRepository extends
                 CustomJpaRepository<Restaurant, Long>,
-                RestaurantRepositoryImplQueries,
+        RestaurantRepositoryQueries,
                 JpaSpecificationExecutor {
 
     @Query("select distinct r from Restaurant r join fetch r.cuisine left join fetch r.paymentTypeList")

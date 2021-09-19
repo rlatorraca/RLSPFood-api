@@ -1,8 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.infra.repository.customized.old;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
-import ca.com.rlsp.rlspfoodapi.infra.repository.customized.RestaurantRepositoryImplQueries;
-import org.springframework.stereotype.Repository;
+import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepositoryQueries;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -16,7 +15,7 @@ import java.util.List;
     Implementacao de Repositorio de Restaurante Customizado
  */
 //@Repository
-public class RestaurantRepositoryImpl implements RestaurantRepositoryImplQueries {
+public class RestaurantRepository implements RestaurantRepositoryQueries {
 
     @PersistenceContext
     private EntityManager em;

@@ -1,9 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.infra.repository.customized;
 
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
-import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 
-import org.hibernate.Criteria;
+import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepositoryQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
@@ -18,9 +17,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantSpecifications.findFreeDelivereySpec;
 import static ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantSpecifications.findNameLikeSpec;
@@ -29,14 +26,14 @@ import static ca.com.rlsp.rlspfoodapi.infra.repository.specification.RestaurantS
     Implementacao de Repositorio de Restaurante Customizado
  */
 @Repository
-public class RestaurantRepositoryImpl implements RestaurantRepositoryImplQueries {
+public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 
     @PersistenceContext
     private EntityManager em;
 
     @Autowired
     @Lazy
-    private RestaurantRepository restaurantRepository;
+    private ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository restaurantRepository;
 
     @Override
     public List<Restaurant> procurarRestauranteNasFaixas(String name,
