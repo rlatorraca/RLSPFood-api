@@ -16,6 +16,7 @@ delete from tbl_restaurant_user_manager;
 delete from tbl_order;
 delete from tbl_orderitem;
 delete from tbl_taxprovince;
+delete from tbl_product_photo;
 
 set foreign_key_checks = 1;
 
