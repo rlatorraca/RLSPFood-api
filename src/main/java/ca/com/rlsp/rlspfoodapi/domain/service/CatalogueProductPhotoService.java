@@ -24,9 +24,11 @@ public class CatalogueProductPhotoService {
         Long restaurantId = productPhoto.getRestaurantId();
         Long productId = productPhoto.getProduct().getId();
         Optional<ProductPhoto> existentPhoto = productRepository.findProductPhotoById(restaurantId, productId);
-        String uuidFileName = photoStorageService.generateUUIDFileName(productPhoto.getFileName());
+        String uuidFileName = photoStorageService.generateUUIDFileName(productPhoto.getFileName(), restaurantId, productId);
+        String oldFileExistent = null;
 
         if(existentPhoto.isPresent()) {
+            oldFileExistent = existentPhoto.get().getFileName();
             productRepository.delete(existentPhoto.get());
         }
 
@@ -40,8 +42,8 @@ public class CatalogueProductPhotoService {
                 .newFIle(productPhoto.getFileName())
                 .inputStream(fileData).build();
 
-        // Salva a foto no Disco Local
-        photoStorageService.storage(newPhoto);
+        // Troca ou Salva a foto no Disco Local
+        photoStorageService.switchOrSave(oldFileExistent, newPhoto);
         return productPhoto;
     }
 }

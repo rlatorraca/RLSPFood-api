@@ -11,9 +11,19 @@ public interface PhotoStorageService {
 
     void storage(NewPhoto newPhoto);
 
-    default String generateUUIDFileName(String orignalName) {
-        return UUID.randomUUID().toString() +"__" + orignalName;
+    void remove(String fileName);
+
+    default String generateUUIDFileName(String orignalName, Long restaurantId, Long productId) {
+        return UUID.randomUUID().toString() +"_" + restaurantId+ "_"+ + productId +"_"+ orignalName;
     }
+
+    default void switchOrSave(String oldFileName, NewPhoto newPhoto) {
+        if(oldFileName != null) {
+            this.remove(oldFileName);
+        }
+        this.storage(newPhoto);
+    }
+
 
     // Classe interna que sera usada para pegarmos o que queremos armazenar nos arquivos no ambiente Local
     @Builder

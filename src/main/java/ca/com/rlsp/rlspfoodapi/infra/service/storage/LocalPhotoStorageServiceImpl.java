@@ -5,15 +5,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
 public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
+
     public static final String SYSTEM_CANT_STORAGE_THE_FILE = "System can't storage the file.";
+    public static final String SYSTEM_CANT_DELETE_THE_FILE = "System can't remove the file.";
+
     // Pega propridade existem no application.properties  com o PATH para o arquivo Local
     @Value("${rlspFood.Local.storage.photos.directory}")
     private Path photoDirectory;
+
     @Override
     public void storage(NewPhoto newPhoto) {
         try {
@@ -25,6 +30,18 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
             FileCopyUtils.copy(newPhoto.getInputStream(), Files.newOutputStream(newPath));
         } catch (Exception e) {
             throw new StorageException(SYSTEM_CANT_STORAGE_THE_FILE, e);
+        }
+
+    }
+
+    @Override
+    public void remove(String fileName) {
+        // Path para o local que sera armazenado o arquivo
+        try {
+            Path newPath = getFilePath(fileName);
+            Files.deleteIfExists(newPath);
+        } catch (Exception e) {
+            throw new StorageException(SYSTEM_CANT_DELETE_THE_FILE, e);
         }
 
     }
