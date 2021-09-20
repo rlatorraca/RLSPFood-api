@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,6 +15,7 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
 
     public static final String SYSTEM_CANT_STORAGE_THE_FILE = "System can't storage the file.";
     public static final String SYSTEM_CANT_DELETE_THE_FILE = "System can't remove the file.";
+    public static final String SYSTEM_CANT_RECOVERY_FILE_FROM_STORAGE = "System can't recovery file from Stora.";
 
     // Pega propridade existem no application.properties  com o PATH para o arquivo Local
     @Value("${rlspFood.Local.storage.photos.directory}")
@@ -44,6 +46,16 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
             throw new StorageException(SYSTEM_CANT_DELETE_THE_FILE, e);
         }
 
+    }
+
+    @Override
+    public InputStream recovery(String fileName) {
+        try {
+            Path newPath = getFilePath(fileName);
+           return Files.newInputStream(newPath);
+        }  catch (Exception e) {
+            throw new StorageException(SYSTEM_CANT_RECOVERY_FILE_FROM_STORAGE, e);
+        }
     }
 
     private Path getFilePath(String fileName) {

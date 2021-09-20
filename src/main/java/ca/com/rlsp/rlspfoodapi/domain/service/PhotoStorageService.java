@@ -13,6 +13,8 @@ public interface PhotoStorageService {
 
     void remove(String fileName);
 
+    InputStream recovery(String fileName);
+
     default String generateUUIDFileName(String orignalName, Long restaurantId, Long productId) {
         return UUID.randomUUID().toString() +"_" + restaurantId+ "_"+ + productId +"_"+ orignalName;
     }
