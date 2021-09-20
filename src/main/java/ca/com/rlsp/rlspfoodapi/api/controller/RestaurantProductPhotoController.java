@@ -5,7 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductPhotoInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductPhotoOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
-import ca.com.rlsp.rlspfoodapi.domain.service.CatalogueProductPhoto;
+import ca.com.rlsp.rlspfoodapi.domain.service.CatalogueProductPhotoService;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,7 +22,7 @@ public class RestaurantProductPhotoController {
     private ProductRegistrationService productRegistrationService;
 
     @Autowired
-    private CatalogueProductPhoto catalogueProductPhoto;
+    private CatalogueProductPhotoService catalogueProductPhotoService;
 
 
 
@@ -45,7 +45,7 @@ public class RestaurantProductPhotoController {
         photo.setSize(file.getSize());
         photo.setFileName(file.getOriginalFilename());
 
-        ProductPhoto savedPhoto = catalogueProductPhoto.save(photo);
+        ProductPhoto savedPhoto = catalogueProductPhotoService.save(photo);
 
         return productPhotoModelAssembler.fromControllerToOutput(savedPhoto);
     }
