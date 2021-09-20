@@ -2,15 +2,16 @@ package ca.com.rlsp.rlspfoodapi.infra.service.storage;
 
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@Service
 public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
     public static final String SYSTEM_CANT_STORAGE_THE_FILE = "System can't storage the file.";
-    // Pega propridade existem no message.properties (resources) com o PATH para o arquivo Local
+    // Pega propridade existem no application.properties  com o PATH para o arquivo Local
     @Value("${rlspFood.Local.storage.photos.directory}")
     private Path photoDirectory;
     @Override
