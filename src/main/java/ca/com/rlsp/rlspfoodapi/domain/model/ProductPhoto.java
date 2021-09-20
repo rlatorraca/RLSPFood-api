@@ -25,4 +25,12 @@ public class ProductPhoto {
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId // Faz com que PRODUCT seja mapeado usando @id dessa classe (que no caso ja eh product_id
     private Product product;
+
+    public Long getRestaurantId() {
+        if(this.getProduct() != null) {
+            return this.getProduct().getRestaurant().getId();
+        }
+
+        return null;
+    }
 }
