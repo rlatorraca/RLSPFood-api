@@ -1,6 +1,5 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductPhotoInput;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

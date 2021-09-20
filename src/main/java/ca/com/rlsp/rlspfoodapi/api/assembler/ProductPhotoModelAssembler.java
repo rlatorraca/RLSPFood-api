@@ -27,23 +27,6 @@ public class ProductPhotoModelAssembler {
     }
 
 
-    /*
-        Convert MODEL -> DTO
-    */
-    public ProductPhotoOutputDto fromControllerToInput(ProductPhoto photo) {
-        ProductPhotoOutputDto productPhotoOutputDto = new ProductPhotoOutputDto();
-
-        productPhotoOutputDto.setId(photo.getId());
-        productPhotoOutputDto.setContentType(photo.getContentType());
-        productPhotoOutputDto.setDescription(photo.getDescription());
-        productPhotoOutputDto.setFileName(photo.getFileName());
-        productPhotoOutputDto.setSize(photo.getSize());
-        productPhotoOutputDto.setProduct(photo.getProduct());
-
-
-        return productPhotoOutputDto;
-    }
-
 
 
 }

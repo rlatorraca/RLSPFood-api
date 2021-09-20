@@ -18,7 +18,7 @@ public class FileContentTypeValidator implements ConstraintValidator<FileContent
 
     @Override
     public boolean isValid(MultipartFile value, ConstraintValidatorContext context) {
-        return value == null || this.allowedContentTypes.contains(value);
+        return value == null || this.allowedContentTypes.contains(value.getContentType());
     }
 
 }

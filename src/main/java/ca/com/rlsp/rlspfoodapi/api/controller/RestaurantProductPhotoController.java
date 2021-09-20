@@ -1,6 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductPhotoInput;
+import ca.com.rlsp.rlspfoodapi.api.assembler.ProductPhotoModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductPhotoInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductPhotoOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import ca.com.rlsp.rlspfoodapi.domain.service.CatalogueProductPhoto;
@@ -11,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
@@ -25,16 +24,30 @@ public class RestaurantProductPhotoController {
     @Autowired
     private CatalogueProductPhoto catalogueProductPhoto;
 
+
+
+    @Autowired
+    private ProductPhotoModelAssembler productPhotoModelAssembler;
+
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void updatePhoto(@PathVariable Long restaurantId,
-                            @PathVariable Long productId,
-                            @Valid ProductPhotoInput photoProductInput)  {
+    public ProductPhotoOutputDto updatePhoto(@PathVariable Long restaurantId,
+                                             @PathVariable Long productId,
+                                             @Valid ProductPhotoInputDto photoProductInput)  {
 
         Product product = productRegistrationService.findOrFail(restaurantId, productId);
 
-        ProductPhoto photo = new ProductPhoto();
+        MultipartFile file = photoProductInput.getFile();
 
-        catalogueProductPhoto.save(photo);
+        ProductPhoto photo = new ProductPhoto();
+        photo.setProduct(product);
+        photo.setDescription(photoProductInput.getDescription());
+        photo.setContentType(file.getContentType());
+        photo.setSize(file.getSize());
+        photo.setFileName(file.getOriginalFilename());
+
+        ProductPhoto savedPhoto = catalogueProductPhoto.save(photo);
+
+        return productPhotoModelAssembler.fromControllerToOutput(savedPhoto);
     }
 
     /* Old Version

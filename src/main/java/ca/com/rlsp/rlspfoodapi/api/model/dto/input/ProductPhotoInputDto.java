@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class ProductPhotoInput {
+public class ProductPhotoInputDto {
 
     @NotNull
     @PhotoSize(max="500KB")
