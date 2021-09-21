@@ -3,17 +3,22 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 import ca.com.rlsp.rlspfoodapi.api.assembler.ProductPhotoModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductPhotoInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductPhotoOutputDto;
+import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import ca.com.rlsp.rlspfoodapi.domain.service.CatalogueProductPhotoService;
+import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
@@ -25,18 +30,39 @@ public class RestaurantProductPhotoController {
     @Autowired
     private CatalogueProductPhotoService catalogueProductPhotoService;
 
+    @Autowired
+    private PhotoStorageService photoStorageService;
+
 
 
     @Autowired
     private ProductPhotoModelAssembler productPhotoModelAssembler;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductPhotoOutputDto findProductPhoto(@PathVariable Long restaurantId,
                                                   @PathVariable Long productId) {
         ProductPhoto productPhoto = catalogueProductPhotoService
                 .findAndFail(restaurantId, productId);
 
         return productPhotoModelAssembler.fromControllerToOutput(productPhoto);
+    }
+
+    @GetMapping(produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public ResponseEntity<InputStreamResource> getProductPhoto(@PathVariable Long restaurantId,
+                                          @PathVariable Long productId) {
+        try {
+            ProductPhoto productPhoto = catalogueProductPhotoService
+                    .findAndFail(restaurantId, productId);
+
+            InputStream inputStream = photoStorageService.recovery(productPhoto.getFileName());
+
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(new InputStreamResource(inputStream));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
