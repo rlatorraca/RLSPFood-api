@@ -30,6 +30,15 @@ public class RestaurantProductPhotoController {
     @Autowired
     private ProductPhotoModelAssembler productPhotoModelAssembler;
 
+    @GetMapping
+    public ProductPhotoOutputDto findProductPhoto(@PathVariable Long restaurantId,
+                                                  @PathVariable Long productId) {
+        ProductPhoto productPhoto = catalogueProductPhotoService
+                .findAndFail(restaurantId, productId);
+
+        return productPhotoModelAssembler.fromControllerToOutput(productPhoto);
+    }
+
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoOutputDto updatePhoto(@PathVariable Long restaurantId,
                                              @PathVariable Long productId,
