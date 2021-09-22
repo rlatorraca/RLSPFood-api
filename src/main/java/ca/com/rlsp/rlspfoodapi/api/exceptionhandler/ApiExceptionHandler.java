@@ -20,6 +20,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,10 +52,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+    @Override
+    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return ResponseEntity.status(status).headers(headers).build();
+    }
 
     /*
-        Trata a excecao de 404 (Bad request) nos filtros de ORDER
-     */
+            Trata a excecao de 404 (Bad request) nos filtros de ORDER
+         */
     @Override
     protected ResponseEntity<Object> handleBindException(BindException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return handleValidationInternal(e, e.getBindingResult(), headers, status, request);
@@ -220,12 +225,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .dateTime(OffsetDateTime.now())
                     .title(status.getReasonPhrase())
                     .status(status.value())
+                    .userMessage(MSG_FINALUSER_GENERIC)
                     .build();
         } else if(body instanceof String){
             body = ApiHandleProblemDetail.builder()
                     .dateTime(OffsetDateTime.now())
                     .title((String) body)
                     .status(status.value())
+                    .userMessage(MSG_FINALUSER_GENERIC)
+
                     .build();
         }
         return super.handleExceptionInternal(e, body , headers, status, request);

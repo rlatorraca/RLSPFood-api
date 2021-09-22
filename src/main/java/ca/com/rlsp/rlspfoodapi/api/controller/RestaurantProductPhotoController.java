@@ -45,7 +45,7 @@ public class RestaurantProductPhotoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePhoto(@PathVariable Long restaurantId,
                             @PathVariable Long productId) {
-        photoStorageService.delete(restaurantId,productId);
+        catalogueProductPhotoService.remove(restaurantId,productId);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +60,7 @@ public class RestaurantProductPhotoController {
     @GetMapping
     public ResponseEntity<InputStreamResource> getProductPhoto(@PathVariable Long restaurantId,
                                           @PathVariable Long productId,
-                                          @RequestHeader(name="accept") String acceptHeader) {
+                                          @RequestHeader(name="accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
         try {
             ProductPhoto productPhoto = catalogueProductPhotoService
                     .findAndFail(restaurantId, productId);
@@ -78,7 +78,7 @@ public class RestaurantProductPhotoController {
             return ResponseEntity.ok()
                     .contentType(mediaTypePhoto)// Retorna o Media Type presente na Photo
                     .body(new InputStreamResource(inputStream));
-        } catch (EntityNotFoundException | HttpMediaTypeNotAcceptableException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -110,7 +110,7 @@ public class RestaurantProductPhotoController {
         photo.setSize(file.getSize());
         photo.setFileName(file.getOriginalFilename());
 
-        ProductPhoto savedPhoto = catalogueProductPhotoService.save(photo, file.getInputStream());
+        ProductPhoto savedPhoto = catalogueProductPhotoService.savePhoto(photo, file.getInputStream());
 
         return productPhotoModelAssembler.fromControllerToOutput(savedPhoto);
     }
