@@ -21,7 +21,19 @@ public class CatalogueProductPhotoService {
     private PhotoStorageService photoStorageService;
 
     @Transactional
-    public ProductPhoto save(ProductPhoto productPhoto, InputStream fileData) {
+    public void remove(Long restaurantId, Long productId){
+        ProductPhoto photo = findAndFail(restaurantId,productId);
+
+        // Delete from DB
+        productRepository.delete(photo);
+        productRepository.flush();
+
+        // Delete from DISK
+        photoStorageService.remove(photo.getFileName());
+    }
+
+    @Transactional
+    public ProductPhoto savePhoto(ProductPhoto productPhoto, InputStream fileData) {
         // Delete photo , if exists
         Long restaurantId = productPhoto.getRestaurantId();
         Long productId = productPhoto.getProduct().getId();

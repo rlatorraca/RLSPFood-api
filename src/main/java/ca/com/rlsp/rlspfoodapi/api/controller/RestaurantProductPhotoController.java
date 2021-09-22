@@ -11,6 +11,7 @@ import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -39,6 +40,13 @@ public class RestaurantProductPhotoController {
 
     @Autowired
     private ProductPhotoModelAssembler productPhotoModelAssembler;
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePhoto(@PathVariable Long restaurantId,
+                            @PathVariable Long productId) {
+        photoStorageService.delete(restaurantId,productId);
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductPhotoOutputDto findProductPhoto(@PathVariable Long restaurantId,
