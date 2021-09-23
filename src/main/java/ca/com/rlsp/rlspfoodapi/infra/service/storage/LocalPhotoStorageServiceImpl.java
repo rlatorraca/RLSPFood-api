@@ -1,6 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.infra.service.storage;
 
+import ca.com.rlsp.rlspfoodapi.core.storage.StorageProperties;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -17,8 +19,14 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
     public static final String SYSTEM_CANT_RECOVERY_FILE_FROM_STORAGE = "System can't recovery file from Stora.";
 
     // Pega propridade existem no application.properties  com o PATH para o arquivo Local
-    @Value("${rlspFood.Local.storage.photos.directory}")
+    /*New way*/
+    @Autowired
+    private StorageProperties storageProperties;
+
+    /* Old Way
+    @Value("${rlspfood.storage.Local.photos-directory}")
     private Path photoDirectory;
+    */
 
     @Override
     public void storage(NewPhoto newPhoto) {
@@ -59,6 +67,7 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
     }
 
     private Path getFilePath(String fileName) {
-        return photoDirectory.resolve(Path.of(fileName));
+        //return photoDirectory.resolve(Path.of(fileName));
+        return storageProperties.getLocal().getPhotosDirecotry().resolve(Path.of(fileName));
     }
 }
