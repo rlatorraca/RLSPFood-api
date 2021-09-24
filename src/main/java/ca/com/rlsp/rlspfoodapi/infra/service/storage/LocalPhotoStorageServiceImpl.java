@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
+//@Service
 public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
 
     public static final String SYSTEM_CANT_STORAGE_THE_FILE = "System can't storage the file.";

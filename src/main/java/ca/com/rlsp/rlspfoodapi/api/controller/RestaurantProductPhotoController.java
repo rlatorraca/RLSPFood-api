@@ -9,6 +9,7 @@ import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import ca.com.rlsp.rlspfoodapi.domain.service.CatalogueProductPhotoService;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
+import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
