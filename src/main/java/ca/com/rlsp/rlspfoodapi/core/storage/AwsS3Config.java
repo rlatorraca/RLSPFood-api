@@ -25,7 +25,7 @@ public class AwsS3Config {
             storageProperties.getS3().getAccessKey(),
             storageProperties.getS3().getPassword()
         );
-        System.out.println(storageProperties.getS3().getRegion());
+
         return AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))

@@ -6,7 +6,6 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.InputStream;
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class CatalogueProductPhotoService {
         productRepository.delete(photo);
         productRepository.flush();
 
-        // Delete from DISK
+        // Delete from DISK or AWS S3
         photoStorageService.remove(photo.getFileName());
     }
 
@@ -53,7 +52,8 @@ public class CatalogueProductPhotoService {
 
         PhotoStorageService.NewPhoto newPhoto = PhotoStorageService
                 .NewPhoto.builder()
-                .newFIle(productPhoto.getFileName())
+                .newFIleName(productPhoto.getFileName())
+                .contentType((productPhoto.getContentType()))
                 .inputStream(fileData).build();
 
         // Troca ou Salva a foto no Disco Local

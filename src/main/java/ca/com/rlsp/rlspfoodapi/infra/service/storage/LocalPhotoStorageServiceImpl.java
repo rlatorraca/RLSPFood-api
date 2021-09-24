@@ -3,8 +3,6 @@ package ca.com.rlsp.rlspfoodapi.infra.service.storage;
 import ca.com.rlsp.rlspfoodapi.core.storage.StorageProperties;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.InputStream;
@@ -32,7 +30,7 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
     public void storage(NewPhoto newPhoto) {
         try {
         // Path para o local que sera armazenado o arquivo
-        Path newPath = getFilePath(newPhoto.getNewFIle());
+        Path newPath = getFilePath(newPhoto.getNewFIleName());
 
         // Faz a copia do arquivo passado na URL para o Local no disco
 

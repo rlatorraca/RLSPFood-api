@@ -31,7 +31,8 @@ public interface PhotoStorageService {
     @Builder
     @Getter
     class NewPhoto {
-        private String newFIle;
+        private String newFIleName;
+        private String contentType;
         private InputStream inputStream; // Fluxo de leitura do arquivo para foi feito o upload (por meio deste salva-se a foto)
     }
 }
