@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.URL;
 
-@Service
+//@Service
 public class AwsS3PhotoStorageService implements PhotoStorageService {
 
     private static final String MSG_EXCEPTION_CONNECTION_AWS_S3 = "Cannot send File from AWS S3" ;

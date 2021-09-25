@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 //@Service
-public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
+public class LocalPhotoStorageService implements PhotoStorageService {
 
     public static final String SYSTEM_CANT_STORAGE_THE_FILE = "System can't storage the file.";
     public static final String SYSTEM_CANT_DELETE_THE_FILE = "System can't remove the file.";
