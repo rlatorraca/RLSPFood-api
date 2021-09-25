@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties("rlspfood.email.sender")
+@ConfigurationProperties("rlspfood.email")
 public class EmailProperties {
 
     @NotNull

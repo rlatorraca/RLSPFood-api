@@ -119,7 +119,9 @@ insert into tbl_user (id, user_name, user_email, user_password, user_created, us
                        (2, 'Pascoal Moreira Cabral', 'pascoal@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
                        (3, 'Albert Einstein', 'albert@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
                        (4, 'Maximus Alexandre', 'maximus@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
-                       (5, 'Julius Cesar', 'julio@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp);
+                       (5, 'Julius Cesar', 'julio@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
+                       (6, 'Marcus Aurelio Einstein', 'rlatorraca+marcus@gmail.com', '123', utc_timestamp, utc_timestamp),
+                       (7, 'Cleopatra do Egito', 'rlatorraca+clelo@gmail.com', '123', utc_timestamp, utc_timestamp);
 
 insert into tbl_permission (id, permission_description, permission_name) values
                            (1, 'Has full access for all entrypoints', 'FULL APP'),
@@ -140,7 +142,7 @@ insert into tbl_order (id, ordercode, restaurant_id, user_client_id, paymenttype
                        address_number, address_complement, address_district,
                        status, createddate, beforetax,
                        deliveryfee, taxpercentual , aftertax)
-        values (1,'3170207a-5f37-43c7-b3e5-6e29e3138499', 1, 1, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown', 'CREATED', '2021-08-30 11:56:29', 268.02, 10, 0.13, 302.86);
+        values (1,'3170207a-5f37-43c7-b3e5-6e29e3138499', 1, 6, 1, 1, 'A1C2S4', 'Bean street', '500', 'Apt 801', 'downtown', 'CREATED', '2021-08-30 11:56:29', 268.02, 10, 0.13, 302.86);
 
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
         values (1, 1, 1, 1, 78.9, 78.9, 'Spicy sauce');

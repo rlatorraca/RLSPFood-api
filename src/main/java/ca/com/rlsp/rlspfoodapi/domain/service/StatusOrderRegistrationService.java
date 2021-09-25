@@ -15,10 +15,21 @@ public class StatusOrderRegistrationService {
     @Autowired
     private IssueOfOrderRegistrationService issueOfOrderRegistrationService;
 
+    @Autowired
+    private SendEmailService sendEmailService;
+
     @Transactional
     public void toConfirm(String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.confirm();
+
+        var message = SendEmailService.Message.builder()
+                .subject(order.getRestaurant().getName() + "- Order Confirmed")
+                .body("Order of code <strong>" + order.getOrderCode() + "</strong> is confirmed")
+                .destination(order.getUser().getEmail())
+                .build();
+
+        sendEmailService.send(message);
     }
 
     @Transactional

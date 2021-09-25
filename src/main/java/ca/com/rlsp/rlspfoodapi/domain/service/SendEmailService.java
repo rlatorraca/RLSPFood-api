@@ -1,7 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -10,10 +9,14 @@ public interface SendEmailService {
     void send(Message message);
 
     @Getter
-    @Setter
+    @Builder
     class Message {
-        private Set<String> destination;
+
+        @Singular // Singulariza a Collectio SET<?>
+        private Set<String> destinations;
+        @NonNull
         private String subject;
+        @NonNull
         private String body;
 
     }

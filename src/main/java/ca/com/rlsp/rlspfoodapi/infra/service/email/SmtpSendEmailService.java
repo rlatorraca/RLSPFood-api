@@ -27,7 +27,7 @@ public class SmtpSendEmailService implements SendEmailService {
 
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
             mimeMessageHelper.setFrom(emailProperties.getSender());
-            mimeMessageHelper.setTo(message.getDestination().toArray(new String[0]));
+            mimeMessageHelper.setTo(message.getDestinations().toArray(new String[0]));
             mimeMessageHelper.setSubject(message.getSubject());
             mimeMessageHelper.setText(message.getBody(), true); // true, pois sera em HTML
 
