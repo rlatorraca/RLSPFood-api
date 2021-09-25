@@ -3,9 +3,9 @@ package ca.com.rlsp.rlspfoodapi.infra.service.storage;
 import ca.com.rlsp.rlspfoodapi.core.storage.StorageProperties;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,7 +14,7 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
 
     public static final String SYSTEM_CANT_STORAGE_THE_FILE = "System can't storage the file.";
     public static final String SYSTEM_CANT_DELETE_THE_FILE = "System can't remove the file.";
-    public static final String SYSTEM_CANT_RECOVERY_FILE_FROM_STORAGE = "System can't recovery file from Stora.";
+    public static final String SYSTEM_CANT_RECOVERY_FILE_FROM_STORAGE = "System can't recovery file from Storage.";
 
     // Pega propridade existem no application.properties  com o PATH para o arquivo Local
     /*New way*/
@@ -55,10 +55,15 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
 
 
     @Override
-    public InputStream recovery(String fileName) {
+    public RetrievePhoto retrieve(String fileName) {
         try {
             Path newPath = getFilePath(fileName);
-           return Files.newInputStream(newPath);
+            RetrievePhoto retrievedPhoto = RetrievePhoto
+                    .builder()
+                    .inputStream(Files.newInputStream(newPath))
+                    .build();
+           return retrievedPhoto;
+
         }  catch (Exception e) {
             throw new StorageException(SYSTEM_CANT_RECOVERY_FILE_FROM_STORAGE, e);
         }
@@ -66,6 +71,6 @@ public class LocalPhotoStorageServiceImpl implements PhotoStorageService {
 
     private Path getFilePath(String fileName) {
         //return photoDirectory.resolve(Path.of(fileName));
-        return storageProperties.getLocal().getPhotosDirecotry().resolve(Path.of(fileName));
+        return storageProperties.getLocal().getPhotosDirectory().resolve(Path.of(fileName));
     }
 }

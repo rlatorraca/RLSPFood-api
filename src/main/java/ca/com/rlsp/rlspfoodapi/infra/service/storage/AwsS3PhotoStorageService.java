@@ -10,9 +10,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.util.concurrent.ExecutionException;
+import java.net.URL;
 
 @Service
 public class AwsS3PhotoStorageService implements PhotoStorageService {
@@ -71,8 +69,18 @@ public class AwsS3PhotoStorageService implements PhotoStorageService {
     }
 
     @Override
-    public InputStream recovery(String fileName) {
-        return null;
+    public RetrievePhoto retrieve(String fileName) {
+        String filePath = getPathFile(fileName);
+
+        // Monta a URL para buscar a foto denro do buket da AWS S3
+        URL url = amazonS3.getUrl(
+                storageProperties.getS3().getBucket(),
+                filePath
+        );
+        return RetrievePhoto
+                    .builder()
+                    .url(url.toString())
+                    .build();
     }
 
     @Override

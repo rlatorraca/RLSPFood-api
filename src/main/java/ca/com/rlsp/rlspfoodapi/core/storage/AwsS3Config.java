@@ -16,8 +16,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AwsS3Config {
 
+    // Usado para injetar as propriedades da conta na AWS S3
     @Autowired
-    private StorageProperties storageProperties; // Usado para injetar as propriedades da conta na AWS S3
+    private StorageProperties storageProperties;
 
     @Bean // Produz uma instancia do AWS S3
     public AmazonS3 amazonS3() {

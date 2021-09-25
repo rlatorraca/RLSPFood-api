@@ -20,7 +20,7 @@ public class StorageProperties {
     @Getter
     @Setter
     public class Local {
-        private Path photosDirecotry;
+        private Path photosDirectory;
     }
 
     @Getter

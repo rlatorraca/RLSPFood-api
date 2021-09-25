@@ -7,11 +7,12 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import ca.com.rlsp.rlspfoodapi.domain.service.CatalogueProductPhotoService;
+import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService.RetrievePhoto;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
-import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class RestaurantProductPhotoController {
     }
 
     @GetMapping
-    public ResponseEntity<InputStreamResource> getProductPhoto(@PathVariable Long restaurantId,
+    public ResponseEntity<?> getProductPhoto(@PathVariable Long restaurantId,
                                           @PathVariable Long productId,
                                           @RequestHeader(name="accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
         try {
@@ -73,12 +74,19 @@ public class RestaurantProductPhotoController {
 
             checkMediTypeCompatibility(mediaTypePhoto, mediaTypeList);
 
-            InputStream inputStream = photoStorageService.recovery(productPhoto.getFileName());
+            RetrievePhoto retrievedPhoto = photoStorageService.retrieve(productPhoto.getFileName());
 
-
-            return ResponseEntity.ok()
-                    .contentType(mediaTypePhoto)// Retorna o Media Type presente na Photo
-                    .body(new InputStreamResource(inputStream));
+            // Verifica se esta sendo buscado a URL (na AWS S3) ou busando DIKS
+            if(retrievedPhoto.hasURL()){
+                return ResponseEntity
+                        .status(HttpStatus.FOUND) // Foto encontrada
+                        .header(HttpHeaders.LOCATION,retrievedPhoto.getUrl()) // Indica a URL que cliente seguira
+                        .build();
+            } else {
+                return ResponseEntity.ok()
+                        .contentType(mediaTypePhoto)// Retorna o Media Type presente na Photo
+                        .body(new InputStreamResource(retrievedPhoto.getInputStream()));
+            }
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

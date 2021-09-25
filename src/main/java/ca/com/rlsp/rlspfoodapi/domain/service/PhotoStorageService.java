@@ -13,10 +13,10 @@ public interface PhotoStorageService {
 
     void remove(String fileName);
 
-    InputStream recovery(String fileName);
+    RetrievePhoto retrieve(String fileName);
 
-    default String generateUUIDFileName(String orignalName, Long restaurantId, Long productId) {
-        return UUID.randomUUID().toString() +"_" + restaurantId+ "_"+ + productId +"_"+ orignalName;
+    default String generateUUIDFileName(String originalName, Long restaurantId, Long productId) {
+        return UUID.randomUUID().toString() +"_" + restaurantId+ "_"+ + productId +"_"+ originalName;
     }
 
     default void switchOrSave(String oldFileName, NewPhoto newPhoto) {
@@ -34,5 +34,20 @@ public interface PhotoStorageService {
         private String newFIleName;
         private String contentType;
         private InputStream inputStream; // Fluxo de leitura do arquivo para foi feito o upload (por meio deste salva-se a foto)
+    }
+
+    @Builder
+    @Getter
+    class RetrievePhoto {
+        private InputStream inputStream;
+        private String url;
+
+        public boolean hasInputStream() {
+            return this.inputStream != null;
+        }
+
+        public boolean hasURL() {
+            return this.url != null;
+        }
     }
 }
