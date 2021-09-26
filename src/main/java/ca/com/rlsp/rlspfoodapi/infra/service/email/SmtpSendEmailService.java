@@ -13,7 +13,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 
-@Service
+//@Service
 public class SmtpSendEmailService implements SendEmailService {
 
     public static final String MSG_EMAIL_NOT_SEND = "System cannot send the email.";
@@ -49,7 +49,7 @@ public class SmtpSendEmailService implements SendEmailService {
 
     }
 
-    private String processTemplateFreeMarker(Message message){
+    protected String processTemplateFreeMarker(Message message){
         try {
             Template template = freemarkerConfiguration.getTemplate(message.getBody());
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, message.getTemplateAttributes());
