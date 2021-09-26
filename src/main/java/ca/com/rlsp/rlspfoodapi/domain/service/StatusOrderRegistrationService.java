@@ -25,7 +25,8 @@ public class StatusOrderRegistrationService {
 
         var message = SendEmailService.Message.builder()
                 .subject(order.getRestaurant().getName() + "- Order Confirmed")
-                .body("Order of code <strong>" + order.getOrderCode() + "</strong> is confirmed")
+                .body("order-confirmed.html")
+                .templateAttribute("order", order)
                 .destination(order.getUser().getEmail())
                 .build();
 

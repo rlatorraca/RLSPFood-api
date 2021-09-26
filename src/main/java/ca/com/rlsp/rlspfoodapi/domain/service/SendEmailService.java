@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.domain.service;
 
 import lombok.*;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface SendEmailService {
@@ -18,6 +19,10 @@ public interface SendEmailService {
         private String subject;
         @NonNull
         private String body;
+
+        // Usado pelo Freemarker para processo o OBJECT com o template
+        @Singular
+        private Map<String, Object> templateAttributes;
 
     }
 }
