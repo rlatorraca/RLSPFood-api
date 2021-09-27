@@ -120,8 +120,8 @@ insert into tbl_user (id, user_name, user_email, user_password, user_created, us
                        (3, 'Albert Einstein', 'albert@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
                        (4, 'Maximus Alexandre', 'maximus@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
                        (5, 'Julius Cesar', 'julio@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
-                       (6, 'Marcus Aurelio Einstein', 'rlatorraca+marcus@gmail.com', '123', utc_timestamp, utc_timestamp),
-                       (7, 'Cleopatra do Egito', 'rlatorraca+clelo@gmail.com', '123', utc_timestamp, utc_timestamp);
+                       (6, 'Marcus Aurelio Einstein', 'marcusaurelius@gmail.com', '123', utc_timestamp, utc_timestamp),
+                       (7, 'Cleopatra do Egito', 'cleodoegito@gmail.com', '123', utc_timestamp, utc_timestamp);
 
 insert into tbl_permission (id, permission_description, permission_name) values
                            (1, 'Has full access for all entrypoints', 'FULL APP'),

@@ -26,7 +26,15 @@ public class EmailProperties {
      */
     private Implementation implementation = Implementation.MOCK;
 
+    private Sandbox sandbox = new Sandbox();
+
     public enum Implementation {
-        SMTP, MOCK
+        SMTP, MOCK, SANDBOX
+    }
+
+    @Getter
+    @Setter
+    public class Sandbox {
+        private String emailTo;
     }
 }

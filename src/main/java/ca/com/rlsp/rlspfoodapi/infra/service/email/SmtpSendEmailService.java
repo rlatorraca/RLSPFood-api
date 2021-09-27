@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 
@@ -32,21 +33,26 @@ public class SmtpSendEmailService implements SendEmailService {
 
         try {
 
-            String emailBodyProcessed = processTemplateFreeMarker(message);
-
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
-            mimeMessageHelper.setFrom(emailProperties.getSender());
-            mimeMessageHelper.setTo(message.getDestinations().toArray(new String[0]));
-            mimeMessageHelper.setSubject(message.getSubject());
-            mimeMessageHelper.setText(emailBodyProcessed, true); // true, pois sera em HTML
+            MimeMessage mimeMessage = buildMimeMessage(message);
 
             javaMailSender.send(mimeMessage);
         } catch (Exception e){
             throw new EmailException(MSG_EMAIL_NOT_SEND, e);
         }
 
+    }
+
+    protected MimeMessage buildMimeMessage(Message message) throws MessagingException {
+        String emailBodyProcessed = processTemplateFreeMarker(message);
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
+        mimeMessageHelper.setFrom(emailProperties.getSender());
+        mimeMessageHelper.setTo(message.getDestinations().toArray(new String[0]));
+        mimeMessageHelper.setSubject(message.getSubject());
+        mimeMessageHelper.setText(emailBodyProcessed, true); // true, pois sera em HTML
+        return mimeMessage;
     }
 
     protected String processTemplateFreeMarker(Message message){
