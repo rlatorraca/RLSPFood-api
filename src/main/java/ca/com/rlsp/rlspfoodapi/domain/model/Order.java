@@ -1,10 +1,12 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
+import ca.com.rlsp.rlspfoodapi.domain.event.OrderConfirmedEvent;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,10 +16,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Entity
 @Table(name = "tbl_order")
-public class Order {
+public class Order extends AbstractAggregateRoot<Order> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,6 +108,7 @@ public class Order {
     public void confirm() {
         setStatus(StatusOrderEnum.CONFIRMED);
         setConfirmationDate(OffsetDateTime.now());
+        registerEvent(new OrderConfirmedEvent(this)); // Registra o evento para executar determinadas funcoes ao confirmar o evento
     }
 
     public void start() {
