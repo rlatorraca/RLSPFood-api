@@ -33,6 +33,7 @@ public class StatusOrderRegistrationService {
             - Disprando assim os eventos que estao na fila
          */
         orderRepository.save(order);
+
         var message = SendEmailService.Message.builder()
                 .subject(order.getRestaurant().getName() + "- Order Confirmed")
                 .body("order-confirmed.html")
