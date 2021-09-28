@@ -1,14 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
-import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
-import ca.com.rlsp.rlspfoodapi.domain.model.StatusOrderEnum;
 import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.OffsetDateTime;
 
 @Service
 public class StatusOrderRegistrationService {
@@ -34,49 +30,53 @@ public class StatusOrderRegistrationService {
          */
         orderRepository.save(order);
 
-        var message = SendEmailService.Message.builder()
-                .subject(order.getRestaurant().getName() + "- Order Confirmed")
-                .body("order-confirmed.html")
-                .templateAttribute("order", order)
-                .destination(order.getUser().getEmail())
-                .build();
-
-        sendEmailService.send(message);
     }
 
     @Transactional
     public void toCancel(String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.cancel();
+
+        orderRepository.save(order);
     }
 
     @Transactional
     public void toStart(String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.start();
+
+        orderRepository.save(order);
     }
 
     @Transactional
     public void toOnTheOven(String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.onTheOven();
+
+        orderRepository.save(order);
     }
 
     @Transactional
     public void toReady(String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.ready();
+
+        orderRepository.save(order);
     }
 
     @Transactional
     public void toOnTheRoad(String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
-        order.ontTheRoad();
+        order.onTheRoad();
+
+        orderRepository.save(order);
     }
 
     @Transactional
     public void toDelivered(String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
         order.delivered();
+
+        orderRepository.save(order);
     }
 }

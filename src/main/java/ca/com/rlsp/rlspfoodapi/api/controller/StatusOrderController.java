@@ -26,6 +26,12 @@ public class StatusOrderController {
         statusOrderRegistrationService.toStart(orderCode);
     }
 
+    @PutMapping("/to-cancel")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancel(@PathVariable String orderCode) {
+        statusOrderRegistrationService.toCancel(orderCode);
+    }
+
     @PutMapping("/to-oven")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void oven(@PathVariable String orderCode) {

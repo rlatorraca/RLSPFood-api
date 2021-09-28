@@ -1,11 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.domain.model;
 
-import ca.com.rlsp.rlspfoodapi.domain.event.OrderConfirmedEvent;
+import ca.com.rlsp.rlspfoodapi.domain.event.*;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
@@ -114,32 +113,41 @@ public class Order extends AbstractAggregateRoot<Order> {
     public void start() {
         setStatus(StatusOrderEnum.STARTED);
         setStartedDate(OffsetDateTime.now());
+        registerEvent(new OrderStartEvent(this));
     }
 
     public void onTheOven() {
         setStatus(StatusOrderEnum.ON_THE_OVEN);
         setOnTheOvenDate(OffsetDateTime.now());
+        registerEvent(new OrderOnTheOvenEvent(this));
     }
 
     public void ready() {
         setStatus(StatusOrderEnum.READY);
         setReadyDate(OffsetDateTime.now());
+        registerEvent(new OrderReadyEvent(this));
     }
 
 
-    public void ontTheRoad() {
+    public void onTheRoad() {
         setStatus(StatusOrderEnum.ON_THE_ROAD);
         setOnTheRoadDate(OffsetDateTime.now());
+
+        registerEvent(new OrderOnTheRoadlEvent(this));
     }
 
     public void delivered() {
         setStatus(StatusOrderEnum.DELIVERED);
         setDeliveryDate(OffsetDateTime.now());
+
+        registerEvent(new OrderConfirmedEvent(this));
     }
 
     public void cancel() {
         setStatus(StatusOrderEnum.CANCELED);
         setCanceledDate(OffsetDateTime.now());
+
+        registerEvent(new OrderCancelEvent(this));
     }
 
     public static final String MSG_STATUS_ORDER_CANNOT_BE_CHANGED="Order Status %s cannot be changed from \'%s\' to \'%s\' " ;
