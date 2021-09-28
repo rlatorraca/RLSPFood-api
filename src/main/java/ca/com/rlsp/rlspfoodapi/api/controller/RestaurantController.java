@@ -35,6 +35,8 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+// Libera o CORS do navegador para essas ORIGIN
+//@CrossOrigin(origins = { "https://www.rlspfood.local:8000", "https://www.rlspfood.ca:8000"} )
 @RestController
 @RequestMapping(value="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantController {
