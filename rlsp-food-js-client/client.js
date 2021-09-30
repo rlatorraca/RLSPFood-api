@@ -1,6 +1,6 @@
 function query() {
     $.ajax({
-        url: "http://api.rlspfood.local:8080/paymenttype",
+        url: "http://api.rlspfood.local:8081/paymenttype",
         type: "get",
 
         success: function(response) {
@@ -17,7 +17,7 @@ function save() {
     console.log(paymentTypeJson);
 
     $.ajax({
-        url: "http://api.rlspfood.local:8080/paymenttype",
+        url: "http://api.rlspfood.local:8081/paymenttype",
         type: "post",
         data: paymentTypeJson,
         contentType: "application/json",
@@ -39,7 +39,7 @@ function save() {
 }
 
 function remove(paymentType) {
-    var url = "http://api.rlspfood.local:8080/formas-pagamento/" + paymentType.id;
+    var url = "http://api.rlspfood.local:8081/paymenttype/" + paymentType.id;
 
     $.ajax({
         url: url,
@@ -78,11 +78,11 @@ function populateTable(paymentTypes) {
 
         row.append(
             $("<td>").text(paymentType.id),
-            $("<td>").text(paymentType.description),
+            $("<td>").text(paymentType.name),
             $("<td>").append(action)
         );
 
-        row.appendTo("#table");
+        row.appendTo("#tablet");
     });
 }
 
