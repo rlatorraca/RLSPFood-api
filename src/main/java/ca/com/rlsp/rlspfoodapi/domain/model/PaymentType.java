@@ -2,8 +2,10 @@ package ca.com.rlsp.rlspfoodapi.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
@@ -18,4 +20,7 @@ public class PaymentType {
 
     @Column(nullable = false, name = "payment_type")
     private String name;
+
+    @UpdateTimestamp
+    private OffsetDateTime dateLastUpdate;
 }

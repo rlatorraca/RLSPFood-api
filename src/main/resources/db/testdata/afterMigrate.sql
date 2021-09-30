@@ -44,12 +44,12 @@ insert into tbl_cuisine (id, cuisine_name) values (7, 'Spanish');
 insert into tbl_cuisine (id, cuisine_name) values (8, 'Brazilian');
 insert into tbl_cuisine (id, cuisine_name) values (9, 'Portuguese');
 
-insert into tbl_paymenttype (payment_type) values ('Cash');
-insert into tbl_paymenttype  (payment_type) values ('Credit card');
-insert into tbl_paymenttype  (payment_type) values ('Debit card');
-insert into tbl_paymenttype (payment_type) values ('Pay Pal');
-insert into tbl_paymenttype  (payment_type) values ('Bitcoin');
-insert into tbl_paymenttype  (payment_type) values ('Etherium');
+insert into tbl_paymenttype (payment_type, date_last_update) values ('Cash', utc_timestamp);
+insert into tbl_paymenttype  (payment_type, date_last_update) values ('Credit card', utc_timestamp);
+insert into tbl_paymenttype  (payment_type, date_last_update) values ('Debit card', utc_timestamp);
+insert into tbl_paymenttype (payment_type, date_last_update) values ('Pay Pal', utc_timestamp);
+insert into tbl_paymenttype  (payment_type, date_last_update) values ('Bitcoin', utc_timestamp);
+insert into tbl_paymenttype  (payment_type, date_last_update) values ('Etherium', utc_timestamp);
 
 insert into tbl_taxprovince (id, tax_percentual) values (1, 0.15);
 insert into tbl_taxprovince (id, tax_percentual) values (2, 0.14975);
