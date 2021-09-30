@@ -47,7 +47,15 @@ public class PaymentTypeController {
                 .fromControllerToOutputList(todasFormasPagamentos);
         return ResponseEntity
                 .ok()
-                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS)) // Cache to Client (10 s in this case)
+                .cacheControl(
+                        //CacheControl.noCache()) // SEMPRE fara a validacao do Cache (como se sempre estivesse no estado STALE)
+                        //CacheControl.noSore()) // SEM Cache (nao armazena qualquer tipo de Cache)
+                        CacheControl
+                                .maxAge(10, TimeUnit.SECONDS) // Cache to Client (10 s in this case)
+                                .cachePrivate() // Nao permit cache em Proxy Reverso (apenas local, na maquina do cliente)
+                                //.cachePublic() // Permite TODOS tipos de Cache (local e compartilhado)
+
+                )
                 .body(paymentTypeOutputDtos);
 
 
