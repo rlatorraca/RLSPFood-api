@@ -11,6 +11,7 @@ import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +41,7 @@ public class CityController {
         this.cityInputDisassembler = cityInputDisassembler;
     }
 
+    @ApiOperation(value = "List all cities in JSON")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<City> listAllJson(){
     public List<CityOutputDto> listAllJson(){
@@ -50,12 +52,14 @@ public class CityController {
         //return cityRepository.findAll();
     }
 
+    @ApiOperation(value = "List all cities in XML")
     @GetMapping(produces = { MediaType.APPLICATION_XML_VALUE})
     public List<City> listAllXml(){
         return cityRepository.findAll();
     }
 
 
+    @ApiOperation(value = "Get a City by ID")
     @GetMapping("/{cityId}")
     //public City findById(@PathVariable Long cityId) {
     public CityOutputDto findById(@PathVariable Long cityId) {
@@ -96,6 +100,7 @@ public class CityController {
         }
     }
     */
+    @ApiOperation(value = "Insert a city")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public City save(@RequestBody @Valid City city) {
@@ -129,6 +134,7 @@ public class CityController {
     }
     */
 
+    @ApiOperation(value = "Update data of a city by ID")
     @PutMapping("/{cityId}")
     //public City updateById(@PathVariable("cityId") Long id, @RequestBody @Valid City city) {
     public CityOutputDto updateById(@PathVariable("cityId") Long id, @RequestBody @Valid CityInputDto cityInputDTO) {
@@ -165,6 +171,7 @@ public class CityController {
     }
     */
 
+    @ApiOperation(value = "Remove a city")
     @DeleteMapping("/{cityId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("cityId") Long id) {
