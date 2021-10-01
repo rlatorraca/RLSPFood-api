@@ -11,9 +11,11 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import javax.validation.Valid;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,11 +38,58 @@ public class PaymentTypeController {
         this.paymentTypeInputDisassembler = paymentTypeInputDisassembler;
     }
 
+
     /*
         => GET All payment types returning Cache-Control to the Client App
+        => Example of DEEP ETag
      */
+    /*
     @GetMapping
-    public ResponseEntity<List<PaymentTypeOutputDto>> listAll() {
+    public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request) {
+
+        // Para usar o Deep ETags desabilitamos o Filter Shalllow ETag
+        ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+
+        // Gera-se o Deep ETag
+        String deepETag = "0"; // para o caso nao haver a ETAg setado
+        OffsetDateTime dateLastUpdate = paymentTypeRepository.getDateLasUpdate();
+
+        if(dateLastUpdate != null){
+            // "deepETag" => sera a data da ultima modificacao feita
+            deepETag = String.valueOf(dateLastUpdate.toEpochSecond());
+        }
+
+
+         //   Agui temo condicoes de testar se precisaremo retornar os novos, em caso, de recebimento
+         //  de if-non-matchsera executado o codigo apos esse if. Caso contrario, retorna null.
+         //   - A primeira vez sera false, essa instrucao pq nao esta em cache ainda
+
+         if(request.checkNotModified(deepETag)) {
+             return null;
+         }
+
+        List<PaymentType> todasFormasPagamentos = paymentTypeRepository.findAll();
+
+        List<PaymentTypeOutputDto> paymentTypeOutputDtos = paymentTypeModelAssembler
+                .fromControllerToOutputList(todasFormasPagamentos);
+        return ResponseEntity
+                    .ok()
+                    .cacheControl(CacheControl
+                                    .maxAge(10, TimeUnit.SECONDS) // Cache to Client (10 s in this case)
+                                    .cachePublic() // Permite TODOS tipos de Cache (local e compartilhado)
+                    )
+                    .eTag(deepETag)
+                    .body(paymentTypeOutputDtos);
+    }
+
+    /*
+        => GET All payment types returning Cache-Control to the Client App
+        => Example of Shallow ETag
+     */
+
+    @GetMapping
+    public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request) {
+
         List<PaymentType> todasFormasPagamentos = paymentTypeRepository.findAll();
 
         List<PaymentTypeOutputDto> paymentTypeOutputDtos = paymentTypeModelAssembler
@@ -61,10 +110,10 @@ public class PaymentTypeController {
 
     }
 
+
     /*
          => GET 1 payment types returning Cache-Control to the Client App
-     */
-
+    */
     @GetMapping("/{paymentTypeId}")
     public ResponseEntity<PaymentTypeOutputDto> findById(@PathVariable Long paymentTypeId) {
         PaymentType formaPagamento = paymentTypeRegistrationService.findOrFail(paymentTypeId);
