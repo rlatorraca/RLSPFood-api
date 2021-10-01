@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.spi.DocumentationType;
@@ -26,8 +27,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         return new
                 Docket(DocumentationType.OAS_30)
                     .select() // seleciona os endpoints que serao expostos
-                        .apis(RequestHandlerSelectors.any()) // tudo relacionado a API sera incluido
-                .build();
+                    //.apis(RequestHandlerSelectors.any()) // tudo relacionado a API sera incluido (inlcusive do SpringBoot
+                    .apis(RequestHandlerSelectors.basePackage("ca.com.rlsp.rlspfoodapi.api"))
+                    .paths(PathSelectors.any())
+                    //.paths(PathSelectors.ant("/restaurants/*")) // apenas o que tiver dentro de restaurnt vai ser mostrado
+                    .build();
     }
 
 
