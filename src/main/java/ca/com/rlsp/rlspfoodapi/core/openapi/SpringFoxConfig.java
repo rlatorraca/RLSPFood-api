@@ -13,6 +13,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -38,7 +39,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         .paths(PathSelectors.any())
                         //.paths(PathSelectors.ant("/restaurants/*")) // apenas o que tiver dentro de restaurnt vai ser mostrado
                         .build()
-                .apiInfo(rlspApiInfo());
+                .apiInfo(rlspApiInfo())
+                .tags(new Tag("Cities", "Manage all CRUD about cities"));
     }
 
     public ApiInfo rlspApiInfo(){
