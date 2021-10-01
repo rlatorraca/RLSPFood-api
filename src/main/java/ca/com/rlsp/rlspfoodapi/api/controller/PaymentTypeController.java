@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/paymenttype")
+@RequestMapping("/paymenttypes")
 public class PaymentTypeController {
 
     private PaymentTypeRepository paymentTypeRepository;
@@ -110,10 +110,51 @@ public class PaymentTypeController {
 
     }
 
+    /*
+         => GET 1 payment types returning Cache-Control to the Client App
+          - Deep ETags
+    */
+
+    @GetMapping("/{paymentTypeId}")
+    public ResponseEntity<PaymentTypeOutputDto> findById(@PathVariable Long paymentTypeId, ServletWebRequest request) {
+
+        // Para usar o Deep ETags desabilitamos o Filter Shalllow ETag
+        ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+
+        // Gera-se o Deep ETag
+        String deepETag = "0"; // para o caso nao haver a ETAg setado
+        OffsetDateTime dateLastUpdate = paymentTypeRepository.getDateLasUpdateById(paymentTypeId);
+
+        if(dateLastUpdate != null){
+            // "deepETag" => sera a data da ultima modificacao feita
+            deepETag = String.valueOf(dateLastUpdate.toEpochSecond());
+        }
+
+
+        //   Agui temo condicoes de testar se precisaremo retornar os novos, em caso, de recebimento
+        //  de if-non-matchsera executado o codigo apos esse if. Caso contrario, retorna null.
+        //   - A primeira vez sera false, essa instrucao pq nao esta em cache ainda
+
+        if(request.checkNotModified(deepETag)) {
+            return null;
+        }
+
+        PaymentType formaPagamento = paymentTypeRegistrationService.findOrFail(paymentTypeId);
+
+        PaymentTypeOutputDto paymentTypeOutputDto = paymentTypeModelAssembler.fromControllerToOutput(formaPagamento);
+
+        return ResponseEntity
+                .ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .eTag(deepETag)
+                .body(paymentTypeOutputDto);
+    }
 
     /*
          => GET 1 payment types returning Cache-Control to the Client App
+          - Shallow ETags
     */
+    /*
     @GetMapping("/{paymentTypeId}")
     public ResponseEntity<PaymentTypeOutputDto> findById(@PathVariable Long paymentTypeId) {
         PaymentType formaPagamento = paymentTypeRegistrationService.findOrFail(paymentTypeId);
@@ -125,6 +166,8 @@ public class PaymentTypeController {
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
                 .body(paymentTypeOutputDto);
     }
+     */
+
 
     /* => Regular GET
     @GetMapping

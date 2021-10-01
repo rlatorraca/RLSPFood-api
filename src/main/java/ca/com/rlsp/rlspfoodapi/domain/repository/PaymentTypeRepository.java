@@ -15,4 +15,7 @@ public interface PaymentTypeRepository extends CustomJpaRepository<PaymentType ,
     @Query("select max(dateLastUpdate) from PaymentType ")
     OffsetDateTime getDateLasUpdate();
 
+    @Query("select dateLastUpdate from PaymentType where id= :paymentTypeId")
+    OffsetDateTime getDateLasUpdateById(Long paymentTypeId);
+
 }
