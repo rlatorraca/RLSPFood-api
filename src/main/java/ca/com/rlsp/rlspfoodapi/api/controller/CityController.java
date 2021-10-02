@@ -64,7 +64,7 @@ public class CityController {
     @ApiOperation(value = "Get a City by ID") // Costomize method description on SwaggerUI
     @GetMapping("/{cityId}")
     //public City findById(@PathVariable Long cityId) {
-    public CityOutputDto findById(@ApiParam(name="city Id" , value= "Enter a valid city ID", example="1")
+    public CityOutputDto findById(@ApiParam(name="cityId" , value= "Enter a valid city ID", example="1", required =true)
                                       @PathVariable Long cityId) {
         City cidade = cityRegistrationService.findOrFail(cityId);
 
@@ -141,7 +141,7 @@ public class CityController {
     @ApiOperation(value = "Update data of a city by ID") // Costomize method description on SwaggerUI
     @PutMapping("/{cityId}")
     //public City updateById(@PathVariable("cityId") Long id, @RequestBody @Valid City city) {
-    public CityOutputDto updateById(@ApiParam(name="city Id" , value= "Enter a valid city ID", example = "1")
+    public CityOutputDto updateById(@ApiParam(name="cityId" , value= "Enter a valid city ID", example = "1", required =true)
                                        @PathVariable("cityId") Long id,
                                     @RequestBody @Valid CityInputDto cityInputDTO) {
         try{
@@ -180,7 +180,7 @@ public class CityController {
     @ApiOperation("Remove a city")  // Customize method description on SwaggerUI
     @DeleteMapping("/{cityId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@ApiParam(name="city Id" , value = "Enter a valid city ID", example ="1") @PathVariable("cityId") Long id) {
+    public void delete(@ApiParam(name="cityId" , value = "Enter a valid city ID", example ="1") @PathVariable("cityId") Long id) {
         cityRegistrationService.remove(id);
     }
 

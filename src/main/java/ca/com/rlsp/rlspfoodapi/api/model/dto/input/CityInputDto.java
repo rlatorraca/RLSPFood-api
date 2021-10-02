@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,10 +12,13 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CityInputDto {
 
+    @ApiModelProperty(hidden = true)
     private Long id;
 
+    @ApiModelProperty(example = "Toronto")
     @NotBlank
     private String name;
+
 
     @Valid
     @NotNull

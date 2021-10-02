@@ -61,5 +61,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("index.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/fonts/**")
+                .addResourceLocations("classpath:/META-INF/resources/fonts/");
     }
 }
