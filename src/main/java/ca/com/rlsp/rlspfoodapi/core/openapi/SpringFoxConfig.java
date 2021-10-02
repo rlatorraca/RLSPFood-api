@@ -1,19 +1,26 @@
 package ca.com.rlsp.rlspfoodapi.core.openapi;
 
+import net.sf.jasperreports.data.http.RequestMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Response;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 /*
     End Pooint documentation
@@ -23,10 +30,14 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class) // Faz a conexão do BeanValidator do SpringBoot com o SpringFox(OpenApi)
 public class SpringFoxConfig implements WebMvcConfigurer {
 
+
+    private static final String MSG_INTERNAL_SERVER_ERROR = "Internal Server Error" ;
+    private static final String MSG_NOT_ACCEPTABLE = "Resource may not be acceptable by Consumer";
+
     /*
-        Docket => classe do SpringFox que representa a configuracao da API para gerar a documentacao com a especificacao
-            OpenAPI
-     */
+                Docket => classe do SpringFox que representa a configuracao da API para gerar a documentacao com a especificacao
+                    OpenAPI
+             */
     @Bean
     public Docket apiDocker() {
         // instancia o conjunto de servicos que deve ser documentado
@@ -39,10 +50,26 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         //.paths(PathSelectors.ant("/restaurants/*")) // apenas o que tiver dentro de restaurnt vai ser mostrado
                         .build()
                 .apiInfo(rlspApiInfo())
+                .useDefaultResponseMessages(false) // Desabilita os codigo de resposta Standard para ERRORs
+                .globalResponses(HttpMethod.GET.GET, globalMsgErrorResponseMessagesToGET()) // Customized Msgs de ERROR para o GET
                 .tags(new Tag("Cities", "Manage all CRUD about cities"));
     }
 
-    public ApiInfo rlspApiInfo(){
+
+    /*
+        Mostra os caminhos (path) para servir arquivos estaticos (html, css, js)  do SpringFox API (Ex: HTML page)
+     */
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("index.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/fonts/**")
+                .addResourceLocations("classpath:/META-INF/resources/fonts/");
+    }
+
+    private ApiInfo rlspApiInfo(){
         return new ApiInfoBuilder()
                 .title("RLSP FOOD API")
                 .description("API for Canada and Maritimes restaurants")
@@ -52,16 +79,34 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     }
 
+    private List<Response> globalMsgErrorResponseMessagesToGET() {
+        return Arrays.asList(
+            new ResponseBuilder()
+                    .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                    .description(MSG_INTERNAL_SERVER_ERROR)
+                    //.representation(MediaType.APPLICATION_JSON)
+                    //.apply(ApiHandleProblemDetailBuilder())
+                    .build(),
+            new ResponseBuilder()
+                    .code(toString(HttpStatus.NOT_ACCEPTABLE))
+                    .description(MSG_NOT_ACCEPTABLE)
+                    //.representation(MediaType.APPLICATION_JSON)
+                    //.apply(ApiHandleProblemDetailBuilder())
+                    .build()
+        );
+    }
 
-    /*
-        Mostra os caminhos (path) para servir arquivos estaticos (html, css, js)  do SpringFox API (Ex: HTML page)
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("index.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
+    private Consumer<RepresentationBuilder> ApiHandleProblemDetailBuilder() {
+        return r -> r.model(
+                   m -> m.name("ProblemDetail").referenceModel(
+                        ref -> ref.key(
+                                k -> k.qualifiedModelName(
+                                        q -> q.name("ProblemDetail")
+                                                .namespace("ca.com.rlsp.rlspfoodapi.api.exceptionhandler")
+                                ))));
+    }
 
-        registry.addResourceHandler("/fonts/**")
-                .addResourceLocations("classpath:/META-INF/resources/fonts/");
+    private String toString(HttpStatus httpStatus) {
+        return String.valueOf(httpStatus.value());
     }
 }

@@ -148,7 +148,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleUncaught(Exception e, WebRequest request){
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        ProblemTypeEnum problemType = ProblemTypeEnum.INTERNAL_SERVERT_ERROR;
+        ProblemTypeEnum problemType = ProblemTypeEnum.INTERNAL_SERVER_ERROR;
         String detail = "An unexpected internal system error has occurred. Please try again and if the problem persists," +
                 " contact the system administrator.";
                 // Important print printStackTrace (for while). Not exist logs yet.
