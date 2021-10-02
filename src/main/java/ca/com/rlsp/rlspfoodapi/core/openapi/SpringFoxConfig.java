@@ -1,12 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.core.openapi;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -22,6 +20,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 @Configuration
 @EnableOpenApi
+@Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class) // Faz a conexão do BeanValidator do SpringBoot com o SpringFox(OpenApi)
 public class SpringFoxConfig implements WebMvcConfigurer {
 
     /*

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ProvinceInputDto {
 
-    @ApiModelProperty(example = "1")
+    @ApiModelProperty(example = "1", required = true)
     private Long id;
 
     @ApiModelProperty(example = "Alberta")

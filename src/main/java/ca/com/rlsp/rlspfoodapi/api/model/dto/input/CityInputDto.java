@@ -15,7 +15,7 @@ public class CityInputDto {
     @ApiModelProperty(hidden = true)
     private Long id;
 
-    @ApiModelProperty(example = "Toronto")
+    @ApiModelProperty(example = "Toronto", required = true)
     @NotBlank
     private String name;
 

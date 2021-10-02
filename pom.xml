@@ -167,6 +167,14 @@
             <version>${springfox-version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-bean-validators</artifactId>
+            <version>${springfox-version}</version>
+        </dependency>
+
+
         <!-- Guava is a suite of core and expanded libraries that include utility classes,
              Google's collections, I/O classes, and much more. -->
         <dependency>
