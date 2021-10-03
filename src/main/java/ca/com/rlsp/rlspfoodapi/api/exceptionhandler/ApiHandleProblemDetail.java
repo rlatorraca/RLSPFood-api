@@ -18,25 +18,35 @@ import java.util.List;
 /*
     RFC 7807 (Problem Details for HTTP APIs)
  */
-@ApiModel("ProblemDetail")
+@ApiModel("ErrorDetails")
 @Builder
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiHandleProblemDetail {
 
-    @ApiModelProperty(example = "400",position = 1)
+    @ApiModelProperty(example = "400", position = 1)
     private Integer status;
+
+    @ApiModelProperty(example = "https://www.rlspfood.ca/invalid-data", position = 10)
     private String type;
-    private String title;
+
+    @ApiModelProperty(example = "Invalid data" , position = 20)
+            private String title;
+
+    @ApiModelProperty(example = "One ot more attribute is/are invalid(s). Fix it and try again" , position = 30)
     private String detail;
-    @ApiModelProperty(example = "2021-11-14T00:12:13",position = 40)
+
+    @ApiModelProperty(example = "2021-11-14T00:12:13",position = 40, value = "Date and time in ISO Format")
     private OffsetDateTime dateTime;
 
     // EXTENDING => MSG For USERS (FrontEnd)
+    @ApiModelProperty(example = "One ot more attribute is/are invalid(s). Fix it and try again", position = 50)
     private String userMessage;
+
+    @ApiModelProperty(value = "Objects and Fields that caused errors (not mandatory)", position = 60)
     private List<Object> objects;
 
-    @ApiModel("ObjectProblemDetail")
+    @ApiModel("ObjectErrorDetails")
     @Getter
     @Setter
     @Builder

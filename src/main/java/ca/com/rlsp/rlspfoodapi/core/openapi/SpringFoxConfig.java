@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.core.openapi;
 
-import net.sf.jasperreports.data.http.RequestMethod;
+import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
+import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -36,10 +37,12 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     private static final String MSG_BAD_REQUEST = "Invalid Request (client error)";
     private static final String MSG_UNSUPPORTED_MEDIA_TYPE = "Request denied. Unsupported format";
 
+    TypeResolver typeResolver = new TypeResolver();
+
     /*
-                Docket => classe do SpringFox que representa a configuracao da API para gerar a documentacao com a especificacao
-                    OpenAPI
-             */
+        Docket => classe do SpringFox que representa a configuracao da API para gerar a documentacao com a especificacao
+            OpenAPI
+    */
     @Bean
     public Docket apiDocker() {
         // instancia o conjunto de servicos que deve ser documentado
@@ -57,6 +60,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponses(HttpMethod.POST, globalMsgErrorResponseMessagesToPOST()) // Customized Msgs de ERROR para o GET
                 .globalResponses(HttpMethod.PUT, globalMsgErrorResponseMessagesToPUT()) // Customized Msgs de ERROR para o GET
                 .globalResponses(HttpMethod.DELETE, globalMsgErrorResponseMessagesToDELETE()) // Customized Msgs de ERROR para o GET
+                .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class))
                 .tags(new Tag("Cities", "Manage all CRUD about cities"));
     }
 
@@ -87,13 +91,13 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     private List<Response> globalMsgErrorResponseMessagesToGET() {
         return Arrays.asList(
             new ResponseBuilder()
-                    .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                    .code(convertToString(HttpStatus.INTERNAL_SERVER_ERROR))
                     .description(MSG_INTERNAL_SERVER_ERROR)
-                    //.representation(MediaType.APPLICATION_JSON)
-                    //.apply(ApiHandleProblemDetailBuilder())
+                    .representation(MediaType.APPLICATION_JSON)
+                    .apply(ApiHandleProblemDetailBuilder())
                     .build(),
             new ResponseBuilder()
-                    .code(toString(HttpStatus.NOT_ACCEPTABLE))
+                    .code(convertToString(HttpStatus.NOT_ACCEPTABLE))
                     .description(MSG_NOT_ACCEPTABLE)
                     //.representation(MediaType.APPLICATION_JSON)
                     //.apply(ApiHandleProblemDetailBuilder())
@@ -104,28 +108,28 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     private List<Response> globalMsgErrorResponseMessagesToPOST() {
         return Arrays.asList(
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                        .code(convertToString(HttpStatus.INTERNAL_SERVER_ERROR))
                         .description(MSG_INTERNAL_SERVER_ERROR)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build(),
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.NOT_ACCEPTABLE))
+                        .code(convertToString(HttpStatus.NOT_ACCEPTABLE))
                         .description(MSG_NOT_ACCEPTABLE)
                         //.representation(MediaType.APPLICATION_JSON)
                         //.apply(ApiHandleProblemDetailBuilder())
                         .build(),
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.BAD_REQUEST))
+                        .code(convertToString(HttpStatus.BAD_REQUEST))
                         .description(MSG_BAD_REQUEST)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build(),
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.UNSUPPORTED_MEDIA_TYPE))
+                        .code(convertToString(HttpStatus.UNSUPPORTED_MEDIA_TYPE))
                         .description(MSG_UNSUPPORTED_MEDIA_TYPE)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build()
         );
     }
@@ -133,28 +137,28 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     private List<Response> globalMsgErrorResponseMessagesToPUT() {
         return Arrays.asList(
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                        .code(convertToString(HttpStatus.INTERNAL_SERVER_ERROR))
                         .description(MSG_INTERNAL_SERVER_ERROR)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build(),
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.NOT_ACCEPTABLE))
+                        .code(convertToString(HttpStatus.NOT_ACCEPTABLE))
                         .description(MSG_NOT_ACCEPTABLE)
                         //.representation(MediaType.APPLICATION_JSON)
                         //.apply(ApiHandleProblemDetailBuilder())
                         .build(),
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.BAD_REQUEST))
+                        .code(convertToString(HttpStatus.BAD_REQUEST))
                         .description(MSG_BAD_REQUEST)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build(),
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.UNSUPPORTED_MEDIA_TYPE))
+                        .code(convertToString(HttpStatus.UNSUPPORTED_MEDIA_TYPE))
                         .description(MSG_UNSUPPORTED_MEDIA_TYPE)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build()
         );
     }
@@ -162,31 +166,31 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     private List<Response> globalMsgErrorResponseMessagesToDELETE() {
         return Arrays.asList(
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                        .code(convertToString(HttpStatus.INTERNAL_SERVER_ERROR))
                         .description(MSG_INTERNAL_SERVER_ERROR)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build(),
                 new ResponseBuilder()
-                        .code(toString(HttpStatus.BAD_REQUEST))
+                        .code(convertToString(HttpStatus.BAD_REQUEST))
                         .description(MSG_BAD_REQUEST)
-                        //.representation(MediaType.APPLICATION_JSON)
-                        //.apply(ApiHandleProblemDetailBuilder())
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(ApiHandleProblemDetailBuilder())
                         .build()
         );
     }
 
     private Consumer<RepresentationBuilder> ApiHandleProblemDetailBuilder() {
         return r -> r.model(
-                   m -> m.name("ProblemDetail").referenceModel(
+                   m -> m.name("ErrorDetails").referenceModel(
                         ref -> ref.key(
                                 k -> k.qualifiedModelName(
-                                        q -> q.name("ProblemDetail")
+                                        q -> q.name("ErrorDetails")
                                                 .namespace("ca.com.rlsp.rlspfoodapi.api.exceptionhandler")
                                 ))));
     }
 
-    private String toString(HttpStatus httpStatus) {
+    private String convertToString(HttpStatus httpStatus) {
         return String.valueOf(httpStatus.value());
     }
 }
