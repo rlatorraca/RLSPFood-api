@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.CityModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.controller.openapi.CityConrollerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
@@ -28,10 +29,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "Cities")
+
 @RestController
 @RequestMapping(value = "/cities")
-public class CityController {
+public class CityController implements CityConrollerOpenApi {
 
     private CityRegistrationService cityRegistrationService;
     private CityRepository cityRepository;
@@ -49,7 +50,7 @@ public class CityController {
         this.cityInputDisassembler = cityInputDisassembler;
     }
 
-    @ApiOperation(value = "List all cities in JSON") // Costomize method description on SwaggerUI
+
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<City> listAllJson(){
     public List<CityOutputDto> listAllJson() {
@@ -60,24 +61,16 @@ public class CityController {
         //return cityRepository.findAll();
     }
 
-    @ApiOperation(value = "List all cities in XML") // Costomize method description on SwaggerUI
+
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE})
     public List<City> listAllXml() {
         return cityRepository.findAll();
     }
 
 
-    @ApiOperation(value = "Get a City by ID") // Costomize method description on SwaggerUI
-    @ApiResponses({
-            @ApiResponse(responseCode = "400", description = "Invalid city id",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
-            @ApiResponse(responseCode = "404", description = "City not found",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
-    })
     @GetMapping("/{cityId}")
     //public City findById(@PathVariable Long cityId) {
-    public CityOutputDto findById(@ApiParam(name = "cityId", value = "Enter a valid city ID", example = "1", required = true)
-                                  @PathVariable Long cityId) {
+    public CityOutputDto findById( @PathVariable Long cityId) {
         City cidade = cityRegistrationService.findOrFail(cityId);
 
 
@@ -115,16 +108,11 @@ public class CityController {
         }
     }
     */
-    @ApiOperation(value = "Insert a city") // Costomize method description on SwaggerUI
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "City created",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
-    })
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public City save(@RequestBody @Valid City city) {
-    public CityOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of city")
-                                  @RequestBody @Valid CityInputDto cityInputDTO) {
+    public CityOutputDto save(@RequestBody @Valid CityInputDto cityInputDTO) {
         try{
             City city = cityInputDisassembler.fromInputToController(cityInputDTO);
 
@@ -154,17 +142,9 @@ public class CityController {
     }
     */
 
-    @ApiOperation(value = "Update data of a city by ID") // Costomize method description on SwaggerUI
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "City updated",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
-            @ApiResponse(responseCode = "404", description = "City not found",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
-    })
     @PutMapping("/{cityId}")
     //public City updateById(@PathVariable("cityId") Long id, @RequestBody @Valid City city) {
-    public CityOutputDto updateById(@ApiParam(name="cityId" , value= "Enter a valid city ID", example = "1", required =true)
-                                       @PathVariable("cityId") Long id,
+    public CityOutputDto updateById(@PathVariable("cityId") Long id,
                                     @RequestBody @Valid CityInputDto cityInputDTO) {
         try{
             City currentCity = cityRegistrationService.findOrFail(id);
@@ -199,16 +179,9 @@ public class CityController {
     }
     */
 
-    @ApiOperation("Remove a city")  // Customize method description on SwaggerUI
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "City removed",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
-            @ApiResponse(responseCode = "404", description = "City not found",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
-    })
     @DeleteMapping("/{cityId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@ApiParam(name="cityId" , value = "Enter a valid city ID", example ="1") @PathVariable("cityId") Long id) {
+    public void delete(@PathVariable("cityId") Long id) {
         cityRegistrationService.remove(id);
     }
 
