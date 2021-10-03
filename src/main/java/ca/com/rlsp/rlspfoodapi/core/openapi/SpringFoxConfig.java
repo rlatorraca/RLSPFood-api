@@ -182,7 +182,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     private Consumer<RepresentationBuilder> ApiHandleProblemDetailBuilder() {
         return r -> r.model(
-                   m -> m.name("ErrorDetails").referenceModel(
+                   m -> m.referenceModel(
                         ref -> ref.key(
                                 k -> k.qualifiedModelName(
                                         q -> q.name("ErrorDetails")
