@@ -33,6 +33,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     private static final String MSG_INTERNAL_SERVER_ERROR = "Internal Server Error" ;
     private static final String MSG_NOT_ACCEPTABLE = "Resource may not be acceptable by Consumer";
+    private static final String MSG_BAD_REQUEST = "Invalid Request (client error)";
+    private static final String MSG_UNSUPPORTED_MEDIA_TYPE = "Request denied. Unsupported format";
 
     /*
                 Docket => classe do SpringFox que representa a configuracao da API para gerar a documentacao com a especificacao
@@ -51,7 +53,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         .build()
                 .apiInfo(rlspApiInfo())
                 .useDefaultResponseMessages(false) // Desabilita os codigo de resposta Standard para ERRORs
-                .globalResponses(HttpMethod.GET.GET, globalMsgErrorResponseMessagesToGET()) // Customized Msgs de ERROR para o GET
+                .globalResponses(HttpMethod.GET, globalMsgErrorResponseMessagesToGET()) // Customized Msgs de ERROR para o GET
+                .globalResponses(HttpMethod.POST, globalMsgErrorResponseMessagesToPOST()) // Customized Msgs de ERROR para o GET
+                .globalResponses(HttpMethod.PUT, globalMsgErrorResponseMessagesToPUT()) // Customized Msgs de ERROR para o GET
+                .globalResponses(HttpMethod.DELETE, globalMsgErrorResponseMessagesToDELETE()) // Customized Msgs de ERROR para o GET
                 .tags(new Tag("Cities", "Manage all CRUD about cities"));
     }
 
@@ -93,6 +98,81 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                     //.representation(MediaType.APPLICATION_JSON)
                     //.apply(ApiHandleProblemDetailBuilder())
                     .build()
+        );
+    }
+
+    private List<Response> globalMsgErrorResponseMessagesToPOST() {
+        return Arrays.asList(
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                        .description(MSG_INTERNAL_SERVER_ERROR)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build(),
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.NOT_ACCEPTABLE))
+                        .description(MSG_NOT_ACCEPTABLE)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build(),
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.BAD_REQUEST))
+                        .description(MSG_BAD_REQUEST)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build(),
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.UNSUPPORTED_MEDIA_TYPE))
+                        .description(MSG_UNSUPPORTED_MEDIA_TYPE)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build()
+        );
+    }
+
+    private List<Response> globalMsgErrorResponseMessagesToPUT() {
+        return Arrays.asList(
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                        .description(MSG_INTERNAL_SERVER_ERROR)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build(),
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.NOT_ACCEPTABLE))
+                        .description(MSG_NOT_ACCEPTABLE)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build(),
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.BAD_REQUEST))
+                        .description(MSG_BAD_REQUEST)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build(),
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.UNSUPPORTED_MEDIA_TYPE))
+                        .description(MSG_UNSUPPORTED_MEDIA_TYPE)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build()
+        );
+    }
+
+    private List<Response> globalMsgErrorResponseMessagesToDELETE() {
+        return Arrays.asList(
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.INTERNAL_SERVER_ERROR))
+                        .description(MSG_INTERNAL_SERVER_ERROR)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build(),
+                new ResponseBuilder()
+                        .code(toString(HttpStatus.BAD_REQUEST))
+                        .description(MSG_BAD_REQUEST)
+                        //.representation(MediaType.APPLICATION_JSON)
+                        //.apply(ApiHandleProblemDetailBuilder())
+                        .build()
         );
     }
 
