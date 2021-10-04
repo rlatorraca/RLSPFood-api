@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "Cities")
-public interface CityConrollerOpenApi {
+public interface CityControllerOpenApi {
     @ApiOperation(value = "List all cities in JSON") // Costomize method description on SwaggerUI
     public List<CityOutputDto> listAllJson();
 
@@ -55,7 +55,6 @@ public interface CityConrollerOpenApi {
             @ApiResponse(responseCode = "404", description = "City not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-
     public CityOutputDto updateById(@ApiParam(name="cityId" , value= "Enter a valid city ID", example = "1", required =true)
                                     Long id,
                                     CityInputDto cityInputDTO);

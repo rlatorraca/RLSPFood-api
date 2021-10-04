@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.GroupModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.controller.openapi.GroupControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.GroupInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.GroupInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
-public class GroupController {
+public class GroupController implements GroupControllerOpenApi {
 
     private GroupRepository groupRepository;
     private GroupModelAssembler groupModelAssembler;

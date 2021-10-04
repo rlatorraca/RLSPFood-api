@@ -1,9 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.CityModelAssembler;
-import ca.com.rlsp.rlspfoodapi.api.controller.openapi.CityConrollerOpenApi;
+import ca.com.rlsp.rlspfoodapi.api.controller.openapi.CityControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
-import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
@@ -12,16 +11,6 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +20,8 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/cities")
-public class CityController implements CityConrollerOpenApi {
+@RequestMapping(path = "/cities")
+public class CityController implements CityControllerOpenApi {
 
     private CityRegistrationService cityRegistrationService;
     private CityRepository cityRepository;
