@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.CuisineModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.CuisineControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.CuisineInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.CuisineXMLWrapper;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDto;
@@ -8,7 +9,6 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE})
-public class CuisineController {
+public class CuisineController implements CuisineControllerOpenApi {
 
     private  CuisineRepository cuisineRepository;
     private CuisineRegistrationService cuisineRegistrationService;

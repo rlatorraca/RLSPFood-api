@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.api.controller.openapi;
+package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;

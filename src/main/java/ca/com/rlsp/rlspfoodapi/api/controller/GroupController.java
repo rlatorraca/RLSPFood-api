@@ -1,12 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.GroupModelAssembler;
-import ca.com.rlsp.rlspfoodapi.api.controller.openapi.GroupControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.GroupControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.GroupInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.GroupInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.GroupOutputDto;
-import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.repository.GroupRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.GroupRegistrationService;

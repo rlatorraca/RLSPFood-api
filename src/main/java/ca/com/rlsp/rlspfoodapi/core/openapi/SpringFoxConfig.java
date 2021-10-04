@@ -1,10 +1,15 @@
 package ca.com.rlsp.rlspfoodapi.core.openapi;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.CuisineModelOpenApi;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
+import springfox.documentation.schema.AlternateTypeRule;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
@@ -60,7 +67,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponses(HttpMethod.POST, globalMsgErrorResponseMessagesToPOST()) // Customized Msgs de ERROR para o GET
                 .globalResponses(HttpMethod.PUT, globalMsgErrorResponseMessagesToPUT()) // Customized Msgs de ERROR para o GET
                 .globalResponses(HttpMethod.DELETE, globalMsgErrorResponseMessagesToDELETE()) // Customized Msgs de ERROR para o GET
-                .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class))
+                .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
+                .alternateTypeRules(buildAlternateTypeRule(CuisineOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
                 .tags(
                         new Tag("Cities", "Manage all endpoints to City's Resources"),
                         new Tag("Cuisines", "Manage all endpoints to Cuisine's Resources"),
@@ -79,6 +88,12 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         new Tag("User-Groups", "Manage all endpoints to User-Group's Resources")
 
                 );
+    }
+
+    private <T> AlternateTypeRule buildAlternateTypeRule(Class<T> classModel) {
+        return AlternateTypeRules.newRule(
+                typeResolver.resolve(Page.class, classModel),
+                CuisineModelOpenApi.class);
     }
 
 

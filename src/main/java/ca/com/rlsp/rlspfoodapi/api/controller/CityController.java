@@ -1,7 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.CityModelAssembler;
-import ca.com.rlsp.rlspfoodapi.api.controller.openapi.CityControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.CityControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
