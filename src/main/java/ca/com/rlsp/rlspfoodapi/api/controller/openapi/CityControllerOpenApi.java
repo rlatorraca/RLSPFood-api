@@ -23,19 +23,46 @@ import java.util.List;
 
 @Api(tags = "Cities")
 public interface CityControllerOpenApi {
+
+
+ /*
+    @ApiOperation(value = "List all cities in XML") // Costomize method description on SwaggerUI
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Cities listed in XML",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_XML_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
+            )
+    })
+    public List<City> listAllXml();
+`*/
+
     @ApiOperation(value = "List all cities in JSON") // Costomize method description on SwaggerUI
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
+            )
+    })
     public List<CityOutputDto> listAllJson();
 
-    @ApiOperation(value = "List all cities in XML") // Costomize method description on SwaggerUI
-    public List<City> listAllXml();
 
 
     @ApiOperation(value = "Get a City by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "400", description = "Invalid city id",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            ),
             @ApiResponse(responseCode = "404", description = "City not found",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            )
     })
     public CityOutputDto findById(@ApiParam(name = "cityId", value = "Enter a valid city ID", example = "1", required = true)
                                   Long cityId);
@@ -43,7 +70,10 @@ public interface CityControllerOpenApi {
     @ApiOperation(value = "Insert a city") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "City created",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            )
     })
     public CityOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of city")
                               CityInputDto cityInputDTO);
@@ -51,7 +81,10 @@ public interface CityControllerOpenApi {
     @ApiOperation(value = "Update data of a city by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "City updated",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            ),
             @ApiResponse(responseCode = "404", description = "City not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
@@ -63,9 +96,15 @@ public interface CityControllerOpenApi {
     @ApiOperation("Remove a city")  // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "City removed",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            ),
             @ApiResponse(responseCode = "404", description = "City not found",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            )
     })
     public void delete(@ApiParam(name="cityId" , value = "Enter a valid city ID", example ="1") Long id);
 

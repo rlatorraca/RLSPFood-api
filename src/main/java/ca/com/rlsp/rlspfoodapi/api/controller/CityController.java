@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "/cities")
+@RequestMapping(path = "/cities", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class CityController implements CityControllerOpenApi {
 
     private CityRegistrationService cityRegistrationService;
@@ -39,6 +39,13 @@ public class CityController implements CityControllerOpenApi {
         this.cityInputDisassembler = cityInputDisassembler;
     }
 
+    /*
+    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE})
+    public List<City> listAllXml() {
+        return cityRepository.findAll();
+    }
+    */
+
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<City> listAllJson(){
@@ -50,11 +57,6 @@ public class CityController implements CityControllerOpenApi {
         //return cityRepository.findAll();
     }
 
-
-    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<City> listAllXml() {
-        return cityRepository.findAll();
-    }
 
 
     @GetMapping("/{cityId}")
@@ -98,7 +100,7 @@ public class CityController implements CityControllerOpenApi {
     }
     */
 
-    @PostMapping
+    @PostMapping(MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     //public City save(@RequestBody @Valid City city) {
     public CityOutputDto save(@RequestBody @Valid CityInputDto cityInputDTO) {

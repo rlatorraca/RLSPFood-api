@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class CuisineController {
 
     private  CuisineRepository cuisineRepository;
@@ -40,7 +40,7 @@ public class CuisineController {
         this.cuisineModelAssembler = cuisineModelAssembler;
     }
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping()
     //public List<Cuisine> listAll(){
     public List<CuisineOutputDto> listAll(){
         //return cuisineRegistrationService.listAll();
@@ -52,7 +52,7 @@ public class CuisineController {
         Usando PAGEABLE
      */
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, value = "/pageable-list")
+    @GetMapping(path = "/pageable-list")
     //public List<Cuisine> listAll(){
     public List<CuisineOutputDto> listAllPageableList(Pageable pageable){
         //return cuisineRegistrationService.listAll();
@@ -60,7 +60,7 @@ public class CuisineController {
         return cuisineModelAssembler.fromControllerToOutputList(allCuisinesPageable.getContent());
     }
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, value = "/pageable")
+    @GetMapping(path = "/pageable")
     //public List<Cuisine> listAll(){
     public Page<CuisineOutputDto> listAllPageable(@PageableDefault(size = 4) Pageable pageable){
         //return cuisineRegistrationService.listAll();
