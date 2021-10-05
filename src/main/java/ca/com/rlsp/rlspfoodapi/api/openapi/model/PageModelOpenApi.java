@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.openapi.model;
 
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.Collection;
     Classe Generia para Subsitituir Pages de Todos os controllers
  */
 
+@ApiModel(value = "PageModel")
 @Getter
 @Setter
 public class PageModelOpenApi<T>{

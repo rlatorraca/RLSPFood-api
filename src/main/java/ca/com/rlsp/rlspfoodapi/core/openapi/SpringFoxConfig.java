@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.core.openapi;
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.CuisineModelOpenApi;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
@@ -93,7 +94,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     private <T> AlternateTypeRule buildAlternateTypeRule(Class<T> classModel) {
         return AlternateTypeRules.newRule(
                 typeResolver.resolve(Page.class, classModel),
-                CuisineModelOpenApi.class);
+                typeResolver.resolve(PageModelOpenApi.class, classModel));
+
     }
 
 
