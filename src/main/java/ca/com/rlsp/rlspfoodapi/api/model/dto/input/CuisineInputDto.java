@@ -1,11 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
-import lombok.Data;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -14,6 +13,7 @@ public class CuisineInputDto {
 
     private Long id;
 
-    //@NotBlank
+    @ApiModelProperty(example = "Mediterranean",required = true)
+    @NotBlank
     private String name;
 }
