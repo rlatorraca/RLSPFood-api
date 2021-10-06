@@ -4,11 +4,13 @@ import ca.com.rlsp.rlspfoodapi.api.assembler.PaymentTypeModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.PaymentTypeInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.PaymentTypeInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.PaymentTypeOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.PaymentTypeControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.repository.PaymentTypeRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.PaymentTypeRegistrationService;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -20,8 +22,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/paymenttypes")
-public class PaymentTypeController {
+@RequestMapping(path = "/paymenttypes", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PaymentTypeController implements PaymentTypeControllerOpenApi {
 
     private PaymentTypeRepository paymentTypeRepository;
     private PaymentTypeRegistrationService paymentTypeRegistrationService;

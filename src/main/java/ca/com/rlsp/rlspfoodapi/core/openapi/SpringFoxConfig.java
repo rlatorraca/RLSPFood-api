@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.*;
@@ -71,22 +72,23 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(CuisineOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+                .ignoredParameterTypes(ServletWebRequest.class) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
                 .tags(
                         new Tag("Cities", "Manage all endpoints to City's Resources"),
                         new Tag("Cuisines", "Manage all endpoints to Cuisine's Resources"),
                         new Tag("Groups", "Manage all endpoints to Group's Resources"),
-                        new Tag("Groups-Permission", "Manage all endpoints to Group-Permission's Resources"),
+                        new Tag("Group Permissions", "Manage all endpoints to Group-Permission's Resources"),
                         new Tag("Orders", "Manage all endpoints to Order's Resource"),
                         new Tag("Payment Types", "Manage all endpoints to Payment Types' Resource"),
                         new Tag("Provinces", "Manage all endpoints to Province's Resources"),
                         new Tag("Restaurants", "Manage all endpoints to Restaurant's Resources"),
-                        new Tag("Restaurant-Products", "Manage all endpoints to Restaurant-Product's Resources"),
-                        new Tag("Restaurant-Products-Photos", "Manage all endpoints to Restaurant-Products-Photo's Resources"),
-                        new Tag("Restaurant-User-Manager", "Manage all endpoints to Restaurant-User-Manager's Resources"),
+                        new Tag("Restaurant Products", "Manage all endpoints to Restaurant-Product's Resources"),
+                        new Tag("Restaurant Products Photos", "Manage all endpoints to Restaurant-Products-Photo's Resources"),
+                        new Tag("Restaurant User Manager", "Manage all endpoints to Restaurant-User-Manager's Resources"),
                         new Tag("Statistics", "Manage all endpoints to Statistic's Resources"),
                         new Tag("Order Status", "Manage all endpoints to Order Status' Resources"),
                         new Tag("Users", "Manage all endpoints to User's Resources"),
-                        new Tag("User-Groups", "Manage all endpoints to User-Group's Resources")
+                        new Tag("User Groups", "Manage all endpoints to User-Group's Resources")
 
                 );
     }
