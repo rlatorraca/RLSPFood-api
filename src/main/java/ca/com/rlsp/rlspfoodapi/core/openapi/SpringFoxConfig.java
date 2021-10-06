@@ -72,15 +72,15 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(CuisineOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
                 .ignoredParameterTypes(ServletWebRequest.class) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
-                .globalRequestParameters(Collections.singletonList(
-                        new RequestParameterBuilder()
-                                .name("fields")
-                                .description("Properties names used to filter query, split by comma")
-                                .in(ParameterType.QUERY)
-                                .required(false)
-                                .query(q -> q.model(m -> m.scalarModel(ScalarType.STRING)))
-                                .build())
-                )
+//                .globalRequestParameters(Collections.singletonList(
+//                        new RequestParameterBuilder()
+//                                .name("fields")
+//                                .description("Properties names used to filter query, split by comma")
+//                                .in(ParameterType.QUERY)
+//                                .required(false)
+//                                .query(q -> q.model(m -> m.scalarModel(ScalarType.STRING)))
+//                                .build())
+//                )
                 .tags(
                         new Tag("Cities", "Manage all endpoints to City's Resources"),
                         new Tag("Cuisines", "Manage all endpoints to Cuisine's Resources"),

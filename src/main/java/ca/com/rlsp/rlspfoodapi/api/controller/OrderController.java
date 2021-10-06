@@ -15,6 +15,8 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.IssueOfOrderRegistrationService;
 import ca.com.rlsp.rlspfoodapi.infra.repository.specification.OrderSpecifications;
 import com.google.common.collect.ImmutableMap;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -88,6 +90,14 @@ public class OrderController {
         Pesquisas complexas na API (by URL params)
      */
 
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(
+                    value = "Properties names used to filter query, split by comma",
+                    name = "fields ",
+                    paramType = "query",
+                    type = "string"
+            )
+    })
     @GetMapping("/filter")
     public List<OrderOutputDto> searchByFilter(OrderFilterInputDto orderFilter) {
         List<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter));
@@ -103,6 +113,14 @@ public class OrderController {
         return orderModelAssembler.fromControllerToOutputList(allOrders);
     }
 
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(
+                    value = "Properties names used to filter query, split by comma",
+                    name = "fields ",
+                    paramType = "query",
+                    type = "string"
+            )
+    })
     @GetMapping("/{orderCode}")
     public OrderOutputDto find(@PathVariable String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
