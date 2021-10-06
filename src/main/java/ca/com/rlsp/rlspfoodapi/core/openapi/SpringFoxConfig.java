@@ -21,14 +21,13 @@ import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
+import springfox.documentation.schema.ScalarType;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -73,6 +72,15 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(CuisineOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
                 .ignoredParameterTypes(ServletWebRequest.class) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
+                .globalRequestParameters(Collections.singletonList(
+                        new RequestParameterBuilder()
+                                .name("fields")
+                                .description("Properties names used to filter query, split by comma")
+                                .in(ParameterType.QUERY)
+                                .required(false)
+                                .query(q -> q.model(m -> m.scalarModel(ScalarType.STRING)))
+                                .build())
+                )
                 .tags(
                         new Tag("Cities", "Manage all endpoints to City's Resources"),
                         new Tag("Cuisines", "Manage all endpoints to Cuisine's Resources"),
