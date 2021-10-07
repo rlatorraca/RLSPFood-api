@@ -6,6 +6,8 @@ import ca.com.rlsp.rlspfoodapi.api.disassembler.OrderInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.OrderInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.filter.OrderFilterInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.OrderControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.data.PageableTranslator;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
@@ -22,14 +24,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/orders")
-public class OrderController {
+@RequestMapping(path = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+public class OrderController implements OrderControllerOpenApi {
     private OrderRepository orderRepository;
     private IssueOfOrderRegistrationService issueOfOrderRegistrationService;
     private OrderShortModelAssembler orderShortModelAssembler;

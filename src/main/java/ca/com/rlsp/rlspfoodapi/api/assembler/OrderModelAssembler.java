@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.OrderInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
@@ -28,6 +29,11 @@ public class OrderModelAssembler {
     public OrderOutputDto fromControllerToOutput(Order order) {
 
         return modelMapper.map(order, OrderOutputDto.class); // Mas o mapeamento substituindo o codigo acima
+    }
+
+    public OrderShortOutputDto fromControllerToShortOutput(Order order) {
+
+        return modelMapper.map(order, OrderShortOutputDto.class); // Mas o mapeamento substituindo o codigo acima
     }
 
 
