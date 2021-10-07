@@ -1,7 +1,14 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.OffsetTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.key.OffsetDateTimeKeyDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.util.Json;
 import io.swagger.v3.oas.models.media.DateSchema;
@@ -40,7 +47,7 @@ public class OrderOutputDto {
     @ApiModelProperty(example = "CREATED")
     private String status;
 
-    //@ApiModelProperty(example = "2021-10-01T20:00:00Z")
+    @ApiModelProperty (example = "2021-10-01T20:00:00Z")
     private OffsetDateTime createdDate;
     private OffsetDateTime confirmationDate;
     private OffsetDateTime startedDate;

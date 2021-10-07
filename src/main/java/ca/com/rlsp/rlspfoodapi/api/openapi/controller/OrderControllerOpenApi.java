@@ -7,9 +7,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.filter.OrderFilterInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -41,6 +39,14 @@ public interface OrderControllerOpenApi {
 
 
 
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(
+                    value = "Properties names used to filter query, split by comma",
+                    name = "fields ",
+                    paramType = "query",
+                    type = "string"
+            )
+    })
     @ApiOperation(value = "List all orders in JSON") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Orders listed in JSON",
@@ -65,6 +71,15 @@ public interface OrderControllerOpenApi {
     })
     public List<OrderOutputDto> listAll();
 
+
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(
+                    value = "Properties names used to filter query, split by comma",
+                    name = "fields ",
+                    paramType = "query",
+                    type = "string"
+            )
+    })
     @ApiOperation(value = "Get a Orders by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "400", description = "Invalid orders id",

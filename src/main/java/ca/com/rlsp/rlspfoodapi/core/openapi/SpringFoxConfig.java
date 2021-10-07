@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.core.openapi;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.CuisineModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageModelOpenApi;
@@ -72,7 +73,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(CuisineOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
-                .alternateTypeRules(buildAlternateTypeRule(OrderShortOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+                .alternateTypeRules(buildAlternateTypeRule(OrderOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
                 .ignoredParameterTypes(ServletWebRequest.class) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
 //                .globalRequestParameters(Collections.singletonList(
 //                        new RequestParameterBuilder()
