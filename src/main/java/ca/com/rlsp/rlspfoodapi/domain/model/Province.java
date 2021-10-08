@@ -24,7 +24,7 @@ public class Province {
     @Column(nullable = false, name = "province_name")
     private String name;
 
-    @NotBlank
+    //@NotBlank
     //@Column(nullable = false, name = "province_tax")
     @ManyToOne
     @JoinColumn(name = "taxprovince_id", nullable = false)

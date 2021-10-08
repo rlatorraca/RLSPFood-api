@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.assembler.ProvinceModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.ProvinceInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.ProvinceControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProvinceRegistrationService;
@@ -16,8 +17,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/provinces")
-public class ProvinceController {
+@RequestMapping(path = "/provinces", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ProvinceController implements ProvinceControllerOpenApi {
 
     private ProvinceRegistrationService provinceRegistrationService;
     private ProvinceInputDisassembler provinceInputDisassembler;
@@ -79,6 +80,7 @@ public class ProvinceController {
     public ProvinceOutputDto save(@RequestBody @Valid ProvinceInputDto provinceInputDTO) {
         //return provinceRegistrationService.save(province);
         Province province = provinceInputDisassembler.fromInputToController(provinceInputDTO);
+        province = provinceRepository.save(province);
         return provinceModelAssembler.fromControllerToOutput(province);
     }
 

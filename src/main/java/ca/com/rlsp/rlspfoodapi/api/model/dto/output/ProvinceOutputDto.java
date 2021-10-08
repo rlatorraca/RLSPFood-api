@@ -13,4 +13,6 @@ public class ProvinceOutputDto {
 
     @ApiModelProperty(example = "Alberta")
     private String name;
+
+    private Long taxId;
 }
