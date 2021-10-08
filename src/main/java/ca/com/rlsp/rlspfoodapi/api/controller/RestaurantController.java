@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.disassembler.RestaurantInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.view.RestaurantView;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantGenericModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.CityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
@@ -16,6 +17,7 @@ import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.*;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,17 +76,33 @@ public class RestaurantController {
      */
 
 
+    @ApiOperation(value = "Restaurants list", response = RestaurantGenericModelOpenApi.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = RestaurantGenericModelOpenApi.class)
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "List of restaurants by justName or summary",
+                    allowableValues = "justName",
+                    name = "summary",
+                    paramType = "query",
+                    type = "string",
+                    required = false
+            )
+    })
     @GetMapping
     public List<RestaurantOutputDto> listAll() {
         return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
     }
 
+    @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
     @JsonView(RestaurantView.Summary.class)
     @GetMapping(params = "summary=summary")
     public List<RestaurantOutputDto> listAllSummary() {
         return listAll();
     }
 
+
+    @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
     @JsonView(RestaurantView.SummaryJustName.class)
     @GetMapping(params = "summary=justName")
     public List<RestaurantOutputDto> listAllJustNames() {

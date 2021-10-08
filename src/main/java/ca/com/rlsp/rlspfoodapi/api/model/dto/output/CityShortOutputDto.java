@@ -1,9 +1,11 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+@ApiModel(value = "Short City")
 @Getter
 @Setter
 public class CityShortOutputDto {

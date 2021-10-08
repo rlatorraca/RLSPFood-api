@@ -1,11 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -14,6 +13,7 @@ import java.time.OffsetDateTime;
 /*
     Limitando os campos retornados pela API com @JsonFilter do Jackson
  */
+@ApiModel(value = "Short Order")
 @JsonFilter("orderFilter")
 @Setter
 @Getter
