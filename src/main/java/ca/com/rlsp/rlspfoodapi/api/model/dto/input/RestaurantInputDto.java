@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
+import io.swagger.annotations.ApiModelProperty;
 import jdk.jfr.TransitionTo;
 import lombok.*;
 
@@ -15,9 +16,11 @@ public class RestaurantInputDto {
 
     private Long id;
 
+    @ApiModelProperty(example = "Hamburguer Gourmet", required = true)
     @NotBlank
     private String name;
 
+    @ApiModelProperty(example = "15.50", required = true)
     @NotNull
     @PositiveOrZero
     private BigDecimal deliveryFee;

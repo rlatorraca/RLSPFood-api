@@ -1,9 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,16 +12,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "Cuisines")
 public interface CuisineControllerOpenApi {
-
-
 
     @ApiOperation(value = "List all cities in JSON") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -88,8 +81,10 @@ public interface CuisineControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "City not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public CuisineOutputDto updateById(@ApiParam(name="cuisineId" , value= "Enter a valid cuisine ID", example = "1", required =true) Long id,
-                                    CuisineInputDto cuisineInputDTO);
+    public CuisineOutputDto updateById(@ApiParam(name="cuisineId" , value= "Enter a valid cuisine ID", example = "1", required =true)
+                                                   Long id,
+                                       @ApiParam(name = "body", value = "A DTO for inputs a resource of cuisine")
+                                       CuisineInputDto cuisineInputDTO);
 
 
     @ApiOperation("Remove a cuisine")  // Customize method description on SwaggerUI

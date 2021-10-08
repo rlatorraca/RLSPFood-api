@@ -106,6 +106,6 @@ public interface CityControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void delete(@ApiParam(name="cityId" , value = "Enter a valid city ID", example ="1") Long id);
+    public void delete(@ApiParam(name="cityId" , value = "Enter a valid city ID", example ="1" , required =true) Long id);
 
 }

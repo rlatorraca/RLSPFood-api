@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
 import ca.com.rlsp.rlspfoodapi.api.model.view.RestaurantView;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,12 +19,16 @@ public class RestaurantOutputDto {
     */
     @JsonView({RestaurantView.Summary.class,
                RestaurantView.SummaryJustName.class})
+    @ApiModelProperty(example = "1")
     private Long id;
 
     @JsonView({RestaurantView.Summary.class,
             RestaurantView.SummaryJustName.class})
+    @ApiModelProperty(example = "Taco Cancun Gourmet")
     private String name;
 
+
+    @ApiModelProperty(example = "12.00")
     private BigDecimal deliveryFee;
 
     @JsonView(RestaurantView.Summary.class)

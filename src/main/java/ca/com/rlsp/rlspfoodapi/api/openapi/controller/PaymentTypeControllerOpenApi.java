@@ -50,7 +50,8 @@ public interface PaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public ResponseEntity<PaymentTypeOutputDto> findById(@ApiParam(name = "paymentTypeId", value = "Enter a valid payment type ID", example = "1", required = true) Long paymentTypeId, ServletWebRequest request);
+    public ResponseEntity<PaymentTypeOutputDto> findById(@ApiParam(name = "paymentTypeId", value = "Enter a valid payment type ID", example = "1", required = true)
+                                                                     Long paymentTypeId, ServletWebRequest request);
 
     @ApiOperation(value = "Insert a payment type") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -60,7 +61,7 @@ public interface PaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public PaymentTypeOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of payment type") PaymentTypeInputDto paymentTypeInputDto);
+    public PaymentTypeOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of payment type", required =true) PaymentTypeInputDto paymentTypeInputDto);
 
     @ApiOperation(value = "Update data of a city by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -73,7 +74,7 @@ public interface PaymentTypeControllerOpenApi {
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
     public PaymentTypeOutputDto update(@ApiParam(name="paymentTypeId" , value= "Enter a valid payment type ID", example = "1", required =true) Long paymentTypeId,
-                                       @ApiParam(name = "body", value = "A DTO for inputs a resource of payment type")
+                                       @ApiParam(name = "body", value = "A DTO for inputs a resource of payment type" , required =true)
                                                PaymentTypeInputDto paymentTypeInputDto);
 
 
@@ -90,5 +91,6 @@ public interface PaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void remove(@ApiParam(name="paymentTypeId" , value= "Enter a valid payment type ID", example = "1", required =true) Long formaPagamentoId);
+    public void remove(@ApiParam(name="paymentTypeId" , value= "Enter a valid payment type ID", example = "1", required =true)
+                                   Long formaPagamentoId);
 }
