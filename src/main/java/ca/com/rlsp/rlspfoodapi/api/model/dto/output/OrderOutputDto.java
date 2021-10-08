@@ -15,7 +15,6 @@ import java.util.List;
 public class OrderOutputDto {
 
 
-    public  OrderOutputDto() {}
 
     @ApiModelProperty(example = "f9981ca4-5a5e-4da3-af04-933861df3e55")
     private String orderCode;
@@ -50,6 +49,8 @@ public class OrderOutputDto {
     private RestaurantShortOutputDto restaurant;
 
     //private UserOutputDto user;
+
+    @ApiModelProperty(example = "Rayan McDonalds")
     private String nameUser;
     private List<ItemOrderOutputDto> orderItems;
 
