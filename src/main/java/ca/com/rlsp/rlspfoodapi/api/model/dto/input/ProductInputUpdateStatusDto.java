@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import java.math.BigDecimal;
 @Setter
 public class ProductInputUpdateStatusDto {
 
-
+    @ApiModelProperty(example = "true", required = true)
     @NotNull
     @Column(name = "product_active", nullable = false )
     private Boolean active;

@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+//@RestController
 @RequestMapping( "/test")
 public class TestController {
 

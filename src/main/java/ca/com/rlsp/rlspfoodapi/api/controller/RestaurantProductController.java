@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.disassembler.ProductInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputUpdateStatusDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantProductControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
@@ -12,7 +13,6 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProductRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/restaurants/{restaurantId}/products",  produces = {MediaType.APPLICATION_JSON_VALUE})
-public class RestaurantProductController {
+public class RestaurantProductController implements RestaurantProductControllerOpenApi {
 
     private ProductRepository productRepository;
     private ProductRegistrationService productRegistrationService;
@@ -43,12 +43,12 @@ public class RestaurantProductController {
         this.productInputDisassembler = productInputDisassembler;
     }
 
-    @GetMapping
-    public List<ProductOutputDto> listAll(@PathVariable("restaurantId") Long id ) {
-        Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
-        List<ProductOutputDto> productOutputDtoList = productModelAssembler.fromControllerToOutputList(restaurant.getProducts());
-        return productOutputDtoList;
-    }
+//    @GetMapping
+//    public List<ProductOutputDto> listAll(@PathVariable("restaurantId") Long id ) {
+//        Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
+//        List<ProductOutputDto> productOutputDtoList = productModelAssembler.fromControllerToOutputList(restaurant.getProducts());
+//        return productOutputDtoList;
+//    }
 
     @GetMapping("/actives")
     public List<ProductOutputDto> listAllActives(@PathVariable("restaurantId") Long id,
