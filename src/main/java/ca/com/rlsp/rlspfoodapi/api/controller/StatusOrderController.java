@@ -1,12 +1,14 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.StatusOrderControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.service.StatusOrderRegistrationService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/orders/{orderCode}")
-public class StatusOrderController {
+@RequestMapping(path = "/orders/{orderCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+public class StatusOrderController implements StatusOrderControllerOpenApi {
 
     private StatusOrderRegistrationService statusOrderRegistrationService;
 

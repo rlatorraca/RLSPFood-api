@@ -23,7 +23,7 @@ import java.util.List;
 @Api(tags = "Provinces")
 public interface ProvinceControllerOpenApi {
 
-    @ApiOperation(value = "List all provinces in JSON") // Costomize method description on SwaggerUI
+    @ApiOperation(value = "List all provinces in JSON") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Provinces listed in JSON",
                     content = @Content(
@@ -72,7 +72,7 @@ public interface ProvinceControllerOpenApi {
     public ProvinceOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of province")
                                               ProvinceInputDto provinceInputDTO);
 
-    @ApiOperation(value = "Update data of a province by ID") // Costomize method description on SwaggerUI
+    @ApiOperation(value = "Update data of a province by ID") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Province updated",
                     content = @Content(

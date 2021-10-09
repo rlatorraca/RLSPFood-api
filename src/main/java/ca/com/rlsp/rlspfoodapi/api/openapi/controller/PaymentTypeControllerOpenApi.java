@@ -24,7 +24,7 @@ import java.util.List;
 @Api(tags = "Payment Types")
 public interface PaymentTypeControllerOpenApi {
 
-    @ApiOperation(value = "List all payment types in JSON") // Costomize method description on SwaggerUI
+    @ApiOperation(value = "List all payment types in JSON") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
                     content = @Content(

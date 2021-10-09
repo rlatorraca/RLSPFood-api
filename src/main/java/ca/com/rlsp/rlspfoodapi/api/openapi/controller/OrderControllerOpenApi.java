@@ -23,7 +23,7 @@ import java.util.List;
 @Api(tags = "Orders")
 public interface OrderControllerOpenApi {
 
-    @ApiOperation(value = "List all orders in JSON") // Costomize method description on SwaggerUI
+    @ApiOperation(value = "List all orders in JSON") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ordrs listed in JSON",
                     content = @Content(

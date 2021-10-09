@@ -26,7 +26,7 @@ public interface CityControllerOpenApi {
 
 
  /*
-    @ApiOperation(value = "List all cities in XML") // Costomize method description on SwaggerUI
+    @ApiOperation(value = "List all cities in XML") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in XML",
                     content = @Content(

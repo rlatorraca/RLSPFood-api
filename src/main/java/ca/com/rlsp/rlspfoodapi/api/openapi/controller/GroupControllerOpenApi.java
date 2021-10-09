@@ -19,7 +19,7 @@ public interface GroupControllerOpenApi {
     @ApiOperation(value = "List all groups in JSON")
     public List<GroupOutputDto> listAll() ;
 
-    @ApiOperation(value = "Get a Group by ID") // Costomize method description on SwaggerUI
+    @ApiOperation(value = "Get a Group by ID") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "400", description = "Invalid group id",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
