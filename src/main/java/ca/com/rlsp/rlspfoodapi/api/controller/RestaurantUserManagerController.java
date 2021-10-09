@@ -1,18 +1,19 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.UserModelAssembler;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.UserInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantUserManagerControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurants/{restaurantId}/managers")
-public class RestaurantUserManagerController {
+@RequestMapping(path = "/restaurants/{restaurantId}/managers", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestaurantUserManagerController implements RestaurantUserManagerControllerOpenApi {
 
     private RestaurantRegistrationService restaurantRegistrationService;
     private UserModelAssembler userModelAssembler;
