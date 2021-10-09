@@ -2,21 +2,20 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.PaymentTypeModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.PaymentTypeOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantPaymentTypeControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
-@RequestMapping(value="/restaurants/{restaurantId}/paymenttype",  produces = {MediaType.APPLICATION_JSON_VALUE})
-public class RestaurantPaymentTypeController {
+@RequestMapping(path="/restaurants/{restaurantId}/paymenttype",  produces = {MediaType.APPLICATION_JSON_VALUE})
+public class RestaurantPaymentTypeController implements RestaurantPaymentTypeControllerOpenApi {
+    
 
     private RestaurantRegistrationService restaurantRegistrationService;
     private RestaurantRepository restaurantRepository;
@@ -31,7 +30,7 @@ public class RestaurantPaymentTypeController {
     }
 
     @GetMapping
-    public List<PaymentTypeOutputDto> listAll(@PathVariable("restaurantId")
+    public List<PaymentTypeOutputDto> listAllByRestaurantId(@PathVariable("restaurantId")
                                                           Long id) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
         List<PaymentTypeOutputDto> paymentTypeOutputDtoList = paymentTypeModelAssembler.fromControllerToOutputList(restaurant.getPaymentTypeList());
