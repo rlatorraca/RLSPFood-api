@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.controller.RestaurantProductPhotoController;
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputUpdateStatusDto;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @Api(tags = "Products")
-public interface RestaurantProductControllerOpenApi {
+public interface RestaurantProductControllerOpenApi  {
 
 
     @ApiOperation(value = "List all products") // Customize method description on SwaggerUI
