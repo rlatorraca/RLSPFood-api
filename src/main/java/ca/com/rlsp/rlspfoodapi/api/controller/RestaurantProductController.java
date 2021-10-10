@@ -66,12 +66,6 @@ public class RestaurantProductController implements RestaurantProductControllerO
         return productOutputDtoList;
     }
 
-    @DeleteMapping("/{paymentTypeId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void detachPaymentType(@PathVariable("paymentTypeId") Long paymentTypeId,
-                                  @PathVariable("restaurantId") Long restaurantId){
-        restaurantRegistrationService.detachPaymentType(restaurantId,paymentTypeId);
-    }
 
     @GetMapping("/{productId}")
     public ProductOutputDto buscar(@PathVariable Long restaurantId,

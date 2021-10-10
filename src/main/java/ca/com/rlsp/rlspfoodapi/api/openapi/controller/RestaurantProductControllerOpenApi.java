@@ -37,15 +37,12 @@ public interface RestaurantProductControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Group not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public List<ProductOutputDto> listAllActives(@ApiParam(value = "RestaurantId", example = "1", required = true)
+    public List<ProductOutputDto> listAllActives(@ApiParam(value = "restaurantId", example = "1", required = true)
                                                               Long restaurantId,
                                                  @ApiParam(value = "Active or Inactive products on list",
                                                           example = "false", defaultValue = "false")
                                                          boolean justActiveProducts);
 
-
-    public void detachPaymentType(@PathVariable("paymentTypeId") Long paymentTypeId,
-                                  @PathVariable("restaurantId") Long restaurantId);
 
 
     @ApiOperation(value = "Get a restaurant product") // Customize method description on SwaggerUI
@@ -60,17 +57,61 @@ public interface RestaurantProductControllerOpenApi {
                                    @ApiParam(value = "productId", example = "1", required = true)
                                            Long productId) ;
 
-    public ProductOutputDto update(@PathVariable Long restaurantId,
-                                   @PathVariable Long productId,
-                                   @RequestBody  @Valid ProductInputDto productInputDto);;
+    @ApiOperation(value = "Update in a restaurant a data of a product by ID") // Customize method description on SwaggerUI
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Restaurant updated",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Restaurant and/or product  not found",
+                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
+    })
+    public ProductOutputDto update(@ApiParam(value = "restaurantId", example = "1", required = true)
+                                               Long restaurantId,
+                                   @ApiParam(value = "productId", example = "1", required = true)
+                                           Long productId,
+                                   @ApiParam(name = "body", value = "A DTO for inputs a resource of product")
+                                               ProductInputDto productInputDto);;
 
-    public ProductOutputDto updateJustStatus(@PathVariable Long restaurantId,
-                                             @PathVariable Long productId,
-                                             @RequestBody  @Valid ProductInputUpdateStatusDto productInputDto);
+    public ProductOutputDto updateJustStatus(@ApiParam(value = "restaurantId", example = "1", required = true)
+                                                     Long restaurantId,
+                                             @ApiParam(value = "productId", example = "1", required = true)
+                                                     Long productId,
+                                             @ApiParam(name = "body", value = "A DTO for inputs a resource of product")
+                                                     ProductInputUpdateStatusDto productInputDto);
 
 
-    public ProductOutputDto adicionar(@PathVariable Long restaurantId,
-                                      @RequestBody @Valid ProductInputDto productInputDto);
+    @ApiOperation(value = "Insert a product to restaurant") // Costomize method description on SwaggerUI
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Product created",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            ),
 
-    public void delete(@PathVariable("productId") Long id);
+            @ApiResponse(responseCode = "404", description = "Restaurant not found",
+                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            )
+    })
+    public ProductOutputDto adicionar(@ApiParam(value = "restaurantId", example = "1", required = true)
+                                              Long restaurantId,
+                                      @ApiParam(name = "body", value = "A DTO for inputs a resource of product")
+                                              ProductInputDto productInputDto);
+
+    @ApiOperation("Remove a product")  // Customize method description on SwaggerUI
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Product removed",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+            )
+    })
+    public void delete(@ApiParam(value = "productId", example = "1", required = true)
+                                Long id);
 }

@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
+package ca.com.rlsp.rlspfoodapi.api.openapi.model;
 
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.view.RestaurantView;

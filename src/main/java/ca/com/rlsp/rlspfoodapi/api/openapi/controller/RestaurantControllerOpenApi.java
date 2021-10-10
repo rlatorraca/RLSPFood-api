@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.view.RestaurantView;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.RestaurantGenericModelOpenApi;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Content;
