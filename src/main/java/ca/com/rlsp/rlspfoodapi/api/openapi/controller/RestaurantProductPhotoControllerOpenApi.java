@@ -10,6 +10,7 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -34,7 +36,8 @@ import java.util.List;
 @Api(tags = "Restaurant Products Photos")
 public interface RestaurantProductPhotoControllerOpenApi {
 
-    @ApiOperation(value = "Get a product photo of a restaurant") // Customize method description on SwaggerUI
+    @ApiOperation(value = "Get a product photo of a restaurant",
+            produces = "application/json, image/jpeg, image/png")
     @ApiResponses({
             @ApiResponse(responseCode = "400", description = "Invalid restaurant id and/or product id",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
@@ -69,10 +72,12 @@ public interface RestaurantProductPhotoControllerOpenApi {
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
     ProductPhotoOutputDto updatePhoto(@ApiParam(value = "restaurantId", example = "1", required = true)
-                                                     Long restaurantId,
-                                             @ApiParam(value = "productId", example = "1", required = true)
-                                                     Long productId,
-                                             ProductPhotoInputDto photoProductInput) throws IOException;
+                                             Long restaurantId,
+                                      @ApiParam(value = "productId", example = "1", required = true)
+                                             Long productId,
+                                      @ApiParam(value = "Photo file (max 500KB, just JPG and PNG files)", required = true)
+                                             MultipartFile fileSent ,
+                                      ProductPhotoInputDto photoProductInput) throws IOException;
     ;
 
     @ApiOperation(value = "Delete product photo of a restaurant") // Customize method description on SwaggerUI

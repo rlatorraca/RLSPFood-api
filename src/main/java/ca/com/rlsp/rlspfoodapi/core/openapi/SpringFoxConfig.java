@@ -8,11 +8,14 @@ import ca.com.rlsp.rlspfoodapi.api.openapi.model.CuisineModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +31,10 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -74,7 +81,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(CuisineOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(OrderOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
-                .ignoredParameterTypes(ServletWebRequest.class) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
+                .ignoredParameterTypes(ignoredParameterTypesClasses()) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
 //                .globalRequestParameters(Collections.singletonList(
 //                        new RequestParameterBuilder()
 //                                .name("fields")
@@ -121,6 +128,21 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/fonts/**")
                 .addResourceLocations("classpath:/META-INF/resources/fonts/");
+    }
+
+    private Class<?>[] ignoredParameterTypesClasses() {
+        return Arrays.asList(
+                ServletWebRequest.class,
+                URL.class,
+                URI.class,
+                URLStreamHandler.class,
+                Resource.class,
+                File.class,
+                InputStream.class,
+                Pageable.class,
+                Page.class,
+                Sort.class
+        ).toArray(new Class[0]);
     }
 
     private ApiInfo rlspApiInfo(){

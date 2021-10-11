@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,9 +27,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -170,8 +171,37 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({ValidationPatchException.class})
-    public ResponseEntity<?> handleValidationPatch(ValidationPatchException e, WebRequest request){
+    public ResponseEntity<?> handleValidationPatch(ValidationPatchException e,  WebRequest request){
         return handleValidationInternal(e, e.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Object> handleFileSizeLimitExceededException(MaxUploadSizeExceededException e, WebRequest request) {
+        Throwable rootCause = ExceptionUtils.getRootCause(e);
+        String detail = String.format("The file size exceeds the maximum size of %d", e.getMaxUploadSize());
+
+        if (rootCause instanceof FileSizeLimitExceededException) {
+            return handleFileSizeLimitExceededException((FileSizeLimitExceededException) rootCause,  new HttpHeaders(), HttpStatus.PAYLOAD_TOO_LARGE, request);
+        }
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(HttpStatus.PAYLOAD_TOO_LARGE,  ProblemTypeEnum.MAX_SIZE_EXCEEDED, detail, OffsetDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
+
+        return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders() , HttpStatus.BANDWIDTH_LIMIT_EXCEEDED, request);
+    }
+
+
+    private ResponseEntity<Object> handleFileSizeLimitExceededException(FileSizeLimitExceededException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String detail = String.format("The file size exceeds the maximum size of %d", e
+                .getPermittedSize());
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status,  ProblemTypeEnum.MAX_SIZE_EXCEEDED, detail, OffsetDateTime.now())
+                .userMessage(MSG_FINALUSER_GENERIC)
+                .build();
+        return handleExceptionInternal(e, apiHandleProblem, headers , status, request);
     }
 
     private ResponseEntity<Object> handleValidationInternal(Exception e, BindingResult bindingResult, HttpHeaders headers, HttpStatus status, WebRequest request) {

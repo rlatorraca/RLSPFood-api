@@ -11,6 +11,8 @@ import ca.com.rlsp.rlspfoodapi.domain.service.CatalogueProductPhotoService;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService.RetrievePhoto;
 import ca.com.rlsp.rlspfoodapi.domain.service.PhotoStorageService;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -52,7 +55,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         catalogueProductPhotoService.remove(restaurantId,productId);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.ALL_VALUE)
     public ProductPhotoOutputDto findProductPhoto(@PathVariable Long restaurantId,
                                                   @PathVariable Long productId) {
         ProductPhoto productPhoto = catalogueProductPhotoService
@@ -61,7 +64,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         return productPhotoModelAssembler.fromControllerToOutput(productPhoto);
     }
 
-    @GetMapping(produces = MediaType.ALL_VALUE)
+    @GetMapping
     public ResponseEntity<?> getProductPhoto(@PathVariable Long restaurantId,
                                           @PathVariable Long productId,
                                           @RequestHeader(name="accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
@@ -108,22 +111,28 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoOutputDto updatePhoto(@PathVariable Long restaurantId,
                                              @PathVariable Long productId,
+                                             @RequestPart MultipartFile file,
                                              @Valid ProductPhotoInputDto photoProductInput) throws IOException {
 
-        Product product = productRegistrationService.findOrFail(restaurantId, productId);
+        try{
+            Product product = productRegistrationService.findOrFail(restaurantId, productId);
 
-        MultipartFile file = photoProductInput.getFile();
+            //MultipartFile file = photoProductInput.getFile();
 
-        ProductPhoto photo = new ProductPhoto();
-        photo.setProduct(product);
-        photo.setDescription(photoProductInput.getDescription());
-        photo.setContentType(file.getContentType());
-        photo.setSize(file.getSize());
-        photo.setFileName(file.getOriginalFilename());
+            ProductPhoto photo = new ProductPhoto();
+            photo.setProduct(product);
+            photo.setDescription(photoProductInput.getDescription());
+            photo.setContentType(file.getContentType());
+            photo.setSize(file.getSize());
+            photo.setFileName(file.getOriginalFilename());
 
-        ProductPhoto savedPhoto = catalogueProductPhotoService.savePhoto(photo, file.getInputStream());
+            ProductPhoto savedPhoto = catalogueProductPhotoService.savePhoto(photo, file.getInputStream());
 
-        return productPhotoModelAssembler.fromControllerToOutput(savedPhoto);
+            return productPhotoModelAssembler.fromControllerToOutput(savedPhoto);
+        } catch (MaxUploadSizeExceededException | FileSizeLimitExceededException e) {
+            throw new MaxUploadSizeExceededException(file.getSize());
+        }
+
     }
 
     /* Old Version

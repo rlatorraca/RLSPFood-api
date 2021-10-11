@@ -12,6 +12,7 @@ public enum ProblemTypeEnum {
     INVALID_DATA("/invalid-data", "Invalid data"),
     MALFORMED_JSON_REQUEST("/malformed-json-request", "Malformed JSON request. "),
     MALFORMED_URI_REQUEST("/malformed-uri-request", "Malformed URI request."),
+    MAX_SIZE_EXCEEDED("/max-size-exceeded", "Maximum request size exceeded"),
     INTERNAL_SERVER_ERROR("/internal-server-error", "Internal Server Error");
 
     private String uri;
