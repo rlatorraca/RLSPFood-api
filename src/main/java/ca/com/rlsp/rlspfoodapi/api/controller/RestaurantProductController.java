@@ -117,8 +117,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductOutputDto adicionar(@PathVariable Long restaurantId,
-                                      @RequestBody @Valid ProductInputDto productInputDto) {
+    public ProductOutputDto save(@PathVariable Long restaurantId,
+                                 @RequestBody @Valid ProductInputDto productInputDto) {
         Restaurant restaurant =  restaurantRegistrationService.findOrFail(restaurantId);
 
         Product product = productInputDisassembler.fromInputToController(productInputDto);

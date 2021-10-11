@@ -95,7 +95,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         new Tag("Cities", "Manage all endpoints to City's Resources"),
                         new Tag("Cuisines", "Manage all endpoints to Cuisine's Resources"),
                         new Tag("Groups", "Manage all endpoints to Group's Resources"),
-                        new Tag("Group Permissions", "Manage all endpoints to Group-Permission's Resources"),
                         new Tag("Orders", "Manage all endpoints to Order's Resource"),
                         new Tag("Payment Types", "Manage all endpoints to Payment Types' Resource"),
                         new Tag("Provinces", "Manage all endpoints to Province's Resources"),

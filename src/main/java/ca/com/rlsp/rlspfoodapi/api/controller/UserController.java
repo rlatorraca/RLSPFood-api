@@ -6,6 +6,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.UserAndPasswordInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.UserInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.PasswordInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.UserControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/clients")
-public class UserController {
+public class UserController implements UserControllerOpenApi {
 
     private UserRepository userRepository;
     private UserRegistrationService userRegistrationService;
@@ -40,9 +41,9 @@ public class UserController {
 
     @GetMapping
     public List<UserOutputDto> listaAll() {
-        List<User> todasUsuarios = userRepository.findAll();
+        List<User> allUsers = userRepository.findAll();
 
-        return userModelAssembler.fromControllerToOutputList(todasUsuarios);
+        return userModelAssembler.fromControllerToOutputList(allUsers);
     }
 
     @GetMapping("/{clientId}")
@@ -84,7 +85,7 @@ public class UserController {
 
     @PutMapping("/{clientId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void changePassword(@PathVariable Long usuarioId, @RequestBody @Valid PasswordInputDto passwordInputDto) {
-        userRegistrationService.changePassword(usuarioId, passwordInputDto.getCurrantPassword(), passwordInputDto.getNewPassword());
+    public void changePassword(@PathVariable(value = "clientId") Long userId, @RequestBody @Valid PasswordInputDto passwordInputDto) {
+        userRegistrationService.changePassword(userId, passwordInputDto.getCurrantPassword(), passwordInputDto.getNewPassword());
     }
 }

@@ -90,6 +90,7 @@ public interface CityControllerOpenApi {
     })
     public CityOutputDto updateById(@ApiParam(name="cityId" , value= "Enter a valid city ID", example = "1", required =true)
                                     Long id,
+                                    @ApiParam(name = "body", value = "A DTO for inputs a resource of City")
                                     CityInputDto cityInputDTO);
 
 

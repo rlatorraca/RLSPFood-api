@@ -95,9 +95,9 @@ public interface RestaurantProductControllerOpenApi  {
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    ProductOutputDto adicionar(@ApiParam(value = "restaurantId", example = "1", required = true)
+    ProductOutputDto save(@ApiParam(value = "restaurantId", example = "1", required = true)
                                               Long restaurantId,
-                                      @ApiParam(name = "body", value = "A DTO for inputs a resource of product")
+                          @ApiParam(name = "body", value = "A DTO for inputs a resource of product")
                                               ProductInputDto productInputDto);
 
     @ApiOperation("Remove a product")  // Customize method description on SwaggerUI
