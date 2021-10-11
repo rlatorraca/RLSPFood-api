@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 import ca.com.rlsp.rlspfoodapi.api.assembler.ProductPhotoModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductPhotoInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductPhotoOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantProductPhotoControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
@@ -26,8 +27,9 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
-public class RestaurantProductPhotoController {
+@RequestMapping(path = "/restaurants/{restaurantId}/products/{productId}/photo",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestaurantProductPhotoController implements RestaurantProductPhotoControllerOpenApi {
 
     @Autowired
     private ProductRegistrationService productRegistrationService;
@@ -50,7 +52,7 @@ public class RestaurantProductPhotoController {
         catalogueProductPhotoService.remove(restaurantId,productId);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public ProductPhotoOutputDto findProductPhoto(@PathVariable Long restaurantId,
                                                   @PathVariable Long productId) {
         ProductPhoto productPhoto = catalogueProductPhotoService
@@ -59,7 +61,7 @@ public class RestaurantProductPhotoController {
         return productPhotoModelAssembler.fromControllerToOutput(productPhoto);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> getProductPhoto(@PathVariable Long restaurantId,
                                           @PathVariable Long productId,
                                           @RequestHeader(name="accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {

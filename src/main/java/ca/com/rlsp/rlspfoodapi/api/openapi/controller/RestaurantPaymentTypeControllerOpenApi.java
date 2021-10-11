@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 
-@Api(tags = "Restaurants")
+@Api(tags = "Restaurant Products")
 public interface RestaurantPaymentTypeControllerOpenApi {
 
     @ApiOperation(value = "Get all payment types by restaurant Id") // Costomize method description on SwaggerUI

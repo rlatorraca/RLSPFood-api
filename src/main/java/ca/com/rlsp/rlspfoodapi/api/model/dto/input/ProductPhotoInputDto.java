@@ -4,6 +4,7 @@ package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 import ca.com.rlsp.rlspfoodapi.core.validation.FileContentType;
 import ca.com.rlsp.rlspfoodapi.core.validation.PhotoSize;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.MediaType;
@@ -16,17 +17,19 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ProductPhotoInputDto {
 
+    @ApiModelProperty(value = "Photo file (max 500KB, just JPG and PNG files)",
+            required = true)
     @NotNull
     @PhotoSize(max="500KB")
     @FileContentType(allowed = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE} )
     private MultipartFile file;
 
-
-    private String fileName;
+    //private String fileName;
+    @ApiModelProperty(value = "Product photo description", required = true)
     @NotBlank
     private String description;
-    private String contentType;
-    private Long size;
+    //private String contentType;
+    //private Long size;
 
-    private Product product;
+    //private Product product;
 }

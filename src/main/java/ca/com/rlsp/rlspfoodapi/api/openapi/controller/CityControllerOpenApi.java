@@ -25,8 +25,8 @@ import java.util.List;
 public interface CityControllerOpenApi {
 
 
- /*
-    @ApiOperation(value = "List all cities in XML") // Customize method description on SwaggerUI
+
+    @ApiOperation(value = "List all cities in XML", hidden = true) // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in XML",
                     content = @Content(
@@ -36,7 +36,7 @@ public interface CityControllerOpenApi {
             )
     })
     public List<City> listAllXml();
-`*/
+
 
     @ApiOperation(value = "List all cities in JSON") // Costomize method description on SwaggerUI
     @ApiResponses({

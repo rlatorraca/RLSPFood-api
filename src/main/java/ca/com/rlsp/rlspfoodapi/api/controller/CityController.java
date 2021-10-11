@@ -39,12 +39,11 @@ public class CityController implements CityControllerOpenApi {
         this.cityInputDisassembler = cityInputDisassembler;
     }
 
-    /*
+
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE})
     public List<City> listAllXml() {
         return cityRepository.findAll();
     }
-    */
 
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
