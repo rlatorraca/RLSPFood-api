@@ -28,7 +28,7 @@ public interface UserControllerOpenApi {
                     )
             )
     })
-    public List<UserOutputDto> listaAll();
+    List<UserOutputDto> listaAll();
 
 
     @ApiOperation(value = "Get a user by ID") // Costomize method description on SwaggerUI
@@ -44,7 +44,7 @@ public interface UserControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public UserOutputDto findById(@ApiParam(value = "clientId", example = "1", required = true)
+    UserOutputDto findById(@ApiParam(value = "clientId", example = "1", required = true)
                                           Long clientId);
 
     @ApiOperation(value = "Insert a user") // Costomize method description on SwaggerUI
@@ -55,7 +55,7 @@ public interface UserControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public UserOutputDto save( @ApiParam(name = "body", value = "A DTO for inputs a resource of user")
+    UserOutputDto save( @ApiParam(name = "body", value = "A DTO for inputs a resource of user")
                                        UserAndPasswordInputDto clientAndPasswordInputDto);
 
 
@@ -69,7 +69,7 @@ public interface UserControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public UserOutputDto update(@ApiParam(value = "clientId", example = "1", required = true)
+    UserOutputDto update(@ApiParam(value = "clientId", example = "1", required = true)
                                         Long clientId,
                                 @ApiParam(name = "body", value = "A DTO for inputs a resource of user")
                                         UserInputDto userInputDto);

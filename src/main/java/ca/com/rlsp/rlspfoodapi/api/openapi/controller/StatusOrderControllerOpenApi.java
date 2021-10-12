@@ -23,7 +23,7 @@ public interface StatusOrderControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Order not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void confirm(@PathVariable String orderCode);
+    void confirm(@PathVariable String orderCode);
 
     @ApiOperation(value = "Confirm a order") // Customize method description on SwaggerUI
     @ApiResponses({
@@ -35,7 +35,7 @@ public interface StatusOrderControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Order not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void start(@PathVariable String orderCode);
+    void start(@PathVariable String orderCode);
 
     @ApiOperation(value = "Order canceled") // Customize method description on SwaggerUI
     @ApiResponses({
@@ -47,7 +47,7 @@ public interface StatusOrderControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Order canceled not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void cancel(@PathVariable String orderCode);
+    void cancel(@PathVariable String orderCode);
 
     @ApiOperation(value = "Order on the oven") // Customize method description on SwaggerUI
     @ApiResponses({
@@ -59,7 +59,7 @@ public interface StatusOrderControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Order on the oven not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void oven(@PathVariable String orderCode);
+    void oven(@PathVariable String orderCode);
 
     @ApiOperation(value = "Order ready to go to road") // Customize method description on SwaggerUI
     @ApiResponses({
@@ -71,7 +71,7 @@ public interface StatusOrderControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Order ready to go to road not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void ready(@PathVariable String orderCode);
+    void ready(@PathVariable String orderCode);
 
     @ApiOperation(value = "Order on the road") // Customize method description on SwaggerUI
     @ApiResponses({
@@ -83,7 +83,7 @@ public interface StatusOrderControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Order on the road not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void road(@PathVariable String orderCode);
+    void road(@PathVariable String orderCode);
 
     @ApiOperation(value = "Delivery done") // Customize method description on SwaggerUI
     @ApiResponses({
@@ -95,6 +95,6 @@ public interface StatusOrderControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Delivery not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void deliver(@PathVariable String orderCode);
+    void deliver(@PathVariable String orderCode);
 
 }

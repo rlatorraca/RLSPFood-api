@@ -30,7 +30,7 @@ public interface GroupPermissionControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public List<PermissionOutputDto> listar(@ApiParam(value = "groupId", example = "1", required = true)
+    List<PermissionOutputDto> listar(@ApiParam(value = "groupId", example = "1", required = true)
                                                         Long groupId) ;
 
 
@@ -47,7 +47,7 @@ public interface GroupPermissionControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void detach(@ApiParam(value = "groupId", example = "1", required = true)
+    void detach(@ApiParam(value = "groupId", example = "1", required = true)
                                    Long groupId,
                        @ApiParam(value = "permissionId", example = "1", required = true)
                                Long permissionId) ;
@@ -66,7 +66,7 @@ public interface GroupPermissionControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void attach(@ApiParam(value = "groupId", example = "1", required = true)
+    void attach(@ApiParam(value = "groupId", example = "1", required = true)
                                    Long groupId,
                        @ApiParam(value = "permissionId", example = "1", required = true)
                                    Long permissionId) ;

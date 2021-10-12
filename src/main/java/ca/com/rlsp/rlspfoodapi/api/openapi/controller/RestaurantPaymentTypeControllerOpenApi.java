@@ -24,7 +24,7 @@ public interface RestaurantPaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public List<PaymentTypeOutputDto> listAllByRestaurantId(@ApiParam(value = "restaurantId", example = "1", required = true)
+    List<PaymentTypeOutputDto> listAllByRestaurantId(@ApiParam(value = "restaurantId", example = "1", required = true)
                                                                           Long restaurantId);
 
     @ApiOperation("Detach a payment type of a restaurant")  // Customize method description on SwaggerUI
@@ -40,7 +40,7 @@ public interface RestaurantPaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void detachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
+    void detachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
                                           Long paymentTypeId,
                                   @ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId);
@@ -59,7 +59,7 @@ public interface RestaurantPaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void attachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
+    void attachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
                                           Long paymentTypeId,
                                   @ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId);

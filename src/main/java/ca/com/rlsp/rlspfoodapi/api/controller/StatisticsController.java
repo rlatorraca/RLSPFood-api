@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.StatisticsControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.filter.DailySalesFilter;
 import ca.com.rlsp.rlspfoodapi.domain.model.statistics.DailySales;
 import ca.com.rlsp.rlspfoodapi.domain.service.DailySalesQueryService;
@@ -18,8 +19,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/statistics")
-public class StatisticsController {
+@RequestMapping(path = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+public class StatisticsController implements StatisticsControllerOpenApi {
 
     private DailySalesQueryService dailySalesQueryService;
     private DailySalesReportService dailySalesReportService;

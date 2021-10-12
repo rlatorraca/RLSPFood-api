@@ -30,7 +30,7 @@ public interface RestaurantUserManagerControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public List<UserOutputDto> listOne( Long restaurantId);
+    List<UserOutputDto> listOne( Long restaurantId);
 
     @ApiOperation("Detach a user as a restaurant manager")  // Customize method description on SwaggerUI
     @ApiResponses({
@@ -45,7 +45,7 @@ public interface RestaurantUserManagerControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void detachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
+    void detachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId,
                               @ApiParam(value = "userId", example = "1", required = true)
                                           Long userId);
@@ -64,7 +64,7 @@ public interface RestaurantUserManagerControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void attachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
+    void attachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId,
                               @ApiParam(value = "userId", example = "1", required = true)
                                           Long userId);

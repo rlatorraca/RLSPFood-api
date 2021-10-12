@@ -40,11 +40,11 @@ public interface RestaurantControllerOpenApi {
 
     @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
     @JsonView(RestaurantView.Summary.class)
-    public List<RestaurantOutputDto> listAllSummary() ;
+    List<RestaurantOutputDto> listAllSummary() ;
 
     @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
     @JsonView(RestaurantView.SummaryJustName.class)
-    public List<RestaurantOutputDto> listAllJustNames() ;
+    List<RestaurantOutputDto> listAllJustNames() ;
 
     @ApiOperation(value = "Get a Restaurant by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -59,7 +59,7 @@ public interface RestaurantControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public RestaurantOutputDto findBy1Id(@ApiParam(name = "restaurantId", example = "1", required = true)
+    RestaurantOutputDto findBy1Id(@ApiParam(name = "restaurantId", example = "1", required = true)
                                                      Long id) ;
 
 
@@ -71,7 +71,7 @@ public interface RestaurantControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public RestaurantOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of restaurant")
+    RestaurantOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of restaurant")
                                                 RestaurantInputDto restaurantInputDTO) ;
 
 
@@ -85,13 +85,13 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public RestaurantOutputDto updateById( @ApiParam(name="restaurantId" , value= "Enter a valid cuisine ID", example = "1", required =true)
+    RestaurantOutputDto updateById( @ApiParam(name="restaurantId" , value= "Enter a valid cuisine ID", example = "1", required =true)
                                              Long id,
 
                                            @ApiParam(name = "body", value = "A DTO for inputs a resource of restaurant")
                                            RestaurantInputDto restaurantInputDTO) ;
 
-    public RestaurantOutputDto updateByIdPatch( Long id,
+    RestaurantOutputDto updateByIdPatch( Long id,
                                                Map<String, Object> restaurantFields,
                                                HttpServletRequest request);
 
@@ -106,7 +106,7 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void activate(@ApiParam(name="restaurantId" , value= "Enter a valid restaurant ID", example = "1", required =true)
+    void activate(@ApiParam(name="restaurantId" , value= "Enter a valid restaurant ID", example = "1", required =true)
                                  Long id);
 
     @ApiOperation(value = "Multiples activation of a restaurant by ID") // Costomize method description on SwaggerUI
@@ -117,7 +117,7 @@ public interface RestaurantControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void activateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
+    void activateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
                                                           List<Long> restaurantsIds) ;
 
     @ApiOperation(value = "Multiples deactivation of a restaurant by ID") // Costomize method description on SwaggerUI
@@ -128,7 +128,7 @@ public interface RestaurantControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void deactivateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
+    void deactivateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
                                                             List<Long> restaurantsIds);
 
     @ApiOperation(value = "Open a restaurant by ID") // Costomize method description on SwaggerUI
@@ -141,7 +141,7 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void openRestaurant( Long restaurantId) ;
+    void openRestaurant( Long restaurantId) ;
 
     @ApiOperation(value = "Close a restaurant by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -153,7 +153,7 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void closeRestaurant( @ApiParam(value = "Restaurant Id", example = "1", required = true)
+    void closeRestaurant( @ApiParam(value = "Restaurant Id", example = "1", required = true)
                                              Long restaurantId) ;
 
 
@@ -167,6 +167,6 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void inactivate( @ApiParam(value = "Restaurant Id", example = "1", required = true)
+    void inactivate( @ApiParam(value = "Restaurant Id", example = "1", required = true)
                                         Long id);
 }

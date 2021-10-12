@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/clients")
+@RequestMapping(value = "/users")
 public class UserController implements UserControllerOpenApi {
 
     private UserRepository userRepository;
@@ -46,8 +46,8 @@ public class UserController implements UserControllerOpenApi {
         return userModelAssembler.fromControllerToOutputList(allUsers);
     }
 
-    @GetMapping("/{clientId}")
-    public UserOutputDto findById(@PathVariable("clientId") Long id) {
+    @GetMapping("/{userId}")
+    public UserOutputDto findById(@PathVariable("userId") Long id) {
         User user = userRegistrationService.findOrFail(id);
 
         return userModelAssembler.fromControllerToOutput(user);
@@ -67,8 +67,8 @@ public class UserController implements UserControllerOpenApi {
 
     }
 
-    @PutMapping("/{clientId}")
-    public UserOutputDto update(@PathVariable("clientId") Long id,
+    @PutMapping("/{userId}")
+    public UserOutputDto update(@PathVariable("userId") Long id,
                                 @RequestBody @Valid UserInputDto userInputDto) {
 
         try{
@@ -83,9 +83,9 @@ public class UserController implements UserControllerOpenApi {
 
     }
 
-    @PutMapping("/{clientId}/password")
+    @PutMapping("/{userId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void changePassword(@PathVariable(value = "clientId") Long userId, @RequestBody @Valid PasswordInputDto passwordInputDto) {
+    public void changePassword(@PathVariable(value = "userId") Long userId, @RequestBody @Valid PasswordInputDto passwordInputDto) {
         userRegistrationService.changePassword(userId, passwordInputDto.getCurrantPassword(), passwordInputDto.getNewPassword());
     }
 }

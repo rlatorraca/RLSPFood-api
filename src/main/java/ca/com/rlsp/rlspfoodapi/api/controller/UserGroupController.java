@@ -2,17 +2,19 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.GroupModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.GroupOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.UserGroupControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.service.UserRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/users/{userId}/groups")
-public class UserGroupController {
+@RequestMapping(path="/users/{userId}/groups", produces = MediaType.APPLICATION_JSON_VALUE)
+public class UserGroupController implements UserGroupControllerOpenApi {
 
     private UserRegistrationService userRegistrationService;
     private GroupModelAssembler groupModelAssembler;

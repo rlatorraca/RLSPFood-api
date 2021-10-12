@@ -26,7 +26,7 @@ public interface GroupControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Group not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public GroupOutputDto findById(@ApiParam(value = "Group id", example = "1", required = true)
+    GroupOutputDto findById(@ApiParam(value = "Group id", example = "1", required = true)
                                                Long id);
 
     @ApiOperation(value = "Insert a group") // Costomize method description on SwaggerUI
@@ -34,7 +34,7 @@ public interface GroupControllerOpenApi {
             @ApiResponse(responseCode = "201", description = "Group created",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public GroupOutputDto save( @ApiParam(name = "body", value = "A DTO for inputs a resource of group" , required =true)
+    GroupOutputDto save( @ApiParam(name = "body", value = "A DTO for inputs a resource of group" , required =true)
                                             GroupInputDto groupInput);
 
     @ApiOperation(value = "Update data of a group by ID") // Costomize method description on SwaggerUI
@@ -44,7 +44,7 @@ public interface GroupControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Group not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public GroupOutputDto update(@ApiParam(value = "Group Id", example = "1", required = true)
+    GroupOutputDto update(@ApiParam(value = "Group Id", example = "1", required = true)
             Long id,
             @ApiParam(name = "body", value = "A DTO for inputs a resource of group" , required =true)
             GroupInputDto groupInputDto);
@@ -56,6 +56,6 @@ public interface GroupControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Group not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public void remove(@ApiParam(name = "body", value = "A DTO for inputs a resource of group" , required =true)
+    void remove(@ApiParam(name = "body", value = "A DTO for inputs a resource of group" , required =true)
                                    Long id);
 }

@@ -69,7 +69,7 @@ public interface OrderControllerOpenApi {
                     )
             )
     })
-    public List<OrderOutputDto> listAll();
+    List<OrderOutputDto> listAll();
 
 
     @ApiImplicitParams(value = {
@@ -93,7 +93,7 @@ public interface OrderControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public OrderOutputDto find(@ApiParam(name = "orderCode", value = "Enter a valid order ID", example = "1", required = true)
+    OrderOutputDto find(@ApiParam(name = "orderCode", value = "Enter a valid order ID", example = "1", required = true)
                                            String orderCode);
 
 
@@ -105,7 +105,7 @@ public interface OrderControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public OrderOutputDto add(@ApiParam(name = "body", value = "A DTO for inputs a resource of order")
+    OrderOutputDto add(@ApiParam(name = "body", value = "A DTO for inputs a resource of order")
                                           OrderInputDto orderInputDto);
 
 

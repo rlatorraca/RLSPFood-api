@@ -32,7 +32,7 @@ public interface ProvinceControllerOpenApi {
                     )
             )
     })
-    public List<ProvinceOutputDto> listAllJson();
+    List<ProvinceOutputDto> listAllJson();
 
     @ApiOperation(value = "List all provinces in XML") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -43,7 +43,7 @@ public interface ProvinceControllerOpenApi {
                     )
             )
     })
-    public List<Province> listAllXml();
+    List<Province> listAllXml();
 
     @ApiOperation(value = "Get a province by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -58,7 +58,7 @@ public interface ProvinceControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public ProvinceOutputDto findById(@ApiParam(value = "Province Id", example = "1", required = true)
+    ProvinceOutputDto findById(@ApiParam(value = "Province Id", example = "1", required = true)
                                                   Long provinceId);
 
     @ApiOperation(value = "Insert a province") // Costomize method description on SwaggerUI
@@ -69,7 +69,7 @@ public interface ProvinceControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public ProvinceOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of province")
+    ProvinceOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of province")
                                               ProvinceInputDto provinceInputDTO);
 
     @ApiOperation(value = "Update data of a province by ID") // Customize method description on SwaggerUI
@@ -82,7 +82,7 @@ public interface ProvinceControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Province not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public ProvinceOutputDto updateById(@ApiParam(value = "provinceId", example = "1", required = true)
+    ProvinceOutputDto updateById(@ApiParam(value = "provinceId", example = "1", required = true)
                                                 Long provinceId,
                                         @ApiParam(name = "body", value = "A DTO for inputs a resource of province")
                                                 ProvinceInputDto provinceInputDTO);
@@ -100,7 +100,7 @@ public interface ProvinceControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void remover(@ApiParam(value = "provinceId", example = "1", required = true)
+    void remover(@ApiParam(value = "provinceId", example = "1", required = true)
                                     Long provinceId);
 
 }
