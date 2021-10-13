@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.service;
 
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.exception.CityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityIsForeignKeyException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;

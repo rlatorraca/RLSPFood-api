@@ -5,22 +5,31 @@ import ca.com.rlsp.rlspfoodapi.api.openapi.controller.CityControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.uri.UriResourceHelper;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.servlet.support.RequestContext;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "/cities", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(path = "/cities", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CityController implements CityControllerOpenApi {
 
     private CityRegistrationService cityRegistrationService;
@@ -46,7 +55,7 @@ public class CityController implements CityControllerOpenApi {
     }
 
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping
     //public List<City> listAllJson(){
     public List<CityOutputDto> listAllJson() {
         List<City> allCities = cityRepository.findAll();
@@ -99,7 +108,7 @@ public class CityController implements CityControllerOpenApi {
     }
     */
 
-    @PostMapping(MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public City save(@RequestBody @Valid City city) {
     public CityOutputDto save(@RequestBody @Valid CityInputDto cityInputDTO) {
@@ -107,6 +116,12 @@ public class CityController implements CityControllerOpenApi {
             City city = cityInputDisassembler.fromInputToController(cityInputDTO);
 
             city = cityRegistrationService.save(city);
+
+            CityOutputDto cityModel = cityModelAssembler.fromControllerToOutput(city);
+
+            /* Ajuda a criar uma URI usando as informacoes da requisicao atual */
+            /* Adiciona a URI no cabecalho LOCATION da resposta*/
+            UriResourceHelper.addUriInResponseHeader(cityModel.getId());
 
             return cityModelAssembler.fromControllerToOutput(city);
             //return cityRegistrationService.save(city);
