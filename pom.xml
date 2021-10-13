@@ -184,6 +184,15 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>${springfox-version}</version>
+            <!-- Fix conflict between swagger 2 and SpringBoot 2.2 or > -->
+            <!--
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.plugin</groupId>
+                    <artifactId>spring-plugin-core</artifactId>
+                </exclusion>
+            </exclusions>
+            -->
         </dependency>
 
 

@@ -1,10 +1,8 @@
-package ca.com.rlsp.rlspfoodapi.core.openapi;
+package ca.com.rlsp.rlspfoodapi.core.springfox;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.openapi.model.CuisineModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
@@ -26,7 +24,6 @@ import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.schema.ScalarType;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -36,7 +33,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URLStreamHandler;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
