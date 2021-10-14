@@ -1,14 +1,18 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.springframework.hateoas.RepresentationModel;
+/*
+    RepresentationModel => from Spring HATEAOS
+ */
 @ApiModel(value = "City", description = "Output to City representation")
 @Getter
 @Setter
-public class CityOutputDto {
+public class CityOutputDto  extends RepresentationModel<CityOutputDto> {
 
     @ApiModelProperty(example = "1")
     private Long id;

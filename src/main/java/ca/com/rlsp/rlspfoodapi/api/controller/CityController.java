@@ -12,6 +12,7 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -75,7 +76,33 @@ public class CityController implements CityControllerOpenApi {
 
         //  return cityRegistrationService.findOrFail(cityId);
 
-        return cityModelAssembler.fromControllerToOutput(cidade);
+        CityOutputDto cityOutputDto  = cityModelAssembler.fromControllerToOutput(cidade);
+
+        /* Build all links using Spring HATEAOS*/
+
+        // cityOutputDto.add(Link.of("http://localhost:8080/cidades/{cityId}", IanaLinkRelations.SELF));
+        cityOutputDto.add(
+                WebMvcLinkBuilder
+                        .linkTo(CityController.class)
+                        .slash(cityOutputDto.getId())
+                        .withSelfRel()
+        );
+
+        // cityOutputDto.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+        cityOutputDto.add(
+                WebMvcLinkBuilder
+                        .linkTo(CityController.class)
+                        .withRel("cities")
+        );
+
+        // cidadeModel.getEstado().add(Link.of("http://localhost:8080/provinces/{provinceId}"));
+        cityOutputDto.getProvince().add(
+                WebMvcLinkBuilder
+                        .linkTo(ProvinceController.class)
+                        .slash(cityOutputDto.getProvince().getId())
+                        .withSelfRel()
+        );
+        return cityOutputDto;
     }
 
     /*

@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.model.dto.input;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
