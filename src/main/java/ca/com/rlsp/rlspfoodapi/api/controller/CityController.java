@@ -54,33 +54,14 @@ public class CityController implements CityControllerOpenApi {
     public CollectionModel<CityOutputDto> listAllJson() {
         List<City> allCities = cityRepository.findAll();
 
-        List<CityOutputDto> citiesList = cityModelAssembler.fromControllerToOutputList(allCities);
+        //List<CityOutputDto> citiesList = cityModelAssembler.fromControllerToOutputList(allCities);
 
-        // adiciona os links para as URI necessarias
-        citiesList.forEach( cityOutputDto -> {
-            cityOutputDto.add(
-                    linkTo(methodOn(CityController.class)
-                            .findById(cityOutputDto.getId()))
-                            .withSelfRel()
-            );
-            cityOutputDto.add(
-                    linkTo(methodOn(CityController.class)
-                            .findById(cityOutputDto.getId()))
-                            .withSelfRel()
-            );
+        //CollectionModel<CityOutputDto> citiesColletionModel =  CollectionModel.of(citiesList);
 
-            cityOutputDto.add(
-                    linkTo(methodOn(CityController.class)
-                            .listAllJson())
-                            .withRel("cities")
-            );
-        });
+        //citiesColletionModel.add(linkTo(CityController.class).withSelfRel());
 
-        CollectionModel<CityOutputDto> citiesColletionModel =  CollectionModel.of(citiesList);
-
-        citiesColletionModel.add(linkTo(CityController.class).withSelfRel());
-
-        return CollectionModel.of(citiesList);
+        //return CollectionModel.of(citiesList);
+        return  cityModelAssembler.toCollectionModel(allCities);
 
     }
 
@@ -107,66 +88,6 @@ public class CityController implements CityControllerOpenApi {
         //  return cityRegistrationService.findOrFail(cityId);
 
         CityOutputDto cityOutputDto  = cityModelAssembler.fromControllerToOutput(cidade);
-
-        /* Build all links using Spring HATEAOS*/
-
-        // cityOutputDto.add(Link.of("http://localhost:8080/cidades/{cityId}", IanaLinkRelations.SELF));
-        /*
-        cityOutputDto.add(
-                WebMvcLinkBuilder
-                        .linkTo(CityController.class)
-                        .slash(cityOutputDto.getId())
-                        .withSelfRel()
-        );
-        */
-         //\//\//\//\//\//\//\//\//\//\//\//\//\
-
-        /* Gera o link dinamicamente*/
-        cityOutputDto.add(
-                 linkTo(methodOn(CityController.class)
-                            .findById(cityOutputDto.getId()))
-
-                    .withSelfRel()
-        );
-
-        // cityOutputDto.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
-        /*
-        cityOutputDto.add(
-                WebMvcLinkBuilder
-                        .linkTo(CityController.class)
-                        .withRel("cities")
-        );
-         */
-        //\//\//\//\//\//\//\//\//\//\//\//\//\
-
-        /* Gera o link dinamicamente*/
-        cityOutputDto.add(
-                linkTo(methodOn(CityController.class)
-                                .listAllJson())
-                        .withRel("cities")
-        );
-
-
-
-        // cidadeModel.getEstado().add(Link.of("http://localhost:8080/provinces/{provinceId}"));
-       /*
-        cityOutputDto.getProvince().add(
-                WebMvcLinkBuilder
-                        .linkTo(ProvinceController.class)
-                        .slash(cityOutputDto.getProvince().getId())
-                        .withSelfRel()
-        );
-        */
-
-        //\//\//\//\//\//\//\//\//\//\//\//\//\
-
-        /* Gera o link dinamicamente*/
-        cityOutputDto.getProvince().add(
-                linkTo(methodOn(ProvinceController.class)
-                        .findById(cityOutputDto.getProvince().getId()))
-                        .withSelfRel()
-        );
-
 
         return cityOutputDto;
     }
