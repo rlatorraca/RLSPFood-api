@@ -81,27 +81,66 @@ public class CityController implements CityControllerOpenApi {
         /* Build all links using Spring HATEAOS*/
 
         // cityOutputDto.add(Link.of("http://localhost:8080/cidades/{cityId}", IanaLinkRelations.SELF));
+        /*
         cityOutputDto.add(
                 WebMvcLinkBuilder
                         .linkTo(CityController.class)
                         .slash(cityOutputDto.getId())
                         .withSelfRel()
         );
+        */
+         //\//\//\//\//\//\//\//\//\//\//\//\//\
+
+        /* Gera o link dinamicamente*/
+        cityOutputDto.add(
+                WebMvcLinkBuilder
+                        .linkTo(WebMvcLinkBuilder.methodOn(CityController.class)
+                                .findById(cityOutputDto.getId()))
+
+                        .withSelfRel()
+        );
 
         // cityOutputDto.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+        /*
         cityOutputDto.add(
                 WebMvcLinkBuilder
                         .linkTo(CityController.class)
                         .withRel("cities")
         );
+         */
+        //\//\//\//\//\//\//\//\//\//\//\//\//\
+
+        /* Gera o link dinamicamente*/
+        cityOutputDto.add(
+                WebMvcLinkBuilder
+                        .linkTo(WebMvcLinkBuilder.methodOn(CityController.class)
+                                .listAllJson())
+                        .withRel("cities")
+        );
+
+
 
         // cidadeModel.getEstado().add(Link.of("http://localhost:8080/provinces/{provinceId}"));
+       /*
         cityOutputDto.getProvince().add(
                 WebMvcLinkBuilder
                         .linkTo(ProvinceController.class)
                         .slash(cityOutputDto.getProvince().getId())
                         .withSelfRel()
         );
+        */
+
+        //\//\//\//\//\//\//\//\//\//\//\//\//\
+
+        /* Gera o link dinamicamente*/
+        cityOutputDto.getProvince().add(
+                WebMvcLinkBuilder
+                        .linkTo(WebMvcLinkBuilder.methodOn(ProvinceController.class)
+                        .findById(cityOutputDto.getProvince().getId()))
+                        .withSelfRel()
+        );
+
+
         return cityOutputDto;
     }
 
