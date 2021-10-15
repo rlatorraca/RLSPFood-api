@@ -1,10 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.CityModelAssembler;
-import ca.com.rlsp.rlspfoodapi.api.openapi.controller.CityControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.CityInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.controller.CityControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.uri.UriResourceHelper;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
@@ -12,20 +12,14 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.CollectionModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.servlet.support.RequestContext;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 
@@ -57,6 +51,41 @@ public class CityController implements CityControllerOpenApi {
 
 
     @GetMapping
+    public CollectionModel<CityOutputDto> listAllJson() {
+        List<City> allCities = cityRepository.findAll();
+
+        List<CityOutputDto> citiesList = cityModelAssembler.fromControllerToOutputList(allCities);
+
+        // adiciona os links para as URI necessarias
+        citiesList.forEach( cityOutputDto -> {
+            cityOutputDto.add(
+                    linkTo(methodOn(CityController.class)
+                            .findById(cityOutputDto.getId()))
+                            .withSelfRel()
+            );
+            cityOutputDto.add(
+                    linkTo(methodOn(CityController.class)
+                            .findById(cityOutputDto.getId()))
+                            .withSelfRel()
+            );
+
+            cityOutputDto.add(
+                    linkTo(methodOn(CityController.class)
+                            .listAllJson())
+                            .withRel("cities")
+            );
+        });
+
+        CollectionModel<CityOutputDto> citiesColletionModel =  CollectionModel.of(citiesList);
+
+        citiesColletionModel.add(linkTo(CityController.class).withSelfRel());
+
+        return CollectionModel.of(citiesList);
+
+    }
+
+    /* => implementacao antes do Spring Hateaos (sem CollectionModel<>)
+    @GetMapping
     //public List<City> listAllJson(){
     public List<CityOutputDto> listAllJson() {
         List<City> allCities = cityRepository.findAll();
@@ -65,6 +94,7 @@ public class CityController implements CityControllerOpenApi {
         return cityModelAssembler.fromControllerToOutputList(allCities);
         //return cityRepository.findAll();
     }
+     */
 
 
 
@@ -93,11 +123,10 @@ public class CityController implements CityControllerOpenApi {
 
         /* Gera o link dinamicamente*/
         cityOutputDto.add(
-                WebMvcLinkBuilder
-                        .linkTo(WebMvcLinkBuilder.methodOn(CityController.class)
-                                .findById(cityOutputDto.getId()))
+                 linkTo(methodOn(CityController.class)
+                            .findById(cityOutputDto.getId()))
 
-                        .withSelfRel()
+                    .withSelfRel()
         );
 
         // cityOutputDto.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
@@ -112,8 +141,7 @@ public class CityController implements CityControllerOpenApi {
 
         /* Gera o link dinamicamente*/
         cityOutputDto.add(
-                WebMvcLinkBuilder
-                        .linkTo(WebMvcLinkBuilder.methodOn(CityController.class)
+                linkTo(methodOn(CityController.class)
                                 .listAllJson())
                         .withRel("cities")
         );
@@ -134,8 +162,7 @@ public class CityController implements CityControllerOpenApi {
 
         /* Gera o link dinamicamente*/
         cityOutputDto.getProvince().add(
-                WebMvcLinkBuilder
-                        .linkTo(WebMvcLinkBuilder.methodOn(ProvinceController.class)
+                linkTo(methodOn(ProvinceController.class)
                         .findById(cityOutputDto.getProvince().getId()))
                         .withSelfRel()
         );

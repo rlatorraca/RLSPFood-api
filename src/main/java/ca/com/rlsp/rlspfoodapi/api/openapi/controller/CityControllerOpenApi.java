@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public interface CityControllerOpenApi {
                     )
             )
     })
-    public List<CityOutputDto> listAllJson();
+    public CollectionModel<CityOutputDto> listAllJson();
 
 
 
