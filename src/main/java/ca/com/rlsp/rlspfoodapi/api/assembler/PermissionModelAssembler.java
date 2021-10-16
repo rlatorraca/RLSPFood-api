@@ -10,13 +10,14 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Permission;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@Component
 public class PermissionModelAssembler {
 
     @Autowired

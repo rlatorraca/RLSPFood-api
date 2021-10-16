@@ -1,20 +1,28 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
+import ca.com.rlsp.rlspfoodapi.api.controller.ProvinceController;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-public class ProvinceModelAssembler {
+@Component
+public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<Province, ProvinceOutputDto> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    public ProvinceModelAssembler() {
+        super(ProvinceController.class, ProvinceOutputDto.class);
+    }
 
 
     /*
@@ -46,5 +54,10 @@ public class ProvinceModelAssembler {
         return provinces.stream()
                 .map(province -> fromControllerToOutput(province))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProvinceOutputDto toModel(Province province) {
+        return null;
     }
 }
