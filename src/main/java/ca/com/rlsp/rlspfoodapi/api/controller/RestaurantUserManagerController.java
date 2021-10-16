@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/restaurants/{restaurantId}/managers", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,7 +30,11 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
     public CollectionModel<UserOutputDto> listOne(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(restaurantId);
 
-        return userModelAssembler.toCollectionModel(restaurant.getManagers());
+        return userModelAssembler.toCollectionModel(restaurant.getManagers())
+                .removeLinks()
+                .add(linkTo(methodOn(RestaurantUserManagerController.class)
+                        .listOne(restaurantId))
+                .withSelfRel());
     }
 
     /*
