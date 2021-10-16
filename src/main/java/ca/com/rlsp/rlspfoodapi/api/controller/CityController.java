@@ -13,8 +13,6 @@ import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
 import org.springframework.hateoas.CollectionModel;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -54,15 +52,7 @@ public class CityController implements CityControllerOpenApi {
     public CollectionModel<CityOutputDto> listAllJson() {
         List<City> allCities = cityRepository.findAll();
 
-        //List<CityOutputDto> citiesList = cityModelAssembler.fromControllerToOutputList(allCities);
-
-        //CollectionModel<CityOutputDto> citiesColletionModel =  CollectionModel.of(citiesList);
-
-        //citiesColletionModel.add(linkTo(CityController.class).withSelfRel());
-
-        //return CollectionModel.of(citiesList);
         return  cityModelAssembler.toCollectionModel(allCities);
-
     }
 
     /* => implementacao antes do Spring Hateaos (sem CollectionModel<>)
@@ -204,5 +194,40 @@ public class CityController implements CityControllerOpenApi {
     }
 
 
+    /*
+    @GetMapping
+    public CollectionModel<CityOutputDto> listAllJson() {
+        List<City> allCities = cityRepository.findAll();
+
+        List<CityOutputDto> citiesList = cityModelAssembler.fromControllerToOutputList(allCities);
+
+        // adiciona os links para as URI necessarias
+        citiesList.forEach( cityOutputDto -> {
+            cityOutputDto.add(
+                    linkTo(methodOn(CityController.class)
+                            .findById(cityOutputDto.getId()))
+                            .withSelfRel()
+            );
+            cityOutputDto.add(
+                    linkTo(methodOn(CityController.class)
+                            .findById(cityOutputDto.getId()))
+                            .withSelfRel()
+            );
+
+            cityOutputDto.add(
+                    linkTo(methodOn(CityController.class)
+                            .listAllJson())
+                            .withRel("cities")
+            );
+        });
+
+        CollectionModel<CityOutputDto> citiesColletionModel =  CollectionModel.of(citiesList);
+
+        citiesColletionModel.add(linkTo(CityController.class).withSelfRel());
+
+        return CollectionModel.of(citiesList);
+
+    }
+     */
 
 }

@@ -13,6 +13,7 @@ import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.repository.UserRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.UserRegistrationService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,11 +41,20 @@ public class UserController implements UserControllerOpenApi {
     }
 
     @GetMapping
+    public CollectionModel<UserOutputDto> listaAll() {
+        List<User> allUsers = userRepository.findAll();
+
+        return userModelAssembler.toCollectionModel(allUsers);
+    }
+
+    /*
+    @GetMapping
     public List<UserOutputDto> listaAll() {
         List<User> allUsers = userRepository.findAll();
 
         return userModelAssembler.fromControllerToOutputList(allUsers);
     }
+     */
 
     @GetMapping("/{userId}")
     public UserOutputDto findById(@PathVariable("userId") Long id) {

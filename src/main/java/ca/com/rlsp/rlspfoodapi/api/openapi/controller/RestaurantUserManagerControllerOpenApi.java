@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +31,7 @@ public interface RestaurantUserManagerControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    List<UserOutputDto> listOne( Long restaurantId);
+    CollectionModel<UserOutputDto> listOne(Long restaurantId);
 
     @ApiOperation("Detach a user as a restaurant manager")  // Customize method description on SwaggerUI
     @ApiResponses({

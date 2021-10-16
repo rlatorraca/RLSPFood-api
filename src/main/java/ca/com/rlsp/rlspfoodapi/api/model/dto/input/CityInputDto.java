@@ -20,7 +20,6 @@ public class CityInputDto {
     @NotBlank
     private String name;
 
-
     @Valid
     @NotNull
     private ProvinceInputDto province;

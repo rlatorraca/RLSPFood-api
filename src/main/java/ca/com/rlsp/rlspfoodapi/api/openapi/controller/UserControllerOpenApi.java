@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public interface UserControllerOpenApi {
                     )
             )
     })
-    List<UserOutputDto> listaAll();
+    CollectionModel<UserOutputDto> listaAll();
 
 
     @ApiOperation(value = "Get a user by ID") // Costomize method description on SwaggerUI

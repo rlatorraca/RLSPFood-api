@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantUserManagerControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +26,21 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
     }
 
     @GetMapping
+    public CollectionModel<UserOutputDto> listOne(@PathVariable Long restaurantId) {
+        Restaurant restaurant = restaurantRegistrationService.findOrFail(restaurantId);
+
+        return userModelAssembler.toCollectionModel(restaurant.getManagers());
+    }
+
+    /*
+    @GetMapping
     public List<UserOutputDto> listOne(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(restaurantId);
 
         return userModelAssembler.fromControllerToOutputList(restaurant.getManagers());
     }
+    */
+
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
