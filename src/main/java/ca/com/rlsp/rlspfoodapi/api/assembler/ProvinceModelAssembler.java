@@ -1,11 +1,14 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
+import ca.com.rlsp.rlspfoodapi.api.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.controller.ProvinceController;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<Province, ProvinceOutputDto> {
@@ -58,6 +63,22 @@ public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<
 
     @Override
     public ProvinceOutputDto toModel(Province province) {
-        return null;
+        /* Usa o RepresentationModelAssemblerSupport<> que ja implementa _self link*/
+        ProvinceOutputDto provinceOutputDto = createModelWithId(province.getId(), province);
+        modelMapper.map(province, provinceOutputDto);
+
+        provinceOutputDto.add(
+                linkTo(ProvinceController.class)
+                        .withRel("provinces")
+        );
+
+
+        return provinceOutputDto;
+    }
+
+    @Override
+    public CollectionModel<ProvinceOutputDto> toCollectionModel(Iterable<? extends Province> provinces) {
+        return super.toCollectionModel(provinces)
+                .add(linkTo(ProvinceController.class).withSelfRel());
     }
 }

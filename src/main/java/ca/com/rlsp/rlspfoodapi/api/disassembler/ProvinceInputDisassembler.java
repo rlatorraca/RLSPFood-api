@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.disassembler;
 
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
+import ca.com.rlsp.rlspfoodapi.domain.model.TaxProvince;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ public class ProvinceInputDisassembler {
     }
     
     public void fromDTOtoProvince(ProvinceInputDto provinceInputDTO, Province province) {
+        province.setTax(new TaxProvince());
+
         modelMapper.map(provinceInputDTO, province);
     }   
 } 

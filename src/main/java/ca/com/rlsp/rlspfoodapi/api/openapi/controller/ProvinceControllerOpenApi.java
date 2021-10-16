@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,8 @@ public interface ProvinceControllerOpenApi {
                     )
             )
     })
-    List<ProvinceOutputDto> listAllJson();
+    CollectionModel<ProvinceOutputDto> listAllJson();
+    //List<ProvinceOutputDto> listAllJson();
 
     @ApiOperation(value = "List all provinces in XML") // Costomize method description on SwaggerUI
     @ApiResponses({

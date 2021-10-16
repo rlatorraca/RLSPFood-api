@@ -3,12 +3,14 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 import ca.com.rlsp.rlspfoodapi.api.assembler.ProvinceModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.ProvinceInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.input.TaxProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.ProvinceControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProvinceRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,16 @@ public class ProvinceController implements ProvinceControllerOpenApi {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<Province> listAllJson(){
+    public CollectionModel<ProvinceOutputDto> listAllJson(){
+        //return provinceRegistrationService.listAll();
+        List<Province> allProvinces = provinceRegistrationService.listAll();
+
+        return provinceModelAssembler.toCollectionModel(allProvinces);
+    }
+
+    /*
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    //public List<Province> listAllJson(){
     public List<ProvinceOutputDto> listAllJson(){
 
         //return provinceRegistrationService.listAll();
@@ -45,7 +57,7 @@ public class ProvinceController implements ProvinceControllerOpenApi {
 
         return provinceModelAssembler.fromControllerToOutputList(allProvinces);
     }
-
+    */
     @GetMapping(produces = { MediaType.APPLICATION_XML_VALUE})
     public List<Province> listAllXml(){
         return provinceRegistrationService.listAll();
@@ -69,7 +81,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
         //return provinceRegistrationService.findOrFail(id);
         Province province = provinceRegistrationService.findOrFail(id);
 
-        return provinceModelAssembler.fromControllerToOutput(province);
+        //return provinceModelAssembler.fromControllerToOutput(province);
+        return provinceModelAssembler.toModel(province);
 
     }
 
@@ -81,7 +94,9 @@ public class ProvinceController implements ProvinceControllerOpenApi {
         //return provinceRegistrationService.save(province);
         Province province = provinceInputDisassembler.fromInputToController(provinceInputDTO);
         province = provinceRepository.save(province);
-        return provinceModelAssembler.fromControllerToOutput(province);
+
+        //return provinceModelAssembler.fromControllerToOutput(province);
+        return provinceModelAssembler.toModel(province);
     }
 
 
@@ -113,7 +128,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
         //BeanUtils.copyProperties(province, currentProvince, "id");
         //return provinceRegistrationService.save(currentProvince);
 
-        return provinceModelAssembler.fromControllerToOutput(currentProvince);
+        //return provinceModelAssembler.fromControllerToOutput(currentProvince);
+        return provinceModelAssembler.toModel(currentProvince);
     }
 
     /*

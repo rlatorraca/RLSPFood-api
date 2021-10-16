@@ -29,6 +29,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
         User user = userRegistrationService.findOrFail(userId);
 
         return groupModelAssembler.fromControllerToOutputList(user.getGroups());
+        //return groupModelAssembler.fromControllerToOutputList(user.getGroups());
     }
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

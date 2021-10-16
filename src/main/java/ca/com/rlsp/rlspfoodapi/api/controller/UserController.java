@@ -60,7 +60,8 @@ public class UserController implements UserControllerOpenApi {
     public UserOutputDto findById(@PathVariable("userId") Long id) {
         User user = userRegistrationService.findOrFail(id);
 
-        return userModelAssembler.fromControllerToOutput(user);
+        return userModelAssembler.toModel(user);
+        //return userModelAssembler.fromControllerToOutput(user);
     }
 
     @PostMapping
@@ -70,7 +71,8 @@ public class UserController implements UserControllerOpenApi {
             User user = userInputDisassembler.fromInputToController(clientAndPasswordInputDto);
             user = userRegistrationService.save(user);
 
-            return userModelAssembler.fromControllerToOutput(user);
+            return userModelAssembler.toModel(user);
+            //return userModelAssembler.fromControllerToOutput(user);
         } catch (EntityNotFoundException e){
             throw new GenericBusinessException(e.getReason(), e);
         }
@@ -85,7 +87,9 @@ public class UserController implements UserControllerOpenApi {
             User currentUser = userRegistrationService.findOrFail(id);
             userInputDisassembler.fromDTOtoClient(userInputDto, currentUser);
             currentUser = userRegistrationService.save(currentUser);
-            return userModelAssembler.fromControllerToOutput(currentUser);
+
+            return userModelAssembler.toModel(currentUser);
+            //return userModelAssembler.fromControllerToOutput(currentUser);
         } catch (ProvinceNotFoundException e ) {
             throw new GenericBusinessException(e.getReason(), e);
         }

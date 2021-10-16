@@ -126,7 +126,8 @@ public class CityController implements CityControllerOpenApi {
             /* Adiciona a URI no cabecalho LOCATION da resposta*/
             UriResourceHelper.addUriInResponseHeader(cityModel.getId());
 
-            return cityModelAssembler.fromControllerToOutput(city);
+            return cityModelAssembler.toModel(city);
+            //return cityModelAssembler.fromControllerToOutput(city);
             //return cityRegistrationService.save(city);
         } catch (EntityNotFoundException e ){
             throw new GenericBusinessException(e.getReason(), e);
@@ -162,7 +163,8 @@ public class CityController implements CityControllerOpenApi {
 
             currentCity = cityRegistrationService.save(currentCity);
 
-            return cityModelAssembler.fromControllerToOutput(currentCity);
+            return cityModelAssembler.toModel(currentCity);
+            //return cityModelAssembler.fromControllerToOutput(currentCity);
             //BeanUtils.copyProperties(city, currentCity, "id");
             //return cityRegistrationService.save(currentCity);
         } catch (ProvinceNotFoundException e ){
