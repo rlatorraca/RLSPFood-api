@@ -7,6 +7,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -57,5 +58,13 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
         );
 
         return userOutputDto;
+    }
+
+    @Override
+    public CollectionModel<UserOutputDto> toCollectionModel(Iterable<? extends User> users) {
+        return super.toCollectionModel(users)
+                .add(linkTo(CityController.class)
+                        .withSelfRel()
+                );
     }
 }
