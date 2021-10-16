@@ -8,6 +8,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Controller;
@@ -40,16 +41,18 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 
     @Override // override a classe de RepresentationModelAssemblerSupport
     public CityOutputDto toModel(City city) {
-        CityOutputDto cityOutputDto = modelMapper.map(city, CityOutputDto.class);
+        /* Usa o RepresentationModelAssemblerSupport<> que ja implementa _self link*/
+        CityOutputDto cityOutputDto = createModelWithId(city.getId(), city);
+        modelMapper.map(city, cityOutputDto);
 
-        // Adiciona os links no recurso automaticamente
+        // Adiciona os links no recurso automaticamente (Standard)
 
-        cityOutputDto.add(
-                linkTo(methodOn(CityController.class)
-                        .findById(cityOutputDto.getId()))
-
-                        .withSelfRel()
-        );
+//        CityOutputDto cityOutputDto = modelMapper.map(city, CityOutputDto.class);
+//        cityOutputDto.add(
+//                linkTo(methodOn(CityController.class)
+//                        .findById(cityOutputDto.getId()))
+//                        .withSelfRel()
+//        );
 
         cityOutputDto.add(
                 linkTo(methodOn(CityController.class)
@@ -66,10 +69,17 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
         return cityOutputDto;
     }
 
+    @Override
+    public CollectionModel<CityOutputDto> toCollectionModel(Iterable<? extends City> entities) {
+        return super.toCollectionModel(entities)
+                .add(linkTo(CityController.class)
+                        .withSelfRel()
+                );
+    }
 
     /*
-        Convert MODEL -> DTO
-    */
+            Convert MODEL -> DTO
+        */
     public CityInputDto fromControllerToInput(City city) {
         CityInputDto cityInputDTO = new CityInputDto();
 
@@ -87,10 +97,12 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 
     /*
         Convert MODEL -> DTO (list GET)
+
+        ** ja existe um CollectionModel dentro de RepresentationModelAssemblerSupport
     */
-    public List<CityOutputDto> fromControllerToOutputList(List<City> cities){
-        return cities.stream()
-                .map(city -> fromControllerToOutput(city))
-                .collect(Collectors.toList());
-    }
+//    public List<CityOutputDto> fromControllerToOutputList(List<City> cities){
+//        return cities.stream()
+//                .map(city -> fromControllerToOutput(city))
+//                .collect(Collectors.toList());
+//    }
 }

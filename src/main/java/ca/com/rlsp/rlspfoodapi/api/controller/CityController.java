@@ -84,7 +84,6 @@ public class CityController implements CityControllerOpenApi {
     public CityOutputDto findById( @PathVariable Long cityId) {
         City cidade = cityRegistrationService.findOrFail(cityId);
 
-
         //  return cityRegistrationService.findOrFail(cityId);
 
         CityOutputDto cityOutputDto  = cityModelAssembler.fromControllerToOutput(cidade);
