@@ -2,7 +2,10 @@ package ca.com.rlsp.rlspfoodapi;
 
 import ca.com.rlsp.rlspfoodapi.infra.repository.customized.CustomJpaRepositoryImpl;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.TimeZone;

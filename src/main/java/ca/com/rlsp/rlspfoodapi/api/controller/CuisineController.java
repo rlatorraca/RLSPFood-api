@@ -9,10 +9,13 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,17 +32,23 @@ public class CuisineController implements CuisineControllerOpenApi {
     private CuisineInputDisassembler cuisineInputDisassembler;
     private CuisineModelAssembler cuisineModelAssembler;
 
+    // Para fazer a REPRESENTATIOn da PAGINACAO
+    private PagedResourcesAssembler<Cuisine> pagedResourcesAssembler;
+
     public CuisineController(CuisineRepository cuisineRepository,
                              CuisineRegistrationService cuisineRegistrationService,
                              CuisineInputDisassembler cuisineInputDisassembler,
-                             CuisineModelAssembler cuisineModelAssembler) {
+                             CuisineModelAssembler cuisineModelAssembler,
+                             PagedResourcesAssembler<Cuisine> pagedResourcesAssembler) {
 
         this.cuisineRepository = cuisineRepository;
         this.cuisineRegistrationService = cuisineRegistrationService;
         this.cuisineInputDisassembler = cuisineInputDisassembler;
         this.cuisineModelAssembler = cuisineModelAssembler;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
+    @Override
     @GetMapping()
     //public List<Cuisine> listAll(){
     public List<CuisineOutputDto> listAll(){
@@ -52,6 +61,7 @@ public class CuisineController implements CuisineControllerOpenApi {
         Usando PAGEABLE
      */
 
+    @Override
     @GetMapping(path = "/pageable-list")
     //public List<Cuisine> listAll(){
     public List<CuisineOutputDto> listAllPageableList(Pageable pageable){
@@ -60,16 +70,25 @@ public class CuisineController implements CuisineControllerOpenApi {
         return cuisineModelAssembler.fromControllerToOutputList(allCuisinesPageable.getContent());
     }
 
+
     @GetMapping(path = "/pageable")
     //public List<Cuisine> listAll(){
-    public Page<CuisineOutputDto> listAllPageable(@PageableDefault(size = 4) Pageable pageable){
+    //public Page<CuisineOutputDto> listAllPageable(@PageableDefault(size = 4) Pageable pageable){
+    public PagedModel<CuisineOutputDto> listAllPageable(@PageableDefault(size = 4) Pageable pageable){
         //return cuisineRegistrationService.listAll();
-        Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
-        List<CuisineOutputDto> cuisineOutputDtos = cuisineModelAssembler.fromControllerToOutputList(allCuisinesPageable.getContent());
 
-        // Copia a lista de CUISINE para dentro de uma PAGE
-        Page<CuisineOutputDto> cuisineOutputDtosPages = new PageImpl<CuisineOutputDto>(cuisineOutputDtos, pageable, allCuisinesPageable.getTotalPages());
-        return cuisineOutputDtosPages;
+        //Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
+        //List<CuisineOutputDto> cuisineOutputDtos = cuisineModelAssembler.toCollectionModel(allCuisinesPageable.getContent());
+
+        //** Copia a lista de CUISINE para dentro de uma PAGE
+        //Page<CuisineOutputDto> cuisineOutputDtosPages = new PageImpl<CuisineOutputDto>(cuisineOutputDtos, pageable, allCuisinesPageable.getTotalPages());
+
+        //** Usando PagedModel (paginacao de representacao)
+        Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
+        PagedModel<CuisineOutputDto> cuisinesPageModel = pagedResourcesAssembler
+                .toModel(allCuisinesPageable,cuisineModelAssembler);
+
+        return cuisinesPageModel;
     }
 
     /*
@@ -86,20 +105,24 @@ public class CuisineController implements CuisineControllerOpenApi {
 
     }
     */
+
+    @Override
     @GetMapping("/{cuisineId}")
     //public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
     public CuisineOutputDto findBy1Id(@PathVariable("cuisineId") Long id){
         Cuisine cuisine = cuisineRegistrationService.findOrFail(id);
 
         //return cuisineRegistrationService.findOrFail(id);
-        return cuisineModelAssembler.fromControllerToOutput(cuisine);
+        return cuisineModelAssembler.toModel(cuisine);
     }
+
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public CuisineXMLWrapper listAllXML(){
         return new CuisineXMLWrapper(cuisineRegistrationService.listAll());
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Cuisine save(@RequestBody @Valid Cuisine cuisine){
@@ -108,7 +131,8 @@ public class CuisineController implements CuisineControllerOpenApi {
         Cuisine cuisine = cuisineInputDisassembler.fromInputToController(cuisineInputDTO);
         cuisine = cuisineRepository.save(cuisine);
 
-        return cuisineModelAssembler.fromControllerToOutput(cuisine);
+        return cuisineModelAssembler.toModel(cuisine);
+        //return cuisineModelAssembler.fromControllerToOutput(cuisine);
         //return cuisineRegistrationService.save(cuisine);
     }
 
@@ -133,6 +157,7 @@ public class CuisineController implements CuisineControllerOpenApi {
     }
     */
 
+    @Override
     @PutMapping("/{cuisineId}")
     //public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
     public CuisineOutputDto updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid CuisineInputDto cuisineInputDTO){
@@ -146,10 +171,11 @@ public class CuisineController implements CuisineControllerOpenApi {
 
         //return cuisineRegistrationService.save(currentCuisine);
 
-        return cuisineModelAssembler.fromControllerToOutput(currentCuisine);
+        return cuisineModelAssembler.toModel(currentCuisine);
     }
 
 
+    @Override
     @DeleteMapping("/{cuisineId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable("cuisineId") Long id) {
