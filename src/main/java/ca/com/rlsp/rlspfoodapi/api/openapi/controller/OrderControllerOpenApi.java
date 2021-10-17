@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -23,6 +24,14 @@ import java.util.List;
 @Api(tags = "Orders")
 public interface OrderControllerOpenApi {
 
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(
+                    value = "Properties names used to filter query, split by comma",
+                    name = "fields ",
+                    paramType = "query",
+                    type = "string"
+            )
+    })
     @ApiOperation(value = "List all orders in JSON") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ordrs listed in JSON",
@@ -32,11 +41,16 @@ public interface OrderControllerOpenApi {
                     )
             )
     })
+    public PagedModel<OrderShortOutputDto> searchByFilterPageable(@ApiParam(name = "body",
+            value = "A DTO for inputs a resource of cuisine")
+                                                             OrderFilterInputDto orderFilter,
+                                                             Pageable pageable);
+    /*
     public Page<OrderOutputDto> searchByFilterPageable( @ApiParam(name = "body",
                                                                   value = "A DTO for inputs a resource of cuisine")
                                                                      OrderFilterInputDto orderFilter,
                                                        Pageable pageable);
-
+    */
 
 
     @ApiImplicitParams(value = {

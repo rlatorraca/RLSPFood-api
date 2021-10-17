@@ -23,6 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -39,16 +42,19 @@ public class OrderController implements OrderControllerOpenApi {
     private OrderModelAssembler orderModelAssembler;
     private OrderInputDisassembler orderInputDisassembler;
 
+    private PagedResourcesAssembler<Order> pagedResourcesAssembler;
     public OrderController(OrderRepository orderRepository,
                            IssueOfOrderRegistrationService issueOfOrderRegistrationService,
                            OrderShortModelAssembler orderShortModelAssembler,
                            OrderModelAssembler orderModelAssembler,
-                           OrderInputDisassembler orderInputDisassembler) {
+                           OrderInputDisassembler orderInputDisassembler,
+                           PagedResourcesAssembler<Order> pagedResourcesAssembler) {
         this.orderRepository = orderRepository;
         this.issueOfOrderRegistrationService = issueOfOrderRegistrationService;
         this.orderShortModelAssembler = orderShortModelAssembler;
         this.orderModelAssembler = orderModelAssembler;
         this.orderInputDisassembler = orderInputDisassembler;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     /*
@@ -73,9 +79,21 @@ public class OrderController implements OrderControllerOpenApi {
 //        return orderWrapper;
 //    }
 
+    @GetMapping("/filter-pageable")
+    public PagedModel<OrderShortOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter, @PageableDefault(size = 2) Pageable pageable) {
+        // traduz fields de pageable para Order (fields)
+        pageable = translatePageable(pageable);
+
+        Page<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
+
+        return pagedResourcesAssembler.toModel(allOrders, orderShortModelAssembler);
+    }
+
     /*
         Implementando PAGEABLE e SORTING dem ORDER (com filter)
      */
+
+    /*
     @GetMapping("/filter-pageable")
     public Page<OrderOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter, @PageableDefault(size = 2) Pageable pageable) {
         // traduz fields de pageable para Order (fields)
@@ -88,6 +106,7 @@ public class OrderController implements OrderControllerOpenApi {
 
         return orderOutputDtoPage;
     }
+    */
 
     /*
         Pesquisas complexas na API (by URL params)

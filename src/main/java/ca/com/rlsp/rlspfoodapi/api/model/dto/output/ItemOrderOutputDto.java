@@ -3,12 +3,15 @@ package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 
+@Relation(collectionRelation = "item_order")
 @Getter
 @Setter
-public class ItemOrderOutputDto {
+public class ItemOrderOutputDto extends RepresentationModel<ItemOrderOutputDto> {
 
     @ApiModelProperty(example = "1")
     private Integer quantity;
