@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
  */
 @Relation(collectionRelation = "order_short")
 @ApiModel(value = "Short Order")
-@JsonFilter("orderFilter")
+//@JsonFilter("orderFilter")
 @Setter
 @Getter
 public class OrderShortOutputDto extends RepresentationModel<OrderShortOutputDto> {

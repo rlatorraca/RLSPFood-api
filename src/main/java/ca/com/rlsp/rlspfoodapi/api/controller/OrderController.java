@@ -80,11 +80,13 @@ public class OrderController implements OrderControllerOpenApi {
 //    }
 
     @GetMapping("/filter-pageable")
-    public PagedModel<OrderShortOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter, @PageableDefault(size = 2) Pageable pageable) {
+    public PagedModel<OrderShortOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter,
+                                                                  @PageableDefault(size = 2) Pageable pageable) {
         // traduz fields de pageable para Order (fields)
         pageable = translatePageable(pageable);
 
-        Page<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
+        Page<Order> allOrders = orderRepository
+                .findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
 
         return pagedResourcesAssembler.toModel(allOrders, orderShortModelAssembler);
     }
@@ -99,7 +101,8 @@ public class OrderController implements OrderControllerOpenApi {
         // traduz fields de pageable para Order (fields)
         pageable = translatePageable(pageable);
 
-        Page<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
+        Page<Order> allOrders = orderRepository
+                                .findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
         List<OrderOutputDto> orderOutputDtoList = orderModelAssembler.fromControllerToOutputList(allOrders.getContent());
 
         Page<OrderOutputDto> orderOutputDtoPage = new PageImpl<>(orderOutputDtoList, pageable, allOrders.getTotalPages());
@@ -112,14 +115,7 @@ public class OrderController implements OrderControllerOpenApi {
         Pesquisas complexas na API (by URL params)
      */
 
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(
-                    value = "Properties names used to filter query, split by comma",
-                    name = "fields ",
-                    paramType = "query",
-                    type = "string"
-            )
-    })
+
     @GetMapping("/filter")
     public List<OrderOutputDto> searchByFilter(OrderFilterInputDto orderFilter) {
         List<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter));
@@ -175,10 +171,10 @@ public class OrderController implements OrderControllerOpenApi {
     private Pageable translatePageable(Pageable pageable) {
         // ** Poderiamos usar o Map.of (do Java)
         var mapping = ImmutableMap.of(
-                "orderCode", "oderCode",
+                "orderCode", "orderCode",
                 "restaurant.name", "restaurant.name",
                 "nameUser", "user.name",
-                "valorTotal", "afterTaxes"
+                "afterTaxes", "afterTaxes"
         );
 
         return PageableTranslator.translate(pageable, mapping);
