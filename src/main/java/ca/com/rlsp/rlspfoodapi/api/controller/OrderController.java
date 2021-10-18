@@ -8,6 +8,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.filter.OrderFilterInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.OrderControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.data.PageWrapper;
 import ca.com.rlsp.rlspfoodapi.core.data.PageableTranslator;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
@@ -83,10 +84,12 @@ public class OrderController implements OrderControllerOpenApi {
     public PagedModel<OrderShortOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter,
                                                                   @PageableDefault(size = 2) Pageable pageable) {
         // traduz fields de pageable para Order (fields)
-        pageable = translatePageable(pageable);
+        Pageable pageableTranslated = translatePageable(pageable);
 
         Page<Order> allOrders = orderRepository
-                .findAll(OrderSpecifications.gettingByFilter(orderFilter), pageable);
+                .findAll(OrderSpecifications.gettingByFilter(orderFilter), pageableTranslated);
+
+        allOrders = new PageWrapper<>(allOrders, pageable);
 
         return pagedResourcesAssembler.toModel(allOrders, orderShortModelAssembler);
     }
