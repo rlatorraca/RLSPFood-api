@@ -59,7 +59,7 @@ public interface RestaurantControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    RestaurantOutputDto findBy1Id(@ApiParam(name = "restaurantId", example = "1", required = true)
+    RestaurantOutputDto findById(@ApiParam(name = "restaurantId", example = "1", required = true)
                                                      Long id) ;
 
 

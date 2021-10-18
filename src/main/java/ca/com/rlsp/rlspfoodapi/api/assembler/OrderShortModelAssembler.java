@@ -1,6 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
 import ca.com.rlsp.rlspfoodapi.api.controller.OrderController;
+import ca.com.rlsp.rlspfoodapi.api.controller.RestaurantController;
+import ca.com.rlsp.rlspfoodapi.api.controller.UserController;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
@@ -50,6 +52,12 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
         modelMapper.map(order, orderShortOutputDto);
 
         orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
+
+        orderShortOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
+                .findById(order.getRestaurant().getId())).withSelfRel());
+
+        orderShortOutputDto.getUser().add(linkTo(methodOn(UserController.class)
+                .findById(order.getUser().getId())).withSelfRel());
 
         return orderShortOutputDto;
 

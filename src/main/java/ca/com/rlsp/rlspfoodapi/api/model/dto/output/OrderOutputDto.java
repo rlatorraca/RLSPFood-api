@@ -51,7 +51,7 @@ public class OrderOutputDto extends RepresentationModel<OrderOutputDto> {
     private PaymentTypeOutputDto paymentType;
     private RestaurantShortOutputDto restaurant;
 
-    //private UserOutputDto user;
+    private UserOutputDto user;
 
     @ApiModelProperty(example = "Rayan McDonalds")
     private String nameUser;

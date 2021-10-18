@@ -143,7 +143,7 @@ public class OrderController implements OrderControllerOpenApi {
     public OrderOutputDto find(@PathVariable String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
 
-        return orderModelAssembler.fromControllerToOutput(order);
+        return orderModelAssembler.toModel(order);
     }
 
     @PostMapping
@@ -158,7 +158,7 @@ public class OrderController implements OrderControllerOpenApi {
 
             newOrder = issueOfOrderRegistrationService.issue(newOrder);
 
-            return orderModelAssembler.fromControllerToOutput(newOrder);
+            return orderModelAssembler.toModel(newOrder);
         } catch (EntityNotFoundException e) {
             throw new GenericBusinessException(e.getReason(), e);
         }

@@ -1,21 +1,13 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
-import ca.com.rlsp.rlspfoodapi.api.controller.OrderController;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.OrderInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.controller.*;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
-import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
 import java.util.List;
@@ -65,6 +57,25 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
 
         orderOutputDto.add(linkTo(OrderController.class).withRel("orders"));
 
+        orderOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
+                .findById(order.getRestaurant().getId())).withSelfRel());
+
+        orderOutputDto.getUser().add(linkTo(methodOn(UserController.class)
+                .findById(order.getUser().getId())).withSelfRel());
+
+        // Passamos null no segundo argumento, porque é indiferente para a
+        // construção da URL do recurso de forma de pagamento
+        orderOutputDto.getPaymentType().add(linkTo(methodOn(PaymentTypeController.class)
+                .findById(order.getPaymentType().getId(), null)).withSelfRel());
+
+        orderOutputDto.getAddressDelivery().getCity().add(linkTo(methodOn(CityController.class)
+                .findById(order.getAddressDelivery().getCity().getId())).withSelfRel());
+
+        orderOutputDto.getOrderItems().forEach(item -> {
+            item.add(linkTo(methodOn(RestaurantProductController.class)
+                    .buscar(order.getRestaurant().getId(), item.getProductId()))
+                    .withRel("produto"));
+        });
 
         return orderOutputDto;
 

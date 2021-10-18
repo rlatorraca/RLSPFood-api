@@ -133,7 +133,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     }
     */
     @GetMapping("/{restaurantId}")
-    public RestaurantOutputDto findBy1Id(@PathVariable("restaurantId") Long id){
+    public RestaurantOutputDto findById(@PathVariable("restaurantId") Long id){
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
 
         RestaurantOutputDto restaurantDTO = restaurantModelAssembler.fromControllerToOutput(restaurant);
