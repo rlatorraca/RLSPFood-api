@@ -7,6 +7,11 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.TemplateVariable;
+import org.springframework.hateoas.TemplateVariable.VariableType;
+import org.springframework.hateoas.TemplateVariables;
+import org.springframework.hateoas.UriTemplate;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +19,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class OrderShortModelAssembler extends RepresentationModelAssemblerSupport<Order, OrderShortOutputDto> {
@@ -51,7 +57,20 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
         OrderShortOutputDto orderShortOutputDto = createModelWithId(order.getId(), order);
         modelMapper.map(order, orderShortOutputDto);
 
-        orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
+        TemplateVariables pageVariables = new TemplateVariables(
+                new TemplateVariable("page", VariableType.REQUEST_PARAM),
+                new TemplateVariable("size", VariableType.REQUEST_PARAM),
+                new TemplateVariable("sort", VariableType.REQUEST_PARAM)
+
+        );
+
+        String orderURI = linkTo(methodOn(OrderController.class).searchByFilterPageable(null,
+                null)).toUri().toString();
+
+        //searchByFilterPageable
+        orderShortOutputDto.add(Link.of(UriTemplate.of(orderURI, pageVariables),"order-short"));
+
+        //orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
 
         orderShortOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
                 .findById(order.getRestaurant().getId())).withSelfRel());
