@@ -64,11 +64,19 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
 
         );
 
+        TemplateVariables filterVariables = new TemplateVariables(
+                new TemplateVariable("userId", VariableType.REQUEST_PARAM),
+                new TemplateVariable("restaurantId", VariableType.REQUEST_PARAM),
+                new TemplateVariable("startDate", VariableType.REQUEST_PARAM),
+                new TemplateVariable("endDate", VariableType.REQUEST_PARAM)
+
+        );
+
         String orderURI = linkTo(methodOn(OrderController.class).searchByFilterPageable(null,
                 null)).toUri().toString();
 
         //searchByFilterPageable
-        orderShortOutputDto.add(Link.of(UriTemplate.of(orderURI, pageVariables),"order-short"));
+        orderShortOutputDto.add(Link.of(UriTemplate.of(orderURI, pageVariables.concat(filterVariables)),"order-short"));
 
         //orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
 
