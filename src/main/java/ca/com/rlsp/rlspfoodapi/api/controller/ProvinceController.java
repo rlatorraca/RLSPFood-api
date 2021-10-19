@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.ProvinceModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.ProvinceInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.TaxProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
@@ -27,10 +28,11 @@ public class ProvinceController implements ProvinceControllerOpenApi {
     private ProvinceModelAssembler provinceModelAssembler;
     private ProvinceRepository provinceRepository;
 
+
     public ProvinceController(ProvinceRegistrationService provinceRegistrationService,
                               ProvinceInputDisassembler provinceInputDisassembler,
                               ProvinceModelAssembler provinceModelAssembler,
-                              ProvinceRepository provinceRepository) {
+                              ProvinceRepository provinceRepository ) {
 
         this.provinceRegistrationService = provinceRegistrationService;
         this.provinceInputDisassembler = provinceInputDisassembler;

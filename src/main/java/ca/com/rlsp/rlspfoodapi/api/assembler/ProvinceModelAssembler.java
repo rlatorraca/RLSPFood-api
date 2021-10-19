@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.assembler;
 
 import ca.com.rlsp.rlspfoodapi.api.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.controller.ProvinceController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
@@ -24,6 +25,9 @@ public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
 
     public ProvinceModelAssembler() {
         super(ProvinceController.class, ProvinceOutputDto.class);
@@ -68,9 +72,13 @@ public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<
         modelMapper.map(province, provinceOutputDto);
 
         provinceOutputDto.add(
-                linkTo(ProvinceController.class)
-                        .withRel("provinces")
+                buildLinks.getLinkToProvinces("provinces")
         );
+
+//        provinceOutputDto.add(
+//                linkTo(ProvinceController.class)
+//                        .withRel("provinces")
+//        );
 
 
         return provinceOutputDto;

@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.assembler;
 import ca.com.rlsp.rlspfoodapi.api.controller.OrderController;
 import ca.com.rlsp.rlspfoodapi.api.controller.RestaurantController;
 import ca.com.rlsp.rlspfoodapi.api.controller.UserController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,9 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
 
     public OrderShortModelAssembler() {
         super(OrderController.class, OrderShortOutputDto.class);
@@ -60,11 +64,18 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
 
         //orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
 
-        orderShortOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
-                .findById(order.getRestaurant().getId())).withSelfRel());
+        orderShortOutputDto.add(buildLinks.getLinkToOrders());
 
-        orderShortOutputDto.getUser().add(linkTo(methodOn(UserController.class)
-                .findById(order.getUser().getId())).withSelfRel());
+//        orderShortOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
+//                .findById(order.getRestaurant().getId())).withSelfRel());
+
+        orderShortOutputDto.getRestaurant().add(
+                buildLinks.getLinkToRestaurant(order.getRestaurant().getId()));
+
+//        orderShortOutputDto.getUser().add(linkTo(methodOn(UserController.class)
+//                .findById(order.getUser().getId())).withSelfRel());
+
+        orderShortOutputDto.getUser().add(buildLinks.getLinkToUser(order.getUser().getId()));
 
         return orderShortOutputDto;
 

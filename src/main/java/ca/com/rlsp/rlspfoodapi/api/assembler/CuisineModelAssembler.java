@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
 import ca.com.rlsp.rlspfoodapi.api.controller.CuisineController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
@@ -24,6 +25,9 @@ public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<C
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
 
     public CuisineModelAssembler() {
         super(CuisineController.class, CuisineOutputDto.class);
@@ -84,7 +88,8 @@ public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<C
         CuisineOutputDto cuisineOutputDto = createModelWithId(cuisine.getId(), cuisine);
         modelMapper.map(cuisine, cuisineOutputDto);
 
-        cuisineOutputDto.add(linkTo(CuisineController.class).withRel("cozinhas"));
+        cuisineOutputDto.add(buildLinks.getLinkToCuisines("cozinhas"));
+        //cuisineOutputDto.add(linkTo(CuisineController.class).withRel("cozinhas"));
 
         return cuisineOutputDto;
     }

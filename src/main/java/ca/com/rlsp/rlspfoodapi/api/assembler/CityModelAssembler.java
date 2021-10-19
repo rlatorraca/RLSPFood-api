@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.assembler;
 
 import ca.com.rlsp.rlspfoodapi.api.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.controller.ProvinceController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
@@ -20,6 +21,9 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
 
 
     /* Obrigatorio por estender RepresentationModelAssemblerSupport*/

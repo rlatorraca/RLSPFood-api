@@ -68,8 +68,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
 
 
     @GetMapping("/{productId}")
-    public ProductOutputDto buscar(@PathVariable Long restaurantId,
-                                   @PathVariable Long productId) {
+    public ProductOutputDto findByRestaurantIdAndByProductId(@PathVariable Long restaurantId,
+                                                             @PathVariable Long productId) {
         Product product = productRegistrationService.findOrFail(restaurantId, productId);
 
         return productModelAssembler.fromControllerToOutput(product);

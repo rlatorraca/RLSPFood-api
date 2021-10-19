@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.assembler;
 import ca.com.rlsp.rlspfoodapi.api.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.controller.UserController;
 import ca.com.rlsp.rlspfoodapi.api.controller.UserGroupController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,9 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
 
     public UserModelAssembler() {
         super(UserController.class, UserOutputDto.class);
@@ -46,16 +50,26 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
         modelMapper.map(user, userOutputDto);
 
         userOutputDto.add(
-                linkTo(methodOn(UserController.class)
-                        .listaAll())
-                        .withRel("users")
+                buildLinks.getLinkToUser("users")
         );
+
+//        userOutputDto.add(
+//                linkTo(methodOn(UserController.class)
+//                        .listaAll())
+//                        .withRel("users")
+//        );
 
         userOutputDto.add(
                 linkTo(methodOn(UserGroupController.class)
                         .listAll(user.getId()))
                         .withRel("user-groups")
         );
+
+//        userOutputDto.add(
+//                linkTo(methodOn(UserGroupController.class)
+//                        .listAll(user.getId()))
+//                        .withRel("user-groups")
+//        );
 
         return userOutputDto;
     }

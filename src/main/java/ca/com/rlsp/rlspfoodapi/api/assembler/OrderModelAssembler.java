@@ -7,8 +7,6 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.TemplateVariable;
-import org.springframework.hateoas.TemplateVariables;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Order, OrderOutputDto> {
@@ -63,34 +60,53 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
         modelMapper.map(order, orderOutputDto);
 
         //searchByFilterPageable
-        orderOutputDto.add(buildLinks.linkToOrders());
+        orderOutputDto.add(buildLinks.getLinkToOrders());
 
 
         //orderOutputDto.add(linkTo(OrderController.class).withRel("orders"));
 
-        orderOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
-                .findById(order.getRestaurant().getId())).withSelfRel());
+        orderOutputDto.getRestaurant().add(buildLinks
+                .getLinkToRestaurant(order.getRestaurant().getId()));
 
-        orderOutputDto.getUser().add(linkTo(methodOn(UserController.class)
-                .findById(order.getUser().getId())).withSelfRel());
+        orderOutputDto.getUser().add(buildLinks
+                .getLinkToUser(order.getUser().getId()));
 
         // Passamos null no segundo argumento, porque é indiferente para a
         // construção da URL do recurso de forma de pagamento
-        orderOutputDto.getPaymentType().add(linkTo(methodOn(PaymentTypeController.class)
-                .findById(order.getPaymentType().getId(), null)).withSelfRel());
+        orderOutputDto.getPaymentType().add(buildLinks
+                .getLinkToPaymentType(order.getPaymentType().getId()));
 
-        orderOutputDto.getAddressDelivery().getCity().add(linkTo(methodOn(CityController.class)
-                .findById(order.getAddressDelivery().getCity().getId())).withSelfRel());
+        orderOutputDto.getAddressDelivery().getCity().add(buildLinks
+                .getLinkToAddressDelivery(order.getAddressDelivery().getCity().getId()));
+
 
         orderOutputDto.getOrderItems().forEach(item -> {
-            item.add(linkTo(methodOn(RestaurantProductController.class)
-                    .buscar(order.getRestaurant().getId(), item.getProductId()))
-                    .withRel("produto"));
+            item.add(buildLinks
+                    .getLinkToOrderItems(order.getRestaurant().getId(), item.getProductId(), "item"));
         });
 
         return orderOutputDto;
 
 
     }
+
+//    orderOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
+//                .findById(order.getRestaurant().getId())).withSelfRel());
+//
+//        orderOutputDto.getUser().add(linkTo(methodOn(UserController.class)
+//                .findById(order.getUser().getId())).withSelfRel());
+//
+//    // Passamos null no segundo argumento, porque é indiferente para a
+//    // construção da URL do recurso de forma de pagamento
+//        orderOutputDto.getPaymentType().add(linkTo(methodOn(PaymentTypeController.class)
+//                .findById(order.getPaymentType().getId(), null)).withSelfRel());
+//
+//        orderOutputDto.getAddressDelivery().getCity().add(linkTo(methodOn(CityController.class)
+//                .findById(order.getAddressDelivery().getCity().getId())).withSelfRel());
+//
+//        orderOutputDto.getOrderItems().forEach(item -> {
+//        item.add(linkTo(methodOn(RestaurantProductController.class)
+//                .buscar(order.getRestaurant().getId(), item.getProductId()))
+//                .withRel("produto"));
 
 }

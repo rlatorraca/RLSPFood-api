@@ -53,9 +53,9 @@ public interface RestaurantProductControllerOpenApi  {
             @ApiResponse(responseCode = "404", description = "Restaurant and/or product not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    ProductOutputDto buscar(@ApiParam(value = "restaurantId", example = "1", required = true)
+    ProductOutputDto findByRestaurantIdAndByProductId(@ApiParam(value = "restaurantId", example = "1", required = true)
                                                Long restaurantId,
-                                   @ApiParam(value = "productId", example = "1", required = true)
+                                                      @ApiParam(value = "productId", example = "1", required = true)
                                            Long productId) ;
 
     @ApiOperation(value = "Update in a restaurant a data of a product by ID") // Customize method description on SwaggerUI
