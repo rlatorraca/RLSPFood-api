@@ -41,7 +41,7 @@ public interface OrderControllerOpenApi {
                     )
             )
     })
-    public PagedModel<OrderShortOutputDto> searchByFilterPageable(@ApiParam(name = "body",
+    public PagedModel<OrderOutputDto> searchByFilterPageable(@ApiParam(name = "body",
             value = "A DTO for inputs a resource of cuisine")
                                                              OrderFilterInputDto orderFilter,
                                                              Pageable pageable);

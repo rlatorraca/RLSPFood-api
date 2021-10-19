@@ -81,7 +81,7 @@ public class OrderController implements OrderControllerOpenApi {
 //    }
 
     @GetMapping("/filter-pageable")
-    public PagedModel<OrderShortOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter,
+    public PagedModel<OrderOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter,
                                                                   @PageableDefault(size = 2) Pageable pageable) {
         // traduz fields de pageable para Order (fields)
         Pageable pageableTranslated = translatePageable(pageable);
@@ -91,7 +91,7 @@ public class OrderController implements OrderControllerOpenApi {
 
         allOrders = new PageWrapper<>(allOrders, pageable);
 
-        return pagedResourcesAssembler.toModel(allOrders, orderShortModelAssembler);
+        return pagedResourcesAssembler.toModel(allOrders, orderModelAssembler);
     }
 
     /*

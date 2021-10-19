@@ -57,26 +57,6 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
         OrderShortOutputDto orderShortOutputDto = createModelWithId(order.getId(), order);
         modelMapper.map(order, orderShortOutputDto);
 
-        TemplateVariables pageVariables = new TemplateVariables(
-                new TemplateVariable("page", VariableType.REQUEST_PARAM),
-                new TemplateVariable("size", VariableType.REQUEST_PARAM),
-                new TemplateVariable("sort", VariableType.REQUEST_PARAM)
-
-        );
-
-        TemplateVariables filterVariables = new TemplateVariables(
-                new TemplateVariable("userId", VariableType.REQUEST_PARAM),
-                new TemplateVariable("restaurantId", VariableType.REQUEST_PARAM),
-                new TemplateVariable("startDate", VariableType.REQUEST_PARAM),
-                new TemplateVariable("endDate", VariableType.REQUEST_PARAM)
-
-        );
-
-        String orderURI = linkTo(methodOn(OrderController.class).searchByFilterPageable(null,
-                null)).toUri().toString();
-
-        //searchByFilterPageable
-        orderShortOutputDto.add(Link.of(UriTemplate.of(orderURI, pageVariables.concat(filterVariables)),"order-short"));
 
         //orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
 
