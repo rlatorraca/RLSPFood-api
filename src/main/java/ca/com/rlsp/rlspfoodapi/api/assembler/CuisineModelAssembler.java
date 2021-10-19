@@ -4,7 +4,6 @@ import ca.com.rlsp.rlspfoodapi.api.controller.CuisineController;
 import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
@@ -13,12 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<Cuisine, CuisineOutputDto> {
