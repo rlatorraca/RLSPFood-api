@@ -54,17 +54,21 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 //                        .withSelfRel()
 //        );
 
-        cityOutputDto.add(
-                linkTo(methodOn(CityController.class)
-                        .listAllJson())
-                        .withRel("cities")
-        );
+        cityOutputDto.add(buildLinks.getLinkToCities("cities"));
 
-        cityOutputDto.getProvince().add(
-                linkTo(methodOn(ProvinceController.class)
-                        .findById(cityOutputDto.getProvince().getId()))
-                        .withSelfRel()
-        );
+//        cityOutputDto.add(
+//                linkTo(methodOn(CityController.class)
+//                        .listAllJson())
+//                        .withRel("cities")
+//        );
+
+        cityOutputDto.getProvince().add(buildLinks.getLinkToProvince(cityOutputDto.getProvince().getId()));
+
+//        cityOutputDto.getProvince().add(
+//                linkTo(methodOn(ProvinceController.class)
+//                        .findById(cityOutputDto.getProvince().getId()))
+//                        .withSelfRel()
+//        );
 
         return cityOutputDto;
     }

@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.UserModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantUserManagerControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
@@ -20,6 +21,8 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
     private RestaurantRegistrationService restaurantRegistrationService;
     private UserModelAssembler userModelAssembler;
 
+    private BuildLinks buildLinks;
+
     public RestaurantUserManagerController(RestaurantRegistrationService restaurantRegistrationService,
                                            UserModelAssembler userModelAssembler) {
         this.restaurantRegistrationService = restaurantRegistrationService;
@@ -32,9 +35,10 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
 
         return userModelAssembler.toCollectionModel(restaurant.getManagers())
                 .removeLinks()
-                .add(linkTo(methodOn(RestaurantUserManagerController.class)
-                        .listOne(restaurantId))
-                .withSelfRel());
+                .add(buildLinks.getLinkToUserGroups(restaurantId));
+//                .add(linkTo(methodOn(RestaurantUserManagerController.class)
+//                        .listOne(restaurantId))
+//                .withSelfRel());
     }
 
     /*
