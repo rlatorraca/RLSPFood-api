@@ -104,12 +104,50 @@ public class Order extends AbstractAggregateRoot<Order> {
         getOrderItems().forEach(item -> item.setOrder(this));
     }
 
+    public boolean canCreateOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.CREATED);
+    }
+
+    public boolean canConfirmOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.CONFIRMED);
+    }
+
+    public boolean canStartOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.STARTED);
+    }
+
+    public boolean canCancelOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.CANCELED);
+    }
+
+    public boolean canOnTheOvenOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.ON_THE_OVEN);
+    }
+
+
+    public boolean canReadyOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.READY);
+    }
+
+    public boolean canOnTheRoadOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.ON_THE_ROAD);
+    }
+
+    public boolean canDeliveryOrder() {
+        return getStatus().authorizedModifyStatusTo(StatusOrderEnum.DELIVERED);
+    }
+
     public void confirm() {
         setStatus(StatusOrderEnum.CONFIRMED);
         setConfirmationDate(OffsetDateTime.now());
         registerEvent(new OrderConfirmedEvent(this)); // Registra o evento para executar determinadas funcoes ao confirmar o evento
     }
 
+    public void create() {
+        setStatus(StatusOrderEnum.CREATED);
+        setStartedDate(OffsetDateTime.now());
+        registerEvent(new OrderStartEvent(this));
+    }
     public void start() {
         setStatus(StatusOrderEnum.STARTED);
         setStartedDate(OffsetDateTime.now());

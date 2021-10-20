@@ -31,6 +31,13 @@ public class StatusOrderRegistrationService {
         orderRepository.save(order);
 
     }
+    @Transactional
+    public void toCreate(String orderCode) {
+        Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
+        order.cancel();
+
+        orderRepository.save(order);
+    }
 
     @Transactional
     public void toCancel(String orderCode) {

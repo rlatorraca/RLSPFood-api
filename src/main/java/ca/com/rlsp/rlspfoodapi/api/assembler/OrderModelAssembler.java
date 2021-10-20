@@ -86,17 +86,36 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
         });
 
         /* Links to Order Status*/
-        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "confirm order"));
-        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "start order"));
-        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "oven order"));
-        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "ready order"));
-        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "road order"));
-        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "delivery order"));
+        if (order.canCreateOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToCreateAnOrder(order.getOrderCode(), "create order"));
+        }
+        if (order.canConfirmOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "confirm order"));
+        }
+
+        if (order.canStartOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToStartAnOrder(order.getOrderCode(), "start order"));
+        }
+        if (order.canOnTheOvenOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToOvenAnOrder(order.getOrderCode(), "oven order"));
+        }
+
+        if (order.canReadyOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToReadyAnOrder(order.getOrderCode(), "ready order"));
+        }
+
+        if (order.canOnTheRoadOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToRoadAnOrder(order.getOrderCode(), "road order"));
+        }
+
+        if (order.canDeliveryOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToDeliveryAnOrder(order.getOrderCode(), "delivery order"));
+        }
 
         return orderOutputDto;
-
-
     }
+
+
 
 //    orderOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
 //                .findById(order.getRestaurant().getId())).withSelfRel());

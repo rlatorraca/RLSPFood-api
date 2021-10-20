@@ -17,6 +17,13 @@ public class StatusOrderController implements StatusOrderControllerOpenApi {
         this.statusOrderRegistrationService = statusOrderRegistrationService;
     }
 
+    @PutMapping("/to-create")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> create(@PathVariable String orderCode) {
+        statusOrderRegistrationService.toCreate(orderCode);
+
+        return ResponseEntity.noContent().build();
+    }
     @PutMapping("/to-confirm")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> confirm(@PathVariable String orderCode) {

@@ -30,4 +30,6 @@ public enum StatusOrderEnum {
         return newStatus.getStatusAuthorizedToChangeToNextStatusLevel().contains(this);
     }
 
+
+
 }
