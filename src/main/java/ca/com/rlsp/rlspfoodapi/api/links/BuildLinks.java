@@ -152,4 +152,29 @@ public class BuildLinks {
         return getLinkToCuisines(IanaLinkRelations.SELF.value());
     }
 
+    public Link getLinkToConfirmAnOrder(String orderCode, String relation) {
+        return linkTo(methodOn(StatusOrderController.class).confirm(orderCode)).withRel(relation);
+    }
+
+    public Link getLinkToStartAnOrder(String orderCode, String relation) {
+        return linkTo(methodOn(StatusOrderController.class).start(orderCode)).withRel(relation);
+    }
+
+    public Link getLinkToCancelAnOrder(String orderCode, String relation) {
+        return linkTo(methodOn(StatusOrderController.class).cancel(orderCode)).withRel(relation);
+    }
+
+    public Link getLinkToOvenAnOrder(String orderCode, String relation) {
+        return linkTo(methodOn(StatusOrderController.class).oven(orderCode)).withRel(relation);
+    }
+
+    public Link getLinkToRoadAnOrder(String orderCode, String relation) {
+        return linkTo(methodOn(StatusOrderController.class).road(orderCode)).withRel(relation);
+    }
+
+    public Link getLinkToDeliveryAnOrder(String orderCode, String relation) {
+        return linkTo(methodOn(StatusOrderController.class).deliver(orderCode)).withRel(relation);
+    }
+
+
 }

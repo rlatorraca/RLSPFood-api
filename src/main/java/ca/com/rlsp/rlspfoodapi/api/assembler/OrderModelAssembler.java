@@ -85,6 +85,14 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
                     .getLinkToOrderItems(order.getRestaurant().getId(), item.getProductId(), "item"));
         });
 
+        /* Links to Order Status*/
+        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "confirm order"));
+        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "start order"));
+        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "oven order"));
+        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "ready order"));
+        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "road order"));
+        orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "delivery order"));
+
         return orderOutputDto;
 
 

@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.openapi.controller.StatusOrderControllerOpenA
 import ca.com.rlsp.rlspfoodapi.domain.service.StatusOrderRegistrationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,44 +19,58 @@ public class StatusOrderController implements StatusOrderControllerOpenApi {
 
     @PutMapping("/to-confirm")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void confirm(@PathVariable String orderCode) {
+    public ResponseEntity<Void> confirm(@PathVariable String orderCode) {
         statusOrderRegistrationService.toConfirm(orderCode);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/to-start")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void start(@PathVariable String orderCode) {
+    public ResponseEntity<Void> start(@PathVariable String orderCode) {
         statusOrderRegistrationService.toStart(orderCode);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/to-cancel")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancel(@PathVariable String orderCode) {
+    public ResponseEntity<Void> cancel(@PathVariable String orderCode) {
         statusOrderRegistrationService.toCancel(orderCode);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/to-oven")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void oven(@PathVariable String orderCode) {
+    public ResponseEntity<Void> oven(@PathVariable String orderCode) {
         statusOrderRegistrationService.toOnTheOven(orderCode);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/to-ready")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void ready(@PathVariable String orderCode) {
+    public ResponseEntity<Void> ready(@PathVariable String orderCode) {
         statusOrderRegistrationService.toReady(orderCode);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/to-road")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void road(@PathVariable String orderCode) {
+    public ResponseEntity<Void> road(@PathVariable String orderCode) {
         statusOrderRegistrationService.toOnTheRoad(orderCode);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/to-delivery")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deliver(@PathVariable String orderCode) {
+    public ResponseEntity<Void> deliver(@PathVariable String orderCode) {
         statusOrderRegistrationService.toDelivered(orderCode);
+
+        return ResponseEntity.noContent().build();
     }
 
 
