@@ -89,13 +89,19 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
         if (order.canCreateOrder()) {
             orderOutputDto.add(buildLinks.getLinkToCreateAnOrder(order.getOrderCode(), "create order"));
         }
+
         if (order.canConfirmOrder()) {
             orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "confirm order"));
+        }
+
+        if (order.canCancelOrder()) {
+            orderOutputDto.add(buildLinks.getLinkToCancelAnOrder(order.getOrderCode(), "cancel order"));
         }
 
         if (order.canStartOrder()) {
             orderOutputDto.add(buildLinks.getLinkToStartAnOrder(order.getOrderCode(), "start order"));
         }
+
         if (order.canOnTheOvenOrder()) {
             orderOutputDto.add(buildLinks.getLinkToOvenAnOrder(order.getOrderCode(), "oven order"));
         }

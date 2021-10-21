@@ -1,8 +1,12 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.assembler.RestaurantBasicsModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.assembler.RestaurantJustNameModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.assembler.RestaurantModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.RestaurantInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantBasicsOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantJustNamesOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.RestaurantControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
@@ -15,8 +19,10 @@ import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
@@ -26,7 +32,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -50,16 +55,23 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     // Desmont um DTO para oumModel (de Entidade) para Restaurante
     private RestaurantInputDisassembler restaurantInputDisassembler;
 
+    private RestaurantBasicsModelAssembler restaurantBasicsModelAssembler;
+    private RestaurantJustNameModelAssembler restaurantJustNameModelAssembler;
+
     public RestaurantController(RestaurantRegistrationService restaurantRegistrationService,
                                 RestaurantRepository restaurantRepository,
                                 SmartValidator smartValidator,
                                 RestaurantModelAssembler restaurantModelAssembler,
-                                RestaurantInputDisassembler restaurantInputDisassembler) {
+                                RestaurantInputDisassembler restaurantInputDisassembler,
+                                RestaurantBasicsModelAssembler restaurantBasicsModelAssembler,
+                                RestaurantJustNameModelAssembler restaurantJustNameModelAssembler) {
         this.restaurantRegistrationService = restaurantRegistrationService;
         this.restaurantRepository = restaurantRepository;
         this.smartValidator = smartValidator;
         this.restaurantModelAssembler = restaurantModelAssembler;
         this.restaurantInputDisassembler = restaurantInputDisassembler;
+        this.restaurantBasicsModelAssembler = restaurantBasicsModelAssembler;
+        this.restaurantJustNameModelAssembler = restaurantJustNameModelAssembler;
     }
     /*
         Limitando os campos retornados pela API com @JsonFilter do Jackson
@@ -70,19 +82,23 @@ public class RestaurantController implements RestaurantControllerOpenApi {
      */
 
     @GetMapping
-    public List<RestaurantOutputDto> listAll() {
-        return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
+   //public List<RestaurantOutputDto> listAll() {
+   public CollectionModel<RestaurantOutputDto> listAll() {
+        return restaurantModelAssembler.toCollectionModel(restaurantRepository.newlistAll());
+        //return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
     }
 
 
     @GetMapping(params = "summary=summary")
-    public List<RestaurantOutputDto> listAllSummary() {
-        return listAll();
+    //public List<RestaurantOutputDto> listAllSummary() {
+    public CollectionModel<RestaurantBasicsOutputDto> listAllSummary() {
+        return restaurantBasicsModelAssembler.toCollectionModel(restaurantRepository.newlistAll());
     }
 
     @GetMapping(params = "summary=justName")
-    public List<RestaurantOutputDto> listAllJustNames() {
-        return listAll();
+    //public List<RestaurantOutputDto> listAllJustNames() {
+    public CollectionModel<RestaurantJustNamesOutputDto> listAllJustNames() {
+        return restaurantJustNameModelAssembler.toCollectionModel(restaurantRepository.newlistAll());
     }
 
 //	@GetMapping
@@ -302,8 +318,11 @@ public class RestaurantController implements RestaurantControllerOpenApi {
      */
     @PutMapping("{restauranteId}/active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void activate(@PathVariable("restauranteId") Long id) {
+    //public void activate(@PathVariable("restauranteId") Long id) {
+    public ResponseEntity<Void> activate(@PathVariable("restauranteId") Long id) {
         restaurantRegistrationService.activate(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 
@@ -313,9 +332,11 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
     @PutMapping("/list-activation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void activateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
+    //public void activateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
+    public ResponseEntity<Void>  activateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
         try{
             restaurantRegistrationService.activeListOfRestaurantsService(restaurantsIds);
+            return ResponseEntity.noContent().build();
         } catch (RestaurantNotFoundException e){
             throw new GenericBusinessException(e.getReason(), e);
         }
@@ -323,9 +344,10 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
     @DeleteMapping("/list-deactivation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deactivateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
+    public ResponseEntity<Void>  deactivateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
         try {
         restaurantRegistrationService.inactiveListOfRestaurantsService(restaurantsIds);
+            return ResponseEntity.noContent().build();
         } catch (RestaurantNotFoundException e){
             throw new GenericBusinessException(e.getReason(), e);
         }
@@ -337,14 +359,16 @@ public class RestaurantController implements RestaurantControllerOpenApi {
      */
     @PutMapping("/{restaurantId}/opening")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void openRestaurant(@PathVariable Long restaurantId) {
+    public ResponseEntity<Void>  openRestaurant(@PathVariable Long restaurantId) {
         restaurantRegistrationService.openRestaurantService(restaurantId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{restaurantId}/closing")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void closeRestaurant(@PathVariable Long restaurantId) {
+    public ResponseEntity<Void>  closeRestaurant(@PathVariable Long restaurantId) {
         restaurantRegistrationService.closeRestaurantService(restaurantId);
+        return ResponseEntity.noContent().build();
     }
 
     /*
@@ -352,8 +376,9 @@ public class RestaurantController implements RestaurantControllerOpenApi {
      */
     @DeleteMapping("/{restauranteId}/active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void inactivate(@PathVariable("restauranteId") Long id) {
+    public ResponseEntity<Void>  inactivate(@PathVariable("restauranteId") Long id) {
         restaurantRegistrationService.inactivate(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

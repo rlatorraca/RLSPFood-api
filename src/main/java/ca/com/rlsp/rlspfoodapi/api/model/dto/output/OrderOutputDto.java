@@ -49,7 +49,7 @@ public class OrderOutputDto extends RepresentationModel<OrderOutputDto> {
 
     private AddressOutputDto addressDelivery;
     private PaymentTypeOutputDto paymentType;
-    private RestaurantShortOutputDto restaurant;
+    private RestaurantJustNamesOutputDto restaurant;
 
     private UserOutputDto user;
 

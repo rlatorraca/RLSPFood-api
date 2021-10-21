@@ -2,6 +2,8 @@ package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantBasicsOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantJustNamesOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.view.RestaurantView;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.RestaurantGenericModelOpenApi;
@@ -11,7 +13,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -36,15 +40,18 @@ public interface RestaurantControllerOpenApi {
                     required = false
             )
     })
-    public List<RestaurantOutputDto> listAll() ;
+    //List<RestaurantOutputDto> listAll() ;
+    CollectionModel<RestaurantOutputDto> listAll() ;
 
     @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
-    @JsonView(RestaurantView.Summary.class)
-    List<RestaurantOutputDto> listAllSummary() ;
+    //@JsonView(RestaurantView.Summary.class)
+    //List<RestaurantOutputDto> listAllSummary() ;
+    CollectionModel<RestaurantBasicsOutputDto> listAllSummary() ;
 
     @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
-    @JsonView(RestaurantView.SummaryJustName.class)
-    List<RestaurantOutputDto> listAllJustNames() ;
+    //@JsonView(RestaurantView.SummaryJustName.class)
+    //List<RestaurantOutputDto> listAllJustNames() ;
+    CollectionModel<RestaurantJustNamesOutputDto> listAllJustNames() ;
 
     @ApiOperation(value = "Get a Restaurant by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -106,7 +113,9 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    void activate(@ApiParam(name="restaurantId" , value= "Enter a valid restaurant ID", example = "1", required =true)
+    //void activate(@ApiParam(name="restaurantId" , value= "Enter a valid restaurant ID", example = "1", required =true)
+    //                            Long id);
+    ResponseEntity<Void>  activate(@ApiParam(name="restaurantId" , value= "Enter a valid restaurant ID", example = "1", required =true)
                                  Long id);
 
     @ApiOperation(value = "Multiples activation of a restaurant by ID") // Costomize method description on SwaggerUI
@@ -117,7 +126,9 @@ public interface RestaurantControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void activateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
+    //void activateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
+    //                                                      List<Long> restaurantsIds) ;
+    ResponseEntity<Void>  activateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
                                                           List<Long> restaurantsIds) ;
 
     @ApiOperation(value = "Multiples deactivation of a restaurant by ID") // Costomize method description on SwaggerUI
@@ -128,8 +139,10 @@ public interface RestaurantControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void deactivateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
-                                                            List<Long> restaurantsIds);
+    //void deactivateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
+    //                                                        List<Long> restaurantsIds);
+    ResponseEntity<Void>  deactivateMultiplesRestaurants( @ApiParam(name = "field", value = "Restaurants Ids", required = true)
+                                                                List<Long> restaurantsIds);
 
     @ApiOperation(value = "Open a restaurant by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -141,7 +154,8 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    void openRestaurant( Long restaurantId) ;
+    //void openRestaurant( Long restaurantId) ;
+    ResponseEntity<Void>  openRestaurant( Long restaurantId) ;
 
     @ApiOperation(value = "Close a restaurant by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
@@ -153,7 +167,9 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    void closeRestaurant( @ApiParam(value = "Restaurant Id", example = "1", required = true)
+//    void closeRestaurant( @ApiParam(value = "Restaurant Id", example = "1", required = true)
+//                                             Long restaurantId) ;
+    ResponseEntity<Void>  closeRestaurant( @ApiParam(value = "Restaurant Id", example = "1", required = true)
                                              Long restaurantId) ;
 
 
@@ -167,6 +183,8 @@ public interface RestaurantControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    void inactivate( @ApiParam(value = "Restaurant Id", example = "1", required = true)
+//    void inactivate( @ApiParam(value = "Restaurant Id", example = "1", required = true)
+//                                        Long id);
+    ResponseEntity<Void> inactivate(@ApiParam(value = "Restaurant Id", example = "1", required = true)
                                         Long id);
 }

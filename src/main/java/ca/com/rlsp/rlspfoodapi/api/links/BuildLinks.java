@@ -50,8 +50,12 @@ public class BuildLinks {
         return getLinkToUser(orderId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToUsers(String relation) {
+    public Link getLinkToUsers() {
         return getLinkToUsers(IanaLinkRelations.SELF.value());
+    }
+
+    public Link getLinkToUsers(String relation) {
+        return linkTo(UserController.class).withRel(relation);
     }
 
     public Link getLinkToPaymentType(Long orderId,  String relation) {
@@ -182,6 +186,29 @@ public class BuildLinks {
     public Link getLinkToDeliveryAnOrder(String orderCode, String relation) {
         return linkTo(methodOn(StatusOrderController.class).deliver(orderCode)).withRel(relation);
     }
+
+    public Link getLinkToRestaurants(String relation) {
+        return linkTo(RestaurantController.class).withRel(relation);
+    }
+
+    public Link getLinkToRestaurants() {
+        return getLinkToRestaurants(IanaLinkRelations.SELF.value());
+    }
+
+    public Link getLinkToPaymentTypeOnRestaurants(Long restauranteId, String relation) {
+        return linkTo(methodOn(RestaurantPaymentTypeController.class)
+                .listAllByRestaurantId(restauranteId)).withRel(relation);
+    }
+
+    public Link getLinkToCuisine(Long cozinhaId, String relation) {
+        return linkTo(methodOn(CuisineController.class)
+                .findBy1Id(cozinhaId)).withRel(relation);
+    }
+
+    public Link getLinkToCuisine(Long cozinhaId) {
+        return getLinkToCuisine(cozinhaId, IanaLinkRelations.SELF.value());
+    }
+
 
 
 }

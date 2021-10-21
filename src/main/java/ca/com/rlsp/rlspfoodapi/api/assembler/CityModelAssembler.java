@@ -75,10 +75,8 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 
     @Override
     public CollectionModel<CityOutputDto> toCollectionModel(Iterable<? extends City> cities) {
-        return super.toCollectionModel(cities)
-                .add(linkTo(CityController.class)
-                        .withSelfRel()
-                );
+        return super.toCollectionModel(cities).add(buildLinks.getLinkToCities());
+        //return super.toCollectionModel(cities).add(linkTo(CityController.class).withSelfRel());
     }
 
     /*

@@ -1,11 +1,14 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
+import ca.com.rlsp.rlspfoodapi.api.controller.RestaurantController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.*;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
@@ -13,10 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RestaurantModelAssembler {
+public class RestaurantModelAssembler extends RepresentationModelAssemblerSupport<Restaurant, RestaurantOutputDto> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
+
+    public RestaurantModelAssembler() {
+        super(RestaurantController.class, RestaurantOutputDto.class);
+    }
 
 
     /*
@@ -111,5 +121,27 @@ public class RestaurantModelAssembler {
         return restaurants.stream()
                 .map(restaurant -> fromControllerToOutput(restaurant))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public RestaurantOutputDto toModel(Restaurant restaurant) {
+        RestaurantOutputDto restaurantOutputDto = createModelWithId(restaurant.getId(), restaurant);
+        modelMapper.map(restaurant, restaurantOutputDto);
+
+        restaurantOutputDto.add(buildLinks.getLinkToRestaurants("restaurants"));
+
+        restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
+
+        restaurantOutputDto.getAddress().getCity()
+                .add(buildLinks.getLinkToCities(restaurant.getAddress().getCity().getId()));
+
+        restaurantOutputDto.add(buildLinks.getLinkToPaymentTypeOnRestaurants(restaurant.getId(),
+                "payment-types"));
+
+        restaurantOutputDto.add(buildLinks.getLinkRestaurantManagers(restaurant.getId(),
+                "managers"));
+
+
+        return restaurantOutputDto;
     }
 }

@@ -1,6 +1,5 @@
 package ca.com.rlsp.rlspfoodapi.api.model.dto.output;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -44,7 +43,7 @@ public class OrderShortOutputDto extends RepresentationModel<OrderShortOutputDto
     @ApiModelProperty(example = "2021-10-01T20:00:00Z")
     private OffsetDateTime createdDate;
 
-    private RestaurantShortOutputDto restaurant;
+    private RestaurantJustNamesOutputDto restaurant;
 
     private UserOutputDto user;
 

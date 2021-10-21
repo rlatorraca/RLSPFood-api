@@ -86,7 +86,7 @@ public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<
 
     @Override
     public CollectionModel<ProvinceOutputDto> toCollectionModel(Iterable<? extends Province> provinces) {
-        return super.toCollectionModel(provinces)
-                .add(linkTo(ProvinceController.class).withSelfRel());
+        return super.toCollectionModel(provinces).add(buildLinks.getLinkToProvinces());
+        //return super.toCollectionModel(provinces).add(linkTo(ProvinceController.class).withSelfRel());
     }
 }

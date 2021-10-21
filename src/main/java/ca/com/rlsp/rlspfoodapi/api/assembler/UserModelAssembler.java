@@ -77,9 +77,7 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
 
     @Override
     public CollectionModel<UserOutputDto> toCollectionModel(Iterable<? extends User> users) {
-        return super.toCollectionModel(users)
-                .add(linkTo(CityController.class)
-                        .withSelfRel()
-                );
+        return super.toCollectionModel(users).add(buildLinks.getLinkToUsers());
+        //return super.toCollectionModel(users).add(linkTo(CityController.class).withSelfRel());
     }
 }
