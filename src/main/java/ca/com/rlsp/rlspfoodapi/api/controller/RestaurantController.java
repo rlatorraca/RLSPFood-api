@@ -152,7 +152,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     public RestaurantOutputDto findById(@PathVariable("restaurantId") Long id){
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
 
-        RestaurantOutputDto restaurantDTO = restaurantModelAssembler.fromControllerToOutput(restaurant);
+        RestaurantOutputDto restaurantDTO = restaurantModelAssembler.toModel(restaurant);
+        //RestaurantOutputDto restaurantDTO = restaurantModelAssembler.fromControllerToOutput(restaurant);
 
         //return restaurantRegistrationService.findOrFail(id);
         return restaurantDTO;
@@ -357,14 +358,14 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     /*
         Routes for OPEN and CLOSE Restaurant
      */
-    @PutMapping("/{restaurantId}/opening")
+    @PutMapping("/{restaurantId}/open")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void>  openRestaurant(@PathVariable Long restaurantId) {
         restaurantRegistrationService.openRestaurantService(restaurantId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{restaurantId}/closing")
+    @PutMapping("/{restaurantId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void>  closeRestaurant(@PathVariable Long restaurantId) {
         restaurantRegistrationService.closeRestaurantService(restaurantId);

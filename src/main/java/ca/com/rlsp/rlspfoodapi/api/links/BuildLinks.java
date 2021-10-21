@@ -209,6 +209,26 @@ public class BuildLinks {
         return getLinkToCuisine(cozinhaId, IanaLinkRelations.SELF.value());
     }
 
+    public Link getLinkToOpeningRestaurant(Long restaurantId, String relation) {
+        return linkTo(methodOn(RestaurantController.class)
+                .openRestaurant(restaurantId)).withRel(relation);
+    }
+
+    public Link getLinkToClosingRestaurant(Long restaurantId, String relation) {
+        return linkTo(methodOn(RestaurantController.class)
+                .closeRestaurant(restaurantId)).withRel(relation);
+    }
+
+    public Link getLinkToInactiveRestaurant(Long restaurantId, String relation) {
+        return linkTo(methodOn(RestaurantController.class)
+                .inactivate(restaurantId)).withRel(relation);
+    }
+
+    public Link getLinkToActiveRestaurant(Long restaurantId, String relation) {
+        return linkTo(methodOn(RestaurantController.class)
+                .activate(restaurantId)).withRel(relation);
+    }
+
 
 
 }

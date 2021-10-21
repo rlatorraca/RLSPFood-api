@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -130,7 +129,8 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
 
         restaurantOutputDto.add(buildLinks.getLinkToRestaurants("restaurants"));
 
-        restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
+        //restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
+        restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisine(restaurant.getCuisine().getId()));
 
         restaurantOutputDto.getAddress().getCity()
                 .add(buildLinks.getLinkToCities(restaurant.getAddress().getCity().getId()));
@@ -140,6 +140,26 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
 
         restaurantOutputDto.add(buildLinks.getLinkRestaurantManagers(restaurant.getId(),
                 "managers"));
+
+        if (restaurant.activationPermitted()) {
+            restaurantOutputDto.add(
+                    buildLinks.getLinkToActiveRestaurant(restaurant.getId(), "active"));
+        }
+
+        if (restaurant.inactivationPermitted()) {
+            restaurantOutputDto.add(
+                    buildLinks.getLinkToInactiveRestaurant(restaurant.getId(), "inactive"));
+        }
+
+        if (restaurant.openPermitted()) {
+            restaurantOutputDto.add(
+                    buildLinks.getLinkToOpeningRestaurant(restaurant.getId(), "open"));
+        }
+
+        if (restaurant.closePermitted()) {
+            restaurantOutputDto.add(
+                    buildLinks.getLinkToClosingRestaurant(restaurant.getId(), "close"));
+        }
 
 
         return restaurantOutputDto;

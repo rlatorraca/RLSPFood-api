@@ -136,6 +136,39 @@ public class Restaurant {
         setActive(false);
     }
 
+    // Links to Restaurant
+    public boolean isOpened() {
+        return this.opened;
+    }
+
+    public boolean isClosed() {
+        return !isOpened();
+    }
+
+    public boolean isInactive() {
+        return !isActive();
+    }
+
+    public boolean isActive() {
+        return this.active;
+    }
+
+    public boolean openPermitted() {
+        return isActive() && isClosed();
+    }
+
+    public boolean activationPermitted() {
+        return isInactive();
+    }
+
+    public boolean inactivationPermitted() {
+        return isActive();
+    }
+
+    public boolean closePermitted() {
+        return isOpened();
+    }
+
 
     // Adiciona (vincula) uma nova forma de pagamento ao Restaurante
     public boolean attachPaymentType(PaymentType paymentType){
