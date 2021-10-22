@@ -217,15 +217,15 @@ public class BuildLinks {
         return getLinkToRestaurants(IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToPaymentTypeOnRestaurantDetach(Long restauranteId, Long paymentTypeId, String relation) {
+    public Link getLinkToPaymentTypeOnRestaurantDetach(Long restaurantId, Long paymentTypeId, String relation) {
         return linkTo(methodOn(RestaurantPaymentTypeController.class)
-                .detachPaymentType(restauranteId, paymentTypeId))
+                .detachPaymentType(restaurantId, paymentTypeId))
                 .withRel(relation);
     }
 
-    public Link getLinkToPaymentTypeOnRestaurantAttach(Long restauranteId, Long paymentTypeId, String relation) {
+    public Link getLinkToPaymentTypeOnRestaurantAttach(Long restauranteId, String relation) {
         return linkTo(methodOn(RestaurantPaymentTypeController.class)
-                .attachPaymentType(restauranteId, paymentTypeId))
+                .attachPaymentType(restauranteId, null))
                 .withRel(relation);
     }
 

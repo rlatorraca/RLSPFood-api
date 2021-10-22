@@ -40,9 +40,13 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
         //List<PaymentTypeOutputDto> paymentTypeOutputDtoList = paymentTypeModelAssembler7.toCollectionModel(restaurant.getPaymentTypeList());
         CollectionModel<PaymentTypeOutputDto> paymentTypeOutputDtoList =
-                paymentTypeModelAssembler.toCollectionModel(restaurant.getPaymentTypeList());
+                paymentTypeModelAssembler.toCollectionModel(restaurant.getPaymentTypeList())
+                        .removeLinks()
+                        .add(buildLinks.getLinkToPaymentTypeOnRestaurants(id))
+                        .add(buildLinks.getLinkToPaymentTypeOnRestaurantAttach(id,"attach"));
 
-        // Links for DETACH in Restaurant PaymentType
+
+        // Links for DETACH & ATTACH in Restaurant PaymentType
         paymentTypeOutputDtoList.getContent().forEach( paymentTypeOutput ->{
                 paymentTypeOutput
                         .add(buildLinks.getLinkToPaymentTypeOnRestaurantDetach(
@@ -52,22 +56,8 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
             }
         );
 
+        return paymentTypeOutputDtoList;
 
-        // Links for ATTACH in Restaurant PaymentType
-        paymentTypeOutputDtoList.getContent().forEach( paymentTypeOutput ->{
-                    paymentTypeOutput
-                            .add(buildLinks.getLinkToPaymentTypeOnRestaurantAttach(
-                                    id,
-                                    paymentTypeOutput.getId(),
-                                    "attach"));
-                }
-        );
-
-
-
-        return paymentTypeOutputDtoList
-                    .removeLinks()
-                    .add(buildLinks.getLinkToPaymentTypeOnRestaurants(id));
     }
 
     @DeleteMapping("/{paymentTypeId}")
