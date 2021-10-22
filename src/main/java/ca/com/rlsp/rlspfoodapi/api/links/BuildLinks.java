@@ -25,11 +25,20 @@ public class BuildLinks {
 
     );
 
-    public Link getLinkToOrders() {
+    public static final TemplateVariables PROJECTION_VARIABLES = new TemplateVariables(
+            new TemplateVariable("projection", TemplateVariable.VariableType.REQUEST_PARAM));
+
+    public Link getLinkToOrders(String relation) {
         String orderURI = linkTo(methodOn(OrderController.class).searchByFilterPageable(null,
                 null)).toUri().toString();
 
-        return Link.of(UriTemplate.of(orderURI, VARIABLES_PAGINATION.concat(VARIABLES_FILTER)),"order-short");
+        return Link.of(UriTemplate.of(orderURI, VARIABLES_PAGINATION.concat(VARIABLES_FILTER)),relation);
+    }
+
+    public Link getLinkToRestaurants(String relation) {
+        String restaurantURI = linkTo(RestaurantController.class).toUri().toString();
+
+        return Link.of(UriTemplate.of(restaurantURI, PROJECTION_VARIABLES), relation);
     }
 
     public Link getLinkToRestaurant(Long restaurantId, String relation) {
@@ -187,9 +196,9 @@ public class BuildLinks {
         return linkTo(methodOn(StatusOrderController.class).deliver(orderCode)).withRel(relation);
     }
 
-    public Link getLinkToRestaurants(String relation) {
-        return linkTo(RestaurantController.class).withRel(relation);
-    }
+//    public Link getLinkToRestaurants(String relation) {
+//        return linkTo(RestaurantController.class).withRel(relation);
+//    }
 
     public Link getLinkToRestaurants() {
         return getLinkToRestaurants(IanaLinkRelations.SELF.value());

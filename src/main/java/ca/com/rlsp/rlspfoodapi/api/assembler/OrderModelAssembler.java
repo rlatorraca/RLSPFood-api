@@ -60,7 +60,7 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
         modelMapper.map(order, orderOutputDto);
 
         //searchByFilterPageable
-        orderOutputDto.add(buildLinks.getLinkToOrders());
+        orderOutputDto.add(buildLinks.getLinkToOrders("orders-short"));
 
 
         //orderOutputDto.add(linkTo(OrderController.class).withRel("orders"));

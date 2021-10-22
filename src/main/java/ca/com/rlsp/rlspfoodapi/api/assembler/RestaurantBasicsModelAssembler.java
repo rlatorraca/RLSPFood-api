@@ -28,7 +28,7 @@ public class RestaurantBasicsModelAssembler extends RepresentationModelAssembler
         RestaurantBasicsOutputDto restaurantBasicsOutputDto = createModelWithId(restaurant.getId(),restaurant);
         modelMapper.map(restaurant, restaurantBasicsOutputDto);
 
-        restaurantBasicsOutputDto.add(buidLinks.getLinkToRestaurants());
+        restaurantBasicsOutputDto.add(buidLinks.getLinkToRestaurants("restaurants"));
 
         return restaurantBasicsOutputDto;
     }

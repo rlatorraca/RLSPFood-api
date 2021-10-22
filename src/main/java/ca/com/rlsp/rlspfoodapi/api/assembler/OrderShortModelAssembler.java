@@ -64,7 +64,7 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
 
         //orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
 
-        orderShortOutputDto.add(buildLinks.getLinkToOrders());
+       orderShortOutputDto.add(buildLinks.getLinkToOrders("orders-short"));
 
 //        orderShortOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
 //                .findById(order.getRestaurant().getId())).withSelfRel());
