@@ -74,7 +74,7 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
         // Passamos null no segundo argumento, porque é indiferente para a
         // construção da URL do recurso de forma de pagamento
         orderOutputDto.getPaymentType().add(buildLinks
-                .getLinkToPaymentType(order.getPaymentType().getId()));
+                .getLinkToPaymentTypeOrder(order.getPaymentType().getId()));
 
         orderOutputDto.getAddressDelivery().getCity().add(buildLinks
                 .getLinkToAddressDelivery(order.getAddressDelivery().getCity().getId()));

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,8 @@ public interface PaymentTypeControllerOpenApi {
                     )
             )
     })
-    public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request);
+    //public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request);
+    public ResponseEntity<CollectionModel<PaymentTypeOutputDto>> listAll(ServletWebRequest request);
 
 
 

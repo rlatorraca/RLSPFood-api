@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 
 import java.util.List;
@@ -24,7 +25,9 @@ public interface RestaurantPaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    List<PaymentTypeOutputDto> listAllByRestaurantId(@ApiParam(value = "restaurantId", example = "1", required = true)
+    //List<PaymentTypeOutputDto> listAllByRestaurantId(@ApiParam(value = "restaurantId", example = "1", required = true)
+    //                                                                      Long restaurantId);
+    CollectionModel<PaymentTypeOutputDto> listAllByRestaurantId(@ApiParam(value = "restaurantId", example = "1", required = true)
                                                                           Long restaurantId);
 
     @ApiOperation("Detach a payment type of a restaurant")  // Customize method description on SwaggerUI

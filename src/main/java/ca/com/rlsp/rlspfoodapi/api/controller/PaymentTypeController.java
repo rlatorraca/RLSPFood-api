@@ -8,6 +8,7 @@ import ca.com.rlsp.rlspfoodapi.api.openapi.controller.PaymentTypeControllerOpenA
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.repository.PaymentTypeRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.PaymentTypeRegistrationService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -90,12 +91,16 @@ public class PaymentTypeController implements PaymentTypeControllerOpenApi {
      */
 
     @GetMapping
-    public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request) {
+    //public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request) {
+    public ResponseEntity<CollectionModel<PaymentTypeOutputDto>> listAll(ServletWebRequest request) {
 
-        List<PaymentType> todasFormasPagamentos = paymentTypeRepository.findAll();
+        List<PaymentType> allPaymentTypes = paymentTypeRepository.findAll();
 
-        List<PaymentTypeOutputDto> paymentTypeOutputDtos = paymentTypeModelAssembler
-                .fromControllerToOutputList(todasFormasPagamentos);
+        //List<PaymentTypeOutputDto> paymentTypeOutputDtos = paymentTypeModelAssembler
+        //        .fromControllerToOutputList(allPaymentTypes);
+
+        CollectionModel<PaymentTypeOutputDto> paymentTypeOutputDtos = paymentTypeModelAssembler
+                .toCollectionModel(allPaymentTypes);
         return ResponseEntity
                 .ok()
                 .cacheControl(

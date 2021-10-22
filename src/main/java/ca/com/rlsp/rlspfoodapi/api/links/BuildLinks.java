@@ -67,14 +67,7 @@ public class BuildLinks {
         return linkTo(UserController.class).withRel(relation);
     }
 
-    public Link getLinkToPaymentType(Long orderId,  String relation) {
-        return linkTo(methodOn(PaymentTypeController.class)
-                .findById(orderId, null)).withRel(relation);
-    }
 
-    public Link getLinkToPaymentType(Long paymentTypeId) {
-        return getLinkToPaymentType(paymentTypeId, IanaLinkRelations.SELF.value());
-    }
 
     public Link getLinkToAddressDelivery(Long cityId,  String relation) {
         return linkTo(methodOn(CityController.class)
@@ -114,14 +107,34 @@ public class BuildLinks {
         return getLinkRestaurantManagers(restaurantId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkPaymentType(Long paymentTypeId, String relation) {
+
+    public Link getLinkToPaymentTypeOrder(Long orderId, String relation) {
+        return linkTo(methodOn(PaymentTypeController.class)
+                .findById(orderId, null)).withRel(relation);
+    }
+
+    public Link getLinkToPaymentTypeOrder(Long paymentTypeId) {
+        return getLinkToPaymentType(paymentTypeId, IanaLinkRelations.SELF.value());
+    }
+
+
+    public Link getLinkToPaymentType(Long paymentTypeId, String relation) {
         return linkTo(methodOn(PaymentTypeController.class)
                 .findById(paymentTypeId, null)).withRel(relation);
     }
 
-    public Link getLinkPaymentType(Long paymentTypeId) {
-        return getLinkPaymentType(paymentTypeId, IanaLinkRelations.SELF.value());
+    public Link getLinkToPaymentType(Long paymentTypeId) {
+        return getLinkToPaymentType(paymentTypeId, IanaLinkRelations.SELF.value());
     }
+
+    public Link getLinkToPaymentType(String relation) {
+        return linkTo(PaymentTypeController.class).withRel(relation);
+    }
+
+    public Link getLinkToPaymentType() {
+        return getLinkToPaymentType(IanaLinkRelations.SELF.value());
+    }
+
 
     public Link getLinkToCities(Long cityId, String relation) {
         return linkTo(methodOn(CityController.class)
@@ -207,6 +220,10 @@ public class BuildLinks {
     public Link getLinkToPaymentTypeOnRestaurants(Long restauranteId, String relation) {
         return linkTo(methodOn(RestaurantPaymentTypeController.class)
                 .listAllByRestaurantId(restauranteId)).withRel(relation);
+    }
+
+    public Link getLinkToPaymentTypeOnRestaurants(Long restaurantId) {
+        return getLinkToPaymentTypeOnRestaurants(restaurantId, IanaLinkRelations.SELF.value());
     }
 
     public Link getLinkToCuisine(Long cozinhaId, String relation) {
