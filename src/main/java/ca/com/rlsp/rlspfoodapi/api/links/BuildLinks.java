@@ -217,6 +217,18 @@ public class BuildLinks {
         return getLinkToRestaurants(IanaLinkRelations.SELF.value());
     }
 
+    public Link getLinkToPaymentTypeOnRestaurantDetach(Long restauranteId, Long paymentTypeId, String relation) {
+        return linkTo(methodOn(RestaurantPaymentTypeController.class)
+                .detachPaymentType(restauranteId, paymentTypeId))
+                .withRel(relation);
+    }
+
+    public Link getLinkToPaymentTypeOnRestaurantAttach(Long restauranteId, Long paymentTypeId, String relation) {
+        return linkTo(methodOn(RestaurantPaymentTypeController.class)
+                .attachPaymentType(restauranteId, paymentTypeId))
+                .withRel(relation);
+    }
+
     public Link getLinkToPaymentTypeOnRestaurants(Long restauranteId, String relation) {
         return linkTo(methodOn(RestaurantPaymentTypeController.class)
                 .listAllByRestaurantId(restauranteId)).withRel(relation);

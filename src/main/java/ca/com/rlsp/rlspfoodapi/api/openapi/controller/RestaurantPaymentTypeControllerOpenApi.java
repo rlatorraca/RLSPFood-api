@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -43,7 +44,12 @@ public interface RestaurantPaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void detachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
+//    void detachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
+//                                          Long paymentTypeId,
+//                                  @ApiParam(value = "restaurantId", example = "1", required = true)
+//                                          Long restaurantId);
+
+    ResponseEntity<Void> detachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
                                           Long paymentTypeId,
                                   @ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId);
@@ -62,8 +68,12 @@ public interface RestaurantPaymentTypeControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void attachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
+//    void attachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
+//                                          Long paymentTypeId,
+//                                  @ApiParam(value = "restaurantId", example = "1", required = true)
+//                                          Long restaurantId);
+    ResponseEntity<Void> attachPaymentType(@ApiParam(value = "PaymentTypeId", example = "1", required = true)
                                           Long paymentTypeId,
-                                  @ApiParam(value = "restaurantId", example = "1", required = true)
+                           @ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId);
 }

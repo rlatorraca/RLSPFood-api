@@ -10,9 +10,8 @@ import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path="/restaurants/{restaurantId}/paymenttype",  produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -42,6 +41,30 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
         //List<PaymentTypeOutputDto> paymentTypeOutputDtoList = paymentTypeModelAssembler7.toCollectionModel(restaurant.getPaymentTypeList());
         CollectionModel<PaymentTypeOutputDto> paymentTypeOutputDtoList =
                 paymentTypeModelAssembler.toCollectionModel(restaurant.getPaymentTypeList());
+
+        // Links for DETACH in Restaurant PaymentType
+        paymentTypeOutputDtoList.getContent().forEach( paymentTypeOutput ->{
+                paymentTypeOutput
+                        .add(buildLinks.getLinkToPaymentTypeOnRestaurantDetach(
+                                id,
+                                paymentTypeOutput.getId(),
+                                "detach"));
+            }
+        );
+
+
+        // Links for ATTACH in Restaurant PaymentType
+        paymentTypeOutputDtoList.getContent().forEach( paymentTypeOutput ->{
+                    paymentTypeOutput
+                            .add(buildLinks.getLinkToPaymentTypeOnRestaurantAttach(
+                                    id,
+                                    paymentTypeOutput.getId(),
+                                    "attach"));
+                }
+        );
+
+
+
         return paymentTypeOutputDtoList
                     .removeLinks()
                     .add(buildLinks.getLinkToPaymentTypeOnRestaurants(id));
@@ -49,14 +72,18 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
 
     @DeleteMapping("/{paymentTypeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void detachPaymentType(@PathVariable("paymentTypeId") Long paymentTypeId, @PathVariable("restaurantId") Long restaurantId){
+    public ResponseEntity<Void> detachPaymentType(@PathVariable("restaurantId") Long restaurantId, @PathVariable("paymentTypeId") Long paymentTypeId){
         restaurantRegistrationService.detachPaymentType(restaurantId,paymentTypeId);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{paymentTypeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void attachPaymentType(@PathVariable("paymentTypeId") Long paymentTypeId, @PathVariable("restaurantId") Long restaurantId){
+    public ResponseEntity<Void> attachPaymentType(@PathVariable("restaurantId") Long restaurantId, @PathVariable("paymentTypeId") Long paymentTypeId){
         restaurantRegistrationService.attachPaymentType(restaurantId,paymentTypeId);
+
+        return ResponseEntity.noContent().build();
     }
 
 
