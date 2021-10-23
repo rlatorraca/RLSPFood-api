@@ -278,6 +278,8 @@ public class BuildLinks {
                 .activate(restaurantId)).withRel(relation);
     }
 
+
+    // Products of a Restaurant
     public Link getLinkToProducts(Long restaurantId, String relation) {
         return linkTo(methodOn(RestaurantProductController.class)
                 .listAllActives(restaurantId, null))
@@ -288,6 +290,16 @@ public class BuildLinks {
         return getLinkToProducts(restaurantId, IanaLinkRelations.SELF.value());
     }
 
+
+    // Product Photos
+    public Link getLinkToPhotoProduct(Long restaurantId, Long productId, String relation) {
+        return linkTo(methodOn(RestaurantProductPhotoController.class)
+                .findProductPhoto(restaurantId, productId)).withRel(relation);
+    }
+
+    public Link getLinkToPhotoProduct(Long restaurantId, Long productId) {
+        return getLinkToPhotoProduct(restaurantId, productId, IanaLinkRelations.SELF.value());
+    }
 
 
 }

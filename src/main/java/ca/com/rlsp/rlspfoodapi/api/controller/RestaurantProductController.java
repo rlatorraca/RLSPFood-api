@@ -83,7 +83,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
                                                              @PathVariable Long productId) {
         Product product = productRegistrationService.findOrFail(restaurantId, productId);
 
-        return productModelAssembler.fromControllerToOutput(product);
+        return productModelAssembler.toModel(product);
+        //return productModelAssembler.fromControllerToOutput(product);
     }
 
     /*
@@ -120,7 +121,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
 
             currentProduct = productRegistrationService.save(currentProduct);
 
-        return productModelAssembler.fromControllerToOutput(currentProduct);
+        return productModelAssembler.toModel(currentProduct);
+        //return productModelAssembler.fromControllerToOutput(currentProduct);
         } catch ( EntityNotFoundException e ){
             throw new GenericBusinessException(e.getReason());
         }
@@ -138,7 +140,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
 
         product = productRegistrationService.save(product);
 
-        return productModelAssembler.fromControllerToOutput(product);
+        return productModelAssembler.toModel(product);
+        //return productModelAssembler.fromControllerToOutput(product);
     }
 
     @DeleteMapping("/delete/{productId}")

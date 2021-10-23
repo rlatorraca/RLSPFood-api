@@ -55,16 +55,20 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         catalogueProductPhotoService.remove(restaurantId,productId);
     }
 
-    @GetMapping(produces = MediaType.ALL_VALUE)
+    @Override
+    @GetMapping
+    //@GetMapping
     public ProductPhotoOutputDto findProductPhoto(@PathVariable Long restaurantId,
                                                   @PathVariable Long productId) {
         ProductPhoto productPhoto = catalogueProductPhotoService
                 .findAndFail(restaurantId, productId);
 
-        return productPhotoModelAssembler.fromControllerToOutput(productPhoto);
+        return productPhotoModelAssembler.toModel(productPhoto);
+        //return productPhotoModelAssembler.fromControllerToOutput(productPhoto);
     }
 
-    @GetMapping
+    //@Override
+    @GetMapping(produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> getProductPhoto(@PathVariable Long restaurantId,
                                           @PathVariable Long productId,
                                           @RequestHeader(name="accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {

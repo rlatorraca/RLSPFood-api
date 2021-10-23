@@ -88,6 +88,8 @@ public class ProductModelAssembler extends RepresentationModelAssemblerSupport<P
 
         productOutputDto.add(buildLinks.getLinkToProducts(product.getRestaurant().getId(), "products"));
 
+        productOutputDto.add(buildLinks.getLinkToPhotoProduct(product.getRestaurant().getId(), product.getId(), "photos"));
+
 
         return productOutputDto;
     }
