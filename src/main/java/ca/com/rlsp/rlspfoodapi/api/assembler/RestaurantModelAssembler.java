@@ -129,11 +129,6 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
 
         restaurantOutputDto.add(buildLinks.getLinkToRestaurants("restaurants"));
 
-        //restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
-        restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisine(restaurant.getCuisine().getId()));
-
-        restaurantOutputDto.getAddress().getCity()
-                .add(buildLinks.getLinkToCities(restaurant.getAddress().getCity().getId()));
 
         restaurantOutputDto.add(buildLinks.getLinkToPaymentTypeOnRestaurants(restaurant.getId(),
                 "payment-types"));
@@ -159,6 +154,17 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
         if (restaurant.closePermitted()) {
             restaurantOutputDto.add(
                     buildLinks.getLinkToClosingRestaurant(restaurant.getId(), "close"));
+        }
+
+        restaurantOutputDto.add(buildLinks.getLinkToProducts(restaurant.getId(), "products"));
+
+        //restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
+        restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisine(restaurant.getCuisine().getId()));
+
+        if (restaurantOutputDto.getAddress() != null
+                && restaurantOutputDto.getAddress().getCity() != null) {
+            restaurantOutputDto.getAddress().getCity().add(
+                    buildLinks.getLinkToCities(restaurant.getAddress().getCity().getId()));
         }
 
 

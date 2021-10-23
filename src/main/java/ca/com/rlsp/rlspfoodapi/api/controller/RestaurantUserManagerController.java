@@ -9,6 +9,7 @@ import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -24,18 +25,27 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
     private BuildLinks buildLinks;
 
     public RestaurantUserManagerController(RestaurantRegistrationService restaurantRegistrationService,
-                                           UserModelAssembler userModelAssembler) {
+                                           UserModelAssembler userModelAssembler,
+                                           BuildLinks buildLinks) {
         this.restaurantRegistrationService = restaurantRegistrationService;
         this.userModelAssembler = userModelAssembler;
+        this.buildLinks = buildLinks;
     }
 
     @GetMapping
     public CollectionModel<UserOutputDto> listOne(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(restaurantId);
 
-        return userModelAssembler.toCollectionModel(restaurant.getManagers())
+        CollectionModel<UserOutputDto> userOutputDtos = userModelAssembler
+                .toCollectionModel(restaurant.getManagers())
                 .removeLinks()
-                .add(buildLinks.getLinkToUserGroups(restaurantId));
+                .add(buildLinks.getLinkRestaurantManagers(restaurantId))
+                .add(buildLinks.getLinkToManagerRestaurantAttach(restaurantId,"attach"));
+
+        return userOutputDtos;
+//                .toCollectionModel(restaurant.getManagers())
+//                .removeLinks()
+//                .add(buildLinks.getLinkToUserGroups(restaurantId));
 //                .add(linkTo(methodOn(RestaurantUserManagerController.class)
 //                        .listOne(restaurantId))
 //                .withSelfRel());
@@ -53,13 +63,15 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void detachManager(@PathVariable Long restaurantId, @PathVariable Long userId) {
+    public ResponseEntity<Void> detachManager(@PathVariable Long restaurantId, @PathVariable Long userId) {
         restaurantRegistrationService.detachManager(restaurantId, userId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void attachManager(@PathVariable Long restaurantId, @PathVariable Long userId) {
+    public ResponseEntity<Void> attachManager(@PathVariable Long restaurantId, @PathVariable Long userId) {
         restaurantRegistrationService.attachManager(restaurantId, userId);
+        return ResponseEntity.noContent().build();
     }
 }

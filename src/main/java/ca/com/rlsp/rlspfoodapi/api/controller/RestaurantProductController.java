@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.ProductModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.disassembler.ProductInputDisassembler;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProductInputUpdateStatusDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductOutputDto;
@@ -13,6 +14,7 @@ import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProductRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProductRegistrationService;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +31,13 @@ public class RestaurantProductController implements RestaurantProductControllerO
     private RestaurantRegistrationService restaurantRegistrationService;
     private ProductModelAssembler productModelAssembler;
     private ProductInputDisassembler productInputDisassembler;
+    private BuildLinks buildLinks;
 
     public RestaurantProductController(ProductRepository productRepository,
                                        ProductRegistrationService productRegistrationService,
                                        RestaurantRegistrationService restaurantRegistrationService,
                                        ProductModelAssembler productModelAssembler,
+                                       BuildLinks buildLinks,
                                        ProductInputDisassembler productInputDisassembler) {
 
         this.productRepository = productRepository;
@@ -41,6 +45,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
         this.restaurantRegistrationService = restaurantRegistrationService;
         this.productModelAssembler = productModelAssembler;
         this.productInputDisassembler = productInputDisassembler;
+        this.buildLinks = buildLinks;
     }
 
 //    @GetMapping
@@ -51,8 +56,9 @@ public class RestaurantProductController implements RestaurantProductControllerO
 //    }
 
     @GetMapping("/actives")
-    public List<ProductOutputDto> listAllActives(@PathVariable("restaurantId") Long id,
-                                                 @RequestParam(required = false) boolean justActiveProducts) {
+    //public List<ProductOutputDto> listAllActives(@PathVariable("restaurantId") Long id,
+    public CollectionModel<ProductOutputDto> listAllActives(@PathVariable("restaurantId") Long id,
+                                                            @RequestParam(required = false) Boolean justActiveProducts) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
         List<Product> allProducts = null;
 
@@ -62,7 +68,12 @@ public class RestaurantProductController implements RestaurantProductControllerO
             allProducts = productRegistrationService.listAll(restaurant);
         }
 
-        List<ProductOutputDto> productOutputDtoList = productOutputDtoList = productModelAssembler.fromControllerToOutputList(allProducts);
+        CollectionModel<ProductOutputDto> productOutputDtoList = productModelAssembler
+                .toCollectionModel(allProducts)
+                .removeLinks()
+                .add(buildLinks.getLinkToProducts(id));
+        //List<ProductOutputDto> productOutputDtoList = productOutputDtoList = productModelAssembler.fromControllerToOutputList(allProducts);
+
         return productOutputDtoList;
     }
 

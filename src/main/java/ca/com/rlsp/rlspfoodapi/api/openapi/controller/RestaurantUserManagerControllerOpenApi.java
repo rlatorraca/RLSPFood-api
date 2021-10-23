@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,7 +47,12 @@ public interface RestaurantUserManagerControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void detachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
+//    void detachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
+//                                          Long restaurantId,
+//                              @ApiParam(value = "userId", example = "1", required = true)
+//                                          Long userId);
+
+    ResponseEntity<Void> detachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId,
                               @ApiParam(value = "userId", example = "1", required = true)
                                           Long userId);
@@ -65,9 +71,13 @@ public interface RestaurantUserManagerControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void attachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
+//    void attachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
+//                                          Long restaurantId,
+//                             @ApiParam(value = "userId", example = "1", required = true)
+//                                          Long userId);
+    ResponseEntity<Void> attachManager(@ApiParam(value = "restaurantId", example = "1", required = true)
                                           Long restaurantId,
-                              @ApiParam(value = "userId", example = "1", required = true)
+                                       @ApiParam(value = "userId", example = "1", required = true)
                                           Long userId);
 }
 

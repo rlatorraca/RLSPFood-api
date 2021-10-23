@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -38,11 +39,17 @@ public interface RestaurantProductControllerOpenApi  {
             @ApiResponse(responseCode = "404", description = "Group not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    List<ProductOutputDto> listAllActives(@ApiParam(value = "restaurantId", example = "1", required = true)
+//    List<ProductOutputDto> listAllActives(@ApiParam(value = "restaurantId", example = "1", required = true)
+//                                                              Long restaurantId,
+//                                                 @ApiParam(value = "Active or Inactive products on list",
+//                                                          example = "false", defaultValue = "false")
+//                                                         Boolean justActiveProducts);
+
+    CollectionModel<ProductOutputDto> listAllActives(@ApiParam(value = "restaurantId", example = "1", required = true)
                                                               Long restaurantId,
-                                                 @ApiParam(value = "Active or Inactive products on list",
+                                                     @ApiParam(value = "Active or Inactive products on list",
                                                           example = "false", defaultValue = "false")
-                                                         boolean justActiveProducts);
+                                                         Boolean justActiveProducts);
 
 
 

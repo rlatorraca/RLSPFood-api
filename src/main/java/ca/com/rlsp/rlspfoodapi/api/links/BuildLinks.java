@@ -234,6 +234,17 @@ public class BuildLinks {
                 .listAllByRestaurantId(restauranteId)).withRel(relation);
     }
 
+    public Link getLinkToManagerRestaurantDetach(Long restaurantId, Long userId, String rel) {
+
+        return linkTo(methodOn(RestaurantUserManagerController.class)
+                .detachManager(restaurantId, userId)).withRel(rel);
+    }
+
+    public Link getLinkToManagerRestaurantAttach(Long restaurantId, String rel) {
+        return linkTo(methodOn(RestaurantUserManagerController.class)
+                .attachManager(restaurantId, null)).withRel(rel);
+    }
+
     public Link getLinkToPaymentTypeOnRestaurants(Long restaurantId) {
         return getLinkToPaymentTypeOnRestaurants(restaurantId, IanaLinkRelations.SELF.value());
     }
@@ -265,6 +276,16 @@ public class BuildLinks {
     public Link getLinkToActiveRestaurant(Long restaurantId, String relation) {
         return linkTo(methodOn(RestaurantController.class)
                 .activate(restaurantId)).withRel(relation);
+    }
+
+    public Link getLinkToProducts(Long restaurantId, String relation) {
+        return linkTo(methodOn(RestaurantProductController.class)
+                .listAllActives(restaurantId, null))
+                .withRel(relation);
+    }
+
+    public Link getLinkToProducts(Long restaurantId) {
+        return getLinkToProducts(restaurantId, IanaLinkRelations.SELF.value());
     }
 
 
