@@ -301,5 +301,18 @@ public class BuildLinks {
         return getLinkToPhotoProduct(restaurantId, productId, IanaLinkRelations.SELF.value());
     }
 
+    public Link getLinkToGroups(String relation) {
+        return linkTo(GroupController.class).withRel(relation);
+    }
+
+    public Link getLinkToGroups() {
+        return getLinkToGroups(IanaLinkRelations.SELF.value());
+    }
+
+    public Link getLinkToGroupPermissions(Long groupId, String relation) {
+        return linkTo(methodOn(GroupPermissionController.class)
+                .listAll(groupId)).withRel(relation);
+    }
+
 
 }

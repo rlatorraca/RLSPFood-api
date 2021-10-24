@@ -3,14 +3,18 @@ package ca.com.rlsp.rlspfoodapi.api.controller;
 import ca.com.rlsp.rlspfoodapi.api.assembler.GroupModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.GroupOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.UserGroupControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.service.UserRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path="/users/{userId}/groups", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -25,10 +29,11 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     }
 
     @GetMapping
-    public List<GroupOutputDto> listAll(@PathVariable Long userId) {
+    //public List<GroupOutputDto> listAll(@PathVariable Long userId) {
+    public CollectionModel<GroupOutputDto> listAll(@PathVariable Long userId) {
         User user = userRegistrationService.findOrFail(userId);
 
-        return groupModelAssembler.fromControllerToOutputList(user.getGroups());
+        return groupModelAssembler.toCollectionModel(user.getGroups());
         //return groupModelAssembler.fromControllerToOutputList(user.getGroups());
     }
     @DeleteMapping("/{groupId}")

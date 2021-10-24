@@ -1,5 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
+import ca.com.rlsp.rlspfoodapi.api.controller.GroupController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.GroupInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
@@ -9,6 +11,8 @@ import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
@@ -17,10 +21,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class GroupModelAssembler {
+public class GroupModelAssembler extends RepresentationModelAssemblerSupport<Group, GroupOutputDto> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
+
+
+    public GroupModelAssembler() {
+        super(GroupController.class, GroupOutputDto.class);
+    }
 
 
     /*
@@ -51,5 +63,23 @@ public class GroupModelAssembler {
         return groups.stream()
                 .map(group -> fromControllerToOutput(group))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public GroupOutputDto toModel(Group group) {
+
+        GroupOutputDto groupOutputDto = createModelWithId(group.getId(), group);
+        modelMapper.map(group, groupOutputDto);
+
+        groupOutputDto.add(buildLinks.getLinkToGroups("groups"));
+        groupOutputDto.add(buildLinks.getLinkToGroupPermissions(group.getId(), "permissions"));
+
+        return groupOutputDto;
+    }
+
+    @Override
+    public CollectionModel<GroupOutputDto> toCollectionModel(Iterable<? extends Group> groups) {
+        return super.toCollectionModel(groups)
+                .add(buildLinks.getLinkToGroups());
     }
 }

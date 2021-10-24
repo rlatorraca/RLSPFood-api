@@ -26,7 +26,7 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
     }
 
     @GetMapping
-    public List<PermissionOutputDto> listar(@PathVariable Long groupId) {
+    public List<PermissionOutputDto> listAll(@PathVariable Long groupId) {
         Group group = groupRegistrationService.findOrFail(groupId);
 
         return permissionModelAssembler.fromControllerToOutputList(group.getPermissions());

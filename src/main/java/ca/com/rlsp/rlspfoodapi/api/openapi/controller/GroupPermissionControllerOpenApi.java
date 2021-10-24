@@ -30,7 +30,7 @@ public interface GroupPermissionControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    List<PermissionOutputDto> listar(@ApiParam(value = "groupId", example = "1", required = true)
+    List<PermissionOutputDto> listAll(@ApiParam(value = "groupId", example = "1", required = true)
                                                         Long groupId) ;
 
 

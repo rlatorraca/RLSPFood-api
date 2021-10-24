@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ import java.util.List;
 public interface GroupControllerOpenApi {
 
     @ApiOperation(value = "List all groups in JSON")
-    public List<GroupOutputDto> listAll() ;
+    //public List<GroupOutputDto> listAll() ;
+    public CollectionModel<GroupOutputDto> listAll() ;
 
     @ApiOperation(value = "Get a Group by ID") // Customize method description on SwaggerUI
     @ApiResponses({

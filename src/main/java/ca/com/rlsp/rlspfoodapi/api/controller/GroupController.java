@@ -8,6 +8,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.output.GroupOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.repository.GroupRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.GroupRegistrationService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +36,12 @@ public class GroupController implements GroupControllerOpenApi {
     }
 
     @GetMapping
-    public List<GroupOutputDto> listAll() {
-        List<Group> todosGrupos = groupRepository.findAll();
+    //public List<GroupOutputDto> listAll() {
+    public CollectionModel<GroupOutputDto> listAll() {
+        List<Group> allGroups = groupRepository.findAll();
 
-        return groupModelAssembler.fromControllerToOutputList(todosGrupos);
+        return groupModelAssembler.toCollectionModel(allGroups);
+        //return groupModelAssembler.fromControllerToOutputList(todosGrupos);
     }
 
     @GetMapping("/{groupId}")

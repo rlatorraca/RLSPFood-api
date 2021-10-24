@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 
 import java.util.List;
@@ -24,7 +25,9 @@ public interface UserGroupControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    List<GroupOutputDto> listAll(@ApiParam(value = "userId", example = "1", required = true)
+//    List<GroupOutputDto> listAll(@ApiParam(value = "userId", example = "1", required = true)
+//                                                    Long userId);
+    CollectionModel<GroupOutputDto> listAll(@ApiParam(value = "userId", example = "1", required = true)
                                                     Long userId);
 
     @ApiOperation("Detach a group of an user")
