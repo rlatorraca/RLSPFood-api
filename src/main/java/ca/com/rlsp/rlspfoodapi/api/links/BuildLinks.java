@@ -314,5 +314,25 @@ public class BuildLinks {
                 .listAll(groupId)).withRel(relation);
     }
 
+    public Link getLinkToGroupPermissions(Long groupId) {
+        return getLinkToGroupPermissions(groupId, IanaLinkRelations.SELF.value());
+    }
+    public Link getLinkToPermissions(String relation) {
+        return linkTo(PermissionController.class).withRel(relation);
+    }
+
+    public Link getLinkToPermissions() {
+        return getLinkToPermissions(IanaLinkRelations.SELF.value());   }
+
+    public Link getLinkToPermissionsAttach(Long groupId, String relation) {
+        return linkTo(methodOn(GroupPermissionController.class)
+                .attach(groupId, null)).withRel(relation);
+    }
+
+    public Link getLinkToPermissionsDetach(Long groupId, Long permissionId, String relation) {
+        return linkTo(methodOn(GroupPermissionController.class)
+                .detach(groupId, permissionId)).withRel(relation);
+    }
+
 
 }

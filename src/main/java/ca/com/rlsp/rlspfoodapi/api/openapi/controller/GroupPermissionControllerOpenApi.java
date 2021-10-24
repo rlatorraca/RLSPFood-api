@@ -9,7 +9,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -30,7 +32,9 @@ public interface GroupPermissionControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    List<PermissionOutputDto> listAll(@ApiParam(value = "groupId", example = "1", required = true)
+//    List<PermissionOutputDto> listAll(@ApiParam(value = "groupId", example = "1", required = true)
+//                                                        Long groupId) ;
+    CollectionModel<PermissionOutputDto> listAll(@ApiParam(value = "groupId", example = "1", required = true)
                                                         Long groupId) ;
 
 
@@ -47,9 +51,13 @@ public interface GroupPermissionControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void detach(@ApiParam(value = "groupId", example = "1", required = true)
+//    void detach(@ApiParam(value = "groupId", example = "1", required = true)
+//                                   Long groupId,
+//                       @ApiParam(value = "permissionId", example = "1", required = true)
+//                               Long permissionId) ;
+    ResponseEntity<Void> detach(@ApiParam(value = "groupId", example = "1", required = true)
                                    Long groupId,
-                       @ApiParam(value = "permissionId", example = "1", required = true)
+                                @ApiParam(value = "permissionId", example = "1", required = true)
                                Long permissionId) ;
 
 
@@ -66,7 +74,12 @@ public interface GroupPermissionControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void attach(@ApiParam(value = "groupId", example = "1", required = true)
+//    void attach(@ApiParam(value = "groupId", example = "1", required = true)
+//                                   Long groupId,
+//                       @ApiParam(value = "permissionId", example = "1", required = true)
+//                                   Long permissionId) ;
+
+    ResponseEntity<Void> attach(@ApiParam(value = "groupId", example = "1", required = true)
                                    Long groupId,
                        @ApiParam(value = "permissionId", example = "1", required = true)
                                    Long permissionId) ;

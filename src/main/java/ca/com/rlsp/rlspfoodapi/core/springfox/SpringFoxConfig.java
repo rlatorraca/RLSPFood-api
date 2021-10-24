@@ -98,6 +98,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         new Tag("Restaurant Products", "Manage all endpoints to Restaurant-Product's Resources"),
                         new Tag("Restaurant Products Photos", "Manage all endpoints to Restaurant-Products-Photo's Resources"),
                         new Tag("Statistics", "Manage all endpoints to Statistic's Resources"),
+                        new Tag("Permission", "Manage all endpoints to Permission's Resources"),
                         new Tag("Users", "Manage all endpoints to User's Resources")
 
                 );

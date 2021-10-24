@@ -1,27 +1,33 @@
 package ca.com.rlsp.rlspfoodapi.api.assembler;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
+import ca.com.rlsp.rlspfoodapi.api.controller.PermissionController;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.PermissionInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.PermissionOutputDto;
-import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Permission;
-import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class PermissionModelAssembler {
+public class PermissionModelAssembler extends RepresentationModelAssemblerSupport<Permission, PermissionOutputDto> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private BuildLinks buildLinks;
+
+    public PermissionModelAssembler() {
+        super(PermissionController.class, PermissionOutputDto.class);
+    }
 
 
     /*
@@ -53,4 +59,19 @@ public class PermissionModelAssembler {
                 .map(permission -> fromControllerToOutput(permission))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public PermissionOutputDto toModel(Permission permission) {
+        PermissionOutputDto permissionOutputDto = createModelWithId(permission.getId(), permission);
+        modelMapper.map(permission, permissionOutputDto);
+
+        return permissionOutputDto;
+    }
+
+    @Override
+    public CollectionModel<PermissionOutputDto> toCollectionModel(Iterable<? extends Permission> permissions) {
+        return super.toCollectionModel(permissions)
+                .add(buildLinks.getLinkToPermissions());
+    }
+
 }
