@@ -334,5 +334,14 @@ public class BuildLinks {
                 .detach(groupId, permissionId)).withRel(relation);
     }
 
+    public Link getLinkToGroupAttach(Long userId, String relation) {
+        return linkTo(methodOn(UserGroupController.class)
+                .attachGroup(userId, null)).withRel(relation);
+    }
+
+    public Link getLinkToUserGroupDetach(Long userId, Long groupId, String rel) {
+        return linkTo(methodOn(UserGroupController.class)
+                .detachGroup(userId, groupId)).withRel(rel);
+    }
 
 }

@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.assembler.GroupModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.GroupOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.UserGroupControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,10 +24,14 @@ public class UserGroupController implements UserGroupControllerOpenApi {
 
     private UserRegistrationService userRegistrationService;
     private GroupModelAssembler groupModelAssembler;
+    private BuildLinks buildLinks;
 
-    public UserGroupController(UserRegistrationService userRegistrationService, GroupModelAssembler groupModelAssembler) {
+    public UserGroupController(UserRegistrationService userRegistrationService,
+                               BuildLinks buildLinks,
+                               GroupModelAssembler groupModelAssembler) {
         this.userRegistrationService = userRegistrationService;
         this.groupModelAssembler = groupModelAssembler;
+        this.buildLinks = buildLinks;
     }
 
     @GetMapping
@@ -33,18 +39,32 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     public CollectionModel<GroupOutputDto> listAll(@PathVariable Long userId) {
         User user = userRegistrationService.findOrFail(userId);
 
-        return groupModelAssembler.toCollectionModel(user.getGroups());
+        CollectionModel<GroupOutputDto> groupOutputDtos = groupModelAssembler
+                .toCollectionModel(user.getGroups())
+                            .removeLinks()
+                            .add(buildLinks.getLinkToGroupAttach(userId, "attach"));
+
+        groupOutputDtos.getContent().forEach( groupOutputDto -> {
+            groupOutputDto.add(buildLinks
+                    .getLinkToUserGroupDetach(userId, groupOutputDto.getId(), "detach"));
+        });
+
+        return groupOutputDtos;
         //return groupModelAssembler.fromControllerToOutputList(user.getGroups());
     }
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void detachGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+    public ResponseEntity<Void> detachGroup(@PathVariable Long userId, @PathVariable Long groupId) {
         userRegistrationService.detachGroup(userId, groupId);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void attachGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+    public ResponseEntity<Void> attachGroup(@PathVariable Long userId, @PathVariable Long groupId) {
         userRegistrationService.attachGroup(userId, groupId);
+
+        return ResponseEntity.noContent().build();
     }
 }

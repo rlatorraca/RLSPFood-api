@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -43,9 +44,13 @@ public interface UserGroupControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void detachGroup(@ApiParam(value = "userId", example = "1", required = true)
+//    void detachGroup(@ApiParam(value = "userId", example = "1", required = true)
+//                                        Long userId,
+//                            @ApiParam(value = "groupId", example = "1", required = true)
+//                                    Long groupId);
+    ResponseEntity<Void> detachGroup(@ApiParam(value = "userId", example = "1", required = true)
                                         Long userId,
-                            @ApiParam(value = "groupId", example = "1", required = true)
+                     @ApiParam(value = "groupId", example = "1", required = true)
                                     Long groupId);
 
     @ApiOperation("Attach a group of an user")
@@ -61,7 +66,11 @@ public interface UserGroupControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    void attachGroup(@ApiParam(value = "userId", example = "1", required = true)
+//    void attachGroup(@ApiParam(value = "userId", example = "1", required = true)
+//                                        Long userId,
+//                            @ApiParam(value = "groupId", example = "1", required = true)
+//                                        Long groupId);
+    ResponseEntity<Void> attachGroup(@ApiParam(value = "userId", example = "1", required = true)
                                         Long userId,
                             @ApiParam(value = "groupId", example = "1", required = true)
                                         Long groupId);
