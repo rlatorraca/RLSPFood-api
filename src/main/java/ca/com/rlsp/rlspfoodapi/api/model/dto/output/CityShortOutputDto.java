@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-@Relation(collectionRelation = "city_short")
+@Relation(collectionRelation = "cities")
 @ApiModel(value = "Short City")
 @Getter
 @Setter

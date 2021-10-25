@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 /*
     Limitando os campos retornados pela API com @JsonFilter do Jackson
  */
-@Relation(collectionRelation = "order_short")
+@Relation(collectionRelation = "order")
 @ApiModel(value = "Short Order")
 //@JsonFilter("orderFilter")
 @Setter

@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-@Relation(collectionRelation = "user-collection")
+@Relation(collectionRelation = "users")
 @Getter
 @Setter
 public class UserOutputDto extends RepresentationModel<UserOutputDto> {
