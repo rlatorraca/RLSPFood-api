@@ -1,11 +1,13 @@
 package ca.com.rlsp.rlspfoodapi.api.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.openapi.controller.StatisticsControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.filter.DailySalesFilter;
 import ca.com.rlsp.rlspfoodapi.domain.model.statistics.DailySales;
 import ca.com.rlsp.rlspfoodapi.domain.service.DailySalesQueryService;
 import ca.com.rlsp.rlspfoodapi.domain.service.DailySalesReportService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +26,31 @@ public class StatisticsController implements StatisticsControllerOpenApi {
 
     private DailySalesQueryService dailySalesQueryService;
     private DailySalesReportService dailySalesReportService;
+    private BuildLinks buildLinks;
 
-    public StatisticsController(DailySalesQueryService dailySalesQueryService, DailySalesReportService dailySalesReportService) {
+    public StatisticsController(DailySalesQueryService dailySalesQueryService,
+                                DailySalesReportService dailySalesReportService,
+                                BuildLinks buildLinks) {
         this.dailySalesQueryService = dailySalesQueryService;
         this.dailySalesReportService = dailySalesReportService;
+        this.buildLinks = buildLinks;
+    }
+
+    public static class StatisticModel extends RepresentationModel<StatisticModel> {    }
+
+    @Override
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public StatisticModel statistics() {
+        var statisticModel = new StatisticModel();
+
+        statisticModel.add(buildLinks.getLinkToStatisticsDailySales("daily-sales"));
+
+        return statisticModel;
     }
 
     @GetMapping(path = "/daily-sales", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DailySales> queryDailySalesJSON(DailySalesFilter dailySalesFilter,
-                                            @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet){
+                                            @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet) {
         return dailySalesQueryService.queryDailySales(dailySalesFilter, timeOffSet);
     }
 

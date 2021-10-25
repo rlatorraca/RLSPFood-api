@@ -2,19 +2,18 @@ package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 
 import ca.com.rlsp.rlspfoodapi.domain.filter.DailySalesFilter;
 import ca.com.rlsp.rlspfoodapi.domain.model.statistics.DailySales;
+import ca.com.rlsp.rlspfoodapi.api.controller.StatisticsController.StatisticModel;
 import io.swagger.annotations.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Api(tags="Statistics")
 public interface StatisticsControllerOpenApi {
 
+    @ApiOperation(value = "Statistiscs", hidden = true)
+    StatisticModel statistics();
 
     @ApiOperation("Query of dialy sales statistics")
     @ApiImplicitParams({

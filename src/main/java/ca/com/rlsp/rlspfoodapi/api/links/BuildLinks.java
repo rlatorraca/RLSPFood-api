@@ -25,6 +25,14 @@ public class BuildLinks {
 
     );
 
+    public static final TemplateVariables VARIABLES_STATISTICS = new TemplateVariables(
+            new TemplateVariable("restaurantId", TemplateVariable.VariableType.REQUEST_PARAM),
+            new TemplateVariable("startDate", TemplateVariable.VariableType.REQUEST_PARAM),
+            new TemplateVariable("endDate", TemplateVariable.VariableType.REQUEST_PARAM),
+            new TemplateVariable("timeOffSet", TemplateVariable.VariableType.REQUEST_PARAM)
+
+    );
+
     public static final TemplateVariables PROJECTION_VARIABLES = new TemplateVariables(
             new TemplateVariable("projection", TemplateVariable.VariableType.REQUEST_PARAM));
 
@@ -343,5 +351,18 @@ public class BuildLinks {
         return linkTo(methodOn(UserGroupController.class)
                 .detachGroup(userId, groupId)).withRel(rel);
     }
+
+    public Link getLinkToStatistics(String relation) {
+        return linkTo(StatisticsController.class).withRel(relation);
+    }
+
+    public Link getLinkToStatisticsDailySales(String relation) {
+
+        String dailySalesURI = linkTo(methodOn(StatisticsController.class)
+                .queryDailySalesJSON(null, null)).toUri().toString();
+
+        return Link.of(UriTemplate.of(dailySalesURI, VARIABLES_STATISTICS), relation);
+    }
+
 
 }

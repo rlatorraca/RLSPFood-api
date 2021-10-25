@@ -28,6 +28,7 @@ public class RootEntryPointController {
         rootEntryPointModel.add(buildLinks.getLinkToUsers("users"));
         rootEntryPointModel.add(buildLinks.getLinkToPaymentType("payment types"));
         rootEntryPointModel.add(buildLinks.getLinkToProvinces("provinces"));
+        rootEntryPointModel.add(buildLinks.getLinkToStatistics("statistics"));
 
         return rootEntryPointModel;
     }
