@@ -18,7 +18,7 @@ import java.util.List;
 @Api(tags = "Cuisines")
 public interface CuisineControllerOpenApi {
 
-    @ApiOperation(value = "List all cities in JSON") // Customize method description on SwaggerUI
+    @ApiOperation(value = "List all cuisines in JSON") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
                     content = @Content(

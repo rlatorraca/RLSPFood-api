@@ -1,8 +1,10 @@
 package ca.com.rlsp.rlspfoodapi.core.springfox;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.CitiesModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.LinksModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.PageableModelOpenApi;
@@ -15,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -79,7 +82,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .directModelSubstitute(Links.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
                 .alternateTypeRules(buildAlternateTypeRule(CuisineOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
-                .alternateTypeRules(buildAlternateTypeRule(OrderOutputDto.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+                .alternateTypeRules(buildAlternateTypeRule(OrderOutputDto.class)) // Resolve um Page<OrderOutput> para um OrderControllerOpenApi
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, CityOutputDto.class), CitiesModelOpenApi.class))
                 .ignoredParameterTypes(ignoredParameterTypesClasses()) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
 //                .globalRequestParameters(Collections.singletonList(
 //                        new RequestParameterBuilder()

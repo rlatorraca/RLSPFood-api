@@ -72,6 +72,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         this.restaurantInputDisassembler = restaurantInputDisassembler;
         this.restaurantBasicsModelAssembler = restaurantBasicsModelAssembler;
         this.restaurantJustNameModelAssembler = restaurantJustNameModelAssembler;
+
     }
     /*
         Limitando os campos retornados pela API com @JsonFilter do Jackson
