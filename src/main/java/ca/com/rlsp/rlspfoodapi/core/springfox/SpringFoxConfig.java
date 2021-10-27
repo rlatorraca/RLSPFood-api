@@ -2,10 +2,7 @@ package ca.com.rlsp.rlspfoodapi.core.springfox;
 
 import ca.com.rlsp.rlspfoodapi.api.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.OrderOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.*;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.*;
 import com.fasterxml.classmate.TypeResolver;
 import org.hibernate.validator.constraints.URL;
@@ -22,6 +19,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -81,19 +79,28 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .directModelSubstitute(Links.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
+
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(PagedModel.class, CuisineOutputDto.class),
                         CuisineModelOpenApi.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, ProvinceOutputDto.class),
-                        ProvincesModelApi.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+                        ProvincesModelApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CuisineControllerOpenApi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, CityOutputDto.class),
+                        CitiesModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
+
+                .genericModelSubstitutes(ResponseEntity.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(ResponseEntity.class,
+                                typeResolver.resolve(CollectionModel.class ,PaymentTypeOutputDto.class)),
+                       typeResolver.resolve(PaymentsTypesModelOpenApi.class))) // Resolve um ResponseEntity<CollectionModel<CuisineOutputDto> para um PaymentsTypesModelOpenApi
+                                                          // Precisa de mudancas no PaymentTypeConrollerOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(OrderOutputDto.class)) // Resolve um Page<OrderOutput> para um OrderControllerOpenApi
                 .alternateTypeRules(
-                        AlternateTypeRules.newRule(
-                                typeResolver.resolve(CollectionModel.class, CityOutputDto.class),
-                                typeResolver.resolve(CitiesModelOpenApi.class)))
-                .alternateTypeRules(
-                        AlternateTypeRules.newRule(
+        AlternateTypeRules.newRule(
                                 typeResolver.resolve(CollectionModel.class, CuisineOutputDto.class),
                                 typeResolver.resolve(CuisineOutputDto.class)))
                 .ignoredParameterTypes(ignoredParameterTypesClasses()) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)

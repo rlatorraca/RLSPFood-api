@@ -1,10 +1,9 @@
 package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.PaymentTypeInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.PaymentTypeOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.PaymentsTypesModelOpenApi;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -15,27 +14,30 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.ServletWebRequest;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @Api(tags = "Payment Types")
 public interface PaymentTypeControllerOpenApi {
 
-    @ApiOperation(value = "List all payment types in JSON") // Customize method description on SwaggerUI
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE
-                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
-                    )
-            )
-    })
+// => Problema com response = PaymentsTypesModelOpenApi.class (swagger V3)
+//    @ApiOperation(value = "List all payment types in JSON", response = PaymentsTypesModelOpenApi.class) // Customize method description on SwaggerUI
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
+//                    content = @Content(
+//                            mediaType = MediaType.APPLICATION_JSON_VALUE
+//
+//                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+//                    )
+//            )
+//    })
+
+    // Swagger V2
+    @io.swagger.annotations.ApiOperation(value = "List all payment types in JSON") // Customize method description on SwaggerUI
+    @io.swagger.annotations.ApiResponses({
+            @io.swagger.annotations.ApiResponse(code = 200, message = "Cities listed in JSON",
+                    response = PaymentsTypesModelOpenApi.class)})
     //public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request);
-    public ResponseEntity<CollectionModel<PaymentTypeOutputDto>> listAll(ServletWebRequest request);
+    ResponseEntity<CollectionModel<PaymentTypeOutputDto>> listAll(ServletWebRequest request);
 
 
 
