@@ -29,8 +29,8 @@ public interface PaymentTypeControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
                     )
             )
     })
@@ -59,8 +59,9 @@ public interface PaymentTypeControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Payment type created",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            )
             )
     })
     PaymentTypeOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of payment type", required =true) PaymentTypeInputDto paymentTypeInputDto);
@@ -69,8 +70,9 @@ public interface PaymentTypeControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "City updated",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "City not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -84,8 +86,9 @@ public interface PaymentTypeControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Payment type removed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Payment type not found",
                     content = @Content(

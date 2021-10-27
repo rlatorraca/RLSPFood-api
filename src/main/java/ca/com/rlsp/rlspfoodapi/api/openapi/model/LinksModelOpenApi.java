@@ -9,9 +9,11 @@ import lombok.Setter;
 @ApiModel("Links")
 public class LinksModelOpenApi {
 
-    private LinkModel relation;
+    private LinkModel rel;
 
     @Setter
+    @Getter
+    @ApiModel("Link")
     public class LinkModel {
 
         private String href;

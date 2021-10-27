@@ -5,11 +5,14 @@ import ca.com.rlsp.rlspfoodapi.api.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CuisineInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CuisineOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.GroupOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
+import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -75,6 +78,12 @@ public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<C
         return cuisines.stream()
                 .map(cuisine -> fromControllerToOutput(cuisine))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public CollectionModel<CuisineOutputDto> toCollectionModel(Iterable<? extends Cuisine> cuisine) {
+        return super.toCollectionModel(cuisine)
+                .add(buildLinks.getLinkToCuisines());
     }
 
     @Override

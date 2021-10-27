@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 
@@ -34,7 +35,10 @@ public interface GroupControllerOpenApi {
     @ApiOperation(value = "Insert a group") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Group created",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            )
+            )
     })
     GroupOutputDto save( @ApiParam(name = "body", value = "A DTO for inputs a resource of group" , required =true)
                                             GroupInputDto groupInput);
@@ -42,7 +46,9 @@ public interface GroupControllerOpenApi {
     @ApiOperation(value = "Update data of a group by ID") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Group updated",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )),
             @ApiResponse(responseCode = "404", description = "Group not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
@@ -54,7 +60,9 @@ public interface GroupControllerOpenApi {
     @ApiOperation("Remove a group")  // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Group removed",
-                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class))),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )),
             @ApiResponse(responseCode = "404", description = "Group not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })

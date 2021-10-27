@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProvinceOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.ProvincesModelApi;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +29,8 @@ public interface ProvinceControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Provinces listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ProvincesModelApi.class)
                     )
             )
     })
@@ -40,8 +41,8 @@ public interface ProvinceControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Provinces listed in XML",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_XML_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_XML_VALUE
+                            //schema = @Schema(implementation = ProvincesModelApi.class)
                     )
             )
     })

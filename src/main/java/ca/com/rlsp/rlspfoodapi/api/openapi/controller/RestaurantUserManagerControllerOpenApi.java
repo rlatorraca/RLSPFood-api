@@ -2,7 +2,6 @@ package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.UserOutputDto;
-import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -11,15 +10,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.List;
 
 @Api(tags = "Restaurants")
 public interface RestaurantUserManagerControllerOpenApi {
@@ -38,8 +30,9 @@ public interface RestaurantUserManagerControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Detach successfully done",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                          //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant and/or Payment Type not found",
                     content = @Content(
@@ -62,8 +55,9 @@ public interface RestaurantUserManagerControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Attach successfully done",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant and/or User not found",
                     content = @Content(

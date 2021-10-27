@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,12 +50,14 @@ public class CuisineController implements CuisineControllerOpenApi {
     }
 
     @Override
-    @GetMapping()
+    @GetMapping
     //public List<Cuisine> listAll(){
-    public List<CuisineOutputDto> listAll(){
+    //public List<CuisineOutputDto> listAll(){
+    public CollectionModel<CuisineOutputDto> listAll(){
         //return cuisineRegistrationService.listAll();
         List<Cuisine> allCuisines= cuisineRegistrationService.listAll();
-        return cuisineModelAssembler.fromControllerToOutputList(allCuisines);
+        return cuisineModelAssembler.toCollectionModel(allCuisines);
+        //return cuisineModelAssembler.fromControllerToOutputList(allCuisines);
     }
 
     /*

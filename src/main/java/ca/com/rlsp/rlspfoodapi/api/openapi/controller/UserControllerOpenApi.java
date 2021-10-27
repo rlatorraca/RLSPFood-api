@@ -15,8 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 
-import java.util.List;
-
 @Api(tags = "Users")
 public interface UserControllerOpenApi {
 
@@ -52,8 +50,9 @@ public interface UserControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "User created",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             )
     })
     UserOutputDto save( @ApiParam(name = "body", value = "A DTO for inputs a resource of user")
@@ -64,8 +63,9 @@ public interface UserControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User updated",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -80,8 +80,9 @@ public interface UserControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Password changed successfully",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(

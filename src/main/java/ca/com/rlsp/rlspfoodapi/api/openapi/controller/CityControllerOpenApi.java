@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.openapi.controller;
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.openapi.model.CuisineModelOpenApi;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -31,24 +32,24 @@ public interface CityControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in XML",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_XML_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_XML_VALUE
+                            //schema = @Schema(implementation = CityOutputDto.class)
                     )
             )
     })
-    public List<City> listAllXml();
+    List<City> listAllXml();
 
 
     @ApiOperation(value = "List all cities in JSON") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = CityOutputDto.class)
                     )
             )
     })
-    public CollectionModel<CityOutputDto> listAllJson();
+    CollectionModel<CityOutputDto> listAllJson();
 
 
 
@@ -65,15 +66,16 @@ public interface CityControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public CityOutputDto findById(@ApiParam(name = "cityId", value = "Enter a valid city ID", example = "1", required = true)
+    CityOutputDto findById(@ApiParam(name = "cityId", value = "Enter a valid city ID", example = "1", required = true)
                                   Long cityId);
 
     @ApiOperation(value = "Insert a city") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "City created",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = CityOutputDto.class)
+                    )
             )
     })
     public CityOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of city")
@@ -83,13 +85,14 @@ public interface CityControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "City updated",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = CityOutputDto.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "City not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public CityOutputDto updateById(@ApiParam(name="cityId" , value= "Enter a valid city ID", example = "1", required =true)
+    CityOutputDto updateById(@ApiParam(name="cityId" , value= "Enter a valid city ID", example = "1", required =true)
                                     Long id,
                                     @ApiParam(name = "body", value = "A DTO for inputs a resource of City")
                                     CityInputDto cityInputDTO);
@@ -99,8 +102,9 @@ public interface CityControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "City removed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = CityOutputDto.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "City not found",
                     content = @Content(
@@ -108,6 +112,6 @@ public interface CityControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void delete(@ApiParam(name="cityId" , value = "Enter a valid city ID", example ="1" , required =true) Long id);
+    void delete(@ApiParam(name="cityId" , value = "Enter a valid city ID", example ="1" , required =true) Long id);
 
 }

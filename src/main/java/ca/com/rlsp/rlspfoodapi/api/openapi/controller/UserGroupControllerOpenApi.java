@@ -13,8 +13,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 @Api(tags = "Users")
 public interface UserGroupControllerOpenApi {
 
@@ -35,8 +33,9 @@ public interface UserGroupControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Password changed successfully",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(
@@ -57,8 +56,9 @@ public interface UserGroupControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Password changed successfully",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(

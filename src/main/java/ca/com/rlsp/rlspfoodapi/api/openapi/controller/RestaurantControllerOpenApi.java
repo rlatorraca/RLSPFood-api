@@ -5,9 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantBasicsOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantJustNamesOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.RestaurantOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.view.RestaurantView;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.RestaurantGenericModelOpenApi;
-import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,8 +26,10 @@ public interface RestaurantControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Invalid restaurant id",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
+            )
     })
     @ApiImplicitParams({
             @ApiImplicitParam(value = "List of restaurants by justName or summary",
@@ -74,8 +74,9 @@ public interface RestaurantControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Restaurant created",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             )
     })
     RestaurantOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of restaurant")
@@ -86,8 +87,9 @@ public interface RestaurantControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Restaurant updated",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -148,8 +150,9 @@ public interface RestaurantControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Restaurant successfully activate",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -161,8 +164,9 @@ public interface RestaurantControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Restaurant successfully activate",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -177,8 +181,9 @@ public interface RestaurantControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Restaurant successfully activate",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))

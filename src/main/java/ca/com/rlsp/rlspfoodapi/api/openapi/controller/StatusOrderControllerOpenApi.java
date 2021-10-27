@@ -18,8 +18,9 @@ public interface StatusOrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Order successfully confirmed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Order not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -30,8 +31,9 @@ public interface StatusOrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Order successfully confirmed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Order not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -42,8 +44,9 @@ public interface StatusOrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Order canceled successfully confirmed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Order canceled not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -66,8 +69,9 @@ public interface StatusOrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Order ready to go to road successfully confirmed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Order ready to go to road not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -78,8 +82,9 @@ public interface StatusOrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Order on the road successfully confirmed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Order on the road not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -90,8 +95,9 @@ public interface StatusOrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Delivery successfully done",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Delivery not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))

@@ -42,8 +42,9 @@ public interface GroupPermissionControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Permission Group detached",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            )
             ),
             @ApiResponse(responseCode = "404", description = "Permission not found",
                     content = @Content(
@@ -65,8 +66,9 @@ public interface GroupPermissionControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Permission Group Attached",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Permission not found",
                     content = @Content(

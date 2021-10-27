@@ -36,31 +36,31 @@ public class BuildLinks {
     public static final TemplateVariables PROJECTION_VARIABLES = new TemplateVariables(
             new TemplateVariable("projection", TemplateVariable.VariableType.REQUEST_PARAM));
 
-    public Link getLinkToOrders(String relation) {
+    public Link getLinkToOrders(String rel) {
         String orderURI = linkTo(methodOn(OrderController.class).searchByFilterPageable(null,
                 null)).toUri().toString();
 
-        return Link.of(UriTemplate.of(orderURI, VARIABLES_PAGINATION.concat(VARIABLES_FILTER)),relation);
+        return Link.of(UriTemplate.of(orderURI, VARIABLES_PAGINATION.concat(VARIABLES_FILTER)),rel);
     }
 
-    public Link getLinkToRestaurants(String relation) {
+    public Link getLinkToRestaurants(String rel) {
         String restaurantURI = linkTo(RestaurantController.class).toUri().toString();
 
-        return Link.of(UriTemplate.of(restaurantURI, PROJECTION_VARIABLES), relation);
+        return Link.of(UriTemplate.of(restaurantURI, PROJECTION_VARIABLES), rel);
     }
 
-    public Link getLinkToRestaurant(Long restaurantId, String relation) {
+    public Link getLinkToRestaurant(Long restaurantId, String rel) {
         return linkTo(methodOn(RestaurantController.class)
-                .findById(restaurantId)).withRel(relation);
+                .findById(restaurantId)).withRel(rel);
     }
 
     public Link getLinkToRestaurant(Long restaurantId) {
         return getLinkToRestaurant(restaurantId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToUser(Long orderId,  String relation) {
+    public Link getLinkToUser(Long orderId,  String rel) {
        return linkTo(methodOn(UserController.class)
-                .findById(orderId)).withRel(relation);
+                .findById(orderId)).withRel(rel);
     }
 
     public Link getLinkToUser(Long orderId) {
@@ -71,26 +71,26 @@ public class BuildLinks {
         return getLinkToUsers(IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToUsers(String relation) {
-        return linkTo(UserController.class).withRel(relation);
+    public Link getLinkToUsers(String rel) {
+        return linkTo(UserController.class).withRel(rel);
     }
 
 
 
-    public Link getLinkToAddressDelivery(Long cityId,  String relation) {
+    public Link getLinkToAddressDelivery(Long cityId,  String rel) {
         return linkTo(methodOn(CityController.class)
-                .findById(cityId)).withRel(relation);
+                .findById(cityId)).withRel(rel);
     }
 
     public Link getLinkToAddressDelivery(Long cityId) {
         return getLinkToAddressDelivery(cityId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToOrderItems(Long restaurantId,  Long productId, String relation) {
+    public Link getLinkToOrderItems(Long restaurantId,  Long productId, String rel) {
 
         return linkTo(methodOn(RestaurantProductController.class)
                 .findByRestaurantIdAndByProductId(restaurantId , productId))
-                .withRel(relation);
+                .withRel(rel);
     }
 
     public Link getLinkToOrderItems(Long restaurantId,  Long productId) {
@@ -106,9 +106,9 @@ public class BuildLinks {
         return getLinkToUserGroups(userId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkRestaurantManagers(Long restaurantId, String relation) {
+    public Link getLinkRestaurantManagers(Long restaurantId, String rel) {
         return linkTo(methodOn(RestaurantUserManagerController.class)
-                .listOne(restaurantId)).withRel(relation);
+                .listOne(restaurantId)).withRel(rel);
     }
 
     public Link getLinkRestaurantManagers(Long restaurantId) {
@@ -116,9 +116,9 @@ public class BuildLinks {
     }
 
 
-    public Link getLinkToPaymentTypeOrder(Long orderId, String relation) {
+    public Link getLinkToPaymentTypeOrder(Long orderId, String rel) {
         return linkTo(methodOn(PaymentTypeController.class)
-                .findById(orderId, null)).withRel(relation);
+                .findById(orderId, null)).withRel(rel);
     }
 
     public Link getLinkToPaymentTypeOrder(Long paymentTypeId) {
@@ -126,17 +126,17 @@ public class BuildLinks {
     }
 
 
-    public Link getLinkToPaymentType(Long paymentTypeId, String relation) {
+    public Link getLinkToPaymentType(Long paymentTypeId, String rel) {
         return linkTo(methodOn(PaymentTypeController.class)
-                .findById(paymentTypeId, null)).withRel(relation);
+                .findById(paymentTypeId, null)).withRel(rel);
     }
 
     public Link getLinkToPaymentType(Long paymentTypeId) {
         return getLinkToPaymentType(paymentTypeId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToPaymentType(String relation) {
-        return linkTo(PaymentTypeController.class).withRel(relation);
+    public Link getLinkToPaymentType(String rel) {
+        return linkTo(PaymentTypeController.class).withRel(rel);
     }
 
     public Link getLinkToPaymentType() {
@@ -144,34 +144,34 @@ public class BuildLinks {
     }
 
 
-    public Link getLinkToCities(Long cityId, String relation) {
+    public Link getLinkToCities(Long cityId, String rel) {
         return linkTo(methodOn(CityController.class)
-                .findById(cityId)).withRel(relation);
+                .findById(cityId)).withRel(rel);
     }
 
     public Link getLinkToCities(Long cityId) {
         return getLinkToCities(cityId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToCities(String relation) {
-        return linkTo(CityController.class).withRel(relation);
+    public Link getLinkToCities(String rel) {
+        return linkTo(CityController.class).withRel(rel);
     }
 
     public Link getLinkToCities() {
         return getLinkToCities(IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToProvince(Long provinceId, String relation) {
+    public Link getLinkToProvince(Long provinceId, String rel) {
         return linkTo(methodOn(ProvinceController.class)
-                .findById(provinceId)).withRel(relation);
+                .findById(provinceId)).withRel(rel);
     }
 
     public Link getLinkToProvince(Long provinceId) {
         return getLinkToProvince(provinceId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToProvinces(String relation) {
-        return linkTo(ProvinceController.class).withRel(relation);
+    public Link getLinkToProvinces(String rel) {
+        return linkTo(ProvinceController.class).withRel(rel);
     }
 
     public Link getLinkToProvinces() {
@@ -186,60 +186,60 @@ public class BuildLinks {
         return getLinkToCuisines(IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToCreateAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).create(orderCode)).withRel(relation);
+    public Link getLinkToCreateAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).create(orderCode)).withRel(rel);
     }
-    public Link getLinkToConfirmAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).confirm(orderCode)).withRel(relation);
-    }
-
-    public Link getLinkToStartAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).start(orderCode)).withRel(relation);
+    public Link getLinkToConfirmAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).confirm(orderCode)).withRel(rel);
     }
 
-    public Link getLinkToCancelAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).cancel(orderCode)).withRel(relation);
+    public Link getLinkToStartAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).start(orderCode)).withRel(rel);
     }
 
-    public Link getLinkToOvenAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).oven(orderCode)).withRel(relation);
+    public Link getLinkToCancelAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).cancel(orderCode)).withRel(rel);
     }
 
-    public Link getLinkToRoadAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).road(orderCode)).withRel(relation);
+    public Link getLinkToOvenAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).oven(orderCode)).withRel(rel);
     }
 
-    public Link getLinkToReadyAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).ready(orderCode)).withRel(relation);
+    public Link getLinkToRoadAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).road(orderCode)).withRel(rel);
     }
 
-    public Link getLinkToDeliveryAnOrder(String orderCode, String relation) {
-        return linkTo(methodOn(StatusOrderController.class).deliver(orderCode)).withRel(relation);
+    public Link getLinkToReadyAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).ready(orderCode)).withRel(rel);
     }
 
-//    public Link getLinkToRestaurants(String relation) {
-//        return linkTo(RestaurantController.class).withRel(relation);
+    public Link getLinkToDeliveryAnOrder(String orderCode, String rel) {
+        return linkTo(methodOn(StatusOrderController.class).deliver(orderCode)).withRel(rel);
+    }
+
+//    public Link getLinkToRestaurants(String rel) {
+//        return linkTo(RestaurantController.class).withRel(rel);
 //    }
 
     public Link getLinkToRestaurants() {
         return getLinkToRestaurants(IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToPaymentTypeOnRestaurantDetach(Long restaurantId, Long paymentTypeId, String relation) {
+    public Link getLinkToPaymentTypeOnRestaurantDetach(Long restaurantId, Long paymentTypeId, String rel) {
         return linkTo(methodOn(RestaurantPaymentTypeController.class)
                 .detachPaymentType(restaurantId, paymentTypeId))
-                .withRel(relation);
+                .withRel(rel);
     }
 
-    public Link getLinkToPaymentTypeOnRestaurantAttach(Long restauranteId, String relation) {
+    public Link getLinkToPaymentTypeOnRestaurantAttach(Long restauranteId, String rel) {
         return linkTo(methodOn(RestaurantPaymentTypeController.class)
                 .attachPaymentType(restauranteId, null))
-                .withRel(relation);
+                .withRel(rel);
     }
 
-    public Link getLinkToPaymentTypeOnRestaurants(Long restauranteId, String relation) {
+    public Link getLinkToPaymentTypeOnRestaurants(Long restauranteId, String rel) {
         return linkTo(methodOn(RestaurantPaymentTypeController.class)
-                .listAllByRestaurantId(restauranteId)).withRel(relation);
+                .listAllByRestaurantId(restauranteId)).withRel(rel);
     }
 
     public Link getLinkToManagerRestaurantDetach(Long restaurantId, Long userId, String rel) {
@@ -257,41 +257,41 @@ public class BuildLinks {
         return getLinkToPaymentTypeOnRestaurants(restaurantId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToCuisine(Long cozinhaId, String relation) {
+    public Link getLinkToCuisine(Long cozinhaId, String rel) {
         return linkTo(methodOn(CuisineController.class)
-                .findBy1Id(cozinhaId)).withRel(relation);
+                .findBy1Id(cozinhaId)).withRel(rel);
     }
 
     public Link getLinkToCuisine(Long cozinhaId) {
         return getLinkToCuisine(cozinhaId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToOpeningRestaurant(Long restaurantId, String relation) {
+    public Link getLinkToOpeningRestaurant(Long restaurantId, String rel) {
         return linkTo(methodOn(RestaurantController.class)
-                .openRestaurant(restaurantId)).withRel(relation);
+                .openRestaurant(restaurantId)).withRel(rel);
     }
 
-    public Link getLinkToClosingRestaurant(Long restaurantId, String relation) {
+    public Link getLinkToClosingRestaurant(Long restaurantId, String rel) {
         return linkTo(methodOn(RestaurantController.class)
-                .closeRestaurant(restaurantId)).withRel(relation);
+                .closeRestaurant(restaurantId)).withRel(rel);
     }
 
-    public Link getLinkToInactiveRestaurant(Long restaurantId, String relation) {
+    public Link getLinkToInactiveRestaurant(Long restaurantId, String rel) {
         return linkTo(methodOn(RestaurantController.class)
-                .inactivate(restaurantId)).withRel(relation);
+                .inactivate(restaurantId)).withRel(rel);
     }
 
-    public Link getLinkToActiveRestaurant(Long restaurantId, String relation) {
+    public Link getLinkToActiveRestaurant(Long restaurantId, String rel) {
         return linkTo(methodOn(RestaurantController.class)
-                .activate(restaurantId)).withRel(relation);
+                .activate(restaurantId)).withRel(rel);
     }
 
 
     // Products of a Restaurant
-    public Link getLinkToProducts(Long restaurantId, String relation) {
+    public Link getLinkToProducts(Long restaurantId, String rel) {
         return linkTo(methodOn(RestaurantProductController.class)
                 .listAllActives(restaurantId, null))
-                .withRel(relation);
+                .withRel(rel);
     }
 
     public Link getLinkToProducts(Long restaurantId) {
@@ -300,51 +300,51 @@ public class BuildLinks {
 
 
     // Product Photos
-    public Link getLinkToPhotoProduct(Long restaurantId, Long productId, String relation) {
+    public Link getLinkToPhotoProduct(Long restaurantId, Long productId, String rel) {
         return linkTo(methodOn(RestaurantProductPhotoController.class)
-                .findProductPhoto(restaurantId, productId)).withRel(relation);
+                .findProductPhoto(restaurantId, productId)).withRel(rel);
     }
 
     public Link getLinkToPhotoProduct(Long restaurantId, Long productId) {
         return getLinkToPhotoProduct(restaurantId, productId, IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToGroups(String relation) {
-        return linkTo(GroupController.class).withRel(relation);
+    public Link getLinkToGroups(String rel) {
+        return linkTo(GroupController.class).withRel(rel);
     }
 
     public Link getLinkToGroups() {
         return getLinkToGroups(IanaLinkRelations.SELF.value());
     }
 
-    public Link getLinkToGroupPermissions(Long groupId, String relation) {
+    public Link getLinkToGroupPermissions(Long groupId, String rel) {
         return linkTo(methodOn(GroupPermissionController.class)
-                .listAll(groupId)).withRel(relation);
+                .listAll(groupId)).withRel(rel);
     }
 
     public Link getLinkToGroupPermissions(Long groupId) {
         return getLinkToGroupPermissions(groupId, IanaLinkRelations.SELF.value());
     }
-    public Link getLinkToPermissions(String relation) {
-        return linkTo(PermissionController.class).withRel(relation);
+    public Link getLinkToPermissions(String rel) {
+        return linkTo(PermissionController.class).withRel(rel);
     }
 
     public Link getLinkToPermissions() {
         return getLinkToPermissions(IanaLinkRelations.SELF.value());   }
 
-    public Link getLinkToPermissionsAttach(Long groupId, String relation) {
+    public Link getLinkToPermissionsAttach(Long groupId, String rel) {
         return linkTo(methodOn(GroupPermissionController.class)
-                .attach(groupId, null)).withRel(relation);
+                .attach(groupId, null)).withRel(rel);
     }
 
-    public Link getLinkToPermissionsDetach(Long groupId, Long permissionId, String relation) {
+    public Link getLinkToPermissionsDetach(Long groupId, Long permissionId, String rel) {
         return linkTo(methodOn(GroupPermissionController.class)
-                .detach(groupId, permissionId)).withRel(relation);
+                .detach(groupId, permissionId)).withRel(rel);
     }
 
-    public Link getLinkToGroupAttach(Long userId, String relation) {
+    public Link getLinkToGroupAttach(Long userId, String rel) {
         return linkTo(methodOn(UserGroupController.class)
-                .attachGroup(userId, null)).withRel(relation);
+                .attachGroup(userId, null)).withRel(rel);
     }
 
     public Link getLinkToUserGroupDetach(Long userId, Long groupId, String rel) {
@@ -352,16 +352,16 @@ public class BuildLinks {
                 .detachGroup(userId, groupId)).withRel(rel);
     }
 
-    public Link getLinkToStatistics(String relation) {
-        return linkTo(StatisticsController.class).withRel(relation);
+    public Link getLinkToStatistics(String rel) {
+        return linkTo(StatisticsController.class).withRel(rel);
     }
 
-    public Link getLinkToStatisticsDailySales(String relation) {
+    public Link getLinkToStatisticsDailySales(String rel) {
 
         String dailySalesURI = linkTo(methodOn(StatisticsController.class)
                 .queryDailySalesJSON(null, null)).toUri().toString();
 
-        return Link.of(UriTemplate.of(dailySalesURI, VARIABLES_STATISTICS), relation);
+        return Link.of(UriTemplate.of(dailySalesURI, VARIABLES_STATISTICS), rel);
     }
 
 

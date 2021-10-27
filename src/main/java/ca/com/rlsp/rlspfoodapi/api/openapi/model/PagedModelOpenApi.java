@@ -1,8 +1,14 @@
 package ca.com.rlsp.rlspfoodapi.api.openapi.model;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
-public class PagedModelOpenApi {
+@ApiModel("PageModel")
+@Getter
+@Setter
+public class PagedModelOpenApi<T> {
 
     @ApiModelProperty(example = "1", value="Number of registry by page")
     private Long size;

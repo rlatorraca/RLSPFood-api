@@ -12,7 +12,7 @@ import org.springframework.hateoas.server.core.Relation;
     RepresentationModel => from Spring HATEAOS
  */
 @Relation(collectionRelation = "cities") // Muda o nome da representacao dentro do JSON
-@ApiModel(value = "City", description = "Output to City representation")
+//@ApiModel(value = "City", description = "Output to City representation")
 @Getter
 @Setter
 public class CityOutputDto  extends RepresentationModel<CityOutputDto> {

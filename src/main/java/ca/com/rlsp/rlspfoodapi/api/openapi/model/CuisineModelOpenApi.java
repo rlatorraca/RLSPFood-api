@@ -26,7 +26,7 @@ public class CuisineModelOpenApi {
     @ApiModel("CuisinesEmbeddedModelOpenApi")
     @Data
     public class CuisinesEmbeddedModelOpenApi  {
-        private List<CityOutputDto> cities;
+        private List<CuisineOutputDto> cuisines;
 
     }
 

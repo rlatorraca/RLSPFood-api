@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 
 import java.util.List;
@@ -22,12 +23,13 @@ public interface CuisineControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
                     )
             )
     })
-    public List<CuisineOutputDto> listAll();
+    //List<CuisineOutputDto> listAll();
+    CollectionModel<CuisineOutputDto> listAll();
 
 
 
@@ -35,12 +37,12 @@ public interface CuisineControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
                     )
             )
     })
-    public List<CuisineOutputDto> listAllPageableList(Pageable pageable);
+    List<CuisineOutputDto> listAllPageableList(Pageable pageable);
 
 
     @ApiOperation(value = "Get a Cuisine by ID") // Costomize method description on SwaggerUI
@@ -56,7 +58,7 @@ public interface CuisineControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public CuisineOutputDto findBy1Id(@ApiParam(name = "cuisineId", value = "Enter a valid cuisine ID", example = "1", required = true) Long id);
+    CuisineOutputDto findBy1Id(@ApiParam(name = "cuisineId", value = "Enter a valid cuisine ID", example = "1", required = true) Long id);
 
 
 
@@ -68,7 +70,7 @@ public interface CuisineControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public CuisineOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of cuisine")
+    CuisineOutputDto save(@ApiParam(name = "body", value = "A DTO for inputs a resource of cuisine")
                                              CuisineInputDto cuisineInputDTO);
 
     @ApiOperation(value = "Update data of a cuisine by ID") // Costomize method description on SwaggerUI
@@ -81,7 +83,7 @@ public interface CuisineControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "City not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
     })
-    public CuisineOutputDto updateById(@ApiParam(name="cuisineId" , value= "Enter a valid cuisine ID", example = "1", required =true)
+    CuisineOutputDto updateById(@ApiParam(name="cuisineId" , value= "Enter a valid cuisine ID", example = "1", required =true)
                                                    Long id,
                                        @ApiParam(name = "body", value = "A DTO for inputs a resource of cuisine")
                                        CuisineInputDto cuisineInputDTO);
@@ -100,6 +102,6 @@ public interface CuisineControllerOpenApi {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    public void remove(@ApiParam(name="cuisineId" , value = "Enter a valid cuisine ID", example ="1") Long id);
+    void remove(@ApiParam(name="cuisineId" , value = "Enter a valid cuisine ID", example ="1") Long id);
 
 }

@@ -36,8 +36,8 @@ public interface OrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ordrs listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
                     )
             )
     })

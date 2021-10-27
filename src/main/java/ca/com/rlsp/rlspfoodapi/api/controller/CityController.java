@@ -76,7 +76,7 @@ public class CityController implements CityControllerOpenApi {
 
         //  return cityRegistrationService.findOrFail(cityId);
 
-        CityOutputDto cityOutputDto  = cityModelAssembler.fromControllerToOutput(cidade);
+        CityOutputDto cityOutputDto  = cityModelAssembler.toModel(cidade);
 
         return cityOutputDto;
     }

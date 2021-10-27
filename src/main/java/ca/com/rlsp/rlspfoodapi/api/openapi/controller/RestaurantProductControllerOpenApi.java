@@ -69,8 +69,9 @@ public interface RestaurantProductControllerOpenApi  {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Restaurant updated",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant and/or product  not found",
                     content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
@@ -94,8 +95,9 @@ public interface RestaurantProductControllerOpenApi  {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Product created",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
 
             @ApiResponse(responseCode = "404", description = "Restaurant not found",
@@ -111,8 +113,9 @@ public interface RestaurantProductControllerOpenApi  {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Product removed",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Product not found",
                     content = @Content(

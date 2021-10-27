@@ -35,8 +35,9 @@ public interface RestaurantPaymentTypeControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Detach successfully done",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant and/or Payment Type not found",
                     content = @Content(
@@ -59,8 +60,9 @@ public interface RestaurantPaymentTypeControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Attach successfully done",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class))
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
             ),
             @ApiResponse(responseCode = "404", description = "Restaurant and/or Payment Type not found",
                     content = @Content(
