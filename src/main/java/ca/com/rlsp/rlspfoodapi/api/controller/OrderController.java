@@ -80,6 +80,7 @@ public class OrderController implements OrderControllerOpenApi {
 //        return orderWrapper;
 //    }
 
+    @Override
     @GetMapping("/filter-pageable")
     public PagedModel<OrderOutputDto> searchByFilterPageable(OrderFilterInputDto orderFilter,
                                                                   @PageableDefault(size = 2) Pageable pageable) {

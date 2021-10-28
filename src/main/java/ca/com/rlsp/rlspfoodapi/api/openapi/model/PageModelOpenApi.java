@@ -11,9 +11,9 @@ import java.util.Collection;
     Classe Generia para Subsitituir Pages de Todos os controllers
  */
 
-@ApiModel(value = "PageModel")
-@Getter
-@Setter
+//@ApiModel(value = "PageModel")
+//@Getter
+//@Setter
 public class PageModelOpenApi<T>{
     private Collection<T> content;
     @ApiModelProperty(example = "1", value="Number of registry by page")

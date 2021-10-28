@@ -41,8 +41,8 @@ public interface OrderControllerOpenApi {
                     )
             )
     })
-    public PagedModel<OrderOutputDto> searchByFilterPageable(@ApiParam(name = "body",
-            value = "A DTO for inputs a resource of cuisine")
+    PagedModel<OrderOutputDto> searchByFilterPageable(@ApiParam(name = "body",
+            value = "A DTO for inputs a resource of orders")
                                                              OrderFilterInputDto orderFilter,
                                                              Pageable pageable);
     /*
@@ -65,12 +65,12 @@ public interface OrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Orders listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
                     )
             )
     })
-    public List<OrderOutputDto> searchByFilter(@ApiParam(name = "body",
+    List<OrderOutputDto> searchByFilter(@ApiParam(name = "body",
                                                          value = "A DTO for inputs a resource of cuisine")
                                                             OrderFilterInputDto orderFilter);
 
@@ -78,8 +78,8 @@ public interface OrderControllerOpenApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Orders listed in JSON",
                     content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
                     )
             )
     })
