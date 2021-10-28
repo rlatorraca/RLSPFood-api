@@ -1,6 +1,5 @@
 package ca.com.rlsp.rlspfoodapi.core.springfox;
 
-import ca.com.rlsp.rlspfoodapi.api.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.*;
 import ca.com.rlsp.rlspfoodapi.api.openapi.model.*;
@@ -14,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Links;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,10 @@ import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.*;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.service.Response;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -78,7 +80,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponses(HttpMethod.DELETE, globalMsgErrorResponseMessagesToDELETE()) // Customized Msgs de ERROR para o GET
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
-                .directModelSubstitute(Links.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
+                .directModelSubstitute(Link.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
 
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(PagedModel.class, CuisineOutputDto.class),
@@ -92,11 +94,19 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         typeResolver.resolve(CollectionModel.class, CityOutputDto.class),
                         CitiesModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
 
-                .genericModelSubstitutes(ResponseEntity.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, GroupOutputDto.class),
+                        GroupsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um GroupsModelApi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, PermissionOutputDto.class),
+                        GroupsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
+
+                //.genericModelSubstitutes(ResponseEntity.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(ResponseEntity.class,
                                 typeResolver.resolve(CollectionModel.class ,PaymentTypeOutputDto.class)),
-                       typeResolver.resolve(PaymentsTypesModelOpenApi.class))) // Resolve um ResponseEntity<CollectionModel<CuisineOutputDto> para um PaymentsTypesModelOpenApi
+                        typeResolver.resolve(PaymentsTypesModelOpenApi.class))) // Resolve um ResponseEntity<CollectionModel<CuisineOutputDto> para um PaymentsTypesModelOpenApi
                                                           // Precisa de mudancas no PaymentTypeConrollerOpenApi
                 .alternateTypeRules(buildAlternateTypeRule(OrderOutputDto.class)) // Resolve um Page<OrderOutput> para um OrderControllerOpenApi
                 .alternateTypeRules(
