@@ -107,7 +107,19 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, ProductOutputDto.class),
-                        ProductsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
+                        ProductsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um ProductsModelOpenApi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, ProductOutputDto.class),
+                        ProductsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um ProductsModelOpenApi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, RestaurantOutputDto.class),
+                        RestaurantsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um RestaurantsBasicsModelOpenApi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, UserOutputDto.class),
+                        UsersModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um RestaurantsBasicsModelOpenApi
 
                 //.genericModelSubstitutes(ResponseEntity.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(
@@ -117,7 +129,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                                                           // Precisa de mudancas no PaymentTypeConrollerOpenApi
                 //.alternateTypeRules(buildAlternateTypeRule(OrderOutputDto.class)) // Resolve um Page<OrderOutput> para um OrderControllerOpenApi
                 .alternateTypeRules(
-        AlternateTypeRules.newRule(
+                        AlternateTypeRules.newRule(
                                 typeResolver.resolve(CollectionModel.class, CuisineOutputDto.class),
                                 typeResolver.resolve(CuisineOutputDto.class)))
                 .ignoredParameterTypes(ignoredParameterTypesClasses()) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)

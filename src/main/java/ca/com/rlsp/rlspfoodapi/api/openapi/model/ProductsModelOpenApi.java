@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.openapi.model;
 
 import ca.com.rlsp.rlspfoodapi.api.model.dto.output.CityOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.model.dto.output.ProductOutputDto;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.hateoas.Link;
@@ -18,7 +19,7 @@ public class ProductsModelOpenApi {
     @ApiModel("ProductsEmbeddedModelOpenApi")
     @Data
     public class ProductsEmbeddedModelOpenApi  {
-        private List<CityOutputDto> cities;
+        private List<ProductOutputDto> products;
 
     }
 }
