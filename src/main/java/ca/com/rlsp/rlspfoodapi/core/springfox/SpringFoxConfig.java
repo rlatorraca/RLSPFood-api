@@ -24,7 +24,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -107,7 +106,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         OrdersModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
 
                 .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(PagedModel.class, ProductOutputDto.class),
+                        typeResolver.resolve(CollectionModel.class, ProductOutputDto.class),
                         ProductsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
 
                 //.genericModelSubstitutes(ResponseEntity.class)
@@ -148,12 +147,15 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 );
     }
 
+    /*
     private <T> AlternateTypeRule buildAlternateTypeRule(Class<T> classModel) {
         return AlternateTypeRules.newRule(
                 typeResolver.resolve(Page.class, classModel),
                 typeResolver.resolve(PageModelOpenApi.class, classModel));
 
     }
+    */
+     */
 
 
     /*
