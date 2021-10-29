@@ -106,6 +106,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         typeResolver.resolve(PagedModel.class, OrderOutputDto.class),
                         OrdersModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
 
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(PagedModel.class, ProductOutputDto.class),
+                        ProductsModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
+
                 //.genericModelSubstitutes(ResponseEntity.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(ResponseEntity.class,
