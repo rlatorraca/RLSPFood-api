@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -43,11 +44,13 @@ public interface RestaurantControllerOpenApi {
     //List<RestaurantOutputDto> listAll() ;
     CollectionModel<RestaurantOutputDto> listAll() ;
 
+    @ApiIgnore
     @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
     //@JsonView(RestaurantView.Summary.class)
     //List<RestaurantOutputDto> listAllSummary() ;
     CollectionModel<RestaurantBasicsOutputDto> listAllSummary() ;
 
+    @ApiIgnore
     @ApiOperation(value = "Restaurants list", hidden = true) // esconde na documentaoca
     //@JsonView(RestaurantView.SummaryJustName.class)
     //List<RestaurantOutputDto> listAllJustNames() ;
