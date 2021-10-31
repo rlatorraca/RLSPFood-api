@@ -3,9 +3,9 @@ package ca.com.rlsp.rlspfoodapi.core.jackson;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
-import ca.com.rlsp.rlspfoodapi.api.model.mixin.CityMixin;
-import ca.com.rlsp.rlspfoodapi.api.model.mixin.CuisineMixin;
-import ca.com.rlsp.rlspfoodapi.api.model.mixin.RestaurantMixin;
+import ca.com.rlsp.rlspfoodapi.api.v1.model.mixin.CityMixin;
+import ca.com.rlsp.rlspfoodapi.api.v1.model.mixin.CuisineMixin;
+import ca.com.rlsp.rlspfoodapi.api.v1.model.mixin.RestaurantMixin;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.stereotype.Component;
 

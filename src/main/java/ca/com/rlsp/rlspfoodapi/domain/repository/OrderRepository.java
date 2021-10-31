@@ -1,8 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.domain.repository;
 
-import ca.com.rlsp.rlspfoodapi.api.assembler.OrderShortModelAssembler;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

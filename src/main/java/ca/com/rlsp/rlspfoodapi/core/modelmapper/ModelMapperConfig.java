@@ -1,7 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.core.modelmapper;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.ItemOrderInputDto;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.AddressOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ItemOrderInputDto;
+import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.AddressOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Address;
 import ca.com.rlsp.rlspfoodapi.domain.model.OrderItem;
 import org.modelmapper.ModelMapper;

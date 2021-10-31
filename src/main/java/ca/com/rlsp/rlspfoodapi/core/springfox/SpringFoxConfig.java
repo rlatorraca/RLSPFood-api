@@ -1,8 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.core.springfox;
 
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
-import ca.com.rlsp.rlspfoodapi.api.model.dto.output.*;
-import ca.com.rlsp.rlspfoodapi.api.openapi.model.*;
+import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.*;
+import ca.com.rlsp.rlspfoodapi.api.v1.openapi.model.*;
 import com.fasterxml.classmate.TypeResolver;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.infra.repository.customized;
 
-import ca.com.rlsp.rlspfoodapi.api.assembler.ProductPhotoModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.v1.assembler.ProductPhotoModelAssembler;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProductRepositoryQueries;
 import org.springframework.beans.factory.annotation.Autowired;

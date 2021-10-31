@@ -1,6 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.infra.repository.specification;
 
-import ca.com.rlsp.rlspfoodapi.api.model.dto.input.filter.OrderFilterInputDto;
+import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.filter.OrderFilterInputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.springframework.data.jpa.domain.Specification;
 
