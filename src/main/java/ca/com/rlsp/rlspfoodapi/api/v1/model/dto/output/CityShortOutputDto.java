@@ -16,7 +16,7 @@ public class CityShortOutputDto extends RepresentationModel<CityShortOutputDto> 
     @ApiModelProperty(example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "A city name", example = "Calgary")
+    @ApiModelProperty(value = "A city name", example = "Toronto")
     private String name;
 
     @ApiModelProperty(value = "A province name", example = "Alberta")
