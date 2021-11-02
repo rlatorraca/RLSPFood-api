@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class CityInputDtoV2 {
 
     @ApiModelProperty(example = "1", required = true)
-    @NotNull
+    //@NotNull
     private Long id;
 
     @ApiModelProperty(example = "Toronto", required = true)
@@ -22,7 +22,7 @@ public class CityInputDtoV2 {
     private String nameCity;
 
     @ApiModelProperty(example = "1", required = true)
-    @NotBlank
+    @NotNull
     private Long idProvince;
 
 

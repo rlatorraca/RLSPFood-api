@@ -2,7 +2,9 @@ package ca.com.rlsp.rlspfoodapi.core.modelmapper;
 
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ItemOrderInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.AddressOutputDto;
+import ca.com.rlsp.rlspfoodapi.api.v2.model.input.CityInputDtoV2;
 import ca.com.rlsp.rlspfoodapi.domain.model.Address;
+import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.model.OrderItem;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -44,10 +46,16 @@ public class ModelMapperConfig {
 
 
         /*
-            Mapeia o ID do Order Items dentro de Order
+            SKIP o ID do Order Items dentro de Order
          */
         modelMapper.createTypeMap(ItemOrderInputDto.class, OrderItem.class)
                 .addMappings(mapper -> mapper.skip(OrderItem::setId));
+
+        /*
+            SKIP o ID do Order Items dentro de Order
+         */
+        modelMapper.createTypeMap(CityInputDtoV2.class, City.class)
+                .addMappings(mapper -> mapper.skip(City::setId));
 
         //return new ModelMapper();
         return modelMapper;
