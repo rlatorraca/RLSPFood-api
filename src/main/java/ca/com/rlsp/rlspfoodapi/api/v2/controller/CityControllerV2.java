@@ -30,7 +30,6 @@ import java.util.List;
 //@RequestMapping(path = "/cities", produces = MediaType.APPLICATION_JSON_VALUE)
 //@RequestMapping(path = "/cities", produces = "application/vnd.rlspfood.v1+json")
 @RequestMapping(path = "/cities", produces = {
-
         RlspFoodVersionMediaType.V2_APPLICATION_JSON_VALUE
 })
 public class CityControllerV2  {
@@ -42,7 +41,7 @@ public class CityControllerV2  {
 
     public CityControllerV2(CityRegistrationService cityRegistrationService,
                             CityRepository cityRepository,
-                            CityModelAssemblerV2 cityModelAssembler,
+                            CityModelAssemblerV2 cityModelAssemblerV2,
                             CityInputDisassemblerV2 cityInputDisassemblerV2) {
 
         this.cityRegistrationService = cityRegistrationService;
@@ -53,7 +52,7 @@ public class CityControllerV2  {
 
 
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<City> listAllXml() {
+    public List<City> listAllXmlV2() {
         return cityRepository.findAll();
     }
 

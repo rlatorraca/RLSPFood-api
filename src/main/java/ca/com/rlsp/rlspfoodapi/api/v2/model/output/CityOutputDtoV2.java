@@ -13,11 +13,11 @@ import javax.validation.constraints.NotNull;
 /*
     RepresentationModel => from Spring HATEAOS
  */
-@Relation(collectionRelation = "cities") // Muda o nome da representacao dentro do JSON
+@Relation(collectionRelation = "cities", itemRelation = "city", value = "city") // Muda o nome da representacao dentro do JSON
 //@ApiModel(value = "City", description = "Output to City representation")
 @Getter
 @Setter
-public class CityOutputDtoV2 extends RepresentationModel<CityOutputDtoV2> {
+public class CityOutputDtoV2 extends RepresentationModel<CityOutputDtoV2>  {
 
     @ApiModelProperty(example = "1")
     private Long idCity;

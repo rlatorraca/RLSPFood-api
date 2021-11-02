@@ -47,7 +47,7 @@ public class CityController implements CityControllerOpenApi {
     }
 
 
-    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE})
+    //@GetMapping(produces = {MediaType.APPLICATION_XML_VALUE})
     public List<City> listAllXml() {
         return cityRepository.findAll();
     }

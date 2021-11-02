@@ -1,13 +1,12 @@
 package ca.com.rlsp.rlspfoodapi.core.web;
 
 
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.config.HypermediaMappingInformation;
 import org.springframework.hateoas.mediatype.MessageResolver;
 import org.springframework.hateoas.mediatype.hal.CurieProvider;
@@ -15,13 +14,10 @@ import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
 import org.springframework.hateoas.server.core.EvoInflectorLinkRelationProvider;
 import org.springframework.http.MediaType;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
 // fonte : https://github.com/spring-projects/spring-hateoas/issues/1253
-@Configuration
+//@Configuration
 public class MediaTypeConfiguration implements HypermediaMappingInformation {
 
     //public static final MediaType MEDIATYPE = MediaType.parseMediaType("application/vnd.rlspfood.v1+json");
@@ -31,7 +27,8 @@ public class MediaTypeConfiguration implements HypermediaMappingInformation {
      */
     @Override
     public List<MediaType> getMediaTypes() {
-        return Arrays.asList(MediaTypeEnum.MEDIA_TYPE_V1.getUrl(), MediaTypeEnum.MEDIA_TYPE_V2.getUrl());
+
+        return Arrays.asList(MediaTypes.HAL_JSON, MediaTypeEnum.MEDIA_TYPE_V1.getUrl(), MediaTypeEnum.MEDIA_TYPE_V2.getUrl());
     }
 
 
@@ -56,4 +53,5 @@ public class MediaTypeConfiguration implements HypermediaMappingInformation {
     public Module getJacksonModule() {
         return new Jackson2HalModule();
     }
+
 }
