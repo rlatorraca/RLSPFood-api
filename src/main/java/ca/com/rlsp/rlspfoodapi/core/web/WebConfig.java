@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.core.web;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,5 +32,18 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public Filter shallowETagHeaderFilter(){
        return  new ShallowEtagHeaderFilter(); // Gera o HASH do Body da resposta para o CACHE ETag
+    }
+
+    /*
+        Define qual a versao da Aplicacao => V2 no caso
+     */
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        WebMvcConfigurer
+                .super
+                    .configureContentNegotiation(
+                            configurer.defaultContentType(RlspFoodVersionMediaType.V2_APPLICATION_JSON
+                            ));
     }
 }
