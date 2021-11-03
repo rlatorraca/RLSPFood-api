@@ -17,7 +17,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/provinces", produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/provinces", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/provinces", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProvinceController implements ProvinceControllerOpenApi {
 
     private ProvinceRegistrationService provinceRegistrationService;

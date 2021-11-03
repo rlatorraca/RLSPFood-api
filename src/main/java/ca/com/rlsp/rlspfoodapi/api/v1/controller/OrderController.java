@@ -33,6 +33,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+//@RequestMapping(path = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequestMapping(path = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderController implements OrderControllerOpenApi {
     private OrderRepository orderRepository;

@@ -19,7 +19,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
 public class StatisticsController implements StatisticsControllerOpenApi {
 
     private DailySalesQueryService dailySalesQueryService;

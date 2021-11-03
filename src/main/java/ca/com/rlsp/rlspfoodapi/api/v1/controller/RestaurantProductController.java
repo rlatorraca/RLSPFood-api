@@ -23,7 +23,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/restaurants/{restaurantId}/products",  produces = {MediaType.APPLICATION_JSON_VALUE})
+//@RequestMapping(value="/restaurants/{restaurantId}/products",  produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/v1/restaurants/{restaurantId}/products",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantProductController implements RestaurantProductControllerOpenApi {
 
     private ProductRepository productRepository;

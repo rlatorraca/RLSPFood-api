@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping(path = "/paymenttypes", produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/paymenttypes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/paymenttypes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PaymentTypeController implements PaymentTypeControllerOpenApi {
 
     private PaymentTypeRepository paymentTypeRepository;

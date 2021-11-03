@@ -39,7 +39,8 @@ import java.util.Map;
 // Libera o CORS do navegador para essas ORIGIN
 //@CrossOrigin(origins = { "https://www.rlspfood.local:8000", "https://www.rlspfood.ca:8000"} )
 @RestController
-@RequestMapping(path="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
+//@RequestMapping(path="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/v1/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantController implements RestaurantControllerOpenApi {
 
     private RestaurantRegistrationService restaurantRegistrationService;

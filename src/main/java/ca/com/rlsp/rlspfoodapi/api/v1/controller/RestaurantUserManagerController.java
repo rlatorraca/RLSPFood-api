@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequestMapping(path = "/restaurants/{restaurantId}/managers", produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/restaurants/{restaurantId}/managers", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/restaurants/{restaurantId}/managers", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantUserManagerController implements RestaurantUserManagerControllerOpenApi {
 
     private RestaurantRegistrationService restaurantRegistrationService;

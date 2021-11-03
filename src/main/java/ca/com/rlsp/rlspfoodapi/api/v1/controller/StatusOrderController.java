@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/orders/{orderCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/orders/{orderCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/orders/{orderCode}", produces = MediaType.APPLICATION_JSON_VALUE)
 public class StatusOrderController implements StatusOrderControllerOpenApi {
 
     private StatusOrderRegistrationService statusOrderRegistrationService;

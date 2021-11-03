@@ -21,7 +21,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users")
+//@RequestMapping(path = "/users")
+@RequestMapping(path = "/v1/users")
 public class UserController implements UserControllerOpenApi {
 
     private UserRepository userRepository;
