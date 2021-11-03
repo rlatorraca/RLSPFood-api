@@ -28,10 +28,11 @@ import java.util.List;
 
 @RestController
 //@RequestMapping(path = "/cities", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v2/cities", produces = MediaType.APPLICATION_JSON_VALUE)
 //@RequestMapping(path = "/cities", produces = "application/vnd.rlspfood.v1+json")
-@RequestMapping(path = "/cities", produces = {
-        RlspFoodVersionMediaType.V2_APPLICATION_JSON_VALUE
-})
+//@RequestMapping(path = "/cities", produces = {
+//        RlspFoodVersionMediaType.V2_APPLICATION_JSON_VALUE
+//})
 public class CityControllerV2  {
 
     private CityRegistrationService cityRegistrationService;
