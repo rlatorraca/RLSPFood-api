@@ -68,10 +68,12 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                     .select() // seleciona os endpoints que serao expostos
                         //.apis(RequestHandlerSelectors.any()) // tudo relacionado a API sera incluido (inlcusive do SpringBoot
                         .apis(RequestHandlerSelectors.basePackage("ca.com.rlsp.rlspfoodapi.api"))
-                        .paths(PathSelectors.any())
+                        //.paths(PathSelectors.any())
+                        .paths(PathSelectors.ant("/v1/**"))
                         //.paths(PathSelectors.ant("/restaurants/*")) // apenas o que tiver dentro de restaurnt vai ser mostrado
                         .build()
-                .apiInfo(rlspApiInfo())
+                .apiInfo(rlspApiInfoV1())
+                .groupName("V1")
                 .useDefaultResponseMessages(false) // Desabilita os codigo de resposta Standard para ERRORs
                 .globalResponses(HttpMethod.GET, globalMsgErrorResponseMessagesToGET()) // Customized Msgs de ERROR para o GET
                 .globalResponses(HttpMethod.POST, globalMsgErrorResponseMessagesToPOST()) // Customized Msgs de ERROR para o GET
@@ -159,6 +161,53 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 );
     }
 
+    @Bean
+    public Docket apiDockerV2() {
+        // instancia o conjunto de servicos que deve ser documentado
+        return new
+                Docket(DocumentationType.OAS_30)
+
+                .select() // seleciona os endpoints que serao expostos
+                    .apis(RequestHandlerSelectors.basePackage("ca.com.rlsp.rlspfoodapi.api"))
+                    .paths(PathSelectors.ant("/v2/**"))
+                .build()
+                .apiInfo(rlspApiInfoV2())
+                .groupName("V2")
+                .useDefaultResponseMessages(false) // Desabilita os codigo de resposta Standard para ERRORs
+                .globalResponses(HttpMethod.GET, globalMsgErrorResponseMessagesToGET()) // Customized Msgs de ERROR para o GET
+                .globalResponses(HttpMethod.POST, globalMsgErrorResponseMessagesToPOST()) // Customized Msgs de ERROR para o GET
+                .globalResponses(HttpMethod.PUT, globalMsgErrorResponseMessagesToPUT()) // Customized Msgs de ERROR para o GET
+                .globalResponses(HttpMethod.DELETE, globalMsgErrorResponseMessagesToDELETE()) // Customized Msgs de ERROR para o GET
+                .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
+                .directModelSubstitute(Link.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(PagedModel.class, CuisineOutputDto.class),
+                        CuisineModelOpenApi.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, ProvinceOutputDto.class),
+                        ProvincesModelApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CuisineControllerOpenApi
+
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, CityOutputDto.class),
+                        CitiesModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
+
+
+                .alternateTypeRules(
+                        AlternateTypeRules.newRule(
+                                typeResolver.resolve(CollectionModel.class, CuisineOutputDto.class),
+                                typeResolver.resolve(CuisineOutputDto.class)))
+                .ignoredParameterTypes(ignoredParameterTypesClasses()) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
+
+                .tags(
+                        new Tag("Cities", "Manage all endpoints to City's Resources"),
+                        new Tag("Cuisines", "Manage all endpoints to Cuisine's Resources")
+
+                );
+    }
+
     /*
     private <T> AlternateTypeRule buildAlternateTypeRule(Class<T> classModel) {
         return AlternateTypeRules.newRule(
@@ -198,11 +247,20 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         ).toArray(new Class[0]);
     }
 
-    private ApiInfo rlspApiInfo(){
+    private ApiInfo rlspApiInfoV1(){
         return new ApiInfoBuilder()
                 .title("RLSP FOOD API")
                 .description("API for Canada and Maritimes restaurants")
                 .version("1.34")
+                .contact(new Contact("RLSPFood", "https://www.rlspfood.api.com.ca", "contact@rlspfood.api.com.ca"))
+                .build();
+
+    }
+    private ApiInfo rlspApiInfoV2(){
+        return new ApiInfoBuilder()
+                .title("RLSP FOOD API")
+                .description("API for Canada and Maritimes restaurants")
+                .version("2.34")
                 .contact(new Contact("RLSPFood", "https://www.rlspfood.api.com.ca", "contact@rlspfood.api.com.ca"))
                 .build();
 
