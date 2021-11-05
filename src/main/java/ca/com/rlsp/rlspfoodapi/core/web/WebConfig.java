@@ -1,10 +1,12 @@
 package ca.com.rlsp.rlspfoodapi.core.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
@@ -12,8 +14,11 @@ import javax.servlet.Filter;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // Habilita o CORS globalmente na aplicacao
+    // Injeta o interceptador de metodos para dizer que o metodod esta depracado
+    @Autowired
+    private ApiDeprecationHandler apiDeprecationHandler;
 
+    // Habilita o CORS globalmente na aplicacao
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -45,5 +50,10 @@ public class WebConfig implements WebMvcConfigurer {
                     .configureContentNegotiation(
                             configurer.defaultContentType(RlspFoodVersionMediaType.V2_APPLICATION_JSON
                             ));
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(apiDeprecationHandler);
     }
 }

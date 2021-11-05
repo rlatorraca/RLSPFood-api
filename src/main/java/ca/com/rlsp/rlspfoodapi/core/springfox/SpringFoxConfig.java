@@ -84,9 +84,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .directModelSubstitute(Link.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
-                .ignoredParameterTypes(ServletWebRequest.class,
-                        URL.class, URI.class, URLStreamHandler.class, Resource.class,
-                        File.class, InputStream.class)
 
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(PagedModel.class, CuisineOutputDto.class),
@@ -186,10 +183,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .directModelSubstitute(Link.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
-                .ignoredParameterTypes(ServletWebRequest.class,
-                        URL.class, URI.class, URLStreamHandler.class, Resource.class,
-                        File.class, InputStream.class)
-
+                .ignoredParameterTypes(ignoredParameterTypesClasses())
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(PagedModel.class, CuisineOutputDtoV2.class),
                         CuisineOutputDtoV2.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
@@ -247,8 +241,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     private ApiInfo rlspApiInfoV1(){
         return new ApiInfoBuilder()
-                .title("RLSP FOOD API")
-                .description("API for Canada and Maritimes restaurants")
+                .title("RLSP FOOD API (Deprecated)")
+                .description("API for Canada and Maritimes restaurants.<br/>This API is deprecated and deadline to use that is December 31, 2021")
                 .version("1.34")
                 .contact(new Contact("RLSPFood", "https://www.rlspfood.api.com.ca", "contact@rlspfood.api.com.ca"))
                 .build();
