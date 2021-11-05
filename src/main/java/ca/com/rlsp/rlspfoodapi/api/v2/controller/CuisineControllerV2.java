@@ -8,7 +8,9 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.CuisineControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.v2.assembler.CuisineModelAssemblerV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.disassembler.CuisineInputDisassemblerV2;
+import ca.com.rlsp.rlspfoodapi.api.v2.model.input.CuisineInputDtoV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.model.output.CuisineOutputDtoV2;
+import ca.com.rlsp.rlspfoodapi.api.v2.openapi.controller.CuisineControllerOpenApiV2;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
@@ -28,7 +30,7 @@ import java.util.List;
 @RestController
 //@RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE})
 @RequestMapping(value = "/v2/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE})
-public class CuisineControllerV2  {
+public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
 
     private  CuisineRepository cuisineRepository;
     private CuisineRegistrationService cuisineRegistrationService;
@@ -106,6 +108,7 @@ public class CuisineControllerV2  {
         return cuisineModelAssembler.toModel(cuisine);
     }
 
+
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public CuisineXMLWrapper listAllXML(){
         return new CuisineXMLWrapper(cuisineRegistrationService.listAll());
@@ -115,7 +118,7 @@ public class CuisineControllerV2  {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Cuisine save(@RequestBody @Valid Cuisine cuisine){
-    public CuisineOutputDtoV2 save(@RequestBody @Valid CuisineOutputDtoV2 cuisineInputDTO){
+    public CuisineOutputDtoV2 save(@RequestBody @Valid CuisineInputDtoV2 cuisineInputDTO){
 
         Cuisine cuisine = cuisineInputDisassembler.fromInputToController(cuisineInputDTO);
         cuisine = cuisineRepository.save(cuisine);
@@ -127,7 +130,7 @@ public class CuisineControllerV2  {
 
     @PutMapping("/{cuisineId}")
     //public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
-    public CuisineOutputDtoV2 updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid CuisineOutputDtoV2 cuisineInputDTO){
+    public CuisineOutputDtoV2 updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid CuisineInputDtoV2 cuisineInputDTO){
         Cuisine currentCuisine = cuisineRegistrationService.findOrFail(id);
 
         cuisineInputDTO.setId(id);

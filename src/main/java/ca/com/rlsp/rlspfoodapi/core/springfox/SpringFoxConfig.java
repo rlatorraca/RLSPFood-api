@@ -3,6 +3,8 @@ package ca.com.rlsp.rlspfoodapi.core.springfox;
 import ca.com.rlsp.rlspfoodapi.api.exceptionhandler.ApiHandleProblemDetail;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.*;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.model.*;
+import ca.com.rlsp.rlspfoodapi.api.v2.model.output.CityOutputDtoV2;
+import ca.com.rlsp.rlspfoodapi.api.v2.model.output.CuisineOutputDtoV2;
 import com.fasterxml.classmate.TypeResolver;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +63,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
             OpenAPI
     */
     @Bean
-    public Docket apiDocker() {
+    public Docket apiDockerV1() {
         // instancia o conjunto de servicos que deve ser documentado
         return new
                 Docket(DocumentationType.OAS_30)
@@ -82,6 +84,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .directModelSubstitute(Link.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
+                .ignoredParameterTypes(ServletWebRequest.class,
+                        URL.class, URI.class, URLStreamHandler.class, Resource.class,
+                        File.class, InputStream.class)
 
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(PagedModel.class, CuisineOutputDto.class),
@@ -181,25 +186,18 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .additionalModels(typeResolver.resolve(ApiHandleProblemDetail.class)) // Usado para modificar nomes de retorno, atributos, exemplos, etc na documentacao da OpenApi
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class) // Faz a troca na documentacao de Pageable por PageableModelOpenApi
                 .directModelSubstitute(Link.class, LinksModelOpenApi.class) // Faz a troca na documentacao de Links (errados) para LinkMOdelOpenAPi
+                .ignoredParameterTypes(ServletWebRequest.class,
+                        URL.class, URI.class, URLStreamHandler.class, Resource.class,
+                        File.class, InputStream.class)
 
                 .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(PagedModel.class, CuisineOutputDto.class),
-                        CuisineModelOpenApi.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+                        typeResolver.resolve(PagedModel.class, CuisineOutputDtoV2.class),
+                        CuisineOutputDtoV2.class)) // Resolve um Page<CuisineOutputDto> para um CuisineControllerOpenApi
+
 
                 .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(CollectionModel.class, ProvinceOutputDto.class),
-                        ProvincesModelApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CuisineControllerOpenApi
-
-                .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(CollectionModel.class, CityOutputDto.class),
-                        CitiesModelOpenApi.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
-
-
-                .alternateTypeRules(
-                        AlternateTypeRules.newRule(
-                                typeResolver.resolve(CollectionModel.class, CuisineOutputDto.class),
-                                typeResolver.resolve(CuisineOutputDto.class)))
-                .ignoredParameterTypes(ignoredParameterTypesClasses()) // Ignora qualquer parametro do tipo ServletWebRequest (usado no PaymentTyoeController)
+                        typeResolver.resolve(CollectionModel.class, CityOutputDtoV2.class),
+                        CityOutputDtoV2.class)) // Resolve um CollectionModel<CuisineOutputDto> para um CitiesModelOpenApi
 
                 .tags(
                         new Tag("Cities", "Manage all endpoints to City's Resources"),

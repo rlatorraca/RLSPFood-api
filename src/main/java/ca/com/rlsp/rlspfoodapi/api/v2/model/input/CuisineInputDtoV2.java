@@ -1,11 +1,13 @@
 package ca.com.rlsp.rlspfoodapi.api.v2.model.input;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
+@ApiModel("CuisineInput")
 @Getter
 @Setter
 public class CuisineInputDtoV2 {

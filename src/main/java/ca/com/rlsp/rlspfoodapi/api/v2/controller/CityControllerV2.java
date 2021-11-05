@@ -10,6 +10,7 @@ import ca.com.rlsp.rlspfoodapi.api.v2.assembler.CityModelAssemblerV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.disassembler.CityInputDisassemblerV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.model.input.CityInputDtoV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.model.output.CityOutputDtoV2;
+import ca.com.rlsp.rlspfoodapi.api.v2.openapi.controller.CityControllerOpenApiV2;
 import ca.com.rlsp.rlspfoodapi.core.web.RlspFoodVersionMediaType;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
@@ -33,7 +34,7 @@ import java.util.List;
 //@RequestMapping(path = "/cities", produces = {
 //        RlspFoodVersionMediaType.V2_APPLICATION_JSON_VALUE
 //})
-public class CityControllerV2  {
+public class CityControllerV2  implements CityControllerOpenApiV2 {
 
     private CityRegistrationService cityRegistrationService;
     private CityRepository cityRepository;
