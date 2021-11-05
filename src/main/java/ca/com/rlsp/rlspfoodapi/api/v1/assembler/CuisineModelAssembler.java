@@ -91,7 +91,7 @@ public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<C
         CuisineOutputDto cuisineOutputDto = createModelWithId(cuisine.getId(), cuisine);
         modelMapper.map(cuisine, cuisineOutputDto);
 
-        cuisineOutputDto.add(buildLinks.getLinkToCuisines("cozinhas"));
+        cuisineOutputDto.add(buildLinks.getLinkToCuisines("cuisines"));
         //cuisineOutputDto.add(linkTo(CuisineController.class).withRel("cozinhas"));
 
         return cuisineOutputDto;

@@ -1,6 +1,8 @@
 package ca.com.rlsp.rlspfoodapi.api.v2.links;
 
+import ca.com.rlsp.rlspfoodapi.api.v1.controller.CuisineController;
 import ca.com.rlsp.rlspfoodapi.api.v2.controller.CityControllerV2;
+import ca.com.rlsp.rlspfoodapi.api.v2.controller.CuisineControllerV2;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,14 @@ public class BuildLinksV2 {
 
     public Link getLinkToCities() {
         return getLinkToCities(IanaLinkRelations.SELF.value());
+    }
+
+    public Link getLinkToCuisines(String relation) {
+        return linkTo(CuisineControllerV2.class).withRel(relation);
+    }
+
+    public Link getLinkToCuisines() {
+        return getLinkToCuisines(IanaLinkRelations.SELF.value());
     }
 
 
