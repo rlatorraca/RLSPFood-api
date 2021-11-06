@@ -8,7 +8,7 @@
 
     <!-- apppender => escreve logs em alguma lugar (no caso nos servidores do Loggly -->
     <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyBatchAppender">
-        <endpointUrl>https://logs-01.loggly.com/bulk/${logglyToken}}/tag/logback</endpointUrl>
+        <endpointUrl>https://logs-01.loggly.com/bulk/${logglyToken}/tag/logback</endpointUrl>
         <pattern>%d{"ISO8601", UTC} %p %t %c %M - %m%n</pattern>
     </appender>
 
