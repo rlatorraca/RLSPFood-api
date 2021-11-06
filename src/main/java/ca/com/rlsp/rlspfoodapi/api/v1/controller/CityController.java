@@ -1,12 +1,11 @@
 package ca.com.rlsp.rlspfoodapi.api.v1.controller;
 
+import ca.com.rlsp.rlspfoodapi.api.uri.UriResourceHelper;
 import ca.com.rlsp.rlspfoodapi.api.v1.assembler.CityModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.CityInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.CityControllerOpenApi;
-import ca.com.rlsp.rlspfoodapi.api.uri.UriResourceHelper;
-import ca.com.rlsp.rlspfoodapi.core.web.RlspFoodVersionMediaType;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -29,6 +28,8 @@ import java.util.List;
 //        RlspFoodVersionMediaType.V1_APPLICATION_JSON_VALUE
 //})
 public class CityController implements CityControllerOpenApi {
+
+
 
     private CityRegistrationService cityRegistrationService;
     private CityRepository cityRepository;
@@ -56,6 +57,7 @@ public class CityController implements CityControllerOpenApi {
 
     @GetMapping
     public CollectionModel<CityOutputDto> listAllJson() {
+
         List<City> allCities = cityRepository.findAll();
 
         return  cityModelAssembler.toCollectionModel(allCities);

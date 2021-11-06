@@ -7,6 +7,8 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CityModelAssembler extends RepresentationModelAssemblerSupport<City, CityOutputDto> {
+
+
 
     @Autowired
     private ModelMapper modelMapper;

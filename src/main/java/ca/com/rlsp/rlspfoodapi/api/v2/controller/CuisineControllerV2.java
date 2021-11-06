@@ -1,6 +1,7 @@
 package ca.com.rlsp.rlspfoodapi.api.v2.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.v1.assembler.CuisineModelAssembler;
+import ca.com.rlsp.rlspfoodapi.api.v1.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.CuisineInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.CuisineXMLWrapper;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CuisineInputDto;
@@ -14,6 +15,9 @@ import ca.com.rlsp.rlspfoodapi.api.v2.openapi.controller.CuisineControllerOpenAp
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j // Igaul a => private static final Logger log = LoggerFactory.getLogger(CuisineControllerV2.class);
 @RestController
 //@RequestMapping(value = "/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE})
 @RequestMapping(value = "/v2/cuisines", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -37,8 +42,10 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     private CuisineInputDisassemblerV2 cuisineInputDisassembler;
     private CuisineModelAssemblerV2 cuisineModelAssembler;
 
-    // Para fazer a REPRESENTATIOn da PAGINACAO
+    // Para fazer a REPRESENTATION da PAGINACAO
     private PagedResourcesAssembler<Cuisine> pagedResourcesAssembler;
+
+    private static final Logger logger = LoggerFactory.getLogger(CuisineControllerV2.class);
 
     public CuisineControllerV2(CuisineRepository cuisineRepository,
                                CuisineRegistrationService cuisineRegistrationService,
@@ -74,6 +81,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     public List<CuisineOutputDtoV2> listAllPageableList(Pageable pageable){
         //return cuisineRegistrationService.listAll();
         Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
+
+
         return cuisineModelAssembler.fromControllerToOutputList(allCuisinesPageable.getContent());
     }
 
@@ -94,6 +103,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
         Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
         PagedModel<CuisineOutputDtoV2> cuisinesPageModel = pagedResourcesAssembler
                 .toModel(allCuisinesPageable,cuisineModelAssembler);
+
+        log.info("Listing cuisines by {} pages by query ... ", pageable.getPageSize());
 
         return cuisinesPageModel;
     }

@@ -1,23 +1,20 @@
 package ca.com.rlsp.rlspfoodapi.api.v2.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.uri.UriResourceHelper;
-import ca.com.rlsp.rlspfoodapi.api.v1.assembler.CityModelAssembler;
-import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.CityInputDisassembler;
-import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CityInputDto;
-import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CityOutputDto;
-import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.CityControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.api.v1.controller.CityController;
 import ca.com.rlsp.rlspfoodapi.api.v2.assembler.CityModelAssemblerV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.disassembler.CityInputDisassemblerV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.model.input.CityInputDtoV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.model.output.CityOutputDtoV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.openapi.controller.CityControllerOpenApiV2;
-import ca.com.rlsp.rlspfoodapi.core.web.RlspFoodVersionMediaType;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CityRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CityRegistrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +32,8 @@ import java.util.List;
 //        RlspFoodVersionMediaType.V2_APPLICATION_JSON_VALUE
 //})
 public class CityControllerV2  implements CityControllerOpenApiV2 {
+
+    private static final Logger logger = LoggerFactory.getLogger(CityControllerV2.class);
 
     private CityRegistrationService cityRegistrationService;
     private CityRepository cityRepository;
@@ -61,8 +60,10 @@ public class CityControllerV2  implements CityControllerOpenApiV2 {
 
     @GetMapping
     public CollectionModel<CityOutputDtoV2> listAllJson() {
+        logger.info("Listing Cities ... ");
         List<City> allCities = cityRepository.findAll();
 
+        logger.info("Cities listed... ");
         return  cityModelAssemblerV2.toCollectionModel(allCities);
     }
 
