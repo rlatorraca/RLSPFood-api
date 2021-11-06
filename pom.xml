@@ -24,6 +24,7 @@
         <aws-s3.version>1.12.72</aws-s3.version>
         <springfox-version>3.0.0</springfox-version>
         <devtools-spring>2.5.5</devtools-spring>
+        <logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
     </properties>
 
     <dependencies>
@@ -129,7 +130,12 @@
         </dependency>
 
 
-
+        <!-- Loggly - Storage log in external Log Server -->
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-loggly</artifactId>
+            <version>${logback-ext-loggly.version}</version>
+        </dependency>
 
         <!-- Flyway - Versionamento de DB -->
         <dependency>
