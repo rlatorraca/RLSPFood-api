@@ -14,9 +14,13 @@ import javax.servlet.Filter;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // Injeta o interceptador de metodos para dizer que o metodod esta depracado
+    // Injeta o interceptador de metodos para dizer que o metodo esta depracados
     @Autowired
     private ApiDeprecationHandler apiDeprecationHandler;
+
+    // Injeta o interceptador de metodos para dizer que o metodo esta RETIRED
+    @Autowired
+    private ApiRetirementHandler apiRetirementHandler;
 
     // Habilita o CORS globalmente na aplicacao
     @Override
@@ -54,6 +58,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(apiDeprecationHandler);
+
+        //registry.addInterceptor(apiDeprecationHandler);
+        registry.addInterceptor(apiRetirementHandler);
     }
 }
