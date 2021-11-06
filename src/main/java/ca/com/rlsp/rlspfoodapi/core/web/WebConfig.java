@@ -26,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedMethods("*") // metdoos permitidos (* = todos)
+                .allowedMethods("*") // metodos permitidos (* = todos)
                 .allowedOrigins("*") // Origins permitidos (* = todos)
                 .maxAge(600); // cache do tempo do preflight do CORS (10 minutos no caso)
     }
