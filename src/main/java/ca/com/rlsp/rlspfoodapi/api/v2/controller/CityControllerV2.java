@@ -64,6 +64,8 @@ public class CityControllerV2  implements CityControllerOpenApiV2 {
         List<City> allCities = cityRepository.findAll();
 
         logger.info("Cities listed... ");
+
+
         return  cityModelAssemblerV2.toCollectionModel(allCities);
     }
 

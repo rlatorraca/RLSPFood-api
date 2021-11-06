@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.beans.TypeMismatchException;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
     ResponseEntityExceptionHandler
      - Classe de conveniencia que trata Exception do SPRINGBOOT
  */
+@Slf4j
 @ControllerAdvice // faz com todas excecoes sejam tratadas nessa Classe
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -155,7 +157,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 // Important print printStackTrace (for while). Not exist logs yet.
         // So, We can print a Exception's stacktrace
 
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
+        //e.printStackTrace();
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
                 .userMessage(detail)
