@@ -16,6 +16,25 @@ services:
       - rlspfood_mysql_data:/var/lib/mysql
     mem_limit: 512M
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_USER: mysql
+      DB_PASSWORD: mysql
+      DB_DATABASE: keycloak
+      DB_SCHEMA: public
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/research-realm.json
+    ports:
+      - 8050:8080
+    volumes:
+      - ./keycloak/research-realm.json:/opt/jboss/keycloak/imports/research-realm.json
+    depends_on:
+      - db
+
   prometheus:
     image: prom/prometheus:latest
     container_name: rlspfood_prometheus
