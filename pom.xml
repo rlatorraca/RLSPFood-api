@@ -25,6 +25,7 @@
         <springfox-version>3.0.0</springfox-version>
         <devtools-spring>2.5.5</devtools-spring>
         <logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
+        <oauth2-oidc-sdk.version>9.19</oauth2-oidc-sdk.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+
+        <!-- Spring Security OAuth2 Resource Server -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
+
+        <!-- OAuth 2.0 SDK with OpenID Connect Extensions -->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>oauth2-oidc-sdk</artifactId>
+        </dependency>
+
 
         <!-- Spring Security Starter -->
         <dependency>
