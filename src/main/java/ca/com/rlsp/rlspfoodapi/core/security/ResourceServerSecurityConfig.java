@@ -1,13 +1,20 @@
 package ca.com.rlsp.rlspfoodapi.core.security;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+
+
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Setup the Spring Security on the API
  */
-//@Configuration
+@Configuration
 @EnableWebSecurity
 public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -22,11 +29,23 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .anyRequest().authenticated()
             .and()
-                .oauth2ResourceServer() // Habilita um "Resource Server" na API
-                .opaqueToken();  // opaqueToken (sem possibilidade de leitura <> do JWT (possivel leitura))
+                //.oauth2ResourceServer() // Habilita um "Resource Server" na API
+                //.opaqueToken();  // opaqueToken (sem possibilidade de leitura <> do JWT (possivel leitura))
+                .oauth2ResourceServer()
+                    .jwt(); //Usando./ jwt em vez "opaqueToken"
     }
 
-//    @Bean
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        var secretKey = new SecretKeySpec(
+                "R0dr1g0L4t0rr4c4D3SP1R3SR0dr1g0L4t0rr4c4D3SP1R3SR0dr1g0L4t0rr4c4D3SP1R3S".getBytes(),
+                "HmacSHA256");
+
+        return NimbusJwtDecoder.withSecretKey(secretKey).build();
+    }
+
+
+    //    @Bean
 //    CorsConfigurationSource corsConfigurationSource() {
 //        CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(Arrays.asList("*"));
