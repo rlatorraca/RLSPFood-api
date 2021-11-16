@@ -35,6 +35,11 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
                     .jwt(); //Usando./ jwt em vez "opaqueToken"
     }
 
+
+    /**
+     * Simetric Key
+     * @return
+
     @Bean
     public JwtDecoder jwtDecoder() {
         var secretKey = new SecretKeySpec(
@@ -43,6 +48,7 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
         return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
+    */
 
 
     //    @Bean
