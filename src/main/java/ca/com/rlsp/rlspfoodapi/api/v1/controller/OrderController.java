@@ -9,6 +9,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.OrderControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.data.PageWrapper;
 import ca.com.rlsp.rlspfoodapi.core.data.PageableTranslator;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
@@ -41,6 +42,7 @@ public class OrderController implements OrderControllerOpenApi {
     private OrderShortModelAssembler orderShortModelAssembler;
     private OrderModelAssembler orderModelAssembler;
     private OrderInputDisassembler orderInputDisassembler;
+    private RlspFoodSecurity rlspFoodSecurity;
 
     private PagedResourcesAssembler<Order> pagedResourcesAssembler;
     public OrderController(OrderRepository orderRepository,
@@ -48,13 +50,15 @@ public class OrderController implements OrderControllerOpenApi {
                            OrderShortModelAssembler orderShortModelAssembler,
                            OrderModelAssembler orderModelAssembler,
                            OrderInputDisassembler orderInputDisassembler,
-                           PagedResourcesAssembler<Order> pagedResourcesAssembler) {
+                           PagedResourcesAssembler<Order> pagedResourcesAssembler,
+                           RlspFoodSecurity rlspFoodSecurity) {
         this.orderRepository = orderRepository;
         this.issueOfOrderRegistrationService = issueOfOrderRegistrationService;
         this.orderShortModelAssembler = orderShortModelAssembler;
         this.orderModelAssembler = orderModelAssembler;
         this.orderInputDisassembler = orderInputDisassembler;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
+        this.rlspFoodSecurity = rlspFoodSecurity;
     }
 
     /*
@@ -157,7 +161,7 @@ public class OrderController implements OrderControllerOpenApi {
 
             // TODO get AUTHENTICATED User
             newOrder.setUser(new User());
-            newOrder.getUser().setId(1L);
+            newOrder.getUser().setId(rlspFoodSecurity.getUserId());
 
             newOrder = issueOfOrderRegistrationService.issue(newOrder);
 
