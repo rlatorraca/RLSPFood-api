@@ -9,6 +9,7 @@ import ca.com.rlsp.rlspfoodapi.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class UserRegistrationService {
 
     public static final String MSG_CLIENT_AS_CODE_IS_NOT_FOUND_INTO_DATABASE = "Client of code %d  %d not found into the Database";
     public static final String MSG_CLIENT_CANNOT_BE_REMOVED_USED_AS_SECONDARY_KEY = "Client of code %d cannot be removed, because that is being used as  secondary key";
+    public static final String MSG_PASSWORDS_NOT_MATCHES = "Passwords not matches.";
     @Autowired
     private UserRepository userRepository;
 
@@ -29,6 +31,9 @@ public class UserRegistrationService {
     @Autowired
     private GroupRegistrationService groupRegistrationService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public User save(User user){
         userRepository.detach(user);
@@ -36,6 +41,10 @@ public class UserRegistrationService {
 
         if( clientFound.isPresent() && !clientFound.get().equals(user)) {
             throw new GenericBusinessException(String.format("Email %s already used by another client", user.getEmail()));
+        }
+
+        if (user.isNewUser()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
         return userRepository.save(user);
@@ -59,13 +68,14 @@ public class UserRegistrationService {
 
     @Transactional
     public void changePassword(Long clientId, String currentPassword, String newPassword) {
-        User usuario = findOrFail(clientId);
+        User user = findOrFail(clientId);
 
-        if (usuario.passwordNotMatches(currentPassword)) {
-            throw new GenericBusinessException("Passwords not matches.");
+        //if (usuario.passwordNotMatches(currentPassword)) {
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new GenericBusinessException(MSG_PASSWORDS_NOT_MATCHES);
         }
 
-        usuario.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
     }
 
     @Transactional

@@ -49,13 +49,19 @@ public class User {
     )
     private Set<Group> groups = new HashSet<>();
 
+    /**
+     * No more used.
+     * There is Bcrypt matcher to check the password
     public boolean passwordMatches(String password) {
+
         return getPassword().equals(password);
     }
 
     public boolean passwordNotMatches(String password) {
         return !passwordMatches(password);
     }
+    */
+
 
     public boolean detachGroup(Group group) {
         return getGroups().remove(group);
@@ -63,6 +69,10 @@ public class User {
 
     public boolean attachGroup(Group group) {
         return getGroups().add(group);
+    }
+
+    public boolean isNewUser() {
+        return this.getId() == null;
     }
 
     }
