@@ -115,13 +115,13 @@ insert into tbl_group (id, group_name) values (4, 'Register');
 
 
 insert into tbl_user (id, user_name, user_email, user_password, user_created, user_last_modified) values
-                       (1, 'Ann Green Gable', 'ann@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
-                       (2, 'Pascoal Moreira Cabral', 'pascoal@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
-                       (3, 'Albert Einstein', 'albert@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
-                       (4, 'Maximus Alexandre', 'maximus@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
-                       (5, 'Julius Cesar', 'julio@rlspfood.com.ca', '123', utc_timestamp, utc_timestamp),
-                       (6, 'Marcus Aurelio Einstein', 'marcusaurelius@gmail.com', '123', utc_timestamp, utc_timestamp),
-                       (7, 'Cleopatra do Egito', 'cleodoegito@gmail.com', '123', utc_timestamp, utc_timestamp);
+                       (1, 'Ann Green Gable', 'ann_man@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
+                       (2, 'Pascoal Moreira Cabral', 'pascoal_sa@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
+                       (3, 'Albert Einstein', 'albert_aa@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
+                       (4, 'Maximus Alexandre', 'maximus_reg@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
+                       (5, 'Julius Cesar', 'julio_aa@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
+                       (6, 'Marcus Aurelio Einstein', 'marcusaurelius_rg@gmail.com', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
+                       (7, 'Cleopatra do Egito', 'cleodoegito_sa@gmail.com', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp);
 
 insert into tbl_permission (id, permission_description, permission_name) values
                            (1, 'Has full access for all entrypoints', 'FULL APP'),
