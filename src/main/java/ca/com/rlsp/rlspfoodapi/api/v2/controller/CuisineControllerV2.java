@@ -12,6 +12,7 @@ import ca.com.rlsp.rlspfoodapi.api.v2.disassembler.CuisineInputDisassemblerV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.model.input.CuisineInputDtoV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.model.output.CuisineOutputDtoV2;
 import ca.com.rlsp.rlspfoodapi.api.v2.openapi.controller.CuisineControllerOpenApiV2;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
@@ -78,7 +79,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
         Usando PAGEABLE
      */
 
-    @PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
+    @CheckSecurity.Cuisine.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    //@PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
     @Override
     @GetMapping(path = "/pageable-list")
     //public List<Cuisine> listAll(){
@@ -91,7 +93,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
-    @PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
+    @CheckSecurity.Cuisine.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    //@PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
     @Override
     @GetMapping(path = "/pageable")
     //public List<Cuisine> listAll(){
@@ -115,8 +118,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
         return cuisinesPageModel;
     }
 
-
-    @PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
+    @CheckSecurity.Cuisine.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    //@PreAuthorize("isAuthenticated()")
     @Override
     @GetMapping("/{cuisineId}")
     //public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
@@ -134,7 +137,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
-    @PreAuthorize("hasAuthority('EDIT_CUISINE')") // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Cuisine.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    //@PreAuthorize("hasAuthority('EDIT_CUISINE')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Cuisine save(@RequestBody @Valid Cuisine cuisine){
@@ -148,7 +152,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
         //return cuisineRegistrationService.save(cuisine);
     }
 
-    @PreAuthorize("hasAuthority('EDIT_CUISINE')") // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Cuisine.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    //@PreAuthorize("hasAuthority('EDIT_CUISINE')")
     @Override
     @PutMapping("/{cuisineId}")
     //public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
@@ -167,7 +172,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
-    @PreAuthorize("hasAuthority('EDIT_CUISINE')") // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Cuisine.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    //@PreAuthorize("hasAuthority('EDIT_CUISINE')")
     @Override
     @DeleteMapping("/{cuisineId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
