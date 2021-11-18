@@ -1,19 +1,14 @@
 package ca.com.rlsp.rlspfoodapi.core.security;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
-
-import javax.crypto.spec.SecretKeySpec;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -22,6 +17,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) // permissoes nos metodos individualmente
 public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
@@ -32,16 +28,13 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
-            .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/v2/cuisines/**")
-                    .hasAnyAuthority("EDIT_CUISINE")
-                .antMatchers(HttpMethod.PUT, "/v2/cuisines/**")
-                    .hasAnyAuthority("EDIT_CUISINE")
-                .antMatchers(HttpMethod.GET, "/v2/cuisines/**")
-                    .authenticated()
+            //.authorizeRequests()
+              //.antMatchers(HttpMethod.POST, "/v2/cuisines/**").hasAuthority("EDIT_CUISINE")
+              //.antMatchers(HttpMethod.PUT, "/v2/cuisines/**").hasAuthority("EDIT_CUISINE")
+              //.antMatchers(HttpMethod.GET, "/v2/cuisines/**").authenticated()
                 //.anyRequest().authenticated()
-                .anyRequest().denyAll()
-            .and()
+                //.anyRequest().denyAll()
+            //.and()
                 //.oauth2ResourceServer() // Habilita um "Resource Server" na API
                 //.opaqueToken();  // opaqueToken (sem possibilidade de leitura <> do JWT (possivel leitura))
                 .oauth2ResourceServer()
@@ -62,7 +55,7 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
             // Converte para uma List SinpleGrantedAuthorithy em vez de uma List<tring>
             return authorities.stream()
                     .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         });
 
         return jwtAuthenticationConverter;

@@ -13,7 +13,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public interface CuisineControllerOpenApiV2 {
 
 
 
-    @ApiOperation(value = "List all cities in JSON") // Costomize method description on SwaggerUI
+    @ApiOperation(value = "List all cuisines in JSON") // Costomize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
                     content = @Content(
@@ -45,6 +47,18 @@ public interface CuisineControllerOpenApiV2 {
             )
     })
     List<CuisineOutputDtoV2> listAllPageableList(Pageable pageable);
+
+
+    @ApiOperation(value = "List all cuisines in JSON") // Costomize method description on SwaggerUI
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Cities listed in JSON",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
+            )
+    })
+    PagedModel<CuisineOutputDtoV2> listAllPageable(Pageable pageable);
 
 
     @ApiOperation(value = "Get a Cuisine by ID") // Costomize method description on SwaggerUI
@@ -60,7 +74,7 @@ public interface CuisineControllerOpenApiV2 {
                             schema = @Schema(implementation = ApiHandleProblemDetail.class))
             )
     })
-    CuisineOutputDtoV2 findBy1Id(@ApiParam(name = "cuisineId", value = "Enter a valid cuisine ID", example = "1", required = true) Long id);
+    CuisineOutputDtoV2 findById(@ApiParam(name = "cuisineId", value = "Enter a valid cuisine ID", example = "1", required = true) Long id);
 
 
 

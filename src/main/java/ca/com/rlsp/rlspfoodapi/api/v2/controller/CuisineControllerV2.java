@@ -26,6 +26,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -61,6 +62,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
+    // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping
     //public List<Cuisine> listAll(){
     //public List<CuisineOutputDto> listAll(){
@@ -75,7 +78,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
         Usando PAGEABLE
      */
 
-
+    @PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping(path = "/pageable-list")
     //public List<Cuisine> listAll(){
     public List<CuisineOutputDtoV2> listAllPageableList(Pageable pageable){
@@ -87,6 +91,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
+    @PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping(path = "/pageable")
     //public List<Cuisine> listAll(){
     //public Page<CuisineOutputDto> listAllPageable(@PageableDefault(size = 4) Pageable pageable){
@@ -110,9 +116,11 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
+    @PreAuthorize("isAuthenticated()") // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping("/{cuisineId}")
     //public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
-    public CuisineOutputDtoV2 findBy1Id(@PathVariable("cuisineId") Long id){
+    public CuisineOutputDtoV2 findById(@PathVariable("cuisineId") Long id){
         Cuisine cuisine = cuisineRegistrationService.findOrFail(id);
 
         //return cuisineRegistrationService.findOrFail(id);
@@ -126,6 +134,7 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
+    @PreAuthorize("hasAuthority('EDIT_CUISINE')") // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Cuisine save(@RequestBody @Valid Cuisine cuisine){
@@ -139,6 +148,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
         //return cuisineRegistrationService.save(cuisine);
     }
 
+    @PreAuthorize("hasAuthority('EDIT_CUISINE')") // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/{cuisineId}")
     //public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
     public CuisineOutputDtoV2 updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid CuisineInputDtoV2 cuisineInputDTO){
@@ -156,6 +167,8 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
     }
 
 
+    @PreAuthorize("hasAuthority('EDIT_CUISINE')") // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @DeleteMapping("/{cuisineId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable("cuisineId") Long id) {
