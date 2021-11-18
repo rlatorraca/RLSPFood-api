@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -47,9 +48,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String MSG_MEDIA_TYPE_NOT_SUPPORTED = "Media Type not supported on RLSPFood";
     public static final String MALFORMED_JSON_REQUEST = "Malformed JSON request. Check JSON syntax";
     public static final String MALFORMED_URI_REQUEST = "Malformed URI request. Check URI syntax";
-    public static final String MSG_FINALUSER_GENERIC = "An unexpected internal system error has occurred. Please try again and if the problem persists, " +
+    public static final String MSG_FINAL_USER_GENERIC = "An unexpected internal system error has occurred. Please try again and if the problem persists, " +
             "contact the system administrator.";
     public static final String ONE_MORE_ATTRIBUTES_INVALIDS = "One ot more attribute is/are invalid(s). Fix it and try again";
+    public static final String USER_DONT_HAVE_PERMISSION_TO_EXECUTE_THIS_ACTION = "User doesn't have permission to execute this action.";
 
 
     @Autowired
@@ -68,9 +70,24 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleValidationInternal(e, e.getBindingResult(), headers, status, request);
     }
 
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
+
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        ProblemTypeEnum problemType = ProblemTypeEnum.ACCESS_DENIED;
+        String detail = ex.getMessage();
+
+        ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail,  OffsetDateTime.now())
+                //.userMessage(detail)
+                .userMessage(USER_DONT_HAVE_PERMISSION_TO_EXECUTE_THIS_ACTION)
+                .build();
+
+        return handleExceptionInternal(ex, apiHandleProblem, new HttpHeaders(), status, request);
+    }
+
     /*
-              Metodo que trata a Excecao Generica e Cria uma mensagem de Erro Customizada
-         */
+       Metodo que trata a Excecao Generica e Cria uma mensagem de Erro Customizada
+    */
     // WebRequest request => injetado pelo proprio SPRINGBOOT
     @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity<?> handleEntityNotFound(EntityNotFoundException e, WebRequest request){
@@ -89,7 +106,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = e.getReason();
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
@@ -190,7 +207,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(HttpStatus.PAYLOAD_TOO_LARGE,  ProblemTypeEnum.MAX_SIZE_EXCEEDED, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return handleExceptionInternal(e, apiHandleProblem, new HttpHeaders() , HttpStatus.BANDWIDTH_LIMIT_EXCEEDED, request);
@@ -202,7 +219,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .getPermittedSize());
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status,  ProblemTypeEnum.MAX_SIZE_EXCEEDED, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
         return handleExceptionInternal(e, apiHandleProblem, headers , status, request);
     }
@@ -244,7 +261,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 e.getRequestURL());
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return super.handleExceptionInternal(e, apiHandleProblem , headers, status, request);
@@ -258,14 +275,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .dateTime(OffsetDateTime.now())
                     .title(status.getReasonPhrase())
                     .status(status.value())
-                    .userMessage(MSG_FINALUSER_GENERIC)
+                    .userMessage(MSG_FINAL_USER_GENERIC)
                     .build();
         } else if(body instanceof String){
             body = ApiHandleProblemDetail.builder()
                     .dateTime(OffsetDateTime.now())
                     .title((String) body)
                     .status(status.value())
-                    .userMessage(MSG_FINALUSER_GENERIC)
+                    .userMessage(MSG_FINAL_USER_GENERIC)
 
                     .build();
         }
@@ -295,7 +312,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = MALFORMED_JSON_REQUEST;
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return super.handleExceptionInternal(e, apiHandleProblem, new HttpHeaders(), status, request);
@@ -335,7 +352,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
@@ -350,7 +367,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 path, e.getValue(), e.getTargetType().getSimpleName());
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
@@ -367,7 +384,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("Attribute '%s' doesn't exist or can't be treated by API. Fix it or remove it, so try again.", path);
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);
@@ -384,7 +401,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("Attribute '%s' doesn't exist. Fix it  or remove that attribute e try again.", path);
 
         ApiHandleProblemDetail apiHandleProblem = createProblemDetailBuilder(status, problemType, detail, OffsetDateTime.now())
-                .userMessage(MSG_FINALUSER_GENERIC)
+                .userMessage(MSG_FINAL_USER_GENERIC)
                 .build();
 
         return handleExceptionInternal(e, apiHandleProblem, headers, status, request);

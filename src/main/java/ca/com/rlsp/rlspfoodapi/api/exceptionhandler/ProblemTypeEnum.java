@@ -13,7 +13,8 @@ public enum ProblemTypeEnum {
     MALFORMED_JSON_REQUEST("/malformed-json-request", "Malformed JSON request. "),
     MALFORMED_URI_REQUEST("/malformed-uri-request", "Malformed URI request."),
     MAX_SIZE_EXCEEDED("/max-size-exceeded", "Maximum request size exceeded"),
-    INTERNAL_SERVER_ERROR("/internal-server-error", "Internal Server Error");
+    INTERNAL_SERVER_ERROR("/internal-server-error", "Internal Server Error"),
+    ACCESS_DENIED("/access-denied", "Access Denied");
 
     private String uri;
     private String title;
