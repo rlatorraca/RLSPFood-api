@@ -15,6 +15,7 @@ import ca.com.rlsp.rlspfoodapi.api.v2.openapi.controller.CuisineControllerOpenAp
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
+import com.nimbusds.jose.proc.SecurityContext;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -104,6 +106,12 @@ public class CuisineControllerV2 implements CuisineControllerOpenApiV2 {
 
         //** Copia a lista de CUISINE para dentro de uma PAGE
         //Page<CuisineOutputDto> cuisineOutputDtosPages = new PageImpl<CuisineOutputDto>(cuisineOutputDtos, pageable, allCuisinesPageable.getTotalPages());
+
+        /**
+         * Debug that show all Authorities/Permission existed into the Tokens
+         *  System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+         */
+
 
         //** Usando PagedModel (paginacao de representacao)
         Page<Cuisine> allCuisinesPageable= cuisineRegistrationService.listAllPageable(pageable);
