@@ -124,23 +124,17 @@ insert into tbl_user (id, user_name, user_email, user_password, user_created, us
                        (7, 'Cleopatra do Egito', 'cleodoegito@gmail.com', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp);
 
 insert into tbl_permission (id, permission_description, permission_name) values
-                           (1, 'Has permissions for query cuisine resources', 'QUERY_CUISINE'),
-                           (2, 'Has permissions for edit cuisine resources', 'EDIT_CUISINE'),
-                           (3, 'Has permissions for query payment types resources', 'QUERY_PAYMENT_TYPES'),
-                           (4, 'Has permissions for crete and edit payment types resources', 'EDIT_PAYMENT_TYPES'),
-                           (5, 'Has permissions for query city resources', 'QUERY_CITIES'),
-                           (6, 'Has permissions for crete and edit city resources', 'EDIT_CITIES'),
-                           (7, 'Has permissions for query province resources', 'QUERY_PROVINCES'),
-                           (8, 'Has permissions for crete and edit city resources', 'EDIT_PROVINCES'),
-                           (9, 'Has permissions for query user resources', 'QUERY_USERS'),
-                           (10, 'Has permissions for crete and edit city resources', 'EDIT_USERS'),
-                           (11, 'Has permissions for query restaurant resources', 'QUERY_RESTAURANTS'),
-                           (12, 'Has permissions for crete and edit restaurant resources', 'EDIT_RESTAURANTS'),
-                           (13, 'Has permissions for query product resources', 'QUERY_PRODUCTS'),
-                           (14, 'Has permissions for crete and edit product resources', 'EDIT_PRODUCTS'),
-                           (15, 'Has permissions for query order resources', 'QUERY_ORDERS'),
-                           (16, 'Has permissions for crete and edit order resources', 'EDIT_ORDERS'),
-                           (17, 'Has permissions for generate reports', 'GENERATE_REPORTS');
+                           (1, 'Has permissions for edit cuisine resources', 'EDIT_CUISINE'),
+                           (2, 'Has permissions for crete and edit payment types resources', 'EDIT_PAYMENT_TYPES'),
+                           (3, 'Has permissions for crete and edit city resources', 'EDIT_CITIES'),
+                           (4, 'Has permissions for crete and edit city resources', 'EDIT_PROVINCES'),
+                           (5, 'Has permissions for query user resources', 'QUERY_USERS'),
+                           (6, 'Has permissions for crete and edit city resources', 'EDIT_USERS'),
+                           (7, 'Has permissions for crete and edit restaurant resources', 'EDIT_RESTAURANTS'),
+                           (8, 'Has permissions for crete and edit product resources', 'EDIT_PRODUCTS'),
+                           (8, 'Has permissions for query order resources', 'QUERY_ORDERS'),
+                           (10, 'Has permissions for crete and edit order resources', 'EDIT_ORDERS'),
+                           (11, 'Has permissions for generate reports', 'GENERATE_REPORTS');
 
 
 
@@ -151,7 +145,8 @@ select 1, id from tbl_permission;
 insert into tbl_group_permission (group_id, permission_id)
 select 2, id from tbl_permission where permission_name like 'QUERY_%';
 
-insert into tbl_group_permission (group_id, permission_id) values (3, 15 );
+insert into grupo_permissao (grupo_id, permissao_id)
+select 2, id from permissao where nome = 'EDIT_RESTAURANTS';
 
 
 insert into tbl_group_permission (group_id, permission_id)
