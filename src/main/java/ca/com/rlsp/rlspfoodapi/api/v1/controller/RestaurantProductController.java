@@ -7,6 +7,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ProductInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ProductInputUpdateStatusDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.ProductOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.RestaurantProductControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
@@ -56,6 +57,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
 //        return productOutputDtoList;
 //    }
 
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping("/actives")
     //public List<ProductOutputDto> listAllActives(@PathVariable("restaurantId") Long id,
     public CollectionModel<ProductOutputDto> listAllActives(@PathVariable("restaurantId") Long id,
@@ -79,6 +82,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
     }
 
 
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping("/{productId}")
     public ProductOutputDto findByRestaurantIdAndByProductId(@PathVariable Long restaurantId,
                                                              @PathVariable Long productId) {
@@ -96,6 +101,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
     }
     */
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/{productId}")
     public ProductOutputDto update(@PathVariable Long restaurantId,
                                    @PathVariable Long productId,
@@ -103,6 +110,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
         return getProductOutputDto(restaurantId, productId, productInputDto);
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/{productId}/status")
     public ProductOutputDto updateJustStatus(@PathVariable Long restaurantId,
                                    @PathVariable Long productId,
@@ -129,6 +138,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
         }
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductOutputDto save(@PathVariable Long restaurantId,
@@ -145,6 +156,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
         //return productModelAssembler.fromControllerToOutput(product);
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @DeleteMapping("/delete/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("productId") Long id) {

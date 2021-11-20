@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.assembler.ProductPhotoModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ProductPhotoInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.ProductPhotoOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.RestaurantProductPhotoControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.model.Product;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
@@ -48,6 +49,8 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
     @Autowired
     private ProductPhotoModelAssembler productPhotoModelAssembler;
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
+    @Override
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePhoto(@PathVariable Long restaurantId,
@@ -55,6 +58,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         catalogueProductPhotoService.remove(restaurantId,productId);
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToQuery// So pode acessar o metodo se tive permissao de QUERY_RESTAURANT
     @Override
     @GetMapping
     //@GetMapping
@@ -67,7 +71,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         //return productPhotoModelAssembler.fromControllerToOutput(productPhoto);
     }
 
-    //@Override
+    @Override
     @GetMapping(produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> getProductPhoto(@PathVariable Long restaurantId,
                                           @PathVariable Long productId,
@@ -112,6 +116,8 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         }
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
+    @Override
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoOutputDto updatePhoto(@PathVariable Long restaurantId,
                                              @PathVariable Long productId,

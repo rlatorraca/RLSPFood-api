@@ -132,7 +132,7 @@ insert into tbl_permission (id, permission_description, permission_name) values
                            (6, 'Has permissions for crete and edit city resources', 'EDIT_USERS'),
                            (7, 'Has permissions for crete and edit restaurant resources', 'EDIT_RESTAURANTS'),
                            (8, 'Has permissions for crete and edit product resources', 'EDIT_PRODUCTS'),
-                           (8, 'Has permissions for query order resources', 'QUERY_ORDERS'),
+                           (9, 'Has permissions for query order resources', 'QUERY_ORDERS'),
                            (10, 'Has permissions for crete and edit order resources', 'EDIT_ORDERS'),
                            (11, 'Has permissions for generate reports', 'GENERATE_REPORTS');
 
@@ -145,8 +145,8 @@ select 1, id from tbl_permission;
 insert into tbl_group_permission (group_id, permission_id)
 select 2, id from tbl_permission where permission_name like 'QUERY_%';
 
-insert into grupo_permissao (grupo_id, permissao_id)
-select 2, id from permissao where nome = 'EDIT_RESTAURANTS';
+insert into tbl_group_permission (group_id, permission_id)
+select 2, id from tbl_permission where permission_name = 'EDIT_RESTAURANT';
 
 
 insert into tbl_group_permission (group_id, permission_id)

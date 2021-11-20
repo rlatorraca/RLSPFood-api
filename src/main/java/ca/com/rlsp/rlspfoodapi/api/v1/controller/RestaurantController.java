@@ -9,6 +9,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.RestaurantBasicsOutputDto
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.RestaurantJustNamesOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.RestaurantOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.RestaurantControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.core.validation.ValidationPatchException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
@@ -83,20 +84,24 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         Rrojeção de recursos com @JsonView do Jackson
      */
 
-    @GetMapping
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+   @GetMapping
    //public List<RestaurantOutputDto> listAll() {
    public CollectionModel<RestaurantOutputDto> listAll() {
         return restaurantModelAssembler.toCollectionModel(restaurantRepository.newlistAll());
         //return restaurantModelAssembler.fromControllerToOutputList(restaurantRepository.newlistAll());
     }
 
-
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping(params = "summary=summary")
     //public List<RestaurantOutputDto> listAllSummary() {
     public CollectionModel<RestaurantBasicsOutputDto> listAllSummary() {
         return restaurantBasicsModelAssembler.toCollectionModel(restaurantRepository.newlistAll());
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping(params = "summary=justName")
     //public List<RestaurantOutputDto> listAllJustNames() {
     public CollectionModel<RestaurantJustNamesOutputDto> listAllJustNames() {
@@ -150,6 +155,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
     }
     */
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping("/{restaurantId}")
     public RestaurantOutputDto findById(@PathVariable("restaurantId") Long id){
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
@@ -177,6 +184,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     }
     */
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Restaurant save(@RequestBody @Validated(GroupsBeanValidation.RestaurantValidation.class) Restaurant restaurant) {
@@ -211,6 +220,9 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         }
     }
     */
+
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/{restauranteId}")
     public RestaurantOutputDto updateById(@PathVariable("restauranteId") Long id, @RequestBody @Valid RestaurantInputDto restaurantInputDTO) {
 
@@ -250,6 +262,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
     }
     */
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PatchMapping("/{restauranteId}")
     public RestaurantOutputDto updateByIdPatch(@PathVariable("restauranteId") Long id,
                                                @RequestBody Map<String, Object> restaurantFields,
@@ -319,6 +333,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         PUT /restaurant/{id}/active
          Usa-se PUT e nao POST. Pois o PUT e idempontente e o POST nao é idempotente (causa efeitos colaterais, muda o resultado)
      */
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("{restauranteId}/active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     //public void activate(@PathVariable("restauranteId") Long id) {
@@ -333,6 +349,9 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         Ativa e Desativa uma Lista de Restaurants ao mesmo tempo
      */
 
+
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/list-activation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     //public void activateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
@@ -345,6 +364,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         }
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @DeleteMapping("/list-deactivation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void>  deactivateMultiplesRestaurants(@RequestBody List<Long> restaurantsIds) {
@@ -360,6 +381,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     /*
         Routes for OPEN and CLOSE Restaurant
      */
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/{restaurantId}/open")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void>  openRestaurant(@PathVariable Long restaurantId) {
@@ -367,6 +390,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/{restaurantId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void>  closeRestaurant(@PathVariable Long restaurantId) {
@@ -377,6 +402,8 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     /*
         DELETE /restaurant/{id}/active
      */
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @DeleteMapping("/{restauranteId}/active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void>  inactivate(@PathVariable("restauranteId") Long id) {

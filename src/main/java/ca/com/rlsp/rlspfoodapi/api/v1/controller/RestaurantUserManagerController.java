@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.assembler.UserModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.RestaurantUserManagerControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import org.springframework.hateoas.CollectionModel;
@@ -32,6 +33,8 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
         this.buildLinks = buildLinks;
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se tive permissao de QUERY_RESTAURANT
+    @Override
     @GetMapping
     public CollectionModel<UserOutputDto> listOne(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(restaurantId);
@@ -60,7 +63,8 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
     }
     */
 
-
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
+    @Override
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> detachManager(@PathVariable Long restaurantId, @PathVariable Long userId) {
@@ -68,6 +72,8 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
+    @Override
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> attachManager(@PathVariable Long restaurantId, @PathVariable Long userId) {

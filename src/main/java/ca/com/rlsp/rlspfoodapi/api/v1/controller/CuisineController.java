@@ -6,6 +6,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.CuisineInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.CuisineXMLWrapper;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CuisineInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CuisineOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.repository.CuisineRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.CuisineRegistrationService;
@@ -63,6 +64,7 @@ public class CuisineController implements CuisineControllerOpenApi {
         Usando PAGEABLE
      */
 
+    @CheckSecurity.Cuisine.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
     @Override
     @GetMapping(path = "/pageable-list")
     //public List<Cuisine> listAll(){
@@ -72,7 +74,7 @@ public class CuisineController implements CuisineControllerOpenApi {
         return cuisineModelAssembler.fromControllerToOutputList(allCuisinesPageable.getContent());
     }
 
-
+    @CheckSecurity.Cuisine.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
     @GetMapping(path = "/pageable")
     //public List<Cuisine> listAll(){
     //public Page<CuisineOutputDto> listAllPageable(@PageableDefault(size = 4) Pageable pageable){
@@ -108,6 +110,7 @@ public class CuisineController implements CuisineControllerOpenApi {
     }
     */
 
+    @CheckSecurity.Cuisine.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
     @Override
     @GetMapping("/{cuisineId}")
     //public Cuisine findBy1Id(@PathVariable("cuisineId") Long id){
@@ -124,6 +127,7 @@ public class CuisineController implements CuisineControllerOpenApi {
         return new CuisineXMLWrapper(cuisineRegistrationService.listAll());
     }
 
+    @CheckSecurity.Cuisine.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -159,6 +163,7 @@ public class CuisineController implements CuisineControllerOpenApi {
     }
     */
 
+    @CheckSecurity.Cuisine.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @Override
     @PutMapping("/{cuisineId}")
     //public Cuisine updateById(@PathVariable("cuisineId") Long id, @RequestBody @Valid Cuisine cuisine){
@@ -177,6 +182,7 @@ public class CuisineController implements CuisineControllerOpenApi {
     }
 
 
+    @CheckSecurity.Cuisine.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @Override
     @DeleteMapping("/{cuisineId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

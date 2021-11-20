@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.assembler.PaymentTypeModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.PaymentTypeOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.RestaurantPaymentTypeControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
@@ -34,6 +35,8 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
         this.buildLinks = buildLinks;
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
+    @Override
     @GetMapping
     //public List<PaymentTypeOutputDto> listAllByRestaurantId(@PathVariable("restaurantId")
     public CollectionModel<PaymentTypeOutputDto> listAllByRestaurantId(@PathVariable("restaurantId")
@@ -61,6 +64,8 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
 
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @DeleteMapping("/{paymentTypeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> detachPaymentType(@PathVariable("restaurantId") Long restaurantId, @PathVariable("paymentTypeId") Long paymentTypeId){
@@ -69,6 +74,8 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @Override
     @PutMapping("/{paymentTypeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> attachPaymentType(@PathVariable("restaurantId") Long restaurantId, @PathVariable("paymentTypeId") Long paymentTypeId){
