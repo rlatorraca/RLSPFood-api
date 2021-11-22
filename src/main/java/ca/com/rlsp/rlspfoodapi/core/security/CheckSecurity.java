@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.core.security;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.lang.annotation.ElementType;
@@ -41,5 +42,16 @@ public @interface CheckSecurity {
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToManageRestaurant {}
+    }
+
+    public @interface Order {
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        @PostAuthorize("hasAuthority('QUERY_ORDERS') or" +
+                "@rlspFoodSecurity.getUserId() == returnObject.user.id or" +
+                "@rlspFoodSecurity.manageRestaurant(returnObject.restaurant.id)" )
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToGetOneOrder {}
     }
 }

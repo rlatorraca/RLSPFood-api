@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi.core.security;
 
+import ca.com.rlsp.rlspfoodapi.domain.repository.OrderRepository;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,9 @@ public class RlspFoodSecurity {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     public Authentication getAuthentication() {
         // Pega o Contexto atual de seguranca e um objeto do Token que representa a autenticaca atual
@@ -28,4 +32,5 @@ public class RlspFoodSecurity {
 
         return restaurantRepository.restaurantHasManager(restaurantId, getUserId());
     }
+
 }

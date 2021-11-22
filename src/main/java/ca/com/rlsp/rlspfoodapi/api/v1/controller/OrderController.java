@@ -9,6 +9,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.OrderControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.data.PageWrapper;
 import ca.com.rlsp.rlspfoodapi.core.data.PageableTranslator;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
@@ -35,7 +36,7 @@ import java.util.List;
 
 @RestController
 //@RequestMapping(path = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
-@RequestMapping(path = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v2/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderController implements OrderControllerOpenApi {
     private OrderRepository orderRepository;
     private IssueOfOrderRegistrationService issueOfOrderRegistrationService;
@@ -138,14 +139,9 @@ public class OrderController implements OrderControllerOpenApi {
         return orderModelAssembler.fromControllerToOutputList(allOrders);
     }
 
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(
-                    value = "Properties names used to filter query, split by comma",
-                    name = "fields ",
-                    paramType = "query",
-                    type = "string"
-            )
-    })
+
+    @CheckSecurity.Order.hasPermissionToGetOneOrder
+    @Override
     @GetMapping("/{orderCode}")
     public OrderOutputDto find(@PathVariable String orderCode) {
         Order order = issueOfOrderRegistrationService.findOrFail(orderCode);
