@@ -64,8 +64,7 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
 
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
-    @Override
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant
     @DeleteMapping("/{paymentTypeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> detachPaymentType(@PathVariable("restaurantId") Long restaurantId, @PathVariable("paymentTypeId") Long paymentTypeId){
@@ -74,7 +73,7 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @Override
     @PutMapping("/{paymentTypeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

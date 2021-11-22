@@ -41,7 +41,7 @@ import java.util.Map;
 //@CrossOrigin(origins = { "https://www.rlspfood.local:8000", "https://www.rlspfood.ca:8000"} )
 @RestController
 //@RequestMapping(path="/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
-@RequestMapping(path = "/v1/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/v2/restaurants",  produces = {MediaType.APPLICATION_JSON_VALUE})
 public class RestaurantController implements RestaurantControllerOpenApi {
 
     private RestaurantRegistrationService restaurantRegistrationService;
@@ -333,7 +333,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         PUT /restaurant/{id}/active
          Usa-se PUT e nao POST. Pois o PUT e idempontente e o POST nao é idempotente (causa efeitos colaterais, muda o resultado)
      */
-    @CheckSecurity.Restaurant.hasPermissionToManageRestaurnt // So pode acessar o metodo se tive permissao de Manage a Restaurant
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de Manage a Restaurant
     @Override
     @PutMapping("{restauranteId}/active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -350,7 +350,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
      */
 
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de Manage a Restaurant
     @Override
     @PutMapping("/list-activation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -381,7 +381,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
     /*
         Routes for OPEN and CLOSE Restaurant
      */
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de Manage a Restaurant
     @Override
     @PutMapping("/{restaurantId}/open")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -390,7 +390,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de Manage a Restaurant
     @Override
     @PutMapping("/{restaurantId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)

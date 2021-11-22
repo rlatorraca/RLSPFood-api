@@ -101,7 +101,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
     }
     */
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @Override
     @PutMapping("/{productId}")
     public ProductOutputDto update(@PathVariable Long restaurantId,
@@ -110,7 +110,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
         return getProductOutputDto(restaurantId, productId, productInputDto);
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @Override
     @PutMapping("/{productId}/status")
     public ProductOutputDto updateJustStatus(@PathVariable Long restaurantId,
@@ -138,7 +138,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
         }
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -156,7 +156,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
         //return productModelAssembler.fromControllerToOutput(product);
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de EDIT_CUISINE
     @DeleteMapping("/delete/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("productId") Long id) {

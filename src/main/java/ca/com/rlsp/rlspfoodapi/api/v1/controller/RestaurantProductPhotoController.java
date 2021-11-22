@@ -49,7 +49,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
     @Autowired
     private ProductPhotoModelAssembler productPhotoModelAssembler;
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
     @Override
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -116,7 +116,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         }
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant
     @Override
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoOutputDto updatePhoto(@PathVariable Long restaurantId,
