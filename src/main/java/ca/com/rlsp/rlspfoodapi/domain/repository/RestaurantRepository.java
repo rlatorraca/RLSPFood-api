@@ -35,4 +35,7 @@ public interface RestaurantRepository extends
         public List<Restaurant> procurarRestauranteNasFaixas(
             String name, BigDecimal startFee, BigDecimal endFee);
      */
+
+    // Return if exists or not a Manager charging a restaurant
+    boolean restaurantHasManager(Long restaurantId, Long userId);
 }

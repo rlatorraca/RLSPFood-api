@@ -119,7 +119,7 @@ insert into tbl_user (id, user_name, user_email, user_password, user_created, us
                        (2, 'Pascoal Moreira Cabral', 'pascoal_sa@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
                        (3, 'Albert Einstein', 'albert_aa@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
                        (4, 'Maximus Alexandre', 'maximus_reg@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
-                       (5, 'Julius Cesar', 'julio_@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
+                       (5, 'Julius Cesar', 'julio_cesar@rlspfood.com.ca', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
                        (6, 'Marcus Aurelio Einstein', 'marcusaurelius@gmail.com', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp),
                        (7, 'Cleopatra do Egito', 'cleodoegito@gmail.com', '$2a$12$Arz3KGigB/uD993RiMwlWuqnL.9wSe8Iln3AhUfpz1O2m5LtVFJYy', utc_timestamp, utc_timestamp);
 
@@ -158,7 +158,7 @@ select 4, id from tbl_permission where permission_name like '%_RESTAURANTS' or p
 
 insert into tbl_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2), (3, 3), (4, 4);
 
-insert into tbl_restaurant_user_manager (restaurant_id, user_id) values (1, 5), (3, 5), (2, 1), (3, 3), (4, 4), (5, 2), (6, 1);
+insert into tbl_restaurant_user_manager (restaurant_id, user_id) values (1, 5), (2, 5), (3, 6), (4, 6), (5, 7), (6, 7);
 
 insert into tbl_order (id, ordercode, restaurant_id, user_client_id, paymenttype_id,
                        address_city_id, address_postalcode, address_street,

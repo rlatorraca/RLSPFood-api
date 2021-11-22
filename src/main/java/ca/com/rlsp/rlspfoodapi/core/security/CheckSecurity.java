@@ -20,6 +20,8 @@ public @interface CheckSecurity {
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery {}
+
+
     }
 
     public @interface Restaurant {
@@ -33,5 +35,11 @@ public @interface CheckSecurity {
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery {}
+
+        @PreAuthorize("(hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANT')) or" +
+                "@rlspFoodSecurity.manageRestaurant(#restaurantId)")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToManageRestaurnt {}
     }
 }

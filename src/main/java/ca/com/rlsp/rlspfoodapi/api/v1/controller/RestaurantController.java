@@ -333,11 +333,11 @@ public class RestaurantController implements RestaurantControllerOpenApi {
         PUT /restaurant/{id}/active
          Usa-se PUT e nao POST. Pois o PUT e idempontente e o POST nao é idempotente (causa efeitos colaterais, muda o resultado)
      */
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurnt // So pode acessar o metodo se tive permissao de Manage a Restaurant
     @Override
     @PutMapping("{restauranteId}/active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    //public void activate(@PathVariable("restauranteId") Long id) {
+    //public void activate(@PathVariable("restaurantId") Long id) {
     public ResponseEntity<Void> activate(@PathVariable("restauranteId") Long id) {
         restaurantRegistrationService.activate(id);
 
@@ -350,7 +350,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
      */
 
 
-    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_CUISINE
+    @CheckSecurity.Restaurant.hasPermissionToEdit // So pode acessar o metodo se tive permissao de EDIT_RESTAURANT
     @Override
     @PutMapping("/list-activation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
