@@ -14,12 +14,25 @@
             select case when count(1) > 0 then true else false end
             from
                 Restaurant r
-                    join
+            join
                 r.managers m
             where
                 r.id = :restaurantId
                     and
                 m.id= :userId
+        </query>
+    </named-query>
+
+    <named-query name="Order.isOrderManagedFor">
+        <query>
+            select case when count(1) > 0 then true else false end
+            from Order o
+                join o.restaurant rest
+                join rest.managers man
+            where
+                o.orderCode = :orderCode
+                    and
+                man.id = :userId
         </query>
     </named-query>
 

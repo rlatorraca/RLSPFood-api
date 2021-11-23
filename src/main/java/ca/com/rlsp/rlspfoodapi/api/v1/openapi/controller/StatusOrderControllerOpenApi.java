@@ -14,6 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Api(tags = "Orders")
 public interface StatusOrderControllerOpenApi {
 
+    @ApiOperation(value = "Create a order") // Customize method description on SwaggerUI
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Order successfully created",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                            //schema = @Schema(implementation = ApiHandleProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "404", description = "Order not found",
+                    content = @Content(schema = @Schema(implementation = ApiHandleProblemDetail.class)))
+    })
+    ResponseEntity<Void> create(@PathVariable String orderCode);
+
     @ApiOperation(value = "Confirm a order") // Customize method description on SwaggerUI
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Order successfully confirmed",

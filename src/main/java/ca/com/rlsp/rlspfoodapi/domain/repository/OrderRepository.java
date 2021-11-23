@@ -13,6 +13,9 @@ public interface OrderRepository extends CustomJpaRepository<Order, Long>, JpaSp
 
     Optional<Order> findByOrderCode(String ordercode);
 
+    boolean isOrderManagedFor(String orderCode, Long userId);
+
+
     @Query("from Order o join fetch o.user join fetch o.restaurant r join fetch r.cuisine")
     public List<Order> findAll();
 }

@@ -17,6 +17,7 @@ public class RlspFoodSecurity {
     @Autowired
     private OrderRepository orderRepository;
 
+
     public Authentication getAuthentication() {
         // Pega o Contexto atual de seguranca e um objeto do Token que representa a autenticaca atual
         return SecurityContextHolder.getContext().getAuthentication();
@@ -29,8 +30,11 @@ public class RlspFoodSecurity {
     }
 
     public boolean manageRestaurant(Long restaurantId){
-
         return restaurantRepository.restaurantHasManager(restaurantId, getUserId());
+    }
+
+    public boolean manageRestaurantOrders(String orderCode) {
+        return orderRepository.isOrderManagedFor(orderCode, getUserId());
     }
 
 }

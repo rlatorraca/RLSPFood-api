@@ -123,7 +123,7 @@ public class OrderController implements OrderControllerOpenApi {
         Pesquisas complexas na API (by URL params)
      */
 
-
+    @Override
     @GetMapping("/filter")
     public List<OrderOutputDto> searchByFilter(OrderFilterInputDto orderFilter) {
         List<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter));
@@ -149,6 +149,8 @@ public class OrderController implements OrderControllerOpenApi {
         return orderModelAssembler.toModel(order);
     }
 
+    @CheckSecurity.Order.hasPermissionToCreateOrder
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderOutputDto add(@Valid @RequestBody OrderInputDto orderInputDto) {
