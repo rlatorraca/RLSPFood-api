@@ -53,5 +53,12 @@ public @interface CheckSecurity {
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToGetOneOrder {}
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULTAR_PEDIDOS') or "
+                + "@rlspFoodSecurity.getUserId() == #orderFilter.userId or"
+                + "@rlspFoodSecurity.manageRestaurant(#orderFilter.restaurantId))")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToSearch { }
     }
 }

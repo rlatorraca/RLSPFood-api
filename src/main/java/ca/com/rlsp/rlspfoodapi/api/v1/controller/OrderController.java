@@ -124,6 +124,8 @@ public class OrderController implements OrderControllerOpenApi {
      */
 
 
+    @CheckSecurity.Order.hasPermissionToSearch
+    @Override
     @GetMapping("/filter")
     public List<OrderOutputDto> searchByFilter(OrderFilterInputDto orderFilter) {
         List<Order> allOrders = orderRepository.findAll(OrderSpecifications.gettingByFilter(orderFilter));
