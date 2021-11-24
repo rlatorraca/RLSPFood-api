@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.PaymentTypeInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.PaymentTypeInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.PaymentTypeOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.PaymentTypeControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import ca.com.rlsp.rlspfoodapi.domain.repository.PaymentTypeRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.PaymentTypeRegistrationService;
@@ -91,6 +92,8 @@ public class PaymentTypeController implements PaymentTypeControllerOpenApi {
         => Example of Shallow ETag
      */
 
+    @CheckSecurity.PaymentType.hasPermissionToQuery
+    @Override
     @GetMapping
     //public ResponseEntity<List<PaymentTypeOutputDto>> listAll(ServletWebRequest request) {
     public ResponseEntity<CollectionModel<PaymentTypeOutputDto>> listAll(ServletWebRequest request) {
@@ -123,6 +126,8 @@ public class PaymentTypeController implements PaymentTypeControllerOpenApi {
           - Deep ETags
     */
 
+    @CheckSecurity.PaymentType.hasPermissionToQuery
+    @Override
     @GetMapping("/{paymentTypeId}")
     public ResponseEntity<PaymentTypeOutputDto> findById(@PathVariable Long paymentTypeId, ServletWebRequest request) {
 
@@ -196,6 +201,8 @@ public class PaymentTypeController implements PaymentTypeControllerOpenApi {
 
      */
 
+    @CheckSecurity.PaymentType.hasPermissionToEdit
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PaymentTypeOutputDto save(@RequestBody @Valid PaymentTypeInputDto paymentTypeInputDto) {
@@ -206,6 +213,8 @@ public class PaymentTypeController implements PaymentTypeControllerOpenApi {
         return paymentTypeModelAssembler.fromControllerToOutput(formaPagamento);
     }
 
+    @CheckSecurity.PaymentType.hasPermissionToEdit
+    @Override
     @PutMapping("/{paymentTypeId}")
     public PaymentTypeOutputDto update(@PathVariable Long paymentTypeId,
                                          @RequestBody @Valid PaymentTypeInputDto paymentTypeInputDto) {
