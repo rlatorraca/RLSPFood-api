@@ -78,4 +78,30 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit {}
     }
+
+    public @interface City {
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToQuery {}
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_CITIES')")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToEdit {}
+    }
+
+    public @interface Province {
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToQuery {}
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_PROVINCES')")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToEdit {}
+    }
 }

@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.ProvinceInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.ProvinceOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.ProvinceControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import ca.com.rlsp.rlspfoodapi.domain.repository.ProvinceRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.ProvinceRegistrationService;
@@ -38,6 +39,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
         this.provinceRepository = provinceRepository;
     }
 
+    @CheckSecurity.Province.hasPermissionToQuery
+    @Override
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     //public List<Province> listAllJson(){
     public CollectionModel<ProvinceOutputDto> listAllJson(){
@@ -58,6 +61,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
         return provinceModelAssembler.fromControllerToOutputList(allProvinces);
     }
     */
+    @CheckSecurity.Province.hasPermissionToQuery
+    @Override
     @GetMapping(produces = { MediaType.APPLICATION_XML_VALUE})
     public List<Province> listAllXml(){
         return provinceRegistrationService.listAll();
@@ -75,6 +80,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
         return ResponseEntity.notFound().build();
     }
     */
+    @CheckSecurity.Province.hasPermissionToQuery
+    @Override
     @GetMapping("/{provinceId}")
     //public Province findById(@PathVariable("provinceId") Long id) {
     public ProvinceOutputDto findById(@PathVariable("provinceId") Long id) {
@@ -87,6 +94,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
     }
 
 
+    @CheckSecurity.Province.hasPermissionToEdit
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public Province save(@RequestBody @Valid Province province) {
@@ -116,6 +125,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
         return ResponseEntity.notFound().build();
     }
     */
+    @CheckSecurity.Province.hasPermissionToEdit
+    @Override
     @PutMapping("/{provinceId}")
     //public Province updateById(@PathVariable("provinceId") Long id, @RequestBody @Valid Province province) {
     public ProvinceOutputDto updateById(@PathVariable("provinceId") Long id, @RequestBody @Valid ProvinceInputDto provinceInputDTO) {
@@ -149,6 +160,8 @@ public class ProvinceController implements ProvinceControllerOpenApi {
     }
     */
 
+    @CheckSecurity.Province.hasPermissionToEdit
+    @Override
     @DeleteMapping("/{provinceId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long provinceId) {

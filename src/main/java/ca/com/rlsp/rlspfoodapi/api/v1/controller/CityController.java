@@ -6,6 +6,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.CityInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CityOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.CityControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -55,6 +56,8 @@ public class CityController implements CityControllerOpenApi {
     }
 
 
+    @CheckSecurity.City.hasPermissionToQuery
+    @Override
     @GetMapping
     public CollectionModel<CityOutputDto> listAllJson() {
 
@@ -77,6 +80,8 @@ public class CityController implements CityControllerOpenApi {
 
 
 
+    @CheckSecurity.City.hasPermissionToQuery
+    @Override
     @GetMapping("/{cityId}")
     //public City findById(@PathVariable Long cityId) {
     public CityOutputDto findById( @PathVariable Long cityId) {
@@ -119,6 +124,8 @@ public class CityController implements CityControllerOpenApi {
     }
     */
 
+    @CheckSecurity.City.hasPermissionToEdit
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //public City save(@RequestBody @Valid City city) {
@@ -159,6 +166,8 @@ public class CityController implements CityControllerOpenApi {
     }
     */
 
+    @CheckSecurity.City.hasPermissionToEdit
+    @Override
     @PutMapping("/{cityId}")
     //public City updateById(@PathVariable("cityId") Long id, @RequestBody @Valid City city) {
     public CityOutputDto updateById(@PathVariable("cityId") Long id,
@@ -197,6 +206,8 @@ public class CityController implements CityControllerOpenApi {
     }
     */
 
+    @CheckSecurity.City.hasPermissionToEdit
+    @Override
     @DeleteMapping("/{cityId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("cityId") Long id) {
