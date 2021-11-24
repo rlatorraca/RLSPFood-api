@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.v1.controller;
 
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.StatisticsControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.filter.DailySalesFilter;
 import ca.com.rlsp.rlspfoodapi.domain.model.statistics.DailySales;
 import ca.com.rlsp.rlspfoodapi.domain.service.DailySalesQueryService;
@@ -37,6 +38,7 @@ public class StatisticsController implements StatisticsControllerOpenApi {
 
     public static class StatisticModel extends RepresentationModel<StatisticModel> {    }
 
+    @CheckSecurity.Statistics.hasPermissionToQuery
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public StatisticModel statistics() {
@@ -47,12 +49,16 @@ public class StatisticsController implements StatisticsControllerOpenApi {
         return statisticModel;
     }
 
+    @CheckSecurity.Statistics.hasPermissionToQuery
+    @Override
     @GetMapping(path = "/daily-sales", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DailySales> queryDailySalesJSON(DailySalesFilter dailySalesFilter,
                                             @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet) {
         return dailySalesQueryService.queryDailySales(dailySalesFilter, timeOffSet);
     }
 
+    @CheckSecurity.Statistics.hasPermissionToQuery
+    @Override
     @GetMapping(path = "/daily-sales", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> queryDailySalesPDF(DailySalesFilter dailySalesFilter,
                                                      @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet){
