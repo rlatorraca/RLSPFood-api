@@ -87,7 +87,7 @@ public class UserController implements UserControllerOpenApi {
 
     }
 
-    @CheckSecurity.UserGroup.hasPermissionToSwitchUser
+    @CheckSecurity.UserGroup.hasPermissionToChangeUserData
     @Override
     @PutMapping("/{userId}")
     public UserOutputDto update(@PathVariable("userId") Long id,
@@ -106,7 +106,7 @@ public class UserController implements UserControllerOpenApi {
 
 
     }
-    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @CheckSecurity.UserGroup.hasPermissionToChangeOwnPassword
     @Override
     @PutMapping("/{userId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -111,13 +111,13 @@ public @interface CheckSecurity {
                 "@rlspFoodSecurity.getUserId() == #userId")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
-        public @interface hasPermissionToChangePassword {}
+        public @interface hasPermissionToChangeOwnPassword {}
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDIT_USERS_GROUPS') or "
                 + "@rlspFoodSecurity.getUserId() == #userId)")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
-        public @interface hasPermissionToSwitchUser{}
+        public @interface hasPermissionToChangeUserData{}
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_USERS_GROUPS')")
         @Retention(RetentionPolicy.RUNTIME)
