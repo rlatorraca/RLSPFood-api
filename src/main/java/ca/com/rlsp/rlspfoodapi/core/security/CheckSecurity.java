@@ -104,4 +104,32 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit {}
     }
+
+    public @interface UserGroup {
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and  " +
+                "@rlspFoodSecurity.getUserId() == #userId")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToChangePassword {}
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDIT_USERS_GROUPS') or "
+                + "@rlspFoodSecurity.getUserId() == #userId)")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToSwitchUser{}
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_USERS_GROUPS')")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToEdit { }
+
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('QUERY_USERS_GROUPS')")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToQuery { }
+
+    }
+
 }

@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.GroupControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.api.v1.disassembler.GroupInputDisassembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.GroupInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.GroupOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.repository.GroupRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.GroupRegistrationService;
@@ -36,6 +37,8 @@ public class GroupController implements GroupControllerOpenApi {
         this.groupInputDisassembler = groupInputDisassembler;
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToQuery
+    @Override
     @GetMapping
     //public List<GroupOutputDto> listAll() {
     public CollectionModel<GroupOutputDto> listAll() {
@@ -45,6 +48,8 @@ public class GroupController implements GroupControllerOpenApi {
         //return groupModelAssembler.fromControllerToOutputList(todosGrupos);
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToQuery
+    @Override
     @GetMapping("/{groupId}")
     //public City findById(@PathVariable Long cityId) {
     public GroupOutputDto findById(@PathVariable("groupId") Long id) {
@@ -56,6 +61,8 @@ public class GroupController implements GroupControllerOpenApi {
         return groupModelAssembler.fromControllerToOutput(group);
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GroupOutputDto save(@RequestBody @Valid GroupInputDto groupInput){
@@ -64,6 +71,8 @@ public class GroupController implements GroupControllerOpenApi {
         return groupModelAssembler.fromControllerToOutput(group);
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @Override
     @PutMapping("{groupId}")
     public GroupOutputDto update(@PathVariable("groupId") Long id,
                                  @RequestBody @Valid GroupInputDto groupInputDto){
@@ -73,6 +82,8 @@ public class GroupController implements GroupControllerOpenApi {
         return groupModelAssembler.fromControllerToOutput(currentGroup);
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable("grupoId") Long id) {

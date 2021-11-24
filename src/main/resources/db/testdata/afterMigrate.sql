@@ -125,13 +125,13 @@ insert into tbl_user (id, user_name, user_email, user_password, user_created, us
 
 insert into tbl_permission (id, permission_description, permission_name) values
                            (1, 'Has permissions for edit cuisine resources', 'EDIT_CUISINE'),
-                           (2, 'Has permissions for crete and edit payment types resources', 'EDIT_PAYMENT_TYPES'),
-                           (3, 'Has permissions for crete and edit city resources', 'EDIT_CITIES'),
-                           (4, 'Has permissions for crete and edit city resources', 'EDIT_PROVINCES'),
-                           (5, 'Has permissions for query user resources', 'QUERY_USERS'),
-                           (6, 'Has permissions for crete and edit city resources', 'EDIT_USERS'),
-                           (7, 'Has permissions for crete and edit restaurant resources', 'EDIT_RESTAURANTS'),
-                           (8, 'Has permissions for crete and edit product resources', 'EDIT_PRODUCTS'),
+                           (2, 'Has permissions for create and edit payment types resources', 'EDIT_PAYMENT_TYPES'),
+                           (3, 'Has permissions for create and edit city resources', 'EDIT_CITIES'),
+                           (4, 'Has permissions for create and edit city resources', 'EDIT_PROVINCES'),
+                           (5, 'Has permissions for query user, groups and permissions resources', 'QUERY_USERS_GROUPS'),
+                           (6, 'Has permissions for create user, groups and permissions resources', 'EDIT_USERS_GROUPS'),
+                           (7, 'Has permissions for create and edit restaurant resources', 'EDIT_RESTAURANTS'),
+                           (8, 'Has permissions for create and edit product resources', 'EDIT_PRODUCTS'),
                            (9, 'Has permissions for query order resources', 'QUERY_ORDERS'),
                            (10, 'Has permissions for crete and edit order resources', 'EDIT_ORDERS'),
                            (11, 'Has permissions for generate reports', 'GENERATE_REPORTS');

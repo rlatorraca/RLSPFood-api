@@ -7,6 +7,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.UserInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.PasswordInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.UserControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -41,6 +42,8 @@ public class UserController implements UserControllerOpenApi {
         this.userInputDisassembler = userInputDisassembler;
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToQuery
+    @Override
     @GetMapping
     public CollectionModel<UserOutputDto> listaAll() {
         List<User> allUsers = userRepository.findAll();
@@ -57,6 +60,8 @@ public class UserController implements UserControllerOpenApi {
     }
      */
 
+    @CheckSecurity.UserGroup.hasPermissionToQuery
+    @Override
     @GetMapping("/{userId}")
     public UserOutputDto findById(@PathVariable("userId") Long id) {
         User user = userRegistrationService.findOrFail(id);
@@ -65,6 +70,8 @@ public class UserController implements UserControllerOpenApi {
         //return userModelAssembler.fromControllerToOutput(user);
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserOutputDto save(@RequestBody @Valid UserAndPasswordInputDto clientAndPasswordInputDto) {
@@ -80,6 +87,8 @@ public class UserController implements UserControllerOpenApi {
 
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToSwitchUser
+    @Override
     @PutMapping("/{userId}")
     public UserOutputDto update(@PathVariable("userId") Long id,
                                 @RequestBody @Valid UserInputDto userInputDto) {
@@ -97,7 +106,8 @@ public class UserController implements UserControllerOpenApi {
 
 
     }
-
+    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @Override
     @PutMapping("/{userId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@PathVariable(value = "userId") Long userId, @RequestBody @Valid PasswordInputDto passwordInputDto) {

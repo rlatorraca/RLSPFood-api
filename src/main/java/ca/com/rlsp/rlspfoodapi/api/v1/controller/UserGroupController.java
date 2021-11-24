@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.assembler.GroupModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.GroupOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.UserGroupControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.service.UserRegistrationService;
 import org.springframework.hateoas.CollectionModel;
@@ -29,6 +30,8 @@ public class UserGroupController implements UserGroupControllerOpenApi {
         this.buildLinks = buildLinks;
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToQuery
+    @Override
     @GetMapping
     //public List<GroupOutputDto> listAll(@PathVariable Long userId) {
     public CollectionModel<GroupOutputDto> listAll(@PathVariable Long userId) {
@@ -47,6 +50,9 @@ public class UserGroupController implements UserGroupControllerOpenApi {
         return groupOutputDtos;
         //return groupModelAssembler.fromControllerToOutputList(user.getGroups());
     }
+
+    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @Override
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> detachGroup(@PathVariable Long userId, @PathVariable Long groupId) {
@@ -55,6 +61,8 @@ public class UserGroupController implements UserGroupControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToEdit
+    @Override
     @PutMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> attachGroup(@PathVariable Long userId, @PathVariable Long groupId) {

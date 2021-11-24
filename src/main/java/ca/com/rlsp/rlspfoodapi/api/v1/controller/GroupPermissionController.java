@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.assembler.PermissionModelAssembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.PermissionOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.GroupPermissionControllerOpenApi;
+import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.service.GroupRegistrationService;
 import org.springframework.hateoas.CollectionModel;
@@ -29,6 +30,7 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
         this.buildLinks = buildLinks;
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToQuery
     @Override
     @GetMapping
     public CollectionModel<PermissionOutputDto> listAll(@PathVariable Long groupId) {
@@ -58,7 +60,7 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
     }
     */
 
-
+    @CheckSecurity.UserGroup.hasPermissionToEdit
     @Override
     @DeleteMapping("/{permissionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -68,6 +70,7 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.UserGroup.hasPermissionToEdit
     @Override
     @PutMapping("/{permissionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
