@@ -1,4 +1,4 @@
-create table tbl_oauth_client_details (
+create table oauth_client_details (
       client_id varchar(255),
       resource_ids varchar(256),
       client_secret varchar(256),

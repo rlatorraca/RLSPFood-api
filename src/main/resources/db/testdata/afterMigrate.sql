@@ -17,6 +17,7 @@ delete from tbl_order;
 delete from tbl_orderitem;
 delete from tbl_taxprovince;
 delete from tbl_product_photo;
+delete from oauth_client_details;
 
 set foreign_key_checks = 1;
 
@@ -32,6 +33,7 @@ alter table tbl_user auto_increment = 1;
 alter table tbl_taxprovince auto_increment = 1;
 alter table tbl_order auto_increment = 1;
 alter table tbl_orderitem auto_increment = 1;
+alter table oauth_client_details auto_increment = 1;
 
 
 insert into tbl_cuisine (id, cuisine_name) values (1, 'Fusion');
@@ -237,5 +239,99 @@ values (5, '122f931e-795e-421b-87d5-f7502658cc70', 7, 4, 1, 1, 'E9C4X8', 'Projec
 insert into tbl_orderitem (id, order_id, product_id, quantity, unitprice, totalprice, comments)
 values (14, 5, 1, 1, 48.9, 48.9, 'Spicy sauce');
 
+insert into oauth_client_details (
+    client_id,
+    resource_ids,
+    client_secret,
+    scope,
+    authorized_grant_types,
+    web_server_redirect_uri,
+    authorities,
+    access_token_validity,
+    refresh_token_validity,
+    autoapprove
+) values (
+   'rlspfood-web',
+    null,
+    '$2a$12$b688vY.adBMMtqt4qUJKceaA.1Fn077sjFkD3HHQ8ebP8gA45i6cK',
+    'READ,WRITE',
+    'password',
+     null,
+     null,
+     60 * 60 * 6,
+     60 * 60 * 24 * 7,
+     null
+);
 
+insert into oauth_client_details (
+    client_id,
+    resource_ids,
+    client_secret,
+    scope,
+    authorized_grant_types,
+    web_server_redirect_uri,
+    authorities,
+    access_token_validity,
+    refresh_token_validity,
+    autoapprove
+) values (
+     'rlspfood-mobile',
+     null,
+     '$2a$12$b688vY.adBMMtqt4qUJKceaA.1Fn077sjFkD3HHQ8ebP8gA45i6cK',
+     'READ,WRITE',
+     'password',
+     null,
+     null,
+     60 * 60 * 3,
+     60 * 60 * 24 * 2,
+     null
+ );
+
+insert into oauth_client_details (
+    client_id,
+    resource_ids,
+    client_secret,
+    scope,
+    authorized_grant_types,
+    web_server_redirect_uri,
+    authorities,
+    access_token_validity,
+    refresh_token_validity,
+    autoapprove
+) values (
+   'food-analytics',
+    null,
+   '$2a$12$b688vY.adBMMtqt4qUJKceaA.1Fn077sjFkD3HHQ8ebP8gA45i6cK',
+    'READ,WRITE',
+    'authorization_code',
+    'http://www.foodanalytics.local:8084',
+     null,
+     null,
+     null,
+     null
+);
+
+insert into oauth_client_details (
+    client_id,
+    resource_ids,
+    client_secret,
+    scope,
+    authorized_grant_types,
+    web_server_redirect_uri,
+    authorities,
+    access_token_validity,
+    refresh_token_validity,
+    autoapprove
+) values (
+   'billing-token',
+    null,
+   '$2a$12$b688vY.adBMMtqt4qUJKceaA.1Fn077sjFkD3HHQ8ebP8gA45i6cK',
+   'READ,WRITE',
+   'client_credentials',
+    null,
+   'QUERY_ORDERS,GENERATE_REPORTS',
+   null,
+   null,
+   null
+);
 
