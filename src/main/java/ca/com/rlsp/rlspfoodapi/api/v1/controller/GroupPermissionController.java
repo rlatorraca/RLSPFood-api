@@ -5,8 +5,10 @@ import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.PermissionOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.GroupPermissionControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Group;
 import ca.com.rlsp.rlspfoodapi.domain.service.GroupRegistrationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,13 +23,16 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
     private GroupRegistrationService groupRegistrationService;
     private PermissionModelAssembler permissionModelAssembler;
     private BuildLinks buildLinks;
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public GroupPermissionController(GroupRegistrationService groupRegistrationService,
                                      PermissionModelAssembler permissionModelAssembler,
-                                     BuildLinks buildLinks) {
+                                     BuildLinks buildLinks,
+                                     RlspFoodSecurity rlspFoodSecurity) {
         this.groupRegistrationService = groupRegistrationService;
         this.permissionModelAssembler = permissionModelAssembler;
         this.buildLinks = buildLinks;
+        this.rlspFoodSecurity = rlspFoodSecurity;
     }
 
     @CheckSecurity.UserGroup.hasPermissionToQuery
@@ -39,13 +44,17 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
         CollectionModel<PermissionOutputDto> permissionOutputDto
                 = permissionModelAssembler.toCollectionModel(group.getPermissions())
                 .removeLinks()
-                .add(buildLinks.getLinkToGroupPermissions(groupId))
-                .add(buildLinks.getLinkToPermissionsAttach(groupId, "attach"));
+                .add(buildLinks.getLinkToGroupPermissions(groupId));
 
-        permissionOutputDto.getContent().forEach(permissionModel -> {
-            permissionModel.add(buildLinks.getLinkToPermissionsDetach(
-                    groupId, Long.parseLong(permissionModel.getId()), "detach"));
-        });
+
+        if (rlspFoodSecurity.hasPermissionToEditUsersGroupsPermissions()){
+            permissionOutputDto.add(buildLinks.getLinkToPermissionsAttach(groupId, "attach"));
+            permissionOutputDto.getContent().forEach(permissionModel -> {
+                permissionModel.add(buildLinks.getLinkToPermissionsDetach(
+                        groupId, Long.parseLong(permissionModel.getId()), "detach"));
+            });
+        }
+
 
         return permissionOutputDto;
     }
