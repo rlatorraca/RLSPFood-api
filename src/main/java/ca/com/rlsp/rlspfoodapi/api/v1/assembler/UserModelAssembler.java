@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.controller.UserController;
 import ca.com.rlsp.rlspfoodapi.api.v1.controller.UserGroupController;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.UserOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
     @Autowired
     private BuildLinks buildLinks;
 
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
+
     public UserModelAssembler() {
         super(UserController.class, UserOutputDto.class);
     }
@@ -49,9 +53,10 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
         UserOutputDto userOutputDto = createModelWithId(user.getId(), user);
         modelMapper.map(user, userOutputDto);
 
-        userOutputDto.add(
-                buildLinks.getLinkToUsers("users")
-        );
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()){
+            userOutputDto.add(
+                    buildLinks.getLinkToUsers("users")
+            );
 
 //        userOutputDto.add(
 //                linkTo(methodOn(UserController.class)
@@ -59,17 +64,19 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
 //                        .withRel("users")
 //        );
 
-        userOutputDto.add(
-                linkTo(methodOn(UserGroupController.class)
-                        .listAll(user.getId()))
-                        .withRel("user-groups")
-        );
+            userOutputDto.add(
+                    linkTo(methodOn(UserGroupController.class)
+                            .listAll(user.getId()))
+                            .withRel("user-groups")
+            );
 
 //        userOutputDto.add(
 //                linkTo(methodOn(UserGroupController.class)
 //                        .listAll(user.getId()))
 //                        .withRel("user-groups")
 //        );
+        }
+
 
         return userOutputDto;
     }
