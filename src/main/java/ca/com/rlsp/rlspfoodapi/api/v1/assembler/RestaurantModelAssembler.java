@@ -176,7 +176,7 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
 
 
 
-        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+        if(rlspFoodSecurity.hasPermissionToQueryCuisines()) {
             //restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
             restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisine(restaurant.getCuisine().getId()));
         }
