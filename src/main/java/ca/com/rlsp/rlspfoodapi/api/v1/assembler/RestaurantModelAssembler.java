@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CuisineInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.RestaurantOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
 
     @Autowired
     private BuildLinks buildLinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public RestaurantModelAssembler() {
         super(RestaurantController.class, RestaurantOutputDto.class);
@@ -127,39 +131,56 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
         RestaurantOutputDto restaurantOutputDto = createModelWithId(restaurant.getId(), restaurant);
         modelMapper.map(restaurant, restaurantOutputDto);
 
-        restaurantOutputDto.add(buildLinks.getLinkToRestaurants("restaurants"));
-
-
-        restaurantOutputDto.add(buildLinks.getLinkToPaymentTypeOnRestaurants(restaurant.getId(),
-                "payment-types"));
-
-        restaurantOutputDto.add(buildLinks.getLinkRestaurantManagers(restaurant.getId(),
-                "managers"));
-
-        if (restaurant.activationPermitted()) {
-            restaurantOutputDto.add(
-                    buildLinks.getLinkToActiveRestaurant(restaurant.getId(), "active"));
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            restaurantOutputDto.add(buildLinks.getLinkToRestaurants("restaurants"));
         }
 
-        if (restaurant.inactivationPermitted()) {
-            restaurantOutputDto.add(
-                    buildLinks.getLinkToInactiveRestaurant(restaurant.getId(), "inactive"));
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            restaurantOutputDto.add(buildLinks.getLinkToPaymentTypeOnRestaurants(restaurant.getId(),
+                    "payment-types"));
         }
 
-        if (restaurant.openPermitted()) {
-            restaurantOutputDto.add(
-                    buildLinks.getLinkToOpeningRestaurant(restaurant.getId(), "open"));
+        if(rlspFoodSecurity.hasPermissionToManageRestaurantRegister()){
+            restaurantOutputDto.add(buildLinks.getLinkRestaurantManagers(restaurant.getId(),
+                    "managers"));
         }
 
-        if (restaurant.closePermitted()) {
-            restaurantOutputDto.add(
-                    buildLinks.getLinkToClosingRestaurant(restaurant.getId(), "close"));
+        if(rlspFoodSecurity.hasPermissionToManageOpenCloseRestaurants(restaurant.getId())) {
+            if (restaurant.activationPermitted()) {
+                restaurantOutputDto.add(
+                        buildLinks.getLinkToActiveRestaurant(restaurant.getId(), "active"));
+            }
+
+            if (restaurant.inactivationPermitted()) {
+                restaurantOutputDto.add(
+                        buildLinks.getLinkToInactiveRestaurant(restaurant.getId(), "inactive"));
+            }
         }
 
-        restaurantOutputDto.add(buildLinks.getLinkToProducts(restaurant.getId(), "products"));
 
-        //restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
-        restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisine(restaurant.getCuisine().getId()));
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            if (restaurant.openPermitted()) {
+                restaurantOutputDto.add(
+                        buildLinks.getLinkToOpeningRestaurant(restaurant.getId(), "open"));
+            }
+
+            if (restaurant.closePermitted()) {
+                restaurantOutputDto.add(
+                        buildLinks.getLinkToClosingRestaurant(restaurant.getId(), "close"));
+            }
+        }
+
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            restaurantOutputDto.add(buildLinks.getLinkToProducts(restaurant.getId(), "products"));
+        }
+
+
+
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            //restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisines());
+            restaurantOutputDto.getCuisine().add(buildLinks.getLinkToCuisine(restaurant.getCuisine().getId()));
+        }
+
 
         if (restaurantOutputDto.getAddress() != null
                 && restaurantOutputDto.getAddress().getCity() != null) {
