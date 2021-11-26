@@ -48,8 +48,8 @@ public @interface CheckSecurity {
 
         @PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
         @PostAuthorize("hasAuthority('QUERY_ORDERS') or" +
-                "@rlspFoodSecurity.getUserId() == returnObject.user.id or" +
-                "@rlspFoodSecurity.manageRestaurant(returnObject.restaurant.id)" )
+                "@rlspFoodSecurity.userAuthenticatedAndEqualUserPassed(returnObject.user.id) or" +
+                "@rlspFoodSecurity.userAuthenticatedAndEqualUserPassed(returnObject.restaurant.id)" )
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToGetOneOrder {}
@@ -60,7 +60,7 @@ public @interface CheckSecurity {
         public @interface hasPermissionToCreateOrder {}
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDIT_ORDERS') or "
-                + "@rlspFoodSecurity.manageRestaurantOrders(#codeOrder))")
+                + "@rlspFoodSecurity.userAuthenticatedAndEqualUserPassed(#codeOrder))")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToManagerOrders {}
@@ -114,7 +114,7 @@ public @interface CheckSecurity {
         public @interface hasPermissionToChangeOwnPassword {}
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDIT_USERS_GROUPS') or "
-                + "@rlspFoodSecurity.getUserId() == #userId)")
+                + "@rlspFoodSecurity.userAuthenticatedAndEqualUserPassed(#userId))")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToChangeUserData{}

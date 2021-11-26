@@ -37,4 +37,8 @@ public class RlspFoodSecurity {
         return orderRepository.isOrderManagedFor(orderCode, getUserId());
     }
 
+    public boolean userAuthenticatedAndEqualUserPassed(Long userId){
+        return getUserId() != null && userId != null && getUserId() == userId;
+    }
+
 }
