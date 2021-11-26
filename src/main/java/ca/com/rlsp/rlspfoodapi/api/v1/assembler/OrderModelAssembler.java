@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.OrderOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.OrderShortOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.controller.OrderController;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
 
     @Autowired
     private BuildLinks buildLinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public OrderModelAssembler() {
         super(OrderController.class, OrderOutputDto.class);
@@ -87,36 +91,39 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
         });
 
         /* Links to Order Status*/
-        if (order.canCreateOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToCreateAnOrder(order.getOrderCode(), "create order"));
-        }
+        if(rlspFoodSecurity.hasPermissionToModifyOrderStatus(order.getOrderCode())){
 
-        if (order.canConfirmOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "confirm order"));
-        }
+            if (order.canCreateOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToCreateAnOrder(order.getOrderCode(), "create order"));
+            }
 
-        if (order.canCancelOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToCancelAnOrder(order.getOrderCode(), "cancel order"));
-        }
+            if (order.canConfirmOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToConfirmAnOrder(order.getOrderCode(), "confirm order"));
+            }
 
-        if (order.canStartOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToStartAnOrder(order.getOrderCode(), "start order"));
-        }
+            if (order.canCancelOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToCancelAnOrder(order.getOrderCode(), "cancel order"));
+            }
 
-        if (order.canOnTheOvenOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToOvenAnOrder(order.getOrderCode(), "oven order"));
-        }
+            if (order.canStartOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToStartAnOrder(order.getOrderCode(), "start order"));
+            }
 
-        if (order.canReadyOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToReadyAnOrder(order.getOrderCode(), "ready order"));
-        }
+            if (order.canOnTheOvenOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToOvenAnOrder(order.getOrderCode(), "oven order"));
+            }
 
-        if (order.canOnTheRoadOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToRoadAnOrder(order.getOrderCode(), "road order"));
-        }
+            if (order.canReadyOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToReadyAnOrder(order.getOrderCode(), "ready order"));
+            }
 
-        if (order.canDeliveryOrder()) {
-            orderOutputDto.add(buildLinks.getLinkToDeliveryAnOrder(order.getOrderCode(), "delivery order"));
+            if (order.canOnTheRoadOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToRoadAnOrder(order.getOrderCode(), "road order"));
+            }
+
+            if (order.canDeliveryOrder()) {
+                orderOutputDto.add(buildLinks.getLinkToDeliveryAnOrder(order.getOrderCode(), "delivery order"));
+            }
         }
 
         return orderOutputDto;

@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class RlspFoodSecurity {
 
@@ -16,7 +17,6 @@ public class RlspFoodSecurity {
 
     @Autowired
     private OrderRepository orderRepository;
-
 
     public Authentication getAuthentication() {
         // Pega o Contexto atual de seguranca e um objeto do Token que representa a autenticaca atual
@@ -39,6 +39,17 @@ public class RlspFoodSecurity {
 
     public boolean userAuthenticatedAndEqualUserPassed(Long userId){
         return getUserId() != null && userId != null && getUserId() == userId;
+    }
+
+    public boolean hasAuthority(String authorityName) {
+        return getAuthentication().getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(authorityName));
+    }
+
+    public boolean hasPermissionToModifyOrderStatus(String orderCode){
+        return hasAuthority("SCOPE_WRITE")
+                && (
+                hasAuthority("EDIT_ORDERS") || manageRestaurantOrders(orderCode));
     }
 
 }

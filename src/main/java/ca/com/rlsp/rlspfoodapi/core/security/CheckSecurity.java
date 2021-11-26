@@ -59,8 +59,7 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToCreateOrder {}
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDIT_ORDERS') or "
-                + "@rlspFoodSecurity.userAuthenticatedAndEqualUserPassed(#codeOrder))")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToModifyOrderStatus(#codeOrder)")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToManagerOrders {}
