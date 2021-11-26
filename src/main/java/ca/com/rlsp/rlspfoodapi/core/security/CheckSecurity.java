@@ -17,7 +17,8 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit {}
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        //@PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToQueryCuisines()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery {}
@@ -27,18 +28,21 @@ public @interface CheckSecurity {
 
     public @interface Restaurant {
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS')")
+        //@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS')")
+        @PreAuthorize("rlspFoodSecurity.hasPermissionToManageRestaurantRegister()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit {}
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        //@PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        @PreAuthorize("rlspFoodSecurity.hasPermissionToManageOpenCloseRestaurants(#restaurantId)")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery {}
 
-        @PreAuthorize("(hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS')) or" +
-                "@rlspFoodSecurity.manageRestaurant(#restaurantId)")
+        //@PreAuthorize("(hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS')) or" +
+        //        "@rlspFoodSecurity.manageRestaurant(#restaurantId)")
+        @PreAuthorize("rlspFoodSecurity.hasPermissionToQueryRestaurants()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToManageRestaurant {}
@@ -54,7 +58,13 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToGetOneOrder {}
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and isAuthenticated()")
+        @PreAuthorize("hasAuthority('SCOPE_READ') and  isAuthenticated()")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface hasPermissionToQueryOrder { }
+
+        //@PreAuthorize("hasAuthority('SCOPE_WRITE') and isAuthenticated()")
+        @PreAuthorize("rlspFoodSecurity.hasPermissionToQueryOrders(#filter.clientId, restaurntId)")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToCreateOrder {}
@@ -72,7 +82,8 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery {}
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS')")
+        //@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS')")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToQueryPaymentTypes()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit {}
@@ -85,7 +96,8 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery {}
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_CITIES')")
+        //@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_CITIES')")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToQueryCities()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit {}
@@ -98,7 +110,8 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery {}
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_PROVINCES')")
+        //@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_PROVINCES')")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToQueryProvinces()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit {}
@@ -118,23 +131,25 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface hasPermissionToChangeUserData{}
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_USERS_GROUPS')")
+        //@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_USERS_GROUPS')")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToEditUsersGroupsPermissions()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToEdit { }
 
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('QUERY_USERS_GROUPS')")
+        //@PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('QUERY_USERS_GROUPS')")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToQueryUsersGroupsPermissions()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery { }
-
     }
 
     public @interface Statistics {
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') and "
-                + "hasAuthority('GENERATE_REPORTS')")
+       //@PreAuthorize("hasAuthority('SCOPE_READ') and "
+       //          + "hasAuthority('GENERATE_REPORTS')")
+        @PreAuthorize("@rlspFoodSecurity.hasPermissionToQueryStatistics()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface hasPermissionToQuery { }
