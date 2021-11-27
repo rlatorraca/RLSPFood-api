@@ -64,31 +64,56 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
         OrderOutputDto orderOutputDto = createModelWithId(order.getId(), order);
         modelMapper.map(order, orderOutputDto);
 
-        //searchByFilterPageable
-        orderOutputDto.add(buildLinks.getLinkToOrders("orders-short"));
+        /**
+         * searchByFilterPageable
+         *      I didn't use the rlspfoodSecurity.maySearchOrders(clientId, restaurantId) method here,
+         *      because when generating the link, we don't have the customer and restaurant id,
+         *      so we only need to know if the request is authenticated and has read scope
+         */
+
+        if(rlspFoodSecurity.hasPermissionToQueryOrders()) {
+            orderOutputDto.add(buildLinks.getLinkToOrders("orders-short"));
+        }
 
 
         //orderOutputDto.add(linkTo(OrderController.class).withRel("orders"));
 
-        orderOutputDto.getRestaurant().add(buildLinks
-                .getLinkToRestaurant(order.getRestaurant().getId()));
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            orderOutputDto.getRestaurant().add(buildLinks
+                    .getLinkToRestaurant(order.getRestaurant().getId()));
+        }
 
-        orderOutputDto.getUser().add(buildLinks
-                .getLinkToUser(order.getUser().getId()));
-
-        // Passamos null no segundo argumento, porque é indiferente para a
-        // construção da URL do recurso de forma de pagamento
-        orderOutputDto.getPaymentType().add(buildLinks
-                .getLinkToPaymentTypeOrder(order.getPaymentType().getId()));
-
-        orderOutputDto.getAddressDelivery().getCity().add(buildLinks
-                .getLinkToAddressDelivery(order.getAddressDelivery().getCity().getId()));
+        if(rlspFoodSecurity.hasPermissionToQueryUsersGroupsPermissions()) {
+            orderOutputDto.getUser().add(buildLinks
+                    .getLinkToUser(order.getUser().getId()));
+        }
 
 
-        orderOutputDto.getOrderItems().forEach(item -> {
-            item.add(buildLinks
-                    .getLinkToOrderItems(order.getRestaurant().getId(), item.getProductId(), "item"));
-        });
+        /**
+         * 'null' is passed in the second argument, because it is indifferent to the
+         * construction of payment method resource URL
+         */
+        if(rlspFoodSecurity.hasPermissionToQueryUsersGroupsPermissions()){
+            orderOutputDto.getPaymentType().add(buildLinks
+                    .getLinkToPaymentTypeOrder(order.getPaymentType().getId()));
+        }
+
+        if(rlspFoodSecurity.hasPermissionToQueryCities()) {
+            orderOutputDto.getAddressDelivery().getCity().add(buildLinks
+                    .getLinkToAddressDelivery(order.getAddressDelivery().getCity().getId()));
+        }
+
+        /**
+         * User authenticated that can consult restaurants,
+         * can also consult the products of the restaurants
+         */
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            orderOutputDto.getOrderItems().forEach(item -> {
+                item.add(buildLinks
+                        .getLinkToOrderItems(order.getRestaurant().getId(), item.getProductId(), "item"));
+            });
+        }
+
 
         /* Links to Order Status*/
         if(rlspFoodSecurity.hasPermissionToModifyOrderStatus(order.getOrderCode())){
