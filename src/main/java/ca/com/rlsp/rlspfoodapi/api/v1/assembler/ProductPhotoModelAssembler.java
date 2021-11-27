@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.v1.assembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.controller.RestaurantProductPhotoController;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.ProductPhotoOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.ProductPhoto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ProductPhotoModelAssembler extends RepresentationModelAssemblerSupp
 
     @Autowired
     private BuildLinks buildLinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public ProductPhotoModelAssembler() {
         super(RestaurantProductPhotoController.class, ProductPhotoOutputDto.class);
@@ -38,8 +42,14 @@ public class ProductPhotoModelAssembler extends RepresentationModelAssemblerSupp
         ProductPhotoOutputDto productPhotoOutputDto = modelMapper.map(productPhoto, ProductPhotoOutputDto.class);
         modelMapper.map(productPhoto, productPhotoOutputDto);
 
-        productPhotoOutputDto.add(buildLinks.getLinkToPhotoProduct(productPhoto.getRestaurantId(), productPhoto.getProduct().getId()));
-        productPhotoOutputDto.add(buildLinks.getLinkToPhotoProduct(productPhoto.getRestaurantId(), productPhoto.getProduct().getId(), "photo"));
+        /**
+         * Authenticated user can consult restaurants, can also consult products and photos
+         */
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()){
+            productPhotoOutputDto.add(buildLinks.getLinkToPhotoProduct(productPhoto.getRestaurantId(), productPhoto.getProduct().getId()));
+            productPhotoOutputDto.add(buildLinks.getLinkToPhotoProduct(productPhoto.getRestaurantId(), productPhoto.getProduct().getId(), "photo"));
+        }
+
 
 
         return productPhotoOutputDto;
