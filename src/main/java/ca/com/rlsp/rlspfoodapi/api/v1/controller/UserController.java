@@ -8,6 +8,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.PasswordInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.UserControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.exception.EntityNotFoundException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.GenericBusinessException;
 import ca.com.rlsp.rlspfoodapi.domain.exception.ProvinceNotFoundException;
@@ -30,16 +31,19 @@ public class UserController implements UserControllerOpenApi {
     private UserRegistrationService userRegistrationService;
     private UserModelAssembler userModelAssembler;
     private UserInputDisassembler userInputDisassembler;
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public UserController(UserRepository userRepository,
                           UserRegistrationService userRegistrationService,
                           UserModelAssembler userModelAssembler,
-                          UserInputDisassembler userInputDisassembler) {
+                          UserInputDisassembler userInputDisassembler,
+                          RlspFoodSecurity rlspFoodSecurity ) {
 
         this.userRepository = userRepository;
         this.userRegistrationService = userRegistrationService;
         this.userModelAssembler = userModelAssembler;
         this.userInputDisassembler = userInputDisassembler;
+        this.rlspFoodSecurity = rlspFoodSecurity;
     }
 
     @CheckSecurity.UserGroup.hasPermissionToQuery
