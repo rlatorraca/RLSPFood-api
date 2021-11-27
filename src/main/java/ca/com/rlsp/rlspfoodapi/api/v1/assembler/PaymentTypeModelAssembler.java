@@ -2,6 +2,7 @@ package ca.com.rlsp.rlspfoodapi.api.v1.assembler;
 
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.PaymentTypeOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.PaymentType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class PaymentTypeModelAssembler extends RepresentationModelAssemblerSuppo
     private ModelMapper modelMapper;
     @Autowired
     private BuildLinks buildlinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public PaymentTypeModelAssembler() {
         super(PaymentType.class, PaymentTypeOutputDto.class);
@@ -64,7 +68,9 @@ public class PaymentTypeModelAssembler extends RepresentationModelAssemblerSuppo
 
         modelMapper.map(paymentType, paymentTypeOutputDto);
 
-        paymentTypeOutputDto.add(buildlinks.getLinkToPaymentType("payment Types"));
+        if(rlspFoodSecurity.hasPermissionToQueryPaymentTypes()){
+            paymentTypeOutputDto.add(buildlinks.getLinkToPaymentType("payment Types"));
+        }
 
         return paymentTypeOutputDto;
     }
@@ -72,8 +78,15 @@ public class PaymentTypeModelAssembler extends RepresentationModelAssemblerSuppo
 
     @Override
     public CollectionModel<PaymentTypeOutputDto> toCollectionModel(Iterable<? extends PaymentType> paymentTypes) {
-        return super.toCollectionModel(paymentTypes)
-                .add(buildlinks.getLinkToPaymentType());
+        CollectionModel<PaymentTypeOutputDto> collectionModel = super.toCollectionModel(paymentTypes);
+
+        if(rlspFoodSecurity.hasPermissionToQueryPaymentTypes()) {
+            collectionModel.add(buildlinks.getLinkToPaymentType());
+        }
+
+        return collectionModel;
+//        return super.toCollectionModel(paymentTypes)
+//                .add(buildlinks.getLinkToPaymentType());
     }
     /*
 
