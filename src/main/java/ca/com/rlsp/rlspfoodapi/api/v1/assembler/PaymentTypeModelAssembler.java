@@ -21,7 +21,6 @@ public class PaymentTypeModelAssembler extends RepresentationModelAssemblerSuppo
     private ModelMapper modelMapper;
     @Autowired
     private BuildLinks buildlinks;
-
     @Autowired
     private RlspFoodSecurity rlspFoodSecurity;
 
