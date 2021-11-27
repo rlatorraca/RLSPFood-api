@@ -3,6 +3,7 @@ package ca.com.rlsp.rlspfoodapi.api.v1.assembler;
 import ca.com.rlsp.rlspfoodapi.api.v1.controller.OrderController;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.OrderShortOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
 
     @Autowired
     private BuildLinks buildLinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public OrderShortModelAssembler() {
         super(OrderController.class, OrderShortOutputDto.class);
@@ -56,18 +60,26 @@ public class OrderShortModelAssembler extends RepresentationModelAssemblerSuppor
 
         //orderShortOutputDto.add(linkTo(OrderController.class).withRel("orders_short"));
 
-       orderShortOutputDto.add(buildLinks.getLinkToOrders("orders-short"));
+        if(rlspFoodSecurity.hasPermissionToQueryOrders()){
+            orderShortOutputDto.add(buildLinks.getLinkToOrders("orders-short"));
+        }
 
 //        orderShortOutputDto.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
 //                .findById(order.getRestaurant().getId())).withSelfRel());
 
-        orderShortOutputDto.getRestaurant().add(
-                buildLinks.getLinkToRestaurant(order.getRestaurant().getId()));
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()){
+            orderShortOutputDto.getRestaurant().add(
+                    buildLinks.getLinkToRestaurant(order.getRestaurant().getId()));
+        }
+
 
 //        orderShortOutputDto.getUser().add(linkTo(methodOn(UserController.class)
 //                .findById(order.getUser().getId())).withSelfRel());
 
-        orderShortOutputDto.getUser().add(buildLinks.getLinkToUser(order.getUser().getId()));
+        if(rlspFoodSecurity.hasPermissionToQueryUsersGroupsPermissions()){
+            orderShortOutputDto.getUser()
+                    .add(buildLinks.getLinkToUser(order.getUser().getId()));
+        }
 
         return orderShortOutputDto;
 

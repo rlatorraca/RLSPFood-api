@@ -7,6 +7,7 @@ import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -42,5 +43,16 @@ public class RestaurantBasicsModelAssembler extends RepresentationModelAssembler
         }
 
         return restaurantBasicsOutputDto;
+    }
+
+    @Override
+    public CollectionModel<RestaurantBasicsOutputDto> toCollectionModel(Iterable<? extends Restaurant> restaurants) {
+        CollectionModel<RestaurantBasicsOutputDto> collectionModel = super.toCollectionModel(restaurants);
+
+        if (rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            collectionModel.add(buildLinks.getLinkToRestaurants());
+        }
+
+        return collectionModel;
     }
 }

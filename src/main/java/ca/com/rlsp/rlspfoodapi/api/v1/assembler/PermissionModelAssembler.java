@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.controller.PermissionController;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.PermissionInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.PermissionOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Permission;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class PermissionModelAssembler extends RepresentationModelAssemblerSuppor
 
     @Autowired
     private BuildLinks buildLinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public PermissionModelAssembler() {
         super(PermissionController.class, PermissionOutputDto.class);
@@ -69,8 +73,13 @@ public class PermissionModelAssembler extends RepresentationModelAssemblerSuppor
 
     @Override
     public CollectionModel<PermissionOutputDto> toCollectionModel(Iterable<? extends Permission> permissions) {
-        return super.toCollectionModel(permissions)
-                .add(buildLinks.getLinkToPermissions());
+        CollectionModel<PermissionOutputDto> collectionModel =  super.toCollectionModel(permissions);
+
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()){
+            collectionModel.add(buildLinks.getLinkToPermissions());
+        }
+
+        return collectionModel;
     }
 
 }
