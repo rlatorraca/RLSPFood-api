@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.UserOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.RestaurantUserManagerControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
 import org.springframework.hateoas.CollectionModel;
@@ -22,30 +23,41 @@ public class RestaurantUserManagerController implements RestaurantUserManagerCon
 
     private RestaurantRegistrationService restaurantRegistrationService;
     private UserModelAssembler userModelAssembler;
-
     private BuildLinks buildLinks;
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public RestaurantUserManagerController(RestaurantRegistrationService restaurantRegistrationService,
                                            UserModelAssembler userModelAssembler,
-                                           BuildLinks buildLinks) {
+                                           BuildLinks buildLinks,
+                                           RlspFoodSecurity rlspFoodSecurity) {
         this.restaurantRegistrationService = restaurantRegistrationService;
         this.userModelAssembler = userModelAssembler;
         this.buildLinks = buildLinks;
+        this.rlspFoodSecurity = rlspFoodSecurity;
     }
 
-    @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se tive permissao de QUERY_RESTAURANT
+    @CheckSecurity.Restaurant.hasPermissionToManageRestaurant // So pode acessar o metodo se tive permissao de QUERY_RESTAURANT
     @Override
     @GetMapping
     public CollectionModel<UserOutputDto> listOne(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(restaurantId);
 
-        CollectionModel<UserOutputDto> userOutputDtos = userModelAssembler
+        CollectionModel<UserOutputDto> userModel = userModelAssembler
                 .toCollectionModel(restaurant.getManagers())
-                .removeLinks()
-                .add(buildLinks.getLinkRestaurantManagers(restaurantId))
-                .add(buildLinks.getLinkToManagerRestaurantAttach(restaurantId,"attach"));
+                .removeLinks();
 
-        return userOutputDtos;
+        userModel.add(buildLinks.getLinkRestaurantManagers(restaurantId));
+
+        if(rlspFoodSecurity.hasPermissionToQueryRestaurants()) {
+            userModel.add(buildLinks.getLinkToManagerRestaurantAttach(restaurantId,"attach"));
+
+            userModel.getContent().stream().forEach(uModel-> {
+                uModel.add(buildLinks.getLinkToManagerRestaurantDetach(
+                        restaurantId, uModel.getId(), "detach"));
+            });
+        }
+
+        return userModel;
 //                .toCollectionModel(restaurant.getManagers())
 //                .removeLinks()
 //                .add(buildLinks.getLinkToUserGroups(restaurantId));
