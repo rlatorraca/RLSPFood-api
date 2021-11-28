@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.PaymentTypeOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.RestaurantPaymentTypeControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import ca.com.rlsp.rlspfoodapi.domain.repository.RestaurantRepository;
 import ca.com.rlsp.rlspfoodapi.domain.service.RestaurantRegistrationService;
@@ -24,15 +25,18 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
     private RestaurantRepository restaurantRepository;
     private PaymentTypeModelAssembler paymentTypeModelAssembler;
     private BuildLinks buildLinks;
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public RestaurantPaymentTypeController(RestaurantRegistrationService restaurantRegistrationService,
                                            RestaurantRepository restaurantRepository,
                                            PaymentTypeModelAssembler paymentTypeModelAssembler,
-                                           BuildLinks buildLinks) {
+                                           BuildLinks buildLinks,
+                                           RlspFoodSecurity rlspFoodSecurity) {
         this.restaurantRegistrationService = restaurantRegistrationService;
         this.restaurantRepository = restaurantRepository;
         this.paymentTypeModelAssembler = paymentTypeModelAssembler;
         this.buildLinks = buildLinks;
+        this.rlspFoodSecurity = rlspFoodSecurity;
     }
 
     @CheckSecurity.Restaurant.hasPermissionToQuery // So pode acessar o metodo se estiver autenticado
@@ -43,22 +47,27 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
                                                           Long id) {
         Restaurant restaurant = restaurantRegistrationService.findOrFail(id);
         //List<PaymentTypeOutputDto> paymentTypeOutputDtoList = paymentTypeModelAssembler7.toCollectionModel(restaurant.getPaymentTypeList());
+
         CollectionModel<PaymentTypeOutputDto> paymentTypeOutputDtoList =
                 paymentTypeModelAssembler.toCollectionModel(restaurant.getPaymentTypeList())
-                        .removeLinks()
-                        .add(buildLinks.getLinkToPaymentTypeOnRestaurants(id))
-                        .add(buildLinks.getLinkToPaymentTypeOnRestaurantAttach(id,"attach"));
+                        .removeLinks();
+
+        paymentTypeOutputDtoList.add(buildLinks.getLinkToPaymentTypeOnRestaurants(id));
+
+        if(rlspFoodSecurity.hasPermissionToManageOpenCloseRestaurants(restaurantId)) {
+            paymentTypeOutputDtoList.add(buildLinks.getLinkToPaymentTypeOnRestaurantAttach(id,"attach"));
 
 
-        // Links for DETACH & ATTACH in Restaurant PaymentType
-        paymentTypeOutputDtoList.getContent().forEach( paymentTypeOutput ->{
-                paymentTypeOutput
-                        .add(buildLinks.getLinkToPaymentTypeOnRestaurantDetach(
-                                id,
-                                paymentTypeOutput.getId(),
-                                "detach"));
-            }
-        );
+            // Links for DETACH & ATTACH in Restaurant PaymentType
+            paymentTypeOutputDtoList.getContent().forEach( paymentTypeOutput ->{
+                        paymentTypeOutput
+                                .add(buildLinks.getLinkToPaymentTypeOnRestaurantDetach(
+                                        id,
+                                        paymentTypeOutput.getId(),
+                                        "detach"));
+                    }
+            );
+        }
 
         return paymentTypeOutputDtoList;
 

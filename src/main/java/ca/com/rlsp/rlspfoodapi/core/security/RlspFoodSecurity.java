@@ -104,9 +104,9 @@ public class RlspFoodSecurity {
         return hasWriteScope() && hasAuthority("EDIT_RESTAURANTS");
     }
 
-    public boolean hasPermissionToManageOpenCloseRestaurants (Long restauranteId) {
+    public boolean hasPermissionToManageOpenCloseRestaurants (Long restaurantId) {
         return hasWriteScope() && (hasAuthority("EDITAR_RESTAURANTES")
-                || manageRestaurant(restauranteId));
+                || manageRestaurant(restaurantId));
     }
 
     public boolean hasPermissionToQueryUsersGroupsPermissions () {
