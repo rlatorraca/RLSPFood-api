@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.GroupOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.openapi.controller.UserGroupControllerOpenApi;
 import ca.com.rlsp.rlspfoodapi.core.security.CheckSecurity;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.User;
 import ca.com.rlsp.rlspfoodapi.domain.service.UserRegistrationService;
 import org.springframework.hateoas.CollectionModel;
@@ -21,13 +22,16 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     private UserRegistrationService userRegistrationService;
     private GroupModelAssembler groupModelAssembler;
     private BuildLinks buildLinks;
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public UserGroupController(UserRegistrationService userRegistrationService,
                                BuildLinks buildLinks,
-                               GroupModelAssembler groupModelAssembler) {
+                               GroupModelAssembler groupModelAssembler,
+                               RlspFoodSecurity rlspFoodSecurity) {
         this.userRegistrationService = userRegistrationService;
         this.groupModelAssembler = groupModelAssembler;
         this.buildLinks = buildLinks;
+        this.rlspFoodSecurity = rlspFoodSecurity;
     }
 
     @CheckSecurity.UserGroup.hasPermissionToQuery
@@ -36,16 +40,18 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     //public List<GroupOutputDto> listAll(@PathVariable Long userId) {
     public CollectionModel<GroupOutputDto> listAll(@PathVariable Long userId) {
         User user = userRegistrationService.findOrFail(userId);
-
         CollectionModel<GroupOutputDto> groupOutputDtos = groupModelAssembler
                 .toCollectionModel(user.getGroups())
-                            .removeLinks()
-                            .add(buildLinks.getLinkToGroupAttach(userId, "attach"));
+                .removeLinks();
+        if (rlspFoodSecurity.hasPermissionToEditUsersGroupsPermissions()) {
 
-        groupOutputDtos.getContent().forEach( groupOutputDto -> {
-            groupOutputDto.add(buildLinks
-                    .getLinkToUserGroupDetach(userId, groupOutputDto.getId(), "detach"));
-        });
+            groupOutputDtos.add(buildLinks.getLinkToGroupAttach(userId, "attach"));
+
+            groupOutputDtos.getContent().forEach( groupOutputDto -> {
+                groupOutputDto.add(buildLinks
+                        .getLinkToUserGroupDetach(userId, groupOutputDto.getId(), "detach"));
+            });
+        }
 
         return groupOutputDtos;
         //return groupModelAssembler.fromControllerToOutputList(user.getGroups());

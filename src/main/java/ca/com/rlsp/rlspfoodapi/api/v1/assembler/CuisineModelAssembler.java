@@ -6,6 +6,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CuisineInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.RestaurantInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CuisineOutputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.RestaurantOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Cuisine;
 import ca.com.rlsp.rlspfoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
@@ -25,6 +26,9 @@ public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<C
 
     @Autowired
     private BuildLinks buildLinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public CuisineModelAssembler() {
         super(CuisineController.class, CuisineOutputDto.class);
@@ -80,8 +84,14 @@ public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<C
 
     @Override
     public CollectionModel<CuisineOutputDto> toCollectionModel(Iterable<? extends Cuisine> cuisine) {
-        return super.toCollectionModel(cuisine)
-                .add(buildLinks.getLinkToCuisines());
+        CollectionModel<CuisineOutputDto> collectionModel = super.toCollectionModel(cuisine);
+
+        if(rlspFoodSecurity.hasPermissionToQueryCuisines()){
+            collectionModel.add(buildLinks.getLinkToCuisines());
+        }
+
+        return collectionModel;
+        //return super.toCollectionModel(cuisine).add(buildLinks.getLinkToCuisines());
     }
 
     @Override
@@ -91,8 +101,10 @@ public class CuisineModelAssembler extends RepresentationModelAssemblerSupport<C
         CuisineOutputDto cuisineOutputDto = createModelWithId(cuisine.getId(), cuisine);
         modelMapper.map(cuisine, cuisineOutputDto);
 
-        cuisineOutputDto.add(buildLinks.getLinkToCuisines("cuisines"));
-        //cuisineOutputDto.add(linkTo(CuisineController.class).withRel("cozinhas"));
+        if(rlspFoodSecurity.hasPermissionToQueryCuisines()){
+            cuisineOutputDto.add(buildLinks.getLinkToCuisines("cuisines"));
+            //cuisineOutputDto.add(linkTo(CuisineController.class).withRel("cozinhas"));
+        }
 
         return cuisineOutputDto;
     }

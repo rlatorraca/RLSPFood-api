@@ -4,6 +4,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.controller.ProvinceController;
 import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.ProvinceOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.Province;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<
 
     @Autowired
     private BuildLinks buildLinks;
+
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     public ProvinceModelAssembler() {
         super(ProvinceController.class, ProvinceOutputDto.class);
@@ -65,9 +69,11 @@ public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<
         ProvinceOutputDto provinceOutputDto = createModelWithId(province.getId(), province);
         modelMapper.map(province, provinceOutputDto);
 
-        provinceOutputDto.add(
-                buildLinks.getLinkToProvinces("provinces")
-        );
+        if(rlspFoodSecurity.hasPermissionToQueryProvinces()){
+            provinceOutputDto.add(
+                    buildLinks.getLinkToProvinces("provinces")
+            );
+        }
 
 //        provinceOutputDto.add(
 //                linkTo(ProvinceController.class)
@@ -80,7 +86,14 @@ public class ProvinceModelAssembler extends RepresentationModelAssemblerSupport<
 
     @Override
     public CollectionModel<ProvinceOutputDto> toCollectionModel(Iterable<? extends Province> provinces) {
-        return super.toCollectionModel(provinces).add(buildLinks.getLinkToProvinces());
+        CollectionModel<ProvinceOutputDto> collectionModel = super.toCollectionModel(provinces);
+
+        if(rlspFoodSecurity.hasPermissionToQueryProvinces()){
+            collectionModel.add(buildLinks.getLinkToProvinces());
+        }
+
+        return collectionModel;
+        //return super.toCollectionModel(provinces).add(buildLinks.getLinkToProvinces());
         //return super.toCollectionModel(provinces).add(linkTo(ProvinceController.class).withSelfRel());
     }
 }

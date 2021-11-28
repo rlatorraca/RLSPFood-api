@@ -5,6 +5,7 @@ import ca.com.rlsp.rlspfoodapi.api.v1.links.BuildLinks;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.CityInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.input.ProvinceInputDto;
 import ca.com.rlsp.rlspfoodapi.api.v1.model.dto.output.CityOutputDto;
+import ca.com.rlsp.rlspfoodapi.core.security.RlspFoodSecurity;
 import ca.com.rlsp.rlspfoodapi.domain.model.City;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
     @Autowired
     private BuildLinks buildLinks;
 
+    @Autowired
+    private RlspFoodSecurity rlspFoodSecurity;
 
     /* Obrigatorio por estender RepresentationModelAssemblerSupport*/
     public CityModelAssembler() {
@@ -55,7 +58,9 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 //                        .withSelfRel()
 //        );
 
-        cityOutputDto.add(buildLinks.getLinkToCities("cities"));
+        if(rlspFoodSecurity.hasPermissionToQueryCities()){
+            cityOutputDto.add(buildLinks.getLinkToCities("cities"));
+        }
 
 //        cityOutputDto.add(
 //                linkTo(methodOn(CityController.class)
@@ -63,7 +68,9 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 //                        .withRel("cities")
 //        );
 
-        cityOutputDto.getProvince().add(buildLinks.getLinkToProvince(cityOutputDto.getProvince().getId()));
+        if(rlspFoodSecurity.hasPermissionToQueryProvinces()){
+            cityOutputDto.getProvince().add(buildLinks.getLinkToProvince(cityOutputDto.getProvince().getId()));
+        }
 
 //        cityOutputDto.getProvince().add(
 //                linkTo(methodOn(ProvinceController.class)
@@ -76,7 +83,15 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 
     @Override
     public CollectionModel<CityOutputDto> toCollectionModel(Iterable<? extends City> cities) {
-        return super.toCollectionModel(cities).add(buildLinks.getLinkToCities());
+        CollectionModel<CityOutputDto> collectionModel = super.toCollectionModel(cities);
+
+        if(rlspFoodSecurity.hasPermissionToQueryCities()){
+            collectionModel.add(buildLinks.getLinkToCities());
+        }
+
+        return  collectionModel;
+
+        //return super.toCollectionModel(cities).add(buildLinks.getLinkToCities());
         //return super.toCollectionModel(cities).add(linkTo(CityController.class).withSelfRel());
     }
 
