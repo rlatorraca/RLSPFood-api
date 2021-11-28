@@ -54,7 +54,7 @@ public class RestaurantPaymentTypeController implements RestaurantPaymentTypeCon
 
         paymentTypeOutputDtoList.add(buildLinks.getLinkToPaymentTypeOnRestaurants(id));
 
-        if(rlspFoodSecurity.hasPermissionToManageOpenCloseRestaurants(restaurantId)) {
+        if(rlspFoodSecurity.hasPermissionToManageOpenCloseRestaurants(id)) {
             paymentTypeOutputDtoList.add(buildLinks.getLinkToPaymentTypeOnRestaurantAttach(id,"attach"));
 
 
